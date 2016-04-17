@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{% load bootstrap3 %}
 
 <html lang="en">
 <head>
@@ -17,6 +16,7 @@
    <script src="/static/js/vue-validator.js"></script>
   <script src="/static/js/jquery.js"></script>
   <script src="/static/js/jquery-migrate-1.2.1.js"></script> 
+<script src="/static/js/script.js"></script>
 
   <!--[if lt IE 9]> 
   <html class="lt-ie9">
@@ -248,33 +248,40 @@
             <p v-show="$validation2.first.required">First Name is Required.</p>
           </div>
 
-            <input type="text" name="first" v-validate:first="['required']"  placeholder="First Name" v-model="registerFirst" v-on="keyup: submit('register', $event) | key 'enter'">
+            <input type="text" name="first" v-validate:first="['required']"  placeholder="First Name" v-model="registerFirst">
 
           <div class="error-message">
             <p v-show="$validation2.last.required">Last Name is Required.</p>
           </div>
 
-            <input type="text" name="last" v-validate:last="['required']"  placeholder="Last Name" v-model="registerLast" v-on="keyup: submit('register', $event) | key 'enter'">
+            <input type="text" name="last" v-validate:last="['required']"  placeholder="Last Name" v-model="registerLast">
 
           <div class="error-message">
             <p v-show="$validation2.user.required">Username is Required.</p>
           </div>
 
-            <input type="text" name="user" v-validate:user="['required']"  placeholder="Username" v-model="registerUser" v-on="keyup: submit('register', $event) | key 'enter'">
+            <input type="text" name="user" v-validate:user="['required']"  placeholder="Username" v-model="registerUser">
 
 
           <div class="error-message">
             <p v-show="$validation2.address.email">Email Must Have a Valid Format.</p>
           </div>
-            <input type="text" name="email" v-validate:address="['email']"  placeholder="Email" v-model="registerEmail" v-on="keyup: submit('register', $event) | key 'enter'">
+            <input type="text" name="email" v-validate:address="['email']"  placeholder="Email" v-model="registerEmail">
 
 
           <div class="error-message">
             <p v-show="$validation2.password.required">Password is Required.</p>
           </div>
 
-            <input type="password" name="password" v-validate:password="['required']"  placeholder="Password" v-model="registerPassword" v-on="keyup: submit('register', $event) | key 'enter'">
-            <input type="submit" v-on="click: submit('register', $event)" v-model="registerSubmit" id="registerSubmit" value="Sign Up">
+            <input type="password" name="password" v-validate:password="['required']"  placeholder="Password" v-model="registerPassword">
+            
+            <input type="submit" v-model="registerSubmit" id="registerSubmit" value="Sign Up">
+            <div>
+               &nbsp;
+            </div>
+
+            <input type="button" v-model="registerSubmit" id="registerGoogle" class="google" />
+
             <div class="links"> <a href="" v-on="click: flip('password', $event)">Already have an account?</a>
 
             </div>
@@ -332,20 +339,10 @@
 
             <input type="password" name="password" v-validate:password="['required']"  placeholder="Password" v-model="loginPassword" v-on="keyup: submit('login', $event) | key 'enter'">
             <input type="submit" v-on="click: submit('login', $event)" v-model="loginSubmit" id="loginSubmit" value="Sign In">
-            <div class="links"> <a href="" v-on="click: flip('password', $event)">Forgot your password?</a>
+            <div class="links"> <a href="#">Forgot your password?</a>
 
             </div>
         </div>
-        <div class="form-password" id="form-password">
-
-          <div class="error-message">
-            <p v-show="$validation1.address.email">Invalid your mail address format.</p>
-          </div>
-
-            <input type="text" name="email" v-validate:address="['email']" placeholder="Email" v-model="passwordEmail" v-on="keyup: submit('password', $event) | key 'enter'">
-            <input type="submit" v-on="click: submit('password', $event)" v-if="$validation1.valid"  v-model="passwordSubmit" id="passwordSubmit" value="Recover">
-        </div>
-
         </form>
       </validator>
 
@@ -360,9 +357,7 @@
 
 </div>
 </script>
-
-<script src="/static/js/script.js"></script>
- <script>
+<script>
 var modal_submit_register = 'Register';  
 var modal_submit_password = 'Reset Password';  
 var modal_submit_login    = 'Login';
@@ -399,7 +394,8 @@ new Vue({
     email: '',
     username: '',
         // Modal text fields
-    registerName: '',
+    registerFirst: '',
+    registerLast: '',
     registerEmail: '',
     registerPassword: '',
     loginUser: '',
@@ -443,7 +439,8 @@ new Vue({
 
             switch(which) {
                 case 'register':
-                    data.name = this.registerName;
+                    data.first = this.registerFirst;
+                    data.last = this.registerLastl
                     data.email = this.registerEmail;
                     data.password = this.registerPassword;
                     this.$set('registerSubmit', 'Registering...');
@@ -601,5 +598,7 @@ new Vue({
 })
 
  </script>
+<script src="/static/js/script.js"></script>
+ <script>
 </body>
 </html>

@@ -39,17 +39,17 @@ router = routers.DefaultRouter()
 admin.autodiscover()
 urlpatterns = [
 #    url(r'^', include(router.urls)),
-#    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-#    url(r'^django-rq/', include('django_rq.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')), 
+    url(r'^django-rq/', include('django_rq.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^grappelli/', include('grappelli.urls')),
- #   url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
- #   url(r'^accounts_api/', include('registration_api.urls')),
- #   url(r'^api/',include('rest_framework.urls', namespace='rest_framework')),
- #   url(r'api/accounts/', include('rest_framework.urls', namespace='rest_framework')), 
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^accounts_api/', include('registration_api.urls')),
+    url(r'^api/',include('rest_framework.urls', namespace='rest_framework')),
+    url(r'api/accounts/', include('rest_framework.urls', namespace='rest_framework')), 
+    url(r'^$', 'custom.gui.views.home'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^home/$', 'custom.gui.views.home'),
-    url(r'^aboutus/$', 'custom.gui.views.aboutus'),
     url(r'^about/$', 'custom.gui.views.about'),
     url(r'^divorce/$', 'custom.gui.views.divorce'),
     url(r'^pricing/$', 'custom.gui.views.pricing'),
@@ -57,6 +57,5 @@ urlpatterns = [
     url(r'^contacts/$', 'custom.gui.views.contacts'),
     url(r'^blog/$', 'custom.gui.views.blog'),
     url(r'^ask/$', 'custom.gui.views.ask'),
-    url(r'^', 'custom.gui.views.home'),
 ]
 

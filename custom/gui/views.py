@@ -37,9 +37,6 @@ def environment(**options):
 def home(request):
     return render(request, 'index-0.html',{'home':'index-0.html'})
 
-def aboutus(request):
-    return render(request, 'about.html',{'about':'about.html'})
-
 def about(request):
     return render(request, 'index-1.html',{'about':'index-1.html'})
 

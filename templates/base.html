@@ -201,7 +201,7 @@
     </div>
     <hr/>
     <div class="container">
-      <p class="copy">Divorces US © <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p>
+      <p class="copy">Divorces U © <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p>
     </div>
   </footer>
 </div>
@@ -563,7 +563,6 @@ new Vue({
 
             switch(which) {
                 case 'register':
-                    alert("TEST");
                     data.first = this.registerFirstName;
                     data.last = this.registerLastName; 
                     data.username = this.registerUser;
@@ -572,7 +571,6 @@ new Vue({
                     this.$set('registerSubmit', 'Registering...');
                     break;
                 case 'login':
-                    alert("TEST 2");
                     data.user = this.loginUser;
                     data.password = this.loginPassword;
                     this.$set('loginSubmit', 'Logging In...');

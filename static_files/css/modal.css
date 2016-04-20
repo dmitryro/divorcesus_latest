@@ -39,8 +39,8 @@
 }
 
 .modal-container {
-  width: 25%;
-  min-height: 50%;
+  width: 18%;
+  min-height: 45%;
   margin: 0px auto;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
@@ -182,3 +182,26 @@
    font-weight:bold;
    font-family:'Lato', 'HelveticaNeueLT Pro 67 MdCn', 'Helvetica', 'Arial', 'sans-serif';
 }
+
+.modal-container .google {
+   padding: 10px;
+   background-image: url('http://divorcesus.com/media/images/google.gif');
+   background-repeat:no-repeat;
+   margin-right:0px;
+   display:block;
+   text-indent:-9999px;
+   text-transform:capitalize;
+   height:20%;
+}
+
+.modal-container .facebook {
+   padding: 10px;
+   background-image: url('http://divorcesus.com/media/images/facebook.gif');
+   background-repeat:no-repeat;
+   margin-right:0px;
+   display:block;
+   text-indent:-9999px;
+   text-transform:capitalize;
+   height:20%;
+}
+

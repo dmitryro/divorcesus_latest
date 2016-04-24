@@ -98,7 +98,10 @@ INSTALLED_APPS = [
     'tastypie',
     'oauth2_provider',
     'custom.users',
+    'custom.metaprop',
     'custom.cases',
+    'custom.signup',
+    'custom.utils',
     'custom.services',
     'custom.chat',
     'custom.gui',
@@ -445,9 +448,7 @@ TEMPLATE_LOADERS = (
 )
 
 # Jingo support
-JINGO_EXCLUDE_APPS = ['admin','registration',]
 TEMPLATE_LOADERS = [
-    'jingo.Loader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 ]

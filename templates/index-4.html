@@ -54,7 +54,7 @@
           </div>
           <div class="col-xs-12 col-sm-8">
             <h3><span>Contact</span> Form</h3>
-            <form class='mailform contact-form' method="post" action="bat/rd-mailform.php"> 
+            <form class='mailform contact-form' method="post" action="http//divorcesus.com/sendmail"> 
               <input type="hidden" name="form-type" value="contact"/> 
               <fieldset> 
                   <label> 
@@ -72,7 +72,7 @@
                   </label> 
 
                   <label> 
-                      <input type="text" 
+                      <input type="text" id="email"
                       name="email" 
                       placeholder="Email*" 
                       data-constraints="@Email @NotEmpty"/> 
@@ -85,7 +85,7 @@
 
                   <div class="mfControls"> 
                       <span class="submit_text">required fields*</span>
-                      <button class="btn4" type="submit">Submit comment</button> 
+                      <button class="btn4" type="submit" onclick="sendemail();">Submit comment</button> 
                   </div> 
               </fieldset> 
           </form> 
@@ -94,5 +94,9 @@
       </div>
     </section>
   </main>
+
+
+
+
 
 {% endblock content %}

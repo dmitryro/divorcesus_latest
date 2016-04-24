@@ -30,6 +30,7 @@ from rest_framework import generics
 from rest_framework import viewsets, routers
 from rest_framework.authtoken import views as drf_views
 
+from custom.signup.views import SendEmailView
 #from custom.users.views import ProfileViewSet
 
 router = routers.DefaultRouter()
@@ -50,6 +51,7 @@ urlpatterns = [
     url(r'^$', 'custom.gui.views.home'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^home/$', 'custom.gui.views.home'),
+    url(r'^sendmail/$',SendEmailView.as_view()),
     url(r'^about/$', 'custom.gui.views.about'),
     url(r'^divorce/$', 'custom.gui.views.divorce'),
     url(r'^pricing/$', 'custom.gui.views.pricing'),

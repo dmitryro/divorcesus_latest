@@ -44,7 +44,7 @@ def services(request):
     return render(request, 'services.html',{'services':'services.html'})
 
 def pricing(request):
-    return render(request, 'pricing.html',{'pricing':'pricing.html'})
+    return render(request, 'index-3.html',{'pricing':'index-3.html'})
 
 def ask(request):
     return render(request, 'ask.html',{'ask':'ask.html'})

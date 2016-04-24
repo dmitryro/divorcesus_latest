@@ -10,8 +10,9 @@
   <link rel="stylesheet" href="/static/css/mailform.css"/>
   <link rel="stylesheet" href="/static/css/search.css">
   <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/misc.css">
    <link href="/static/css/modal.css" rel="stylesheet" type="text/css">
-
+   <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
    <script src="/static/js/vue-validator.js"></script>
    <script src="/static/js/vueboot.js"></script>
@@ -58,7 +59,7 @@
               <a href="#" class="btn2" id="show-modal" @click="showModal = true">Sign In</a>
                <modal :show.sync="showModal">
                <!--
-                  you can use custom content here to overwrite
+/                  you can use custom content here to overwrite
                   default content
                      -->
 
@@ -71,7 +72,9 @@
       </div>
     </section>
     <div id="stuck_container" class="stuck_container">
-      <div class="container">
+      <div class="container" style="width:110%;">
+       <div class="main-brand">
+
         <div class="brand">
           <h1 class="brand_name">
             <a href="./">Grinberg & Segal</a>
@@ -80,6 +83,8 @@
              Family Law Services 
           </p>
         </div>
+       </div>
+       <div class="main-nav">
 
         <nav class="nav">
           <ul class="sf-menu" data-type="navbar">
@@ -115,8 +120,38 @@
               <a href="/contacts">Contact Us</a>
             </li>
           </ul>
-        </nav>
+            </nav>
+           </div>
+
+
+           <div class="box-search">
+
+ <div id="sb-search" class="sb-search">
+                                                <form>
+                                                        <input class="sb-search-input" placeholder="Enter your search term..." type="text" value="" name="search" id="search">
+                                                        <input class="sb-search-submit" type="submit" value="">
+                                                        <span class="sb-icon-search"></span>
+
+                                                </form>
+          </div>
+          <div class="clear"></div>
+         </div>
+         <div class="clear"></div>
+<!--
+                                      <div id="sb-search" class="sb-search" style="margin-left:45%;margin-top:-6%;">
+                                                <form>
+                                                        <input class="sb-search-input" placeholder="Enter your search term..." type="text" value="" name="search" id="search">
+                                                        <input class="sb-search-submit" type="submit" value="">
+                                                        <span class="sb-icon-search"></span>
+                                                </form>
+                                        </div>
+-->
+
+
+
+
       </div>
+
     </div>
 
   </header>
@@ -264,6 +299,7 @@
 
 </div>
 </script>
+
 <script>
 var modal_submit_register = 'Register';  
 var modal_submit_password = 'Reset Password';  
@@ -402,12 +438,12 @@ Vue.component('modal', {
 })
 
 
-function sendmail() {
-   alert($('#email'));
-   return 0;
-}
  </script>
 <script src="/static/js/script.js"></script>
- <script>
+		<script src="/static/js/classie.js"></script>
+		<script src="/static/js/uisearch.js"></script>
+		<script>
+			new UISearch( document.getElementById( 'sb-search' ) );
+		</script>
 </body>
 </html>

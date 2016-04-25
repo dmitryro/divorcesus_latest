@@ -27,7 +27,7 @@
       <div id="google-map" class="map_model"></div>
       <ul class="map_locations">
             <li data-x="-73.9874068" data-y="40.643180">
-          <p> 9870 St Vincent Place, Glasgow, DC 45 Fr 45. <span>800 2345-6789</span></p>
+          <p> 76 Beaver st, 10th floor, New York, NY. <span>(212) 202 0342</span></p>
         </li>
       </ul>
     </section>
@@ -37,31 +37,34 @@
           <div class="col-xs-12 col-sm-4">
             <h3><span>Address </span></h3>
             <p>Aliquam non tempor orci. Aenean orci nibh, finibus maximus mattis eget, sollicitudin a odio. Donec sed urna nunc. Vesti bulum erat lorem, faucibus ut tincidunt vita</p>
-            <h4>9870 St Vincent Place,<br>Glasgow, DC 45 Fr 45.</h4>
+            <h4>76 Beaver Street,Floor 10<br>New York, NY 10005.</h4>
             <address class="addr">
               <dl>
                 <dt>Freephone:</dt>
-                <dd><a href="callto:#">+1 800 559 6580</a></dd>
+                <dd><a href="callto:#">+1 212 202 0342</a></dd>
               </dl>
               <dl>
                 <dt>Telephone:</dt>
-                <dd><a href="callto:#">+1 959 603 6035</a></dd>
+                <dd><a href="callto:#">+1 212 202 0342</a></dd>
               </dl>
               <dl>
                 <dt>FAX:</dt>
-                <dd><a href="callto:#">+1 800 889 9898</a></dd>
+                <dd><a href="callto:#">+1 212 202 0342</a></dd>
               </dl>
-              <p>E-mail: <a class="link" href="mailto:#">mail@demolink.org</a></p>
+              <p>E-mail: <a class="link" href="mailto:#">info@myattorneyusa.com</a></p>
             </address>
           </div>
-          <div class="col-xs-12 col-sm-8">
-            <h3><span>Contact</span> Form</h3>
-            <form class='mailform contact-form' method="post" action="http//divorcesus.com/sendmail"> 
+          <div class="col-xs-12 col-sm-8" id="contactus">
+            <h3><span>Contact</span> Us</h3>
+            <form class='mailform contact-form' method="post"> 
+                 {% csrf_token %}
+
               <input type="hidden" name="form-type" value="contact"/> 
               <fieldset> 
                   <label> 
                       <input type="text" 
-                      name="name" 
+                      name="name"
+                      v-model="name"
                       placeholder="Name*" 
                       data-constraints="@LettersOnly @NotEmpty"/> 
                   </label> 
@@ -69,25 +72,30 @@
                   <label> 
                       <input type="text" 
                       name="phone" 
+                      v-model="phone"
                       placeholder="Phone" 
                       data-constraints="@Phone"/> 
                   </label> 
+                  <label>
 
-                  <label> 
-                      <input type="text" id="email"
+                  <label>
+                      <input type="text"
                       name="email" 
-                      placeholder="Email*" 
-                      data-constraints="@Email @NotEmpty"/> 
+                      v-model="email"
+                      placeholder="email"
+                      data-constraints="@Email @NotEmpty"/>
+                  </label>
                   </label> 
 
                   <label class="label_message"> 
-                      <textarea name="message*" placeholder="Message" 
+                      <textarea name="message*"   placeholder="Message" 
+                      v-model="message"
                       data-constraints="@NotEmpty"></textarea> 
                   </label> 
 
                   <div class="mfControls"> 
                       <span class="submit_text">required fields*</span>
-                      <button class="btn4" type="submit" onclick="sendemail();">Submit comment</button> 
+                      <button class="btn4"  v-on:click="submit">Send</button> 
                   </div> 
               </fieldset> 
           </form> 

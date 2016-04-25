@@ -57,6 +57,7 @@ urlpatterns = [
     url(r'^pricing/$', 'custom.gui.views.pricing'),
     url(r'^services/$', 'custom.gui.views.services'),
     url(r'^contacts/$', 'custom.gui.views.contacts'),
+    url(r'^payment/$', 'custom.gui.views.payment'),
     url(r'^blog/$', 'custom.gui.views.blog'),
     url(r'^ask/$', 'custom.gui.views.ask'),
 ]

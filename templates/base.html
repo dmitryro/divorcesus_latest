@@ -14,8 +14,11 @@
    <link href="/static/css/modal.css" rel="stylesheet" type="text/css">
    <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
+   <script src="/static/js/vue-form.js"></script>
    <script src="/static/js/vue-validator.js"></script>
+   <script src="/static/js/vue-resource.min.js"></script>
    <script src="/static/js/vueboot.js"></script>
+   <script src="/static/js/vue-router.min.js"></script>
    <script src="/static/js/jquery.js"></script>
    <script src="/static/js/jquery-migrate-1.2.1.js"></script> 
    <script src="/static/js/script.js"></script>
@@ -32,6 +35,8 @@
   <![endif]-->
 
   <script src='/static/js/device.min.js'></script>
+    <meta id="_token" value="{% csrf_token %}"> 
+
 </head>
 <body>
 <div class="page">
@@ -119,6 +124,10 @@
             <li>
               <a href="/contacts">Contact Us</a>
             </li>
+            <li>
+              <a href="/payment">Make a Payment</a>
+            </li>
+
           </ul>
             </nav>
            </div>
@@ -257,21 +266,9 @@
         <form novalidate>
 
         <div class="form-login" id="form-login">
-            <div class="error-message" v-text="loginError"></div>
-          <div class="error-message">
-            <p v-show="$validation1.type.required">Username or Email Required.</p>
-          </div>
-            <input type="text" name="user" v-validate:type="['required']"  placeholder="Email or Username" v-model="loginUser" v-on="keyup: submit('login', $event) | key 'enter'">
-
-          <div class="error-message">
-            <p v-show="$validation1.password.required">Password is Required.</p>
-          </div>
-
-            <input type="password" name="password" v-validate:password="['required']"  placeholder="Password" v-model="loginPassword" v-on="keyup: submit('login', $event) | key 'enter'">
-            <input type="submit" v-on="click: submit('login', $event)" v-model="loginSubmit" id="loginSubmit" value="Sign In">
-
             <div>
                &nbsp;
+               
             </div>
             <div>
                 <input type="button" v-model="loginSubmit" id="loginGoogle" class="google" />
@@ -281,9 +278,7 @@
             </div>
 
 
-            <div class="links"> <a href="#">Forgot your password?</a>
 
-            </div>
         </div>
         </form>
       </validator>
@@ -304,7 +299,6 @@
 var modal_submit_register = 'Register';  
 var modal_submit_password = 'Reset Password';  
 var modal_submit_login    = 'Login';
-
  // register modal component
 Vue.component('modal', {
   template: '#modal-template-signin',
@@ -324,6 +318,33 @@ Vue.validator('email', function (val) {
 
  // register modal component
 // start app
+new Vue({
+  el: '#contactus',
+  data: {
+      email:'',
+      phone:'',
+      message:'',
+  },
+  options: {
+  },
+  methods: {
+     successCallback: function() {
+            alert("SUCCESS");
+     },
+     errorCallback: function() {
+            alert("ERROR");
+     },
+     submit: function() {
+        alert("BEFORE");
+         this.$http.get('/sendmail?email='+this.email+'&phone='+this.phone+'&message='+this.message+'&name='+this.name, function(data)
+                {
+                    this.$set('email','');
+                });
+        alert('TE S T'+this.email)
+     }
+  }
+})
+
 new Vue({
   el: '#app',
   data: {

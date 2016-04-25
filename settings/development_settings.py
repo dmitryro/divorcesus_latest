@@ -104,6 +104,7 @@ INSTALLED_APPS = [
     'custom.utils',
     'custom.services',
     'custom.chat',
+    'custom.tasks',
     'custom.gui',
 ]
 

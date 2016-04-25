@@ -19,9 +19,20 @@ class SendEmailView(Endpoint):
     def get(self, request):
         try:
            email = request.params.get('email','')     
+           if not email or len(email) < 1:
+              return {'message':'error','exception':'email is a mandatory'}
+
            message = request.params.get('message','')
+
+           if not message or len(message) < 1:
+              return {'message':'error','exception':'message is a mandatory'}
+
+
            phone = request.params.get('phone','')
            name = request.params.get('name','')
+           if not name or len(name) < 1:
+              return {'message':'error','exception':'name is a mandatory'}
+
            contact = Contact.objects.create(name=name,email=email,message=message,phone=phone)
            user_send_email.send(sender=User,contact=contact,kwargs=None)
            log = Logger(log='WE ARE SENDING EMAIL IN GET '+email)

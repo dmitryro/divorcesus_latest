@@ -335,14 +335,21 @@ new Vue({
      errorCallback: function() {
             alert("ERROR");
      },
+     validConfirm: function() {
+           alsert("VALID");
+           $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
+     },
      submit: function() {
          this.$http.get('/sendmail?email='+this.email+'&phone='+this.phone+'&message='+this.message+'&name='+this.name, function(data)
                 {
+
+                     if (data.message =='success')  {
+                           $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );       
+                     }
                     this.$set('email','');
                     this.$set('phone','');
                     this.$set('message','');
                     this.$set('name','');
-                     $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
                 });
      }
   }

@@ -11,7 +11,7 @@
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
 <!--
-            <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
+            <f/rm class="search-form" action="search.php" method="GET" accept-charset="utf-8">
               <label class="search-form_label">
                 <input class="search-form_input" type="text" name="s" autocomplete="off" placeholder="Search Scripts"/>
                 <span class="search-form_liveout"></span>
@@ -64,7 +64,7 @@
 
 
             <h3><span>Contact</span> Us</h3>
-            <form class='mailform contact-form' method="post"> 
+            <form class='mailform contact-form' method="post"  v-on="valid: validConfirm"> 
                  {% csrf_token %}
 
               <input type="hidden" name="form-type" value="contact"/> 
@@ -103,7 +103,7 @@
 
                   <div class="mfControls"> 
                       <span class="submit_text">required fields*</span>
-                      <button class="btn4"  v-on:click="submit" v-on:click="showRight = !showRight">Send</button> 
+                      <button class="btn4"  v-on:click="submit" v-on:valid="confirm">Send</button> 
                   </div> 
               </fieldset> 
           </form> 

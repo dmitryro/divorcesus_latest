@@ -1221,3 +1221,23 @@ footer {
     footer .copy a:hover {
       text-decoration: none;
       color: #38a99c; }
+.main-brand {
+   margin-left:0;
+   width:32%;
+   float:left;
+}
+.main-nav {
+   width:40%;
+   float:left;
+}
+.box-search {
+   padding-top:1.2%;
+   width:18.5%;
+   float:left;
+   position:relative;
+   height:100%;
+   display:inline;
+}
+.clear {
+   clear:both;
+}

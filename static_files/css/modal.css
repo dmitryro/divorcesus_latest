@@ -39,8 +39,8 @@
 }
 
 .modal-container {
-  width: 18%;
-  min-height: 45%;
+  width: 15%;
+  min-height: 35%;
   margin: 0px auto;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
@@ -191,7 +191,7 @@
    display:block;
    text-indent:-9999px;
    text-transform:capitalize;
-   height:20%;
+   height:25%;
 }
 
 .modal-container .facebook {
@@ -202,6 +202,6 @@
    display:block;
    text-indent:-9999px;
    text-transform:capitalize;
-   height:20%;
+   height:25%;
 }
 

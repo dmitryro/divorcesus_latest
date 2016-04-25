@@ -55,6 +55,14 @@
             </address>
           </div>
           <div class="col-xs-12 col-sm-8" id="contactus">
+
+<div class="alert-box success">
+  <strong>Thanks for contacting Grinberg & Segal!</strong>
+  <p>Your message will be reviewed and responded soon.</p>
+</div>
+
+
+
             <h3><span>Contact</span> Us</h3>
             <form class='mailform contact-form' method="post"> 
                  {% csrf_token %}
@@ -95,7 +103,7 @@
 
                   <div class="mfControls"> 
                       <span class="submit_text">required fields*</span>
-                      <button class="btn4"  v-on:click="submit">Send</button> 
+                      <button class="btn4"  v-on:click="submit" v-on:click="showRight = !showRight">Send</button> 
                   </div> 
               </fieldset> 
           </form> 

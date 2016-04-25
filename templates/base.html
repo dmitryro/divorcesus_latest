@@ -19,6 +19,7 @@
    <script src="/static/js/vue-resource.min.js"></script>
    <script src="/static/js/vueboot.js"></script>
    <script src="/static/js/vue-router.min.js"></script>
+   <script src="/static/js/vue-strap.min.js"></script>
    <script src="/static/js/jquery.js"></script>
    <script src="/static/js/jquery-migrate-1.2.1.js"></script> 
    <script src="/static/js/script.js"></script>
@@ -341,6 +342,7 @@ new Vue({
                     this.$set('phone','');
                     this.$set('message','');
                     this.$set('name','');
+                     $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
                 });
      }
   }

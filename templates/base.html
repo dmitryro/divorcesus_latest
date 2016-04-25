@@ -335,12 +335,13 @@ new Vue({
             alert("ERROR");
      },
      submit: function() {
-        alert("BEFORE");
          this.$http.get('/sendmail?email='+this.email+'&phone='+this.phone+'&message='+this.message+'&name='+this.name, function(data)
                 {
                     this.$set('email','');
+                    this.$set('phone','');
+                    this.$set('message','');
+                    this.$set('name','');
                 });
-        alert('TE S T'+this.email)
      }
   }
 })

@@ -6,13 +6,31 @@
   <meta charset="utf-8">
   <meta name="format-detection" content="telephone=no"/>
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="/static/css/grid.css">
-  <link rel="stylesheet" href="/static/css/mailform.css"/>
-  <link rel="stylesheet" href="/static/css/search.css">
-  <link rel="stylesheet" href="/static/css/style.css">
-  <link rel="stylesheet" href="/static/css/misc.css">
-   <link href="/static/css/modal.css" rel="stylesheet" type="text/css">
+	<!-- Latest compiled and minified CSS -->
+ 
+	<!-- Optional theme -->
+
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
+
+        <!-- Latest compiled and minified JavaScript -->
+   <script src="/static/js/jquery.js"></script>
+   <script src="/static/js/jquery-migrate-1.2.1.js"></script>
+
+   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+
+        <!-- font awesome css -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+   <link rel="stylesheet" href="/static/css/bootstrap-social.css">
+   <link rel="stylesheet" href="/static/css/grid.css">
+   <link rel="stylesheet" href="/static/css/mailform.css"/>
+   <link rel="stylesheet" href="/static/css/search.css"/>
+   <link rel="stylesheet" href="/static/css/style.css"/>
+   <link rel="stylesheet" href="/static/css/misc.css" />
+   <link rel="stylesheet" href="/static/css/buttons-si.css" />
+   <link href="/static/css/modal.css" rel="stylesheet" type="text/css"/>
    <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
+
    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
    <script src="/static/js/vue-form.js"></script>
    <script src="/static/js/vue-validator.js"></script>
@@ -20,8 +38,6 @@
    <script src="/static/js/vueboot.js"></script>
    <script src="/static/js/vue-router.min.js"></script>
    <script src="/static/js/vue-strap.min.js"></script>
-   <script src="/static/js/jquery.js"></script>
-   <script src="/static/js/jquery-migrate-1.2.1.js"></script> 
    <script src="/static/js/script.js"></script>
 
   <!--[if lt IE 9]> 
@@ -237,6 +253,10 @@
       <p class="copy">Divorces U © <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p>
     </div>
   </footer>
+
+
+
+
 </div>
 <div id="fb-root"></div>
 
@@ -266,17 +286,28 @@
       <validator name="validation1">
         <form novalidate>
 
-        <div class="form-login" id="form-login">
-            <div>
-               &nbsp;
-               
-            </div>
-            <div>
-                <input type="button" v-model="loginSubmit" id="loginGoogle" class="google" />
-            </div>
-            <div>
-                <input type="button" v-model="loginSubmit" id="loginFacebook" class="facebook" />
-            </div>
+              <div class="form-login" id="form-login">
+
+			<div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
+
+		                <a class="btn-si btn-si-a btn-google" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        </div>
+
+                        <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
+                                <a class="btn-si btn-si-a btn-facebook">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        </div>
+
+                        <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
+                                <a class="btn-si btn-si-a btn-twitter">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        </div>
+                        <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
+
+                                <a class="btn-si btn-si-a btn-linkedin">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        </div>
+
+
+
+
 
 
 

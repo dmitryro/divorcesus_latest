@@ -1223,16 +1223,16 @@ footer {
       color: #38a99c; }
 .main-brand {
    margin-left:0;
-   width:32%;
+   width:28%;
    float:left;
 }
 .main-nav {
-   width:40%;
+   width:45%;
    float:left;
 }
 .box-search {
    padding-top:1.2%;
-   width:18.5%;
+   width:17.5%;
    float:left;
    position:relative;
    height:100%;
@@ -1241,3 +1241,7 @@ footer {
 .clear {
    clear:both;
 }
+.btn-social-twitter {
+    background:#A9DBFF;
+}
+

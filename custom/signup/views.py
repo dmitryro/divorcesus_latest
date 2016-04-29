@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from django.conf import settings
+
 from restless.views import Endpoint
 from custom.users.models import Contact
 from custom.utils.models import Logger
-
+from django.contrib.auth import logout
 from signals import user_send_email
 from callbacks import  user_send_email_handler
 
@@ -83,6 +85,10 @@ class SubscribeView(Endpoint):
         except Exception, R:
            return {'message':'error','data':'we failed reading s3 base url'}
 
+
+
+def logout_view(request):
+    logout(request)
 
 user_send_email.connect(user_send_email_handler)
 # Create your views here.

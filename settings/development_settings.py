@@ -24,6 +24,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import sys
 from jinja2 import StrictUndefined
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,15 +32,18 @@ PROJECT_ROOT = os.path.abspath(
     os.path.join(os.path.dirname(__file__), ".."),
 )
 
+sys.setrecursionlimit(20000)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'mdbtl108v8i0)_q&f$@3j3gie^_^r!xj%-fp-lr@uq)zl0boe%'
-
+VERIFY_SSL = False
+APPEND_SLASH = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+PROFILE_IMAGE_PATH='http://divorcesus.com/static/images/user_no_avatar.png'
 
 ALLOWED_HOSTS = ['www.googleapis.com','https://www.googleapis.com']
 
@@ -60,6 +64,7 @@ INSTALLED_APPS = [
     'admin_tools.dashboard',
     'adminsortable',
     'compressor',
+    'braces',
     'bootstrap3',
     'bootstrap',
     'bootstrap_toolkit',
@@ -68,7 +73,19 @@ INSTALLED_APPS = [
     'clear_cache',
     'encrypted_fields',
     'django_actions',
+    'django_extensions',
+    'django_facebook',
     'django_filters',
+    'django_mobile',
+    'django_push',
+    'django_rq_dashboard',
+    'django_rq_jobs',
+    'django_rq_email_backend',
+    'django_crontab',
+    'django_social_share',
+    'drf_cached_instances',
+   # 'facebook',
+    'open_facebook',
     'django_user_agents',
     'admin_import',
     'django_jinja',
@@ -81,6 +98,8 @@ INSTALLED_APPS = [
     'social',
     'social.apps.django_app.default',
     'pyres',
+    'hmac',
+    'registration',
     'redis',
     'redis_cache',
     'rest_auth',
@@ -96,8 +115,16 @@ INSTALLED_APPS = [
     'rules_light',
     'registration_api',
     'tastypie',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.linkedin',
+    'allauth.socialaccount.providers.openid',
+    'allauth.socialaccount.providers.twitter',
     'oauth2_provider',
-    'custom.users',
+#    'custom.users',
     'custom.metaprop',
     'custom.cases',
     'custom.signup',
@@ -106,6 +133,7 @@ INSTALLED_APPS = [
     'custom.chat',
     'custom.tasks',
     'custom.gui',
+    'custom.users',
 ]
 
 
@@ -153,6 +181,16 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.core.context_processors.debug',
+                'django.core.context_processors.i18n',
+                'django.core.context_processors.media',
+                'django.core.context_processors.static',
+                'django.core.context_processors.tz',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
+
             ],
         },
     },
@@ -208,7 +246,10 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.twitter.TwitterOAuth',
     'social.backends.yahoo.YahooOpenId',
     'social.backends.facebook.FacebookOAuth2',
+    'social.backends.facebook.FacebookAppOAuth2',
     'social.backends.twitter.TwitterOAuth',
+    'social.backends.linkedin.LinkedinOAuth2',
+    "allauth.account.auth_backends.AuthenticationBackend",
     'social.backends.instagram.InstagramOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -327,6 +368,81 @@ RQ_QUEUES = {
         'DB': 0,
     }
 }
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',   # gets info, Ex. 'name', 'email', etc
+    'social.pipeline.social_auth.social_uid',       # gets the uid from the site
+    'social.pipeline.social_auth.auth_allowed',     # checks to see if the social is allowed by us. if not will throw a AuthForbidden error
+    'social.pipeline.social_auth.social_user',      # checks if the social account is associated in the site
+                                                    # and if it is, it returns the user
+    'social.pipeline.user.get_username',            # creates a username for the person
+                                                    # this is needed to create a unique username if found in DB
+    'custom.signup.pipeline.check_duplicate',       # custom method to check for user on other accounts
+    'social.pipeline.user.create_user',             # creates a user account if 'user' does not exist yet otherwise returns 'is_new = False'
+    'social.pipeline.social_auth.associate_user',   # create the record that associated the social account with this user
+                                                    # if for some reason 'social' does not exist but 'user' does
+    'social.pipeline.social_auth.load_extra_data',  # Populate the extra_data field in the social record
+    'social.pipeline.user.user_details',            # Update the user record with any changed info from the auth service.
+                                                    # not sure if we need this but unsure of something that changes data without us knowing
+    #'custom.signup.pipeline.save_profile_picture',  # custom method to save profile picture
+    'custom.signup.pipeline.consolidate_profiles',   # custom method to delete profile which shouldnt ever occur again
+)
+
+
+
+SOCIAL_AUTH_DISCONNECT_PIPELINE = (
+    # Verifies that the social association can be disconnected from the current
+    # user (ensure that the user login mechanism is not compromised by this
+    # disconnection).
+    'social.pipeline.disconnect.allowed_to_disconnect',
+
+    # Collects the social associations to disconnect.
+    'social.pipeline.disconnect.get_entries',
+
+    # Revoke any access_token when possible.
+    'social.pipeline.disconnect.revoke_tokens',
+
+    # Removes the social associations.
+    'social.pipeline.disconnect.disconnect'
+)
+
+FIELDS_STORED_IN_SESSION = ['key']
+FACEBOOK_APPLICATION_ID = '831699350268733'
+FACEBOOK_APPLICATION_SECRET_KEY = '0f57b646882a38e45d8a40eb391a1dd0'
+FACEBOOK_APPLICATION_NAMESPACE = ''
+FACEBOOK_APP_ID = '831699350268733'
+FACEBOOK_APP_SECRET = '0f57b646882a38e45d8a40eb391a1dd0'
+FANDJANGO_SITE_URL = 'http://divorcesus.com'
+SOCIAL_AUTH_TWITTER_KEY = 'scqmosTONSHCvlcxTtLNJR9tF'
+SOCIAL_AUTH_TWITTER_SECRET = 'jWWUmos4pRm36En9zmO1UcoUuGMr5GdnatobOdziGwLhwtoVnp'
+SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = '77fvb1xbqmead8'
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = 'Ged9hBuDxKakWUZd'
+SOCIAL_AUTH_FACEBOOK_KEY = '831699350268733'
+SOCIAL_AUTH_FACEBOOK_SECRET = '0f57b646882a38e45d8a40eb391a1dd0'
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'en_US'}
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1021242963135.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'vwfWVtveKrprfuilH01Z_zZK'
+SOCIAL_AUTH_INSTAGRAM_KEY = 'e5fe4ae25dfd4d52a7582ed8d61c97c9'
+SOCIAL_AUTH_INSTAGRAM_SECRET = '572ccbcf03454dd7bc2c87fa70d77216'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/signin'
+SOCIAL_AUTH_LOGIN_URL = '/signin/'
+SOCIAL_AUTH_STRATEGY = 'social.strategies.django_strategy.DjangoStrategy'
+SOCIAL_AUTH_STORAGE = 'social.apps.django_app.default.models.DjangoStorage'
+SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {
+    'access_type': 'offline',
+    'approval_prompt': 'auto'
+}
+#SOCIAL_AUTH_SESSION_EXPIRATION = False
+#SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
+BROKER_BACKEND                  = "redis"
+BROKER_HOST                     = "localhost"
+BROKER_PORT                     = 6379
+BROKER_VHOST                    = "1"
+REDIS_CONNECT_RETRY     = True
+REDIS_HOST                              = "localhost"
+REDIS_PORT                              = 6379
+REDIS_DB                                = "0"
+BROKER_URL = 'redis://localhost:6379/0'
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 #SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
@@ -454,4 +570,36 @@ TEMPLATE_LOADERS = [
     'django.template.loaders.app_directories.Loader',
 ]
 
+CRONJOBS = [
+('*/1 * * * *', 'print "test"'),
+('*/1 * * * *', 'python manage.py runtasks'),
+('*/1 * * * *', 'artrev.custom.tasks.cron.my_scheduled_job'),
+]
+
+_base_main_bundle = (
+    'css/reset.css',
+    'css/design.css',
+)
+
+MEDIA_BUNDLES = (
+    ('main.css',)
+        + _base_main_bundle,
+)
+RQ_JOBS_MODULE = 'custom.tasks'
+RQ = {
+    'host': 'localhost',
+    'port': 6379,
+    'db': 0,
+    'password': None,
+    'socket_timeout': None,
+    'connection_pool': None,
+    'charset': 'utf-8',
+    'errors': 'strict',
+    'decode_responses': False,
+    'unix_socket_path': None,
+}
+
+USER_LASTSEEN_TIMEOUT = 300
+SOCIAL_AUTH_LOGIN_URL = '/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value

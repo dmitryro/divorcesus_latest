@@ -2,6 +2,36 @@
 @import url(animate.css);
 @import url(//fonts.googleapis.com/css?family=Raleway:400,800,700,600,500);
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
+@font-face {
+        font-family: 'HelveticaNeueLT Pro 67 MdCn';
+        src: url('HelveticaNeueLTPro-MdCn.eot');
+        src: url('HelveticaNeueLTPro-MdCn.eot?#iefix') format('embedded-opentype'),
+                url('HelveticaNeueLTPro-MdCn.woff') format('woff'),
+                url('HelveticaNeueLTPro-MdCn.ttf') format('truetype');
+        font-weight: 500;
+        font-sty/le: normal;
+}
+
+@font-face {
+	font-family: 'BaskervilleSerial';
+	src: url('BaskervilleSerialHeavy.eot');
+	src: url('BaskervilleSerialHeavy.eot?#iefix') format('embedded-opentype'),
+		url('BaskervilleSerialHeavy.woff') format('woff'),
+		url('BaskervilleSerialHeavy.ttf') format('truetype');
+	font-weight: 900;
+	font-style: normal;
+}
+
+@font-face {
+        font-family: 'Ubuntu-Title';
+        src: url('Ubuntu-Title.eot');
+        src: url('Ubuntu-Title.eot?#iefix') format('embedded-opentype'),
+                url('Ubuntu-Title.woff') format('woff'),
+                url('Ubuntu-Title.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+}
+
 /*========================================================
                       Main Styles
 =========================================================*/
@@ -174,17 +204,20 @@ h6 + * {
   margin-top: 16px;
   margin-bottom: 28px; }
   .brand_name {
+    font-family:'BaskervilleSerial';
     position: relative;
     padding-left: 82px;
     margin-bottom:5px;
     padding-right: 82px; }
     .brand_name:before {
+      font-family:'BaskervilleSerial';
       content: url(../images/logo_img.png);
       position: absolute;
       left: 0;
       top: 8px; }
   .brand_slogan {
-    margin-top:15px;
+    padding-top:2.5%;
+    margin-top:10%;
     display: block;
     position: absolute;
     font-weight: 400;
@@ -197,10 +230,12 @@ h6 + * {
     text-align: left; }
     @media (max-width: 767px) {
       .brand_slogan {
-        padding-top:15px;
+        margin-top:2.5%;
+        padding-top:25px;
+        padding-top:2.5%;     
         top:15px;
         bottom: -15px;
-        left: 150px; } }
+        left: 160px; } }
 
 /*==================  Backgrounds  ======================*/
 .bg-primary {
@@ -1223,16 +1258,19 @@ footer {
       color: #38a99c; }
 .main-brand {
    margin-left:0;
-   width:28%;
+   width:25.4%;
    float:left;
 }
+.main-brand h1 {
+  font-size:2.0em;
+}
 .main-nav {
-   width:45%;
+   width:46%;
    float:left;
 }
 .box-search {
    padding-top:1.2%;
-   width:17.5%;
+   width:15.5%;
    float:left;
    position:relative;
    height:100%;
@@ -1245,3 +1283,8 @@ footer {
     background:#A9DBFF;
 }
 
+.avatar {
+   height: 60px;
+   width:: 60px;
+   clip-path: circle(60px at center);
+}

@@ -1,20 +1,3 @@
-@font-face {font-family: 'entypo-fontello'; font-weight: normal; font-style: normal;
-v id="sb-search" class="sb-search">
-						<form>
-							<input class="sb-search-input" placeholder="Enter your search term..." type="text" value="" name="search" id="search">
-							<input class="sb-search-submit" type="submit" value="">
-							<span class="sb-icon-search"></span>
-						</form>
-					</div>src: url('fonts/entypo-fontello.eot?v=3');
-src: url('fonts/entypo-fontello.eot?v=3#iefix') format('embedded-opentype'), 
-url('fonts/entypo-fontello.woff?v=3') format('woff'), 
-url('fonts/entypo-fontello.ttf?v=3') format('truetype'), 
-url('fonts/entypo-fontello.svg?v=3#entypo-fontello') format('svg');
-} 
-#top .avia-font-entypo-fontello, 
-body .avia-font-entypo-fontello, 
-html body [data-av_iconfont='entypo-fontello']:before{ font-family: 'entypo-fontello'; }
-
 @font-face {
 	font-family: 'HelveticaNeueLT Pro 67 MdCn';
 	src: url('HelveticaNeueLTPro-MdCn.eot');

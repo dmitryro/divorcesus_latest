@@ -1283,8 +1283,3 @@ footer {
     background:#A9DBFF;
 }
 
-.avatar {
-   height: 60px;
-   width:: 60px;
-   clip-path: circle(60px at center);
-}

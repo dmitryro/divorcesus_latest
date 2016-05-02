@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
@@ -123,6 +125,7 @@ class Token(models.Model):
 
     def __unicode__(self):
         return self.token
+
 class Contact(models.Model):
     name = models.CharField(max_length=250,blank=True, null=True)
     time_contacted = models.DateTimeField(auto_now_add=True)
@@ -157,8 +160,7 @@ class Address(models.Model):
 
 
 class Profile(models.Model):
-
-    user = models.OneToOneField(User,related_name='user')
+    user =  models.OneToOneField(User,parent_link=True,related_name='profile_user',blank=True,null=True)
     first_name = models.CharField(max_length=250,blank=True, null=True)
     last_name = models.CharField(max_length=250,blank=True, null=True)
     email = models.CharField(max_length=250,blank=True, null=True)
@@ -166,7 +168,7 @@ class Profile(models.Model):
     date_joined = models.DateTimeField(auto_now_add=True)
     profile_image_path =  models.CharField(max_length=250,blank=True, null=True)
     phone = models.CharField(max_length=250,blank=True, null=True)
-    address = models.ForeignKey(Address,related_name='address',blank=True,null=True)
+    address = models.ForeignKey(Address,blank=True,null=True)
     is_new = models.NullBooleanField(default=True,blank=True,null=True)
     is_avatar_processed = models.BooleanField(default=False,blank=True)
     is_avatar_transfered = models.BooleanField(default=False,blank=True)
@@ -189,7 +191,8 @@ class Profile(models.Model):
 
 @python_2_unicode_compatible
 class FacebookProfile(FacebookModel):
-    profile = models.OneToOneField(Profile, blank=True,null=True)
+    profile = models.OneToOneField(Profile,parent_link=True,blank=True,null=True)
+    user = models.OneToOneField(User,parent_link=True,related_name='facebook_user',blank=True,null=True)
     username = models.CharField(max_length=140, blank=True)
     email = models.EmailField(max_length=200,blank=True,null=True)
     first_name = models.CharField(max_length=140, blank=True)
@@ -230,13 +233,13 @@ class FacebookProfile(FacebookModel):
 @python_2_unicode_compatible
 class GooglePlusProfile(models.Model):
     google_id = models.CharField(max_length=140, blank=True)
-    profile = models.OneToOneField(Profile, blank=True,null=True)
+    profile = models.OneToOneField(Profile,parent_link=True,blank=True,null=True)
     username = models.CharField(max_length=140, blank=True)
     email = models.EmailField(max_length=100,blank=True,null=True)
     first_name = models.CharField(max_length=140, blank=True)
     last_name = models.CharField(max_length=140, blank=True)
     time_created = models.DateField("Time Created",blank=True, null=True)
-    friends = models.ManyToManyField(SocialFriend,related_name='google_plus_friends',
+    friends = models.ManyToManyField(SocialFriend,
                                                                  symmetrical=False)
     profile_image_path=models.CharField(max_length=200, blank=True,null=True)
     activation_key=models.CharField(max_length=140, blank=True)
@@ -256,4 +259,44 @@ class GooglePlusProfile(models.Model):
     class Meta:
         verbose_name = 'Google Plus Profile'
         verbose_name_plural = 'Google Plus Profiles'
-  
+
+
+@python_2_unicode_compatible
+class AboutUs(models.Model):
+    title =  models.CharField(max_length=150, blank=True)
+    subtitle =  models.CharField(max_length=150, blank=True)
+    body = models.CharField(max_length=1500, blank=True)
+    avatar = models.ImageField(upload_to='avatars')
+    avatar_thumbnail = ImageSpecField(source='avatar',
+                                      processors=[ResizeToFill(100, 50)],
+                                      format='JPEG',
+                                      options={'quality': 60})
+ 
+    class Meta:
+        verbose_name = 'About Us'
+        verbose_name_plural = 'About Us'
+
+
+    def __str__(self):
+        return self.title
+
+    def __unicode__(self):
+        return unicode(self.title)
+
+
+class TeamMember(models.Model):
+    user =  models.OneToOneField(User,parent_link=True,related_name='dv_user')
+    username = models.CharField(max_length=140, blank=True)
+    is_partner = models.NullBooleanField(default=False,blank=True,null=True)
+    is_associate = models.NullBooleanField(default=False,blank=True,null=True)
+    email = models.EmailField(max_length=100,blank=True,null=True)
+    phone = models.CharField(max_length=30, blank=True)
+    first_name = models.CharField(max_length=140, blank=True)
+    last_name = models.CharField(max_length=140, blank=True)
+    title = models.CharField(max_length=140, blank=True)
+    bio = models.CharField(max_length=1500, blank=True)
+    avatar = models.ImageField(upload_to='avatars')
+    avatar_thumbnail = ImageSpecField(source='avatar',
+                                      processors=[ResizeToFill(100, 50)],
+                                      format='JPEG',
+                                      options={'quality': 60})

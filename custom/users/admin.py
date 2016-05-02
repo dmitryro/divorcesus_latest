@@ -13,6 +13,12 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from custom.users.models import FacebookProfile
 from custom.users.models import GooglePlusProfile
 from custom.users.models import Profile
+from imagekit.admin import AdminThumbnail
+from models import TeamMember
+from models import AboutUs
+
+
+
 
 class FacebookProfileAdmin(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ['facebook_id','first_name','last_name','username','profile','time_created','profile_picture','email']}),)
@@ -22,6 +28,10 @@ class FacebookProfileAdmin(admin.ModelAdmin):
     class Meta:
          verbose_name = 'Facebook Profile'
          verbose_name_plural = 'Facebook Profiles'
+
+
+
+
 
 
 class GooglePlusProfileAdmin(admin.ModelAdmin):
@@ -41,7 +51,7 @@ class GooglePlusProfileAdmin(admin.ModelAdmin):
 
 class ProfileAdmin(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ['username','email',
-                                    'name','is_cleared',
+                                    'is_cleared',
                                     'is_facebook_signup_used','is_google_signup_used','is_linkedin_signup_used','is_username_customized',
                                     'is_twitter_signup_used','is_new',
                                     'first_name','last_name',
@@ -56,6 +66,9 @@ class ProfileAdmin(admin.ModelAdmin):
          verbose_name = 'User Profile'
          verbose_name_plural = 'User Profiles'
 
+
+
+
 class CustomUserAdmin(UserAdmin):
     def __init__(self, *args, **kwargs):
         super(UserAdmin,self).__init__(*args, **kwargs)
@@ -64,6 +77,25 @@ class CustomUserAdmin(UserAdmin):
     # Function to count objects of each user from another Model (where user is FK)
     def some_function(self, obj):
         return obj.another_model_set.count()
+
+
+class AboutUsAdmin(admin.ModelAdmin):
+    body = forms.CharField( widget=forms.Textarea )
+    fieldsets = ((None, {'fields': ['title','subtitle','body','avatar']}),)
+    list_display = ('__str__','title','subtitle','body','admin_thumbnail')
+    admin_thumbnail = AdminThumbnail(image_field='avatar_thumbnail')
+
+admin.site.register(AboutUs, AboutUsAdmin)
+
+
+class TeamMemberAdmin(admin.ModelAdmin):
+    bio = forms.CharField( widget=forms.Textarea )
+    fieldsets = ((None, {'fields': ['username','first_name','last_name','is_associate','is_partner','phone','email','title','bio','avatar']}),)
+
+    list_display = ('__str__','first_name','last_name','is_partner','is_associate','phone','email','title','bio', 'admin_thumbnail')
+    admin_thumbnail = AdminThumbnail(image_field='avatar_thumbnail')
+
+admin.site.register(TeamMember, TeamMemberAdmin)
 
 #admin.site.register(ProfileStats,ProfileStatsAdmin)
 admin.site.register(Profile,ProfileAdmin)

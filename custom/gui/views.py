@@ -36,6 +36,7 @@ from django.views.generic import TemplateView
 from django.views.generic.base import View
 from custom.utils.models import Logger
 
+@ensure_csrf_cookie
 def environment(**options):
     env = Environment(**options)
     env.globals.update({
@@ -81,18 +82,16 @@ def home(request):
                                            'last':last_name,
                                            'profile_image':profile_image_path})
 
-
 @ensure_csrf_cookie
 def about(request):
     if request.user.is_authenticated():
         logout=True
         try:
            user_id = request.user.id
-           profile = User.objects.get(id=request.user.id)
            username = request.user.username
            first_name = request.user.first_name
            last_name = request.user.last_name
-           profile_image_path = profile.profile_image_path
+           profile_image_path = ''
         except Exception, R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
@@ -110,12 +109,12 @@ def about(request):
         last_name = ''
         profile_image_path = ''
 
+
     return render(request, 'index-1.html',{'logout':logout,
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
                                            'profile_image':profile_image_path})
-
 
 @ensure_csrf_cookie
 def services(request):
@@ -150,7 +149,6 @@ def services(request):
                                            'first':first_name,
                                            'last':last_name,
                                            'profile_image':profile_image_path})
-
 @ensure_csrf_cookie
 def pricing(request):
     if request.user.is_authenticated():

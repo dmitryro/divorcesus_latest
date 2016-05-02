@@ -52,7 +52,7 @@ SCOPES = ['https://www.googleapis.com/plus/v1/people/me',
 VERIFY_SSL = False
 
 ADMIN_USERNAME='admin'
-
+SESSION_PROTECTION = 'weak'
 # Application definition
 
 INSTALLED_APPS = [

@@ -10,7 +10,8 @@ import urllib2 as urllib
 from cStringIO import StringIO
 from django.contrib.auth.models import User
 from custom.users.models import Profile
-
+from custom.users.models import TeamMember
+from custom.users.models import AboutUs
 register = template.Library()
 
 kw_pat = re.compile(r'^(?P<key>[\w]+)=(?P<value>.+)$')
@@ -41,3 +42,58 @@ def user_meta(a, b,  *args, **kwargs):
 
     except NameError:
         print "No result for this id"
+
+
+"""
+ Get the logo meta
+"""
+@register.simple_tag
+def aboutus_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            aboutus = AboutUs.objects.get(id=int(a))
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return aboutus.title
+        elif (b==2):
+            return aboutus.subtitle
+        elif (b==3):
+            return aboutus.body 
+        elif (b==4):
+            return aboutus.avatar
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+
+
+"""
+ Get the logo meta
+"""
+@register.simple_tag
+def member_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            member = TeamMember.objects.get(id=int(a))
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return member.title
+        elif (b==2):
+            return member.bio
+        elif (b==3):
+            return member.avatar
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+

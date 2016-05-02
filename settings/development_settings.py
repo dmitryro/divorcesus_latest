@@ -38,14 +38,20 @@ sys.setrecursionlimit(20000)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'mdbtl108v8i0)_q&f$@3j3gie^_^r!xj%-fp-lr@uq)zl0boe%'
-VERIFY_SSL = False
 APPEND_SLASH = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+BASE_URL = 'http://divorcesus.com'
 PROFILE_IMAGE_PATH='http://divorcesus.com/static/images/user_no_avatar.png'
 
 ALLOWED_HOSTS = ['www.googleapis.com','https://www.googleapis.com']
+
+SCOPES = ['https://www.googleapis.com/plus/v1/people/me',
+          'https://www.googleapis.com/auth/plus.me',
+          'https://www.googleapis.com/auth/plus.stream.write']
+VERIFY_SSL = False
+
+ADMIN_USERNAME='admin'
 
 # Application definition
 
@@ -74,7 +80,6 @@ INSTALLED_APPS = [
     'encrypted_fields',
     'django_actions',
     'django_extensions',
-    'django_facebook',
     'django_filters',
     'django_mobile',
     'django_push',
@@ -84,16 +89,18 @@ INSTALLED_APPS = [
     'django_crontab',
     'django_social_share',
     'drf_cached_instances',
-   # 'facebook',
+    'facebook',
     'open_facebook',
     'django_user_agents',
     'admin_import',
     'django_jinja',
     'django_jinja2',
     'jinja2',
+    'imagekit',
     'favicon',
     'pygments',
     'django_rq',
+    'django_facebook',
     'djng',
     'social',
     'social.apps.django_app.default',
@@ -118,13 +125,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.linkedin',
-    'allauth.socialaccount.providers.openid',
-    'allauth.socialaccount.providers.twitter',
     'oauth2_provider',
-#    'custom.users',
+    'custom.users',
     'custom.metaprop',
     'custom.cases',
     'custom.signup',
@@ -133,7 +135,6 @@ INSTALLED_APPS = [
     'custom.chat',
     'custom.tasks',
     'custom.gui',
-    'custom.users',
 ]
 
 
@@ -599,7 +600,7 @@ RQ = {
     'unix_socket_path': None,
 }
 
-USER_LASTSEEN_TIMEOUT = 300
+#USER_LASTSEEN_TIMEOUT = 300
 SOCIAL_AUTH_LOGIN_URL = '/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value
+#ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value

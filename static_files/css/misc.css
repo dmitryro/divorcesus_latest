@@ -38,3 +38,20 @@
     border-color: #faebcc;
     display: none;
 }
+#about_block {
+   display:none;
+}
+#services_block {
+   display:none;
+}
+#pricing_block {
+   display:none;
+}
+#cotnact_block {
+   display:none;
+}
+#payment_block {
+   display:none;
+}
+
+

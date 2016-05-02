@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-
+{% load gui_extras %}
 {% block content %}
 
-  <main>
+  <main id="content">
    <section class="bg-img well-top">
       <div class="container">
         <div class="row">
@@ -74,19 +74,19 @@
         <h3><span>Meet</span> Our Team</h3>
         <div class="row">
           <div class="col-xs-12 col-sm-3 wow fadeInLeft ">
-            <img src="/media/images/page-2_img02.jpg" alt=""/>
-            <h4>Richard Cox</h4>
-            <p>Phasellus metus elit, venenatis non orci sit amet, sollicitudin efficitur lectus. Quisque finibus urna in venenatis sem</p>
+            <img src="http://divorcesus.com/media/{% member_meta 4 3 %}" width="250" height="250" />
+            <h4>{% member_meta 4 1 %}</h4>
+            <p>{% member_meta 4 2 %}</p>
           </div>
           <div class="col-xs-12 col-sm-3 wow fadeInLeft" data-wow-delay=".2s">
-            <img src="/media/images/page-2_img03.jpg" alt=""/>
-            <h4>Alessandra Ambrosio</h4>
-            <p>Ellicitudin efficitur lectus. Quisque finibus urna in venenatis semper. Do nec vitae ma uris eget nibh efficitur porttitor.</p>
+            <img src="http://divorcesus.com/media/{% member_meta 5 3 %}" width="250" height="250" />
+            <h4>{% member_meta 5 1 %}</h4>
+            <p>{% member_meta 5 2 %}</p>
           </div>
           <div class="col-xs-12 col-sm-3 wow fadeInRight" data-wow-delay=".2s">
-            <img src="/media/images/page-2_img04.jpg" alt=""/>
-            <h4>Michael Freeman</h4>
-            <p>Quisque finibus urna in venenatis sem per. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum</p>
+           <img src="http://divorcesus.com/media/{% member_meta 6 3 %}" width="250" height="250" />
+            <h4>{% member_meta 6 1 %}</h4>
+            <p>{% member_meta 6 2 %}</p>
           </div>
           <div class="col-xs-12 col-sm-3 wow fadeInRight">
             <img src="/media/images/page-2_img05.jpg" alt=""/>

@@ -68,3 +68,86 @@ img.avatar {
    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
 }
 
+/*form styles*/
+ #helpdeskform {
+    text-align: center;
+    position: relative;
+}
+/*Hide all except first fieldset*/
+ #helpdeskform .field2, .field3 {
+    display: none;
+}
+/*inputs*/
+ #helpdeskform input, #helpdeskform textarea {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #2C3E50;
+    font-size: 13px;
+}
+/*buttons*/
+ #helpdeskform .action-button {
+    width: 100px;
+    font-weight: bold;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
+#helpdeskform .action-button:hover, #msform .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #900;
+}
+/*progressbar*/
+ #progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    counter-reset: step;
+    /*CSS counters to number the steps*/
+}
+#progressbar li {
+    list-style-type: none;
+    text-transform: uppercase;
+    font-size: 10px;
+    width: 30%;
+    float: left;
+    position: relative;
+}
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 20px;
+    line-height: 20px;
+    display: block;
+    font-size: 10px;
+    color: #333;
+    background: white;
+    border-radius: 3px;
+    margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+ #progressbar li:after {
+    content:'';
+    width: 100%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    left: -50%;
+    top: 9px;
+    z-index: -1;
+    /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+    content: none;
+    /*connector not needed before the first step*/
+}
+/*marking active/completed steps nhlbi red*/
+
+/*The number of the step and the connector before it = nhlbi red*/
+ #progressbar li.active:before, #progressbar li.active:after {
+    background: #900;
+    color: white;
+}

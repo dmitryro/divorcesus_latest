@@ -1,47 +1,35 @@
 var webpack = require('webpack')
 var path = require('path')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+// export config
 module.exports = {
-  entry: './docs/index.js',
-  output: {
-    path: './build',
-    publicPath: '/build/',
-    filename: 'build-docs.js'
+  themeLoader: {
+    themes: ['./src/theme/docs.scss', './node_modules/vuestrap/theme/bootstrap.scss'], // docs theme, default bootstrap
   },
   resolve: {
     root: path.resolve('./')
   },
   module: {
-    loaders: [
-      {test: /\.vue$/, loader: 'vue' },
-      {
-      	test: /\.js$/,
-        exclude: /node_modules|vue\/src|vue-router\/|vue-loader\/|vue-hot-reload-api\//,
-      	loader: 'babel'
-      },
-      { test: /\.css$/, loader: "style-loader!css-loader?root=./docs/" }
-    ]
-  },
-  babel: {
-  presets: ['es2015'],
-  plugins: ['transform-runtime']
-},
-  devtool: 'source-map'
-};
-
-
-if (process.env.NODE_ENV === 'production') {
-  delete module.exports.devtool;
-  module.exports.plugins = [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  ];
+    loaders: [{
+      test: /\.js$/,
+      include: [
+        path.resolve('./src'),
+        path.resolve('./node_modules/vuestrap'),
+        path.resolve('./node_modules/vuestrap-docs'),
+        path.resolve('./node_modules/vuestrap-base-components')
+      ],
+      loader: 'babel'
+    }, {
+      test: /\.html$/,
+      exclude: /(snippet.html)/,
+      loader: 'html'
+    }, {
+      test: /snippet.html$/,
+      loader: 'html!highlightjs?lang=html'
+    }, {
+      test: /\.json$/,
+      loader: 'json'
+    }]
+  }
 }

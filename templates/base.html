@@ -95,7 +95,8 @@
   
           <p class="brand_slogan" style="padding-top:10%;">
            <br/>
-           &nbsp;&nbsp; Family Law Division
+           <div class="division" style="margin-left:24em;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Family Law Division </div>
+           <div class="clear"></div>
           </p>
         </div>
 
@@ -161,7 +162,10 @@
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+<!--
             <h2><span id="max-number" class="num">0</span> <span>Resources Listed</span> in Over 1,000 Categories</h2>
+-->         
 
 <!--
             <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
@@ -3522,7 +3526,7 @@
 
 <div id="contact_block">
 
-  <main id="content-contact">
+ <main id="content-contact">
    <section class="bg-img well-top">
       <div class="container">
         <div class="row">
@@ -3572,16 +3576,15 @@
             </address>
           </div>
           <div class="col-xs-12 col-sm-8" id="contactus">
+                 <br/>
 
-<div class="alert-box success">
-  <strong>Thanks for contacting Grinberg & Segal!</strong>
-  <p>Your message will be reviewed and responded soon.</p>
-</div>
-
-
+                  <div class="alert-box success">
+                        <strong>Thanks for contacting Grinberg & Segal!</strong>
+                        <p>Your message will be reviewed and responded soon.</p>
+                   </div>
 
             <h3><span>Contact</span> Us</h3>
-            <form class='mailform contact-form' method="post"  v-on="valid: validConfirm"> 
+            <form class='mailform contact-form' method="post"> 
                  {% csrf_token %}
 
               <input type="hidden" name="form-type" value="contact"/> 
@@ -3620,7 +3623,7 @@
 
                   <div class="mfControls"> 
                       <span class="submit_text">required fields*</span>
-                      <button class="btn4"  v-on:click="submit" v-on:valid="confirm">Send</button> 
+                      <button class="btn4"  v-on:click="submit">Send</button> 
                   </div> 
               </fieldset> 
           </form> 
@@ -3633,16 +3636,17 @@
 
 
 
-
 </div>
 
 <div id="payment_block">
-
 <main id="content-payment">
    <section class="bg-img well-top">
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+<!-- trigger examples -->
+
 <!--
             <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
               <label class="search-form_label">
@@ -3658,24 +3662,56 @@
     </section>
     <section class="terms">
       <div class="container">
+
+
+
+
+
+<!-- toast element -->
+
+
+
         <h3><span>Make a </span> Payment</h3>
-        <h4>Proin tincidunt turpis vitae aliquam accumsan. Integer eget nisl euismod, venenatis tellus ac, euismod </h4>
-        <p>Phasellus metus elit, venenatis non orci sit amet, sollicitudin efficitur lectus. Quisque finibus urna in venenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tinci dunt et lacus lacinia, venenatis ullamcorper purus. Mauris vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nuncorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam accumsan, est quis facilisis suscipit, nisi arcu efficitur urna, eu pellentesque dui nisl nec arcu. Nunc nec turpis in tellus placerat commodo. Suspendisse cursus nunc neque, at pharetra metus maximus accumsan. Aenean porttitor sagittis turpis sed volutpat. Morbi quis placerat metus, maximus gravida ante. Integer accumsan nulla orci, non porta libero pellentesque quis. Vivamus vitae iaculis dui. Donec aliquam nibh vitae lectus rutrum luctus in eget nisi. Vivamus imperdiet orci tortor, nec ornare purus molestie </p>
-        <h4>Aaliquam accumsan. Integer eget nisl euismod, venenatis tellus ac, euismod dolor. Aliquam bibendum</h4>
-        <p>Vivamus imperdiet orci tortor, nec ornare purus molestie ac. Fusce ultrices fringilla nibh ut blandit. Sed mauris lorem, eleifend in justo sed, consequat convallis metus. Nam in massa in arcu porta aliquam. Aliquam rhoncus elit sed magna egestas, ut semper purus eleifend. Quisque tempor nisi non massa mattis, ac lacinia velit tempor. Pellentesque non est non ante varius interdum eget sed nulla. Praesent tristique dictum ultricies. Morbi eget mi elit. Integer condimentum a ligula id condimentum. Mauris quis quam pulvinar, sagittis tellus at, vestibulum velit. Morbi quis rutrum ex, sit amet dapibus nunc. Sed eget sollicitudin erat, ac ullamcorper urna. In bibendum elit velit, eget sodales tortor pretium vitae. Donec neque leo, rhoncus ut odio commodo, fringilla malesuada massa. Etiam eu velit at ante interdum consequat. Phasellus ut enim auctor, fringilla urna ac, vehicula risus</p>
-        <h4>Integer eget nisl euismod, venenatis tellus ac, euismod dolor. Aliquam bibendum sagittis placerateo</h4>
-        <p>Etiam accumsan, est quis facilisis suscipit, nisi arcu efficitur urna, eu pellentesque dui nisl nec arcu. Nunc nec turpis in tellus placerat commodo. Suspendisse cursus nunc neque, at pharetra metus maximus accumsan. Aenean porttitor sagittis turpis sed volutpat. Morbi quis placerat metus, maximus gravida ante. Integer accumsan nulla orci, non porta libero pellentesque quis. Viv amus vitae iaculis dui. Donec aliquam nibh vitae lectus rutrum luctus in eget nisi. Vivamus imperdiet orci tortor, nec ornare purus molestie ac. Fusce ultrices fringilla nibh ut blandit. Sed mauris lorem, eleifend in justo sed, consequat convallis metus. Nam in massa in arcu porta aliquam. Aliquam rhoncus elit sed magna egestas, ut semper purus eleifend. Quisque tempor nisi non massa mattis, ac lacinia velit tempor. Pellentesque non est non ante varius interdum eget sed nulla. Praesent tristique dictum ultricies.</p>
-        <h4>Aliquam bibendum sagittis placerat. Suspendisse potenti. Quisque pulvinar erat duivel mollisget</h4>
-        <p>Morbi quis placerat metus, maximus gravida ante. Integer accumsan nulla orci, non porta libero pellentesque quis. Vivamus vitae iaculis dui. Donec aliquam nibh vitae lectus rutrum luctus in eget nisi. Vivamus imperdiet orci tortor, nec ornare purus molestie ac. Fusce ultrices fringilla nibh ut blandit. Sed mauris lorem, eleifend in justo sed, consequat convallis metus. Nam in massa in arcu porta aliquam. Aliquam rhoncus elit sed magna egestas, ut semper purus eleifend. Quisque tempor nisi non massa mattis, ac lacinia velit tempor. Pellentesque non est non ante varius interdum eget sed nulla. Praesent tristique dictum ultricies. Morbi eget mi elit. Integer condimentum a ligula id condimentum. Mauris quis quam pulvinar, sagittis tellus at, vestibulum velit. Morbi quis rutrum ex, sit amet dapibus nunc. Sed eget sollicitudin erat, ac ullamcorper urna. In bibendum elit velit, eget sodales tortor pretium</p>
-        <h4>Suspendisse potenti. Quisque pulvinar erat dui, vel mollis urna tincidunt utdolor sem </h4>
-        <p>Phasellus metus elit, venenatis non orci sit amet, sollicitudin efficitur lectus. Quisque finibus urna in venenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tinci dunt et lacus lacinia, venenatis ullamcorper purus. Mauris vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nuncorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam accumsan, est quis facilisis suscipit, nisi arcu efficitur urna, eu pellentesque dui nisl nec arcu. Nunc nec turpis in tellus placerat commodo. Suspendisse cursus nunc neque, at pharetra metus maximus accumsan. Aenean porttitor sagittis turpis sed volutpat. Morbi quis placerat metus, maximus gravida ante. Integer accumsan nulla orci, non porta libero pellentesque quis. Vivamus vitae iaculis dui. Donec aliquam nibh vitae lectus rutrum luctus in eget nisi. Vivamus imperdiet orci tortor, nec ornare purus molestie </p>
-        <p class="policy-link"><a class="link" href="mailto:#">privacy@demolink.org</a>
+        <p>
+Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
+          </p>
+          <p>
+                   Please 
+
+
+        <div id="app" style="float:left;">
+              <!-- use the modal component, pass in the prop -->
+
+            {% if not logout %}
+                  Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to continue.
+            {% endif %}
+
+            {% if logout %}
+                {% user_meta user_id 1 %}
+                &nbsp;
+                {% user_meta user_id 2 %}
+                &nbsp;&nbsp;
+
+
+
+            {% endif %}
+
+               <modal :show.sync="showModal">
+               <!--
+/                  you can use custom content here to overwrite
+                  default content
+                     -->
+
+              </modal>
+
+
+       </div>
+
+
+          </p>
       </div>
     </section>
   </main>
-
-</div>
-
 
 </div>
 
@@ -3737,6 +3773,14 @@
           <p class="text1">Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-6 pt">
+          <h4>Contact Us</h4>
+          <ul class="list">
+              <li><a href="#">Phone (212) 202 0342</a></li>
+              <li><a href="#">Fax 212 202 0342</a></li>
+              <li><a href="#">info@myattorneyusa.com</a></li>
+              <li><a href="#">76 Beaver Street, 10th Floor</a></li>
+              <li><a href="#">New York, NY</a></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -3745,7 +3789,6 @@
       <p class="copy">Grinberg & Segal © <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p>
     </div>
   </footer>
-
 
 
 
@@ -3856,10 +3899,10 @@ new Vue({
            $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
      },
      submit: function() {
-         this.$http.get('/sendmail?email='+this.email+'&phone='+this.phone+'&message='+this.message+'&name='+this.name, function(data)
+         $.get('http://divorcesus.com/sendmail?email='+this.email+'&phone='+this.phone+'&message='+this.message+'&name='+this.name, function(data)
                 {
-
                      if (data.message =='success')  {
+                          
                            $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );       
                      }
                     this.$set('email','');
@@ -3870,7 +3913,6 @@ new Vue({
      }
   }
 })
-
 
 new Vue({
   el: '#main_wrapper',

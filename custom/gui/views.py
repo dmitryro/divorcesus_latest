@@ -35,6 +35,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from custom.utils.models import Logger
+from custom.users.models import MileStone
 
 @ensure_csrf_cookie
 def environment(**options):
@@ -51,6 +52,7 @@ def index(request):
 
 @ensure_csrf_cookie
 def home(request):
+    milestones = MileStone.objects.all()
     if request.user.is_authenticated():
         logout=True
         try:
@@ -80,6 +82,7 @@ def home(request):
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'milestones':milestones,
                                            'profile_image':profile_image_path})
 
 @ensure_csrf_cookie
@@ -283,6 +286,41 @@ def payment(request):
                                            'user_id':user_id,
                                            'last':last_name,
                                            'profile_image':profile_image_path})
+
+@ensure_csrf_cookie
+def toast(request):
+    if request.user.is_authenticated():
+        logout=True
+        try:
+           user_id = request.user.id
+           profile = User.objects.get(id=request.user.id)
+           username = request.user.username
+           first_name = request.user.first_name
+           last_name = request.user.last_name
+           profile_image_path = profile.profile_image_path
+        except Exception, R:
+           log = Logger(log='WE GOT SOME ERROR'+str(R))
+           log.save()
+           user_id = -1
+           username = ''
+           first_name = ''
+           last_name = ''
+           profile_image_path = ''
+
+    else:
+        user_id = -1
+        logout=False
+        username = ''
+        first_name = ''
+        last_name = ''
+        profile_image_path = ''
+
+    return render(request, 'toast.html',{'logout':logout,
+                                           'first':first_name,
+                                           'user_id':user_id,
+                                           'last':last_name,
+                                           'profile_image':profile_image_path})
+
 
 @ensure_csrf_cookie
 def blog(request):

@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 from custom.users.models import Profile
 from custom.users.models import TeamMember
 from custom.users.models import AboutUs
+from custom.users.models import MileStone
+
 register = template.Library()
 
 kw_pat = re.compile(r'^(?P<key>[\w]+)=(?P<value>.+)$')
@@ -90,6 +92,31 @@ def member_meta(a, b,  *args, **kwargs):
             return member.bio
         elif (b==3):
             return member.avatar
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+
+"""
+ Get the logo meta
+"""
+@register.simple_tag
+def milestone_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            milestone = MileStone.objects.get(id=int(a))
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return milestone.title
+        elif (b==2):
+            return milestone.year
+        elif (b==3):
+            return milestone.body
 
     except TypeError:
         print "Invalid argument type"

@@ -1,45 +1,28 @@
 <!DOCTYPE html>
 {% load gui_extras %}
-{% load static %}
-{% load pipeline %}
-{% javascript 'js/gritcode.js' %}
-<!-- ... -->
-
-<!-- Include JavaScript files -->
-<!-- compressed tags is created by Django Pipeline.  -->
-
-<!-- Include CSS files -->
-<!-- ... -->
-
-<!-- Include JavaScript files -->
-<script type="text/javascript" src='{% static 'js/gritcode-components/dist/gritcode-components.min.js' %}'></script>
 <html lang="en">
 <head>
 <title>Home</title>
   <meta charset="utf-8">
   <meta name="format-detection" content="telephone=no"/>
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/static/css/grid.css">
   <link rel="stylesheet" href="/static/css/mailform.css"/>
   <link rel="stylesheet" href="/static/css/search.css">
   <link rel="stylesheet" href="/static/css/style.css">
-
-<link href="/bower_components/vuestrap-base/dist/vuestrapBase.min.css" rel='stylesheet' type='text/css'>
-<script src="/bower_components/vuestrap-base/dist/vuestrapBase.min.js"></script>
-
+  <link rel="stylesheet" href="/static/css/jssor.css">
   <script src="/static/js/jquery.js"></script>
+  <script src="/static/js/jssor.slider.min.js"></script>
+  <script src="/static/js/jssor.slider.mini.js"></script>
   <script src="/static/js/jquery-migrate-1.2.1.js"></script>
-
+  
 
    <link rel="stylesheet" href="/static/css/misc.css" />
    <link rel="stylesheet" href="/static/css/buttons-si.css" />
    <link href="/static/css/modal.css" rel="stylesheet" type="text/css"/>
    <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
- 
-   <script src="/bower_components/vue/dist/vue.js"></script>
-   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
   <!--[if lt IE 9]> 
   <html class="lt-ie9">
   <div style=' clear: both; text-align:center; position: relative;'>
@@ -53,13 +36,68 @@
 
   <script src='/static/js/device.min.js'></script>
     <meta id="_token" value="{% csrf_token %}"> 
+
+
+
+<style>
+
+.background-fade .et_pb_slide.et_pb_bg_layout_dark:after {
+position: absolute;
+content: '';
+top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+animation: customFadeToDark 3s ease-out 1s 1 both;
+-webkit-animation: customFadeToDark 3s ease-out 1s 1 both;
+}
+@keyframes customFadeToDark {
+0% {
+background-color: transparent;
+}
+100% {
+background-color:rgba(0,0,0,.5);
+}
+}
+-webkit-@keyframes customFadeToDark {
+0% {
+background-color: transparent;
+}
+100% {
+background-color:rgba(0,0,0,.5);
+}
+}
+
+.background-fade .et_pb_slide.et_pb_bg_layout_light:after {
+position: absolute;
+content: '';
+top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+animation: customFadeToLight 3s ease-out 1s 1 both;
+-webkit-animation: customFadeToLight 3s ease-out 1s 1 both;
+}
+@keyframes customFadeToLight {
+0% {
+background-color: transparent;
+}
+100% {
+background-color:rgba(255,255,255,.7);
+}
+}
+-webkit-@keyframes customFadeToLight {
+0% {
+background-color: transparent;
+}
+100% {
+background-color:rgba(255,255,255,.7);
+}
+}
+</style>
+
 </head>
 <body>
-
-<form>
-<input type="hidden" id="current" name="current" value="home" />
-</form>
-
 <div class="page">
   <!--========================================================
                             HEADER
@@ -82,6 +120,9 @@
 
         <!-- app -->
         <div id="app" style="float:left;">
+              <!-- use the modal component, pass in the prop -->
+            {% user_meta user_id 1 %}  
+            &nbsp;
               <!-- use the modal component, pass in the prop -->
             {% user_meta user_id 1 %}  
             &nbsp;
@@ -183,17 +224,165 @@
   =========================================================-->
 <div id="home_block">
   <main id="content-home">
-   <section class="bg-img">
-      <div class="container">
+<!--
         <div class="row">
-          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+         
+ <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+-->
+
+       <div id="jssor_1" class="background-fade"  style="position: relative; margin: 0 auto; margin-bottom:0em;top: 0px; left: 0px; width: 1800px; height:900px; overflow: hidden; visibility: hidden;">
+
+
+        <!-- Loading Screen -->
+        <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
+            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
+            <div style="position:absolute;display:block;background:url('img/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
+        </div>
+        <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 1800px; height: 900px; overflow: hidden;">
+
+
+            <div data-p="112.50" style="display: none;" class="et_pb_slide">
+                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4197_e.jpg" />
+                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:rgb(68, 57, 49);
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
+                           Family Law 
+                  </div>
+
+            </div>
+
+
+<div data-p="112.50" style="display: none;" class="et_pb_slide">
+                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4228.jpg" />
+                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:rgb(68, 57, 49);
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
+                           Child Custody
+                  </div>
+
+            </div>
+
+<div data-p="112.50" style="display: none;" class="et_pb_slide">
+                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4210.jpg" />
+                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:rgb(68, 57, 49);
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
+                           Property Division
+                  </div>
+
+            </div>
+
+
+<div data-p="112.50" style="display: none;" class="et_pb_slide">
+                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4237.jpg" />
+
+                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:rgb(68, 57, 49);
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
+                          Spousal Support
+                  </div>
+
+
+            </div>
+
+<div data-p="112.50" style="display: none;" class="et_pb_slide">
+                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4231.jpg" />
+
+                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:rgb(68, 57, 49);
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
+                           Agreements
+                  </div>
+                      
+
+            </div>
+
+
+            <a data-u="ad" href="http://www.jssor.com" style="display:none">jQuery Slider</a>
+        
+        </div>
+        <!-- Bullet Navigator -->
+        <div data-u="navigator" class="jssorb01" style="bottom:16px;right:16px;">
+            <div data-u="prototype" style="width:12px;height:12px;"></div>
+        </div>
+        <!-- Arrow Navigator -->
+        <span data-u="arrowleft" class="jssora05l" style="top:0px;left:8px;width:40px;height:40px;" data-autocenter="2"></span>
+        <span data-u="arrowright" class="jssora05r" style="top:0px;right:8px;width:40px;height:40px;" data-autocenter="2"></span>
+    </div>
 
 
 
-	<!-- Start WOWSlider.com BODY section -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--
             <h2><span id="max-number" class="num">0</span> <span>Resources Listed</span> in Over 1,000 Categories</h2>
--->
+-->         
+
 <!--
             <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
               <label class="search-form_label">
@@ -202,19 +391,12 @@
               </label>
               <button class="search-form_submit fa-search" type="submit"></button>
             </form>          
---
-
-
-
-
-
-
-
->
+-->
+<!--
           </div>
+
         </div>        
-      </div>
-    </section>
+-->
 
     <section class="well2 bg-secondary">
       <div class="container">
@@ -226,7 +408,7 @@
               </div>
               <div class="box_cnt__no-flow">
                 <h3 class="mod"><a href="#">Child Custody</a></h3>
-                <span class="badge">[ 189 ]</span>
+                <span class="badge"></span>
               </div>
             </div>
           </div>
@@ -237,7 +419,7 @@
               </div>
               <div class="box_cnt__no-flow">
                 <h3 class="mod"><a href="#">Property</a></h3> 
-                <span class="badge">[ 1289 ]</span>
+                <span class="badge"></span>
               </div>
             </div>
           </div>
@@ -248,7 +430,7 @@
               </div>
               <div class="box_cnt__no-flow">
                 <h3 class="mod"><a href="#">Protection</a></h3>
-                <span class="badge">[ 7589 ]</span>
+                <span class="badge"></span>
               </div>
             </div>
           </div>
@@ -261,7 +443,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">Child Support</a></h3>
-                  <span class="badge">[ 589 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -272,7 +454,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">Spousal Support</a></h3> 
-                  <span class="badge">[ 689 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -283,7 +465,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">Agreements</a></h3>
-                  <span class="badge">[ 378 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -296,7 +478,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">Free Consultation</a></h3>
-                  <span class="badge">[ 889 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -307,7 +489,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">CFML</a></h3> 
-                  <span class="badge">[ 287 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -318,7 +500,7 @@
               </div>
               <div class="box_cnt__no-flow">
                 <h3 class="mod"><a href="#">Java</a></h3> 
-                <span class="badge">[ 2189 ]</span>
+                <span class="badge"></span>
               </div>
             </div>
           </div>
@@ -331,7 +513,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">ASP</a></h3>
-                  <span class="badge">[ 2189 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -342,7 +524,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">CGI and Perl</a></h3> 
-                  <span class="badge">[ 287 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -353,7 +535,7 @@
               </div>
               <div class="box_cnt__no-flow">
                 <h3 class="mod"><a href="#">Python</a></h3>
-                <span class="badge">[ 289 ]</span>
+                <span class="badge"></span>
               </div>
             </div>
           </div>
@@ -365,7 +547,7 @@
     </section>
     <section class="well3">
       <div class="container wow fadeInUp">
-        <h3><span>New</span> Scripts</h3>
+        <h3><span>Why choose</span> Grinberg and Segal</h3>
         <div class="resp-tabs">
           <ul class="resp-tabs-list">
             <li>Ajax</li>
@@ -1030,9 +1212,9 @@
     </section>
     <section class="parallax" data-url="/media/images/couple-resized.jpg">
       <div class="container wow fadeIn">
-        <h2><span>Start different</span> profitable web sites with ease </h2>
-        <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
-        <a href="#" class="btn4">Read more</a>
+        <h2><span> Start Your Case with US Today</span> </h2>
+        <h4>Get the expert assistance with your most intimate and important life matters from the leading professional lawers.</h4>
+        <a href="#" class="btn4">Start</a>
       </div>
     </section>
     <section class="well4">
@@ -1074,7 +1256,7 @@
     </section>
     <section class="parallax" data-url="/media/images/family-law.jpg">
       <div class="container wow fadeIn" style="max-height:600px;">
-        <h2><span>Dedicated Family Law Services</span></h2>
+        <h2><span>Still not sure if you re ready to start?</span></h2>
         <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
         <a href="#" class="btn4">Read more</a>
       </div>
@@ -1099,7 +1281,6 @@
       </div>
     </section>
   </main>
-
 </div>   
 
 
@@ -1137,24 +1318,21 @@
             <h3><span>Our</span> History</h3>
             <ul class="list3">
               <li>
-                <span class="list3_aside">{% milestone_meta 1 2 %} -</span>
-                <p>{% milestone_meta 1 3 %} </p>
+                <span class="list3_aside">2010 -</span>
+                <p>Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, ve nenatis ullamcorper purus. Mauris vel lobortis leo, sed ullamcorper neque. Integer </p>
               </li>
               <li>
-                <span class="list3_aside">{% milestone_meta 2 2 %} -</span>
-                <p>{% milestone_meta 2 3 %} </p>
+                <span class="list3_aside">2012 -</span>
+                <p>Atincidunt et lacus lacinia, ve nenatis ullamcorper purus. Mauris vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nunc vehicula phar etra. In dictum magna nisl, ac volutpat sapien iaculis sed. Aliquam non tempor</p>
               </li>
               <li>
-                <span class="list3_aside">{% milestone_meta 3 2 %} -</span>
-                <p>{% milestone_meta 3 3 %} </p>
+                <span class="list3_aside">2014 -</span>
+                <p>Integer dapibus iaculis nunc vehicula pharetra. In dictum magna nisl, ac volutpat sapien iaculis sed. Aliquam non tempor orci. Aenean orci nibh, finibus maximus mattis eget, sollicitu</p>
               </li>
-
               <li>
-                <span class="list3_aside">{% milestone_meta 4 2 %} -</span>
-                <p>{% milestone_meta 4 3 %} </p>
+                <span class="list3_aside">2015 -</span>
+                <p>Mauris vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nunc vehicula pharetra. In dictum magna nisl, ac volutpat sapien iaculis sed. Aliquam non tempor orci. Aenean orci nibh, finibus maximus mattis eget, sollicitudin </p>
               </li>
-
-
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 wow fadeInUp" data-wow-delay=".4s">
@@ -3565,7 +3743,7 @@
 
 <div id="contact_block">
 
-  <main id="content-contact">
+ <main id="content-contact">
    <section class="bg-img well-top">
       <div class="container">
         <div class="row">
@@ -3675,11 +3853,13 @@
 
 
 
-
 </div>
 
-<div id="payment_block">
 
+
+
+
+<div id="payment_block">
 <main id="content-payment">
    <section class="bg-img well-top">
       <div class="container">
@@ -3705,7 +3885,7 @@
       <div class="container">
 
 
-
+ <F3> 
 
 
 <!-- toast element -->
@@ -3733,7 +3913,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                 {% user_meta user_id 2 %}
                 &nbsp;&nbsp;
 
-
+                <div id="field6"></div>
 
             {% endif %}
 
@@ -3757,7 +3937,6 @@ Use this form to make a credit card payment. By using this form and accepting th
 </div>
 
 
-</div>
 
   <!--========================================================
                             FOOTER
@@ -3833,15 +4012,11 @@ Use this form to make a credit card payment. By using this form and accepting th
       <p class="copy">Grinberg & Segal © <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p>
     </div>
   </footer>
- <!-- toast example -->
 
-<!-- trigger examples -->
+
 
 </div>
 <div id="fb-root"></div>
-
-<!-- template for the modal component -->
-
 
 <!-- template for the modal component -->
 <script type="x/template" id="modal-template-signin">
@@ -3880,7 +4055,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 
                         <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
                                 <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                   </div>
+                        </div>
                         <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
 
                                 <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
@@ -3906,12 +4081,13 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 </div>
 </script>
+
 <script>
 
-Vue.config.debug = true
+var modal_submit_register = 'Register';  
+var modal_submit_password = 'Reset Password';  
 var modal_submit_login    = 'Login';
  // register modal component
-
 Vue.component('modal', {
   template: '#modal-template-signin',
   props: {
@@ -3924,6 +4100,7 @@ Vue.component('modal', {
 
 })
 
+// start app
 new Vue({
   el: '#contactus',
   data: {
@@ -3960,16 +4137,9 @@ new Vue({
   }
 })
 
-
-
-
 new Vue({
-  el: '#app',
+  el: '#main_wrapper',
   data: {
-    countItems:0,
-    description: 'one',
-    iconNumber:1,
-    index:1,
     showModal: false,
     active: null,
   },
@@ -3985,12 +4155,42 @@ new Vue({
             e.preventDefault();
     }
 
+
   },
 
   ready: function () {
-  },
+  }
+
 })
 
+
+new Vue({
+  el: '#app',
+  data: {
+    showModal: false,
+    active: null,
+  },
+  methods: {
+    open: function(which, e) {
+      // Prevents clicking the link from doing anything
+        e.preventDefault();
+        modal.active = which;
+    },
+    close: function (e) {
+    },
+    submit: function(which, e) {
+            e.preventDefault();
+    }
+
+
+  },
+
+  ready: function () {
+  }
+
+})
+
+ // register modal component
 Vue.component('modal', {
   template: '#modal-template-signup',
   props: {
@@ -4003,14 +4203,62 @@ Vue.component('modal', {
 
 })
 
+ </script>
+<script src="/static/js/jssor.slider.mini.js"></script>
+<script src="/static/js/jssor.slider.min.js"></script>
 
-</script>
 <script>
    $(document).ready(function() {
-       jQuery("#home_block").css('display', 'block');
-       
-      $( "#home" ).bind( "click", function() {
-             jQuery("#current").val("about"); 
+
+            var jssor_1_SlideshowTransitions = [
+              {$Duration:1200,x:0.2,y:-0.1,$Delay:20,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$Jease$.$InWave,$Top:$Jease$.$InWave,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:1.3,$Top:2.5}},
+              {$Duration:1500,x:0.3,y:-0.3,$Delay:20,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.1,0.9],$Top:[0.1,0.9]},$SlideOut:true,$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$Jease$.$InJump,$Top:$Jease$.$InJump,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:0.8,$Top:2.5}},
+              {$Duration:1500,x:0.2,y:-0.1,$Delay:20,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$Jease$.$InWave,$Top:$Jease$.$InWave,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:0.8,$Top:2.5}},
+              {$Duration:1500,x:0.3,y:-0.3,$Delay:80,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$Easing:{$Left:$Jease$.$InJump,$Top:$Jease$.$InJump,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:0.8,$Top:2.5}},
+              {$Duration:1800,x:1,y:0.2,$Delay:30,$Cols:10,$Rows:5,$Clip:15,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$SlideOut:true,$Reverse:true,$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:2050,$Easing:{$Left:$Jease$.$InOutSine,$Top:$Jease$.$OutWave,$Clip:$Jease$.$InOutQuad},$Outside:true,$Round:{$Top:1.3}},
+              {$Duration:1000,$Delay:30,$Cols:8,$Rows:4,$Clip:15,$SlideOut:true,$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:2049,$Easing:$Jease$.$OutQuad},
+              {$Duration:1000,$Delay:80,$Cols:8,$Rows:4,$Clip:15,$SlideOut:true,$Easing:$Jease$.$OutQuad},
+              {$Duration:1000,y:-1,$Cols:12,$Formation:$JssorSlideshowFormations$.$FormationStraight,$ChessMode:{$Column:12}},
+              {$Duration:1000,x:-0.2,$Delay:40,$Cols:12,$SlideOut:true,$Formation:$JssorSlideshowFormations$.$FormationStraight,$Assembly:260,$Easing:{$Left:$Jease$.$InOutExpo,$Opacity:$Jease$.$InOutQuad},$Opacity:2,$Outside:true,$Round:{$Top:0.5}},
+              {$Duration:2000,y:-1,$Delay:60,$Cols:15,$SlideOut:true,$Formation:$JssorSlideshowFormations$.$FormationStraight,$Easing:$Jease$.$OutJump,$Round:{$Top:1.5}}
+            ];
+
+            var jssor_1_options = {
+              $AutoPlay: true,
+              $SlideshowOptions: {
+                $Class: $JssorSlideshowRunner$,
+                $Transitions: jssor_1_SlideshowTransitions,
+                $TransitionsOrder: 1
+              },
+              $ArrowNavigatorOptions: {
+                $Class: $JssorArrowNavigator$
+              },
+              $BulletNavigatorOptions: {
+                $Class: $JssorBulletNavigator$
+              }
+            };
+
+            var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
+
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizing
+            function ScaleSlider() {
+                var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
+                if (refSize) {
+                else {
+                    window.setTimeout(ScaleSlider, 30);
+                }
+            }
+            ScaleSlider();
+            $(window).bind("load", ScaleSlider);
+            $(window).bind("resize", ScaleSlider);
+            $(window).bind("orientationchange", ScaleSlider);
+
+
+
+
+
+      $( "#about" ).bind( "click", function() {
              jQuery("#home_block").css('display', 'none');
              jQuery("#about_block").css('display', 'block');
              jQuery("#services_block").css('display', 'none');
@@ -4019,8 +4267,7 @@ Vue.component('modal', {
              jQuery("#payment_block").css('display', 'none');
        });
 
-      $( "#about" ).bind( "click", function() {
-             jQuery("#current").val("home");
+      $( "#home" ).bind( "click", function() {
              jQuery("#home_block").css('display', 'block');
              jQuery("#about_block").css('display', 'none');
              jQuery("#services_block").css('display', 'none');
@@ -4030,7 +4277,6 @@ Vue.component('modal', {
        });
 
       $( "#pricing" ).bind( "click", function() {
-             jQuery("#current").val("pricing");
              jQuery("#home_block").css('display', 'none');
              jQuery("#about_block").css('display', 'none');
              jQuery("#services_block").css('display', 'none');
@@ -4040,7 +4286,6 @@ Vue.component('modal', {
        });
 
       $( "#services" ).bind( "click", function() {
-             jQuery("#current").val("services");
              jQuery("#home_block").css('display', 'none');
              jQuery("#about_block").css('display', 'none');
              jQuery("#services_block").css('display', 'block');
@@ -4049,7 +4294,6 @@ Vue.component('modal', {
              jQuery("#payment_block").css('display', 'none');
        });
       $( "#contact" ).bind( "click", function() {
-             jQuery("#current").val("contact");
              jQuery("#home_block").css('display', 'none');
              jQuery("#about_block").css('display', 'none');
              jQuery("#services_block").css('display', 'none');
@@ -4059,7 +4303,6 @@ Vue.component('modal', {
        });
 
       $( "#payment" ).bind( "click", function() {
-             jQuery("#current").val("payment");
              jQuery("#home_block").css('display', 'none');
              jQuery("#about_block").css('display', 'none');
              jQuery("#services_block").css('display', 'none');
@@ -4072,6 +4315,5 @@ Vue.component('modal', {
 </script>
 <div id="fb-root"></div>
 <script src="/static/js/script.js"></script>
-<!-- trigger examples -->
 </body>
 </html>

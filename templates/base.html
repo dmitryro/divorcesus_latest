@@ -36,6 +36,62 @@
 
   <script src='/static/js/device.min.js'></script>
     <meta id="_token" value="{% csrf_token %}"> 
+<style>
+
+.background-fade .et_pb_slide.et_pb_bg_layout_dark:after {
+position: absolute;
+content: '';
+top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+animation: customFadeToDark 3s ease-out 1s 1 both;
+-webkit-animation: customFadeToDark 3s ease-out 1s 1 both;
+}
+@keyframes customFadeToDark {
+0% {
+background-color: transparent;
+}
+100% {
+background-color:rgba(0,0,0,.5);
+}
+}
+-webkit-@keyframes customFadeToDark {
+0% {
+background-color: transparent;
+}
+100% {
+background-color:rgba(0,0,0,.5);
+}
+}
+
+.background-fade .et_pb_slide.et_pb_bg_layout_light:after {
+position: absolute;
+content: '';
+top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+animation: customFadeToLight 3s ease-out 1s 1 both;
+-webkit-animation: customFadeToLight 3s ease-out 1s 1 both;
+}
+@keyframes customFadeToLight {
+0% {
+background-color: transparent;
+}
+100% {
+background-color:rgba(255,255,255,.7);
+}
+}
+-webkit-@keyframes customFadeToLight {
+0% {
+background-color: transparent;
+}
+100% {
+background-color:rgba(255,255,255,.7);
+}
+}
+</style>
 </head>
 <body>
 <div class="page">
@@ -161,14 +217,14 @@
   =========================================================-->
 <div id="home_block">
   <main id="content-home">
-   <section class="bg-img">
 <!--
         <div class="row">
          
  <div class="col-xs-12 col-sm-offset-2 col-sm-8">
 -->
 
-      <div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 1800px; height:900px; overflow: hidden; visibility: hidden;">
+       <div id="jssor_1" class="background-fade"  style="position: relative; margin: 0 auto; margin-bottom:0em;top: 0px; left: 0px; width: 1800px; height:900px; overflow: hidden; visibility: hidden;">
+
 
         <!-- Loading Screen -->
         <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
@@ -178,26 +234,105 @@
         <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 1800px; height: 900px; overflow: hidden;">
 
 
-<div data-p="112.50" style="display: none;">
+            <div data-p="112.50" style="display: none;" class="et_pb_slide">
                 <img data-u="image" src="http://divorcesus.com/static/office/_MG_4197_e.jpg" />
+                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:rgb(68, 57, 49);
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
+                           Family Law 
+                  </div>
+
             </div>
 
 
-<div data-p="112.50" style="display: none;">
+<div data-p="112.50" style="display: none;" class="et_pb_slide">
                 <img data-u="image" src="http://divorcesus.com/static/office/_MG_4228.jpg" />
+                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:rgb(68, 57, 49);
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
+                           Child Custody
+                  </div>
+
             </div>
 
-<div data-p="112.50" style="display: none;">
+<div data-p="112.50" style="display: none;" class="et_pb_slide">
                 <img data-u="image" src="http://divorcesus.com/static/office/_MG_4210.jpg" />
+                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:rgb(68, 57, 49);
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
+                           Property Division
+                  </div>
+
             </div>
 
 
-<div data-p="112.50" style="display: none;">
+<div data-p="112.50" style="display: none;" class="et_pb_slide">
                 <img data-u="image" src="http://divorcesus.com/static/office/_MG_4237.jpg" />
+
+                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:rgb(68, 57, 49);
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
+                          Spousal Support
+                  </div>
+
+
             </div>
 
-<div data-p="112.50" style="display: none;">
+<div data-p="112.50" style="display: none;" class="et_pb_slide">
                 <img data-u="image" src="http://divorcesus.com/static/office/_MG_4231.jpg" />
+
+                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:rgb(68, 57, 49);
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
+                           Agreements
+                  </div>
+                      
+
             </div>
 
 
@@ -255,7 +390,6 @@
 
         </div>        
 -->
-    </section>
 
     <section class="well2 bg-secondary">
       <div class="container">
@@ -267,7 +401,7 @@
               </div>
               <div class="box_cnt__no-flow">
                 <h3 class="mod"><a href="#">Child Custody</a></h3>
-                <span class="badge">[ 189 ]</span>
+                <span class="badge"></span>
               </div>
             </div>
           </div>
@@ -278,7 +412,7 @@
               </div>
               <div class="box_cnt__no-flow">
                 <h3 class="mod"><a href="#">Property</a></h3> 
-                <span class="badge">[ 1289 ]</span>
+                <span class="badge"></span>
               </div>
             </div>
           </div>
@@ -289,7 +423,7 @@
               </div>
               <div class="box_cnt__no-flow">
                 <h3 class="mod"><a href="#">Protection</a></h3>
-                <span class="badge">[ 7589 ]</span>
+                <span class="badge"></span>
               </div>
             </div>
           </div>
@@ -302,7 +436,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">Child Support</a></h3>
-                  <span class="badge">[ 589 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -313,7 +447,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">Spousal Support</a></h3> 
-                  <span class="badge">[ 689 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -324,7 +458,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">Agreements</a></h3>
-                  <span class="badge">[ 378 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -337,7 +471,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">Free Consultation</a></h3>
-                  <span class="badge">[ 889 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -348,7 +482,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">CFML</a></h3> 
-                  <span class="badge">[ 287 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -359,7 +493,7 @@
               </div>
               <div class="box_cnt__no-flow">
                 <h3 class="mod"><a href="#">Java</a></h3> 
-                <span class="badge">[ 2189 ]</span>
+                <span class="badge"></span>
               </div>
             </div>
           </div>
@@ -372,7 +506,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">ASP</a></h3>
-                  <span class="badge">[ 2189 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -383,7 +517,7 @@
                 </div>
                 <div class="box_cnt__no-flow">
                   <h3 class="mod"><a href="#">CGI and Perl</a></h3> 
-                  <span class="badge">[ 287 ]</span>
+                  <span class="badge"></span>
                 </div>
             </div>
           </div>
@@ -394,7 +528,7 @@
               </div>
               <div class="box_cnt__no-flow">
                 <h3 class="mod"><a href="#">Python</a></h3>
-                <span class="badge">[ 289 ]</span>
+                <span class="badge"></span>
               </div>
             </div>
           </div>
@@ -406,7 +540,7 @@
     </section>
     <section class="well3">
       <div class="container wow fadeInUp">
-        <h3><span>New</span> Scripts</h3>
+        <h3><span>Why choose</span> Grinberg and Segal</h3>
         <div class="resp-tabs">
           <ul class="resp-tabs-list">
             <li>Ajax</li>
@@ -1071,9 +1205,9 @@
     </section>
     <section class="parallax" data-url="/media/images/couple-resized.jpg">
       <div class="container wow fadeIn">
-        <h2><span>Start different</span> profitable web sites with ease </h2>
-        <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
-        <a href="#" class="btn4">Read more</a>
+        <h2><span> Start Your Case with US Today</span> </h2>
+        <h4>Get the expert assistance with your most intimate and important life matters from the leading professional lawers.</h4>
+        <a href="#" class="btn4">Start</a>
       </div>
     </section>
     <section class="well4">
@@ -1115,7 +1249,7 @@
     </section>
     <section class="parallax" data-url="/media/images/family-law.jpg">
       <div class="container wow fadeIn" style="max-height:600px;">
-        <h2><span>Dedicated Family Law Services</span></h2>
+        <h2><span>Still not sure if you re ready to start?</span></h2>
         <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
         <a href="#" class="btn4">Read more</a>
       </div>
@@ -3935,7 +4069,6 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 </div>
 </script>
-
 <script>
 var modal_submit_register = 'Register';  
 var modal_submit_password = 'Reset Password';  
@@ -4100,7 +4233,8 @@ Vue.component('modal', {
             function ScaleSlider() {
                 var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
                 if (refSize) {
-                    refSize = Math.min(refSize, 600);
+                    //refSize = Math.min(refSize, 600);
+                    refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
                     jssor_1_slider.$ScaleWidth(refSize);
                 }
                 else {

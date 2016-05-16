@@ -48,7 +48,9 @@ class UserActivation(models.Model):
         verbose_name = 'User Activation'
         verbose_name_plural = 'User Activations'
 
+
 class UserSession(models.Model):
+
     username =  models.CharField(max_length=200,blank=True,null=True)
     remote_ip = models.CharField(max_length=20,blank=True,null=True)
     session_key = models.CharField(max_length=200,blank=True,null=True)
@@ -126,6 +128,9 @@ class Token(models.Model):
     def __unicode__(self):
         return self.token
 
+"""
+ Contact Model
+"""
 class Contact(models.Model):
     name = models.CharField(max_length=250,blank=True, null=True)
     time_contacted = models.DateTimeField(auto_now_add=True)
@@ -300,3 +305,59 @@ class TeamMember(models.Model):
                                       processors=[ResizeToFill(100, 50)],
                                       format='JPEG',
                                       options={'quality': 60})
+
+
+    class Meta:
+        verbose_name = 'Team Members'
+        verbose_name_plural = 'Team Members'
+
+
+    def __str__(self):
+        return self.first_name+" "+self.last_name
+
+    def __unicode__(self):
+        return unicode(self.first_name+" "+self.last_name)
+
+
+
+class MileStone(models.Model):
+    title = models.CharField(max_length=140, blank=True,null=True)
+    year = models.CharField(max_length=140, blank=True,null=True)
+    body = models.CharField(max_length=500, blank=True,null=True)
+
+    class Meta:
+        verbose_name = 'Milestone'
+        verbose_name_plural = 'Milestones'
+
+
+    def __str__(self):
+        return self.title
+
+
+
+class Advantage(models.Model):
+    title = models.CharField(max_length=140, blank=True,null=True)
+    section_one = models.CharField(max_length=500, blank=True,null=True)
+    section_two = models.CharField(max_length=500, blank=True,null=True)
+    section_three = models.CharField(max_length=500, blank=True,null=True)
+   
+    class Meta:
+        verbose_name = 'Advantage'
+        verbose_name_plural = 'Advantage'
+
+
+    def __str__(self):
+        return self.title
+
+class AdvantageLink(models.Model):
+    advantage = models.ForeignKey(Advantage,blank=False,null=False) 
+    title = models.CharField(max_length=140, blank=True,null=True)
+    link = models.CharField(max_length=500, blank=True,null=True)
+
+    class Meta:
+        verbose_name = 'Advantage Link'
+        verbose_name_plural = 'Advantage Links'
+
+
+    def __str__(self):
+        return self.title

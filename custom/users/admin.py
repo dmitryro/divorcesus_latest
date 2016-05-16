@@ -16,9 +16,13 @@ from custom.users.models import Profile
 from imagekit.admin import AdminThumbnail
 from models import TeamMember
 from models import AboutUs
-
-
-
+from models import Advantage
+from models import AdvantageLink
+from models import MileStone
+from forms import  MileStoneModelForm
+from forms import AboutUsModelForm
+from forms import TeamMemberModelForm
+from forms import AdvantageModelForm
 
 class FacebookProfileAdmin(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ['facebook_id','first_name','last_name','username','profile','time_created','profile_picture','email']}),)
@@ -35,7 +39,7 @@ class FacebookProfileAdmin(admin.ModelAdmin):
 
 
 class GooglePlusProfileAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {'fields': ['google_id','first_name','last_name','username','profile','time_created','profile_image_path','email','is_new','is_cleared','activation_key']}),)
+    fieldsets = ((None, {'fields': ['google_id','first_name','last_name','username','profile','time_created','email','is_new','is_cleared','activation_key']}),)
     list_display = ('google_id','first_name','last_name','username','profile','email')
     list_editable = ('google_id','first_name','last_name','username','profile','email')
 
@@ -58,10 +62,10 @@ class ProfileAdmin(admin.ModelAdmin):
                                     'phone','address',
                                     'profile_image_path']}),)
 
-    list_display = ('id','username','user','email','first_name','last_name','date_joined','is_new','profile_image_path')
+    list_display = ('id','username','user','email','first_name','last_name','date_joined','is_new')
 
-    list_editable = ('username','user','profile_image_path','email','first_name','last_name','profile_image_path')
-
+    list_editable = ('username','user','email','first_name','last_name','is_new')
+    search_fields = ('username', 'first_name', 'last_name','email',)
     class Meta:
          verbose_name = 'User Profile'
          verbose_name_plural = 'User Profiles'
@@ -84,9 +88,15 @@ class AboutUsAdmin(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ['title','subtitle','body','avatar']}),)
     list_display = ('__str__','title','subtitle','body','admin_thumbnail')
     admin_thumbnail = AdminThumbnail(image_field='avatar_thumbnail')
+    form = AboutUsModelForm
 
-admin.site.register(AboutUs, AboutUsAdmin)
 
+class MileStoneAdmin(admin.ModelAdmin):
+    body = forms.CharField( widget=forms.Textarea )
+    fieldsets = ((None, {'fields': ['title','year','body']}),)
+    list_display = ('__str__','title','year','body')
+    list_editable = ('title','year','body')   
+    form =  MileStoneModelForm
 
 class TeamMemberAdmin(admin.ModelAdmin):
     bio = forms.CharField( widget=forms.Textarea )
@@ -94,13 +104,38 @@ class TeamMemberAdmin(admin.ModelAdmin):
 
     list_display = ('__str__','first_name','last_name','is_partner','is_associate','phone','email','title','bio', 'admin_thumbnail')
     admin_thumbnail = AdminThumbnail(image_field='avatar_thumbnail')
+    search_fields = ('username', 'first_name', 'last_name','email','phone','title')
+    form = TeamMemberModelForm
 
+
+class AdvantageAdmin(admin.ModelAdmin):
+    section_one = forms.CharField( widget=forms.Textarea )
+    section_two = forms.CharField( widget=forms.Textarea )
+    section_three = forms.CharField( widget=forms.Textarea )
+
+    fieldsets = ((None, {'fields': ['title','section_one','section_two','section_three']}),)
+    list_display = ('__str__','title','section_one','section_two','section_three')
+    list_editable = ('title',)
+    form =  AdvantageModelForm
+
+
+class AdvantageLinkAdmin(admin.ModelAdmin):
+
+    fieldsets = ((None, {'fields': ['advantage','title','link']}),)
+    list_display = ('__str__','advantage','title','link')
+    list_editable = ('advantage','title','link')
+
+
+admin.site.register(Advantage,AdvantageAdmin)
+admin.site.register(AdvantageLink,AdvantageLinkAdmin)
 admin.site.register(TeamMember, TeamMemberAdmin)
 
 #admin.site.register(ProfileStats,ProfileStatsAdmin)
 admin.site.register(Profile,ProfileAdmin)
 admin.site.register(FacebookProfile,FacebookProfileAdmin)
 admin.site.register(GooglePlusProfile,GooglePlusProfileAdmin)
+admin.site.register(MileStone,MileStoneAdmin)
+admin.site.register(AboutUs, AboutUsAdmin)
 
 # Now register the new UserAdmin...
 # ... and, since we're not using Django's built-in permissions,

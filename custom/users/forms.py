@@ -1,5 +1,10 @@
+from django.forms import ModelForm, Textarea
 from django import forms
 from django.forms.widgets import Input
+from models import TeamMember
+from models import MileStone
+from models import AboutUs
+from models import Advantage
 
 class EmailInput(Input):
     input_type = 'email'
@@ -28,3 +33,43 @@ class FancyForm(forms.Form):
     long_field = forms.CharField(required=False, label="Long field")
     appended = forms.CharField(required=False, label="Appended text")
     prepended = forms.CharField(required=False, label="Prepended text")
+
+
+class AdvantageModelForm(ModelForm):
+    class Meta:
+        model = Advantage
+        widgets = {
+            'section_one': Textarea(attrs={'cols': 80, 'rows': 30}),
+            'section_two': Textarea(attrs={'cols': 80, 'rows': 30}),
+            'section_three': Textarea(attrs={'cols': 80, 'rows': 30}),
+        }
+        fields = '__all__' #
+
+
+
+class TeamMemberModelForm(ModelForm):
+    class Meta:
+        model = TeamMember
+        widgets = {
+            'bio': Textarea(attrs={'cols': 80, 'rows': 30}),
+        }
+        fields = '__all__' #
+
+
+
+class AboutUsModelForm(ModelForm):
+    class Meta:
+        model = AboutUs
+        widgets = {
+            'body': Textarea(attrs={'cols': 80, 'rows': 30}),
+        }
+        fields = '__all__' #
+
+
+class MileStoneModelForm(ModelForm):
+    class Meta:
+        model = MileStone
+        widgets = {
+            'body': Textarea(attrs={'cols': 80, 'rows': 30}),
+        }
+        fields = '__all__' #

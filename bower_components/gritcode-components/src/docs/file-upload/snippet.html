@@ -1,0 +1,10 @@
+<vs-file-upload 
+  id="some-file"
+  :model.sync="model" 
+  ajax="http://localhost:3004/upload" 
+  name="files"
+  :multiple="false" 
+  :auto-submit="true" 
+  :hide-button="true" 
+  :file-list.sync="fileList">
+</vs-file-upload>

@@ -1,0 +1,52 @@
+<docs-demo :meta="meta" :snippet="snippet">
+
+	<!-- Html controls start-->
+	<div slot="controls">
+		<label>hide progressbar <input type="checkbox" v-model="hideProgress"></label>
+		<label>duration
+			<select v-model="duration">
+				<option v-for="option in durations" v-bind:value="option.value">
+			    {{ option.text }}
+			  </option>
+			</select>
+		</label>
+		<label>position
+			<select v-model="position">
+				<option v-for="option in positions" v-bind:value="option.value">
+			    {{ option.text }}
+			  </option>
+			</select>
+		</label>
+	</div>
+	<!-- Html controls end-->
+	
+	<!-- Html markup start-->
+	<div slot="markup">
+		<button v-on:click="$root.$broadcast('show::toast', {
+			message: 'Default', 
+			hideProgress: hideProgress,
+			position: position,
+			duration: duration
+		})">default</button>
+		<button v-on:click="$root.$broadcast('show::toast', {
+			success: 'Success!', 
+			hideProgress: hideProgress,
+			position: position,
+			duration: duration
+			})">success</button>
+		<button v-on:click="$root.$broadcast('show::toast', {
+			error: 'Error!', 
+			hideProgress: hideProgress,
+			position: position,
+			duration: duration
+			})">error</button>
+		<button v-on:click="$root.$broadcast('show::toast', {
+			info: 'Info.', 
+			hideProgress: hideProgress,
+			position: position,
+			duration: duration
+			})">info</button>
+	</div>
+	<!-- Html markup end-->
+
+</docs-demo>	

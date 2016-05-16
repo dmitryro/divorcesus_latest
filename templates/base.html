@@ -1333,17 +1333,21 @@ background-color:rgba(255,255,255,.7);
           </div>
           <div class="col-xs-12 col-sm-4 wow fadeInUp" data-wow-delay=".4s">
             <h3><span>Our</span> Advantages</h3>
-            <h4 class="pt1">Excepteur sint occaecat cupidatat non</h4>
-            <p>Quisque finibus urna in venenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venenatis ullamcorper purus. Maur is vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nunc vehicula pharetra. In dictum </p>
+            <h4 class="pt1">{% advantage_meta 1 1 %}</h4>
+            <p>{% advantage_meta 1 2 %} </p>
             <ul class="list2">
-              <li><a href="#">Pestibulum molestieenean nonummys tudin</a></li>
+              {% for link in advantage_links %}
+              <li><a href="{{ link.link }}">{{ link.title }}</a></li>
+<!--
               <li><a href="#">Hendreritivamus eget nibh vel metus</a></li>
               <li><a href="#">Etiam cursus leo psumfaucibus orci suere</a></li>
               <li><a href="#">Nulla facilisii primis neclaoreet</a></li>
               <li><a href="#">Aenean nec eros luctus estibulum ante</a></li>
               <li><a href="#">Ultrices pouspendisse sollic velita</a></li>
+-->
+              {% endfor %}
             </ul>
-            <p>Quisque finibus urna in venenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venenatis ullamcorper purus. Maur is vel lobortis leo, sed ullamcorper </p>
+            <p>{% advantage_meta 1 3 %}</p>
           </div>
         </div>
       </div>

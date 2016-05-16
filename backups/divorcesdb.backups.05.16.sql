@@ -2735,8 +2735,8 @@ SELECT pg_catalog.setval('auth_permission_id_seq', 171, true);
 --
 
 COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$24000$hwovpPLLMdwz$EKCmLhEwAG+RRI4PRgbVwaIM0zhezEMuvR9vmskB84w=	2016-05-15 22:11:42.078458-05	t	root	Dmitry	Roitman	dmitryro@gmail.com	t	t	2016-05-01 14:53:03.030068-05
 3	pbkdf2_sha256$24000$K0MwQF0ROuyn$0vbErb8oz5SF14GUrYzZ/2a1kk2iPdaIcUL/sn0S45o=	\N	f	3	Dmitry			f	t	2016-05-01 22:49:39.866795-05
+1	pbkdf2_sha256$24000$hwovpPLLMdwz$EKCmLhEwAG+RRI4PRgbVwaIM0zhezEMuvR9vmskB84w=	2016-05-15 22:36:37.802799-05	t	root	Dmitry	Roitman	dmitryro@gmail.com	t	t	2016-05-01 14:53:03.030068-05
 5	!xAhssA0JvBuCRsL07Pd3HBhuiZ8PZvtXq4He8p1H	2016-05-12 22:42:09.22769-05	f	allseeingeye1003	Dmitry	Roitman	allseeingeye1003@gmail.com	f	t	2016-05-07 10:06:35.270635-05
 4	!6gvA9pxC8zbYLa5ZNn285uZtbfzDxlr8cXoSLF5s	2016-05-14 18:00:00.528341-05	f	dmitry	Dmitry	Roitman	dmitry@artrevolution.com	f	t	2016-05-02 12:27:11.881876-05
 2	!YMt3hBWIwqgtWXAGwaYhiiTtOCWOLA3eUNuhvJqF	2016-05-14 23:13:59.30979-05	f	DmitryRoitman	Dmitry	Roitman		f	t	2016-05-01 15:29:16.764304-05
@@ -2815,6 +2815,11 @@ COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, cha
 20	2016-05-06 20:44:04.581422-05	6	TeamMember object	2	No fields changed.	45	1
 21	2016-05-07 23:58:41.922416-05	1	ProfileMetaProp object	1	Added.	47	1
 22	2016-05-08 00:03:49.234912-05	1	ProfileMetaProp object	2	Changed from_email and user_name.	47	1
+23	2016-05-15 22:31:31.79607-05	1	Why Choose Us	1	Added.	56	1
+24	2016-05-15 22:32:21.864512-05	1	How it all started	1	Added.	57	1
+25	2016-05-15 22:32:45.260424-05	2	Early Years	1	Added.	57	1
+26	2016-05-15 22:33:02.404662-05	3	Recognition	1	Added.	57	1
+27	2016-05-15 22:33:17.238999-05	4	Latest Developments	1	Added.	57	1
 \.
 
 
@@ -2822,7 +2827,7 @@ COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, cha
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
-SELECT pg_catalog.setval('django_admin_log_id_seq', 22, true);
+SELECT pg_catalog.setval('django_admin_log_id_seq', 27, true);
 
 
 --
@@ -2944,6 +2949,7 @@ COPY django_migrations (id, app, name, applied) FROM stdin;
 40	utils	0001_initial	2016-05-01 18:39:54.460966-05
 41	default	0004_auto_20160423_0400	2016-05-01 23:30:02.189586-05
 42	gui	0001_initial	2016-05-15 08:53:01.735166-05
+43	django_rq_jobs	0004_auto_20160515_2320	2016-05-15 22:29:58.875666-05
 \.
 
 
@@ -2951,7 +2957,7 @@ COPY django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
-SELECT pg_catalog.setval('django_migrations_id_seq', 42, true);
+SELECT pg_catalog.setval('django_migrations_id_seq', 43, true);
 
 
 --
@@ -3194,10 +3200,10 @@ SELECT pg_catalog.setval('social_auth_nonce_id_seq', 1, false);
 --
 
 COPY social_auth_usersocialauth (id, provider, uid, extra_data, user_id) FROM stdin;
-1	google-oauth2	dmitryro@gmail.com	{"token_type": "Bearer", "access_token": "ya29.CjLkAsntl62mEarn2UiJ4G67_ETjMM2pkPy4iBysmI8d-PQSQB30yK_1_HsH_-TrjjBDVA", "expires": 3600}	1
 6	facebook	259721814377767	{"access_token": "EAAL0bRhVKz0BAKZBH4mFv443zqBhgY7YBkeZCqxGWPHgXuT87nGZC5wSNkJaNKcZCAwcWQn3ab8hYjwCFTYiG4oZBK1zuD5iZCW41j6uMT3ZCXoM2tv5Xrd6h6T5DSZAImVO1m9VzDJSeqBlmFmqLhSsMrqlXcy9EY4ZD", "expires": null, "id": "259721814377767"}	2
 7	facebook	1063339893705328	{"access_token": "EAAL0bRhVKz0BAOYs5XZBe7FHLSjY9TP7A5ZBkZCZCxfd882cPegMeI2OqdTbFuKZBm7FaQkU5JIyh8ctyZAdbJ9c9prJrevdiV9mNTdvxQyRZBpEgzZCysxBvZA5zZBt4Gsok2UaPxEDEqxlZC4NMYQp0XEuXwxnZAFbt1IZD", "expires": null, "id": "1063339893705328"}	2
 4	twitter	69765978	{"access_token": {"oauth_token_secret": "BCZ6JC0wj3YJSA7GMYop5f67acPYnA9TYAC4hZP3r1pQC", "oauth_token": "69765978-RKH5JGy8B6ZVlBgPjgaAmQn74WJLtC12TjH9DFTCm", "x_auth_expires": "0", "user_id": "69765978", "screen_name": "dmitryro"}, "id": 69765978}	3
+1	google-oauth2	dmitryro@gmail.com	{"token_type": "Bearer", "access_token": "ya29.CjLkAnilWpF_VhgtYk0uXC8r6pUvsK3ehaWUMEl-nmBzXAV598KTf0D1FMtbVgKIJ0YIVA", "expires": 3599}	1
 3	facebook	249146515434688	{"access_token": "EAAL0bRhVKz0BAKgaDmTOQPOJUbA04ZAjzTa6YDHXlIFddGSe27SLwHgCbuUKWUrKYwDwAroHNbcceK8qGqU2uZBM5JFAPuIPdbZAFm3pbqcoMpqplGcxAKZAnVif5Y4Hyxs4S6pZA5IeLznqGpRtUasdZAOq3mENVe4pLHOSnNAQZDZD", "expires": null, "id": "249146515434688"}	2
 8	google-oauth2	allseeingeye1003@gmail.com	{"token_type": "Bearer", "access_token": "ya29.CjLhAgzzXCkp7hfsFa4BDBhvf_i_YOGMMM8lij7jGhJi-MeSjQaspBOus2s0QGi9nsrH0A", "expires": 3599}	5
 5	google-oauth2	dmitry@artrevolution.com	{"token_type": "Bearer", "access_token": "ya29.CjLiArhYo2MW2_mXY8esCadR82rHSOn8qD9_XcNYfODZZO21CkJZVh7Pe9gp9UHIgbDUww", "expires": 3599}	4
@@ -3388,6 +3394,7 @@ SELECT pg_catalog.setval('users_address_id_seq', 1, false);
 --
 
 COPY users_advantage (id, title, section_one, section_two, section_three) FROM stdin;
+1	Why Choose Us	Quisque finibus urna in venenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venenatis ullamcorper purus. Maur is vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nunc vehicula pharetra. In dictum	Quisque finibus urna in venenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venenatis ullamcorper purus. Maur is vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nunc vehicula pharetra. In dictum	Quisque finibus urna in venenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venenatis ullamcorper purus. Maur is vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nunc vehicula pharetra. In dictum
 \.
 
 
@@ -3395,7 +3402,7 @@ COPY users_advantage (id, title, section_one, section_two, section_three) FROM s
 -- Name: users_advantage_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
-SELECT pg_catalog.setval('users_advantage_id_seq', 1, false);
+SELECT pg_catalog.setval('users_advantage_id_seq', 1, true);
 
 
 --
@@ -3403,6 +3410,10 @@ SELECT pg_catalog.setval('users_advantage_id_seq', 1, false);
 --
 
 COPY users_advantagelink (id, advantage_id, title, link) FROM stdin;
+1	1	How it all started	http://divorcesus.com
+2	1	Early Years	http://divorcesus.com
+3	1	Recognition	http://divorcesus.com
+4	1	Latest Developments	http://divorcesus.com
 \.
 
 
@@ -3410,7 +3421,7 @@ COPY users_advantagelink (id, advantage_id, title, link) FROM stdin;
 -- Name: users_advantagelink_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
-SELECT pg_catalog.setval('users_advantagelink_id_seq', 1, false);
+SELECT pg_catalog.setval('users_advantagelink_id_seq', 4, true);
 
 
 --

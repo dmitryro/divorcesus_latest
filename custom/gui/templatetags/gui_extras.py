@@ -13,6 +13,9 @@ from custom.users.models import Profile
 from custom.users.models import TeamMember
 from custom.users.models import AboutUs
 from custom.users.models import MileStone
+from custom.users.models import Advantage
+from custom.users.models import AdvantageLink
+
 
 register = template.Library()
 
@@ -117,6 +120,36 @@ def milestone_meta(a, b,  *args, **kwargs):
             return milestone.year
         elif (b==3):
             return milestone.body
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+
+
+
+"""
+ Get the advantage data
+"""
+@register.simple_tag
+def advantage_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            advantage = Advantage.objects.get(id=int(a))
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return advantage.title
+        elif (b==2):
+            return advantage.section_one
+        elif (b==3):
+            return advantage.section_two
+        elif (b==4):
+            return advantage.section_three
+
 
     except TypeError:
         print "Invalid argument type"

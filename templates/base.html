@@ -236,9 +236,10 @@ background-color:rgba(255,255,255,.7);
         </div>
         <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 1800px; height: 900px; overflow: hidden;">
 
+          {% for slide in slides %}
 
             <div data-p="112.50" style="display: none;" class="et_pb_slide">
-                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4197_e.jpg" />
+                <img data-u="image" src="http://divorcesus.com/media/{{ slide.slide }}" />
                   <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
   -webkit-border-radius:10px;
   border-radius:10px;
@@ -251,92 +252,13 @@ background-color:rgba(255,255,255,.7);
   background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
   box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
   border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
-                           Family Law 
+                           {{ slide.title }} 
                   </div>
 
             </div>
 
+          {% endfor %}
 
-<div data-p="112.50" style="display: none;" class="et_pb_slide">
-                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4228.jpg" />
-                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  border-radius:10px;
-  font-size:1.5em;
-  text-align:center;
-  padding-top:2%;
-  color:rgb(68, 57, 49);
-  background: #fff; /* fallback for browsers that don't understand rgba */
-  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
-  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
-  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
-  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
-                           Child Custody
-                  </div>
-
-            </div>
-
-<div data-p="112.50" style="display: none;" class="et_pb_slide">
-                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4210.jpg" />
-                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  border-radius:10px;
-  font-size:1.5em;
-  text-align:center;
-  padding-top:2%;
-  color:rgb(68, 57, 49);
-  background: #fff; /* fallback for browsers that don't understand rgba */
-  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
-  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
-  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
-  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
-                           Property Division
-                  </div>
-
-            </div>
-
-
-<div data-p="112.50" style="display: none;" class="et_pb_slide">
-                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4237.jpg" />
-
-                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  border-radius:10px;
-  font-size:1.5em;
-  text-align:center;
-  padding-top:2%;
-  color:rgb(68, 57, 49);
-  background: #fff; /* fallback for browsers that don't understand rgba */
-  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
-  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
-  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
-  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
-                          Spousal Support
-                  </div>
-
-
-            </div>
-
-<div data-p="112.50" style="display: none;" class="et_pb_slide">
-                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4231.jpg" />
-
-                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  border-radius:10px;
-  font-size:1.5em;
-  text-align:center;
-  padding-top:2%;
-  color:rgb(68, 57, 49);
-  background: #fff; /* fallback for browsers that don't understand rgba */
-  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
-  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
-  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
-  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
-                           Agreements
-                  </div>
-                      
-
-            </div>
 
 
             <a data-u="ad" href="http://www.jssor.com" style="display:none">jQuery Slider</a>

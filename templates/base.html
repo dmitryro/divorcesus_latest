@@ -21,8 +21,11 @@
    <link rel="stylesheet" href="/static/css/buttons-si.css" />
    <link href="/static/css/modal.css" rel="stylesheet" type="text/css"/>
    <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
+      
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
+   <script src="/static/js/vue-router.js"></script>
+
   <!--[if lt IE 9]> 
   <html class="lt-ie9">
   <div style=' clear: both; text-align:center; position: relative;'>
@@ -146,7 +149,7 @@ background-color:rgba(255,255,255,.7);
       </div>
     </section>
    <div id="stuck_container" class="stuck_container">
-      <div class="container">
+      <div class="container" id="navapp">
         <div class="brand">
           <h1 class="brand_name">
             <a href="./">Grinberg & Segal</a>
@@ -163,19 +166,19 @@ background-color:rgba(255,255,255,.7);
           <ul class="sf-menu" data-type="navbar">
 
             <li class="active">
-              <a id="home" href="#">Home</a>
+              <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>
             </li>
 
             <li>
-              <a id="about" href="#">About</a>
+              <a v-link="{ path: '/about' }" onclick="on_mobile_about();return false;" id="about" href="#">About</a>
             </li>
 
             <li>
-              <a id="pricing"  href="#">Pricing</a>
+              <a v-link="{ path: '/pricing' }" onclick="on_mobile_pricing();return false;" id="pricing"  href="#">Pricing</a>
             </li>
 
             <li>
-              <a id="services" href="#">Services</a>
+              <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="services" href="#">Services</a>
               <ul>
                 <li>
                   <a href="#">Contested Divorce </a>
@@ -199,10 +202,10 @@ background-color:rgba(255,255,255,.7);
               </ul>
             </li>
               <li>
-                  <a id="contact" href="#">Contact Us</a>
+                  <a v-link="{ path: '/contact' }" onclick="on_mobile_contact();return false;" id="contact" href="#">Contact Us</a>
                 </li>
                 <li>
-                  <a id="payment" href="#">Make a Payment </a>
+                  <a v-link="{ path: '/payment' }" onclick="on_mobile_payment();return false;" id="payment" href="#">Make a Payment </a>
                 </li>
 
           </ul>
@@ -1367,7 +1370,7 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-12 col-sm-3 wow fadeInRight">
             <img src="/media/images/page-2_img05.jpg" alt=""/>
             <h4>Chandra Vancova</h4>
-            <p>Аvenenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venen</p>
+            <p>Ðvenenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venen</p>
           </div>
         </div>
       </div>
@@ -3917,9 +3920,10 @@ Use this form to make a credit card payment. By using this form and accepting th
 
        </div>
 
-
           </p>
       </div>
+     <div id="field3"></div>
+     <div id="field1"></div>
     </section>
   </main>
 
@@ -3996,7 +4000,7 @@ Use this form to make a credit card payment. By using this form and accepting th
     </div>
     <hr/>
     <div class="container">
-      <p class="copy">Grinberg & Segal © <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p>
+      <p class="copy">Grinberg & Segal Â© <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p>
     </div>
   </footer>
 
@@ -4074,6 +4078,7 @@ var modal_submit_register = 'Register';
 var modal_submit_password = 'Reset Password';  
 var modal_submit_login    = 'Login';
  // register modal component
+Vue.config.devtools = true;
 Vue.component('modal', {
   template: '#modal-template-signin',
   props: {
@@ -4190,6 +4195,9 @@ Vue.component('modal', {
 })
 
 
+// now we can start the app!
+// router will create an instance of App and mount to
+// the element matching the selector #app.
 
  </script>
 <script src="/static/js/jssor.slider.mini.js"></script>
@@ -4251,6 +4259,7 @@ Vue.component('modal', {
 
 
       $( "#about" ).bind( "click", function() {
+             console.log("about");
              jQuery("#home_block").css('display', 'none');
              jQuery("#about_block").css('display', 'block');
              jQuery("#services_block").css('display', 'none');
@@ -4303,7 +4312,71 @@ Vue.component('modal', {
              jQuery("#payment_block").css('display', 'block');
        });
 
-   })
+
+
+
+  });
+  function on_mobile_about() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='block';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_home() {
+      document.getElementById('home_block').style.display='block';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_services() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='block';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_contact() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='block';
+      document.getElementById('payment_block').style.display='none';
+      return false;  
+  }
+
+  function on_mobile_payment() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='block';
+      return false;
+  }
+
+  function on_mobile_pricing() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='block';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      return false;
+  }
+
+
 </script>
 
 <script src="/static/js/classie.js"></script>

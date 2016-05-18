@@ -17,7 +17,6 @@ from datetime import date
 from datetime import time
 from datetime import tzinfo
 
-# Registration API
 
 # Email imports
 from email.mime.multipart import MIMEMultipart
@@ -26,8 +25,6 @@ from email.mime.text import MIMEText
 import smtplib
 import urllib2
 from smtplib import SMTPRecipientsRefused
-import registration_api
-from registration_api import utils
 import string
 import codecs
 from StringIO import StringIO
@@ -148,7 +145,6 @@ from django.template.loader import render_to_string
 from django.db.models import Min,Max,F
 
 # Open Graph
-from open_facebook import OpenFacebook
 from open_facebook import utils
 from open_facebook import api
 
@@ -197,15 +193,12 @@ import smtplib
 import string
 import urllib2
 from smtplib import SMTPRecipientsRefused
-from registration_api import utils
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 # Custom
 from custom.metaprop.models import ProfileMetaProp
 from custom.users.models import Profile
-from custom.users.models import FacebookProfile
-from custom.users.models import GooglePlusProfile
 from custom.tasks.models import TaskLog
 # Signal Imports
 from signals import new_user_created, log_new_user
@@ -282,38 +275,13 @@ def facebook_profile(sender, instance, is_new, email, facebook_id, request):
     
     profile = Profile.objects.get(id=instance.id)
 
-    
-    profile.is_facebook_signup_used=True
-    profile.save()
+    if not profile.is_facebook_signup_use:
+        new_account_created(instance=instance)
+        profile.is_facebook_signup_used=True
+        profile.save()
 
 
 
-         
-
-
-    try:
-       fb = FacebookProfile.objects.get(profile=profile)
-
-    except ObjectDoesNotExist:
-       try:
-
-           fb = FacebookProfile.objects.get(facebook_id=facebook_id)
-           fb.facebook_id=facebook_id
-           fb.profile = profile
-           fb.save()
-       except ObjectDoesNotExist:
-
-           fb = FacebookProfile.objects.create(profile=profile,
-                                               is_new=True,
-                                               facebook_id=facebook_id,
-                                               email=instance.email,
-                                               username=instance.username,
-                                               first_name=instance.first_name,
-                                               last_name=instance.last_name)
-           fb.save()
-           new_account_created(instance=instance)
-       except Exception,R:
-           pass
 
 
 
@@ -328,7 +296,6 @@ def twitter_profile_handler(sender, instance, backend, is_new, email,profile_pic
         user.save()
 
 
-    activation = utils.create_activation_key(user)
 
     try:
         p = Profile.objects.get(id=instance.id)
@@ -353,8 +320,7 @@ def twitter_profile_handler(sender, instance, backend, is_new, email,profile_pic
                          user=user,
                          username=instance.username.encode('utf8'),
                          username_lower=str(instance.username.encode('utf8')).lower(),
-                         profile_image_path=settings.DEFAULT_PROFILE_IMAGE,
-                         activation_key=activation)
+                         profile_image_path=settings.DEFAULT_PROFILE_IMAGE)
              #   user.profile.activation_key=activation
         user.profile.save()
 
@@ -392,21 +358,7 @@ def google_profile(sender, instance, is_new, email, profile_picture):
 
     profile = Profile.objects.get(id=instance.id)
 
-    try:
-        member = GooglePlusProfile.objects.get(id=instance.id)
-    except ObjectDoesNotExist:
-        member = GooglePlusProfile.objects.create(id=int(instance.id),
-                                                  google_id=instance.username,
-                                                  profile=profile,
-                                                  is_new=True,
-                                                  is_cleared=False,
-                                                  first_name=instance.first_name,
-                                                  last_name=instance.last_name,
-                                                  username=instance.username,
-                                                  profile_image_path=profile.profile_image_path,
-                                                  activation_key=profile.activation_key)
-        member.save()
-        new_account_created(instance=instance)
+    new_account_created(instance=instance)
 
 
 
@@ -448,9 +400,7 @@ def create_user_profile(instance):
     log = Logger(log='LET US TRY CREATING A NEW PROFILE')
     log.save()
     user = instance
-    activation = utils.create_activation_key(instance)
     mess = 'Activate Accout.'
-    link = settings.BASE_URL+'/activate/%s'%activation
 
     try:
         profile = Profile.objects.get(id=instance.id)
@@ -593,18 +543,12 @@ def send_welcome(instance):
 @receiver(user_needs_recovery, sender=User)
 def recover_profile(sender, instance, request, email,**kwargs):
     user = User.objects.get(email=email)
-    activation = utils.create_activation_key(user)
     mess = 'Welcome to Art Revolution.'
-    link = settings.BASE_URL+'/reset/%s'%activation
 
     try:
         member = Profile.objects.get(id=int(user.id))
-        member.recovery_key=activation
-        member.save()
     except Exception,R:
         member = Profile.objects.get(id=int(instance.id))
-        member.recovery_key=activation
-        member.save()
 
 
     try:

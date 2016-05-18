@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'clear_cache',
     'encrypted_fields',
     'django_actions',
+    'djangobower',
     'django_extensions',
     'django_filters',
     'django_mobile',
@@ -100,13 +101,14 @@ INSTALLED_APPS = [
     'favicon',
     'pygments',
     'django_rq',
-    'django_facebook',
     'djng',
     'social',
     'social.apps.django_app.default',
     'pyres',
     'hmac',
+    'pipeline',
     'registration',
+    'registration_api',
     'redis',
     'redis_cache',
     'rest_auth',
@@ -120,7 +122,6 @@ INSTALLED_APPS = [
     'rest_framework_filters',
     'restless',
     'rules_light',
-    'registration_api',
     'tastypie',
     'allauth',
     'allauth.account',
@@ -275,7 +276,9 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static_files'), )
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static_files'),
+                    os.path.join(BASE_DIR, 'static_files/js'), 
+                    os.path.join(BASE_DIR, 'static_files/html'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'static', )
 STATIC_URL = 'http://divorcesus.com/static/'
 REGISTRATION_API_ACTIVATION_SUCCESS_URL = '/'
@@ -298,6 +301,8 @@ TEMPLATE_DIRS = [
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+    'pipeline.finders.PipelineFinder',
 ]
 
 JINJA2_ENVIRONMENT_OPTIONS = {
@@ -599,8 +604,84 @@ RQ = {
     'decode_responses': False,
     'unix_socket_path': None,
 }
+BOWER_PATH = '/usr/local/bin/bower'
+BOWER_COMPONENTS_ROOT = '/var/www/vhosts/divorcesus.com/divorces/'
 
+BOWER_INSTALLED_APPS = (
+   'underscore',
+   'polymer',
+   'webcomponentsjs',
+   'gritcode-components',
+   'uglify-js',
+)
+########## COMPRESSION CONFIGURATION
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+
+PIPELINE_COMPILERS = (
+    'pipeline.compilers.less.LessCompiler',
+)
+# CSS Files.
+PIPELINE_CSS = {
+    # Project libraries.
+    'libraries': {
+        'source_filenames': (   
+            'bower_components/gritcode-components/dist/gritcode-components.css',
+        ),
+        # Compress passed libraries and have
+        # the output in`css/libs.min.css`.
+        'output_filename': 'css/gritcode.libs.min.css',
+    }
+    # ...
+}
+# JavaScript files.
+PIPELINE_JS = {
+    # Project JavaScript libraries.
+    'libraries': {
+        'source_filenames': (
+            'bower_components/gritcode-components/dist/gritcode-components-bundle.min.js',
+        ),
+        # Compress all passed files into `js/libs.min.js`.
+        'output_filename': 'js/gritcode.libs.min.js',
+    }
+    # ...
+}
+PIPELINE = {
+    'PIPELINE_ENABLED': True,
+    'STYLESHEETS': {
+        'colors': {
+            'source_filenames': (
+              'bower_components/gritcode-components/dist/gritcode-components.css',
+            ),
+            'output_filename': 'css/gritcode.css',
+            'extra_context': {
+                'media': 'screen,projection',
+            },
+        },
+    },
+    'JAVASCRIPT': {
+        'stats': {
+            'source_filenames': (
+              'bower_components/gritcode-components/dist/gritcode-components-bundle.min.js',
+            ),
+            'output_filename': 'js/gritcode.js',
+        }
+    }
+}
+
+PIPELINE_YUGLIFY_BINARY = '/usr/local/bin/yuglify'
+PIPELINE['JS_COMPRESSOR'] = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 #USER_LASTSEEN_TIMEOUT = 300
 SOCIAL_AUTH_LOGIN_URL = '/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+
+#Cookie name. this can be whatever you want
+SESSION_COOKIE_NAME='sessionid'  # use the sessionid in your views code
+#the module to store sessions data
+SESSION_ENGINE='django.contrib.sessions.backends.db'    
+#age of cookie in seconds (default: 2 weeks)
+SESSION_COOKIE_AGE= 24*60*60*7 # the number of seconds for only 7 for example
+#whether a user's session cookie expires when the web browser is closed
+SESSION_EXPIRE_AT_BROWSER_CLOSE=False
+#whether the session cookie should be secure (https:// only)
+SESSION_COOKIE_SECURE=False
 #ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value

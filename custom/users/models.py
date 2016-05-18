@@ -7,7 +7,6 @@ from django.dispatch import receiver
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
-from django_facebook.models import FacebookModel
 
 from django.db import models
 from django.contrib import admin
@@ -18,8 +17,6 @@ from django.template.defaultfilters import slugify
 from django.dispatch.dispatcher import receiver
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
-from django_facebook.utils import get_user_model, get_profile_model
-from django_facebook.models import FacebookModel
 from django.conf import settings
 from django.contrib.auth.models import (
     User, BaseUserManager, AbstractBaseUser
@@ -193,77 +190,6 @@ class Profile(models.Model):
     class Meta:
         verbose_name = 'Profile'
         verbose_name_plural = 'Profiles'      
-
-@python_2_unicode_compatible
-class FacebookProfile(FacebookModel):
-    profile = models.OneToOneField(Profile,parent_link=True,blank=True,null=True)
-    user = models.OneToOneField(User,parent_link=True,related_name='facebook_user',blank=True,null=True)
-    username = models.CharField(max_length=140, blank=True)
-    email = models.EmailField(max_length=200,blank=True,null=True)
-    first_name = models.CharField(max_length=140, blank=True)
-    last_name = models.CharField(max_length=140, blank=True) 
-    time_created = models.DateField("Time Created",blank=True, null=True)
-    profile_picture = models.CharField(max_length=250, blank=True)
-    is_new = models.BooleanField(default=True)
-    is_cleared = models.BooleanField(default=False)
-    
-
-    @receiver(post_save)
-    def create_profile(sender, instance, created, **kwargs):
-        """Create a matching profile whenever a user object is created."""
-        if sender == get_user_model():
-            user = instance
-            profile_model = get_profile_model()
-            if profile_model != None:
-                if profile_model == FacebookProfile and created:
-                    profile, new = FacebookProfile.objects.get_or_create(user=instance)
-
-    def __str__(self):
-        return self.username
-
-    def __unicode__(self):
-        return unicode(self.username)
-
-    def __getitem__(self,items):
-        return self.username
-
-    class Meta:
-        verbose_name = 'Facebook Profile'
-        verbose_name_plural = 'Facebook Profiles'
-        ordering = ['-time_created']
-
-
-
-    
-@python_2_unicode_compatible
-class GooglePlusProfile(models.Model):
-    google_id = models.CharField(max_length=140, blank=True)
-    profile = models.OneToOneField(Profile,parent_link=True,blank=True,null=True)
-    username = models.CharField(max_length=140, blank=True)
-    email = models.EmailField(max_length=100,blank=True,null=True)
-    first_name = models.CharField(max_length=140, blank=True)
-    last_name = models.CharField(max_length=140, blank=True)
-    time_created = models.DateField("Time Created",blank=True, null=True)
-    friends = models.ManyToManyField(SocialFriend,
-                                                                 symmetrical=False)
-    profile_image_path=models.CharField(max_length=200, blank=True,null=True)
-    activation_key=models.CharField(max_length=140, blank=True)
-    is_new = models.BooleanField(default=True)
-    is_cleared = models.BooleanField(default=False)
-    
-
-    def __str__(self):
-        return self.username
-
-    def __unicode__(self):
-        return unicode(self.username)
-
-    def __getitem__(self,items):
-        return self.username
-
-    class Meta:
-        verbose_name = 'Google Plus Profile'
-        verbose_name_plural = 'Google Plus Profiles'
 
 
 @python_2_unicode_compatible

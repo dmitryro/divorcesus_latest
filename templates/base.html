@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+{% load static %}
 {% load gui_extras %}
+
+
 <html lang="en">
 <head>
 <title>Home</title>
@@ -98,6 +101,7 @@ background-color:rgba(255,255,255,.7);
 </head>
 <body>
 <div class="page">
+
   <!--========================================================
                             HEADER
   =========================================================-->
@@ -246,15 +250,17 @@ background-color:rgba(255,255,255,.7);
   font-size:1.5em;
   text-align:center;
   padding-top:2%;
-  color:rgb(68, 57, 49);
+  color:#fffff0;
   background: #fff; /* fallback for browsers that don't understand rgba */
   border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
-  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
+  background-color: #151515; !important;/* slighly transparent white */
   box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
   border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
                            {{ slide.title }} 
                   </div>
-
+                  <div style="position:absoute;margin-top:15%;bottom:0px;left:0px,width:100%;height:40%;background:#151515;padding-left:25%;padding-top:3%;padding-right:25%;font-family:'latolight';font-size:2.2em;font-weight:bold;opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);color:#FFFFF0;line-height:1.8em;">
+                            <strong>{{ slide.text }}</strong>
+                  </div>
             </div>
 
           {% endfor %}
@@ -3846,10 +3852,12 @@ Use this form to make a credit card payment. By using this form and accepting th
 
        </div>
 
+
+
           </p>
-      </div>
-     <div id="field3"></div>
-     <div id="field1"></div>
+
+
+
     </section>
   </main>
 
@@ -4000,6 +4008,8 @@ Use this form to make a credit card payment. By using this form and accepting th
 </div>
 </script>
 <script>
+
+
 var modal_submit_register = 'Register';  
 var modal_submit_password = 'Reset Password';  
 var modal_submit_login    = 'Login';

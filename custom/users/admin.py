@@ -10,8 +10,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from custom.users.models import FacebookProfile
-from custom.users.models import GooglePlusProfile
 from custom.users.models import Profile
 from imagekit.admin import AdminThumbnail
 from models import TeamMember
@@ -24,28 +22,6 @@ from forms import AboutUsModelForm
 from forms import TeamMemberModelForm
 from forms import AdvantageModelForm
 
-class FacebookProfileAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {'fields': ['facebook_id','first_name','last_name','username','profile','time_created','profile_picture','email']}),)
-    list_display = ('facebook_id','first_name','last_name','username','profile','email')
-    list_editable = ('facebook_id','first_name','last_name','username','profile','email')
-     
-    class Meta:
-         verbose_name = 'Facebook Profile'
-         verbose_name_plural = 'Facebook Profiles'
-
-
-
-
-
-
-class GooglePlusProfileAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {'fields': ['google_id','first_name','last_name','username','profile','time_created','email','is_new','is_cleared','activation_key']}),)
-    list_display = ('google_id','first_name','last_name','username','profile','email')
-    list_editable = ('google_id','first_name','last_name','username','profile','email')
-
-    class Meta:
-         verbose_name = 'Google Plus Profile'
-         verbose_name_plural = 'Google Plus Profiles'
 
 
 
@@ -132,8 +108,6 @@ admin.site.register(TeamMember, TeamMemberAdmin)
 
 #admin.site.register(ProfileStats,ProfileStatsAdmin)
 admin.site.register(Profile,ProfileAdmin)
-admin.site.register(FacebookProfile,FacebookProfileAdmin)
-admin.site.register(GooglePlusProfile,GooglePlusProfileAdmin)
 admin.site.register(MileStone,MileStoneAdmin)
 admin.site.register(AboutUs, AboutUsAdmin)
 

@@ -198,10 +198,6 @@ TEMPLATES = [
     },
 ]
 
-TEMPLATE_DIR = './templates/'
-TEMPLATE_DIRS = (
-    './templates/',
-)
 
 
 WSGI_APPLICATION = 'divorces.wsgi.application'
@@ -217,6 +213,10 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '',
+   },
+   'options' : {
+        'db_table': 'gui_logo',
+        'managed': False,
    },
 }
 
@@ -294,9 +294,6 @@ STATICFILES_DIRS = (
   './static_files',
 )
 
-TEMPLATE_DIRS = [
-  './templates/',
-]
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -503,7 +500,6 @@ JINJA2_ENVIRONMENT_OPTIONS = {
     'autoescape' : False,
 }
 
-DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja'
 
 
 
@@ -565,16 +561,6 @@ REACT = {
     'RENDER_URL': 'http://127.0.0.1:8001/render',
 }
 
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-
-# Jingo support
-TEMPLATE_LOADERS = [
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-]
 
 CRONJOBS = [
 ('*/1 * * * *', 'print "test"'),

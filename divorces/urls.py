@@ -58,7 +58,7 @@ urlpatterns = [
     url(r'^login/linkedin/','custom.gui.views.home'),
     url(r'^sendmail/$',SendEmailView.as_view()),
     url(r'^toast/$', 'custom.gui.views.toast'),
-    url(r'^signout/$', DashboardLogoutView.as_view()),
+    url(r'^signout/$', 'custom.gui.views.logout'),
 #    url(r'^divorce/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
 #    url(r'^services/$', 'custom.gui.views.services'),

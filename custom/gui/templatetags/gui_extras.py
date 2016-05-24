@@ -15,7 +15,8 @@ from custom.users.models import AboutUs
 from custom.users.models import MileStone
 from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
-
+from custom.gui.models import Logo
+from custom.gui.models import ContactInfo
 
 register = template.Library()
 
@@ -149,6 +150,95 @@ def advantage_meta(a, b,  *args, **kwargs):
             return advantage.section_two
         elif (b==4):
             return advantage.section_three
+
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+
+
+
+
+"""
+ Get the logo  data
+"""
+@register.simple_tag
+def logo_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            logo = Logo.objects.get(id=int(a))
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return logo.logo
+        elif (b==2):
+            return logo.width
+        elif (b==3):
+            return logo.height
+        elif (b==4):
+            return logo.color
+
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+
+
+
+
+"""
+ Get the contact  info data
+"""
+@register.simple_tag
+def contact_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            contact = ContactInfo.objects.get(id=int(a))
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return contact.statement
+
+        elif (b==2):
+            return contact.address1
+
+        elif (b==3):
+            return contact.address2
+
+        elif (b==4):
+            return contact.city
+
+        elif (b==5):
+            return contact.state
+
+        elif (b==6):
+            return contact.zipcode
+
+        elif (b==7):
+            return contact.tollfree
+
+        elif (b==8):
+            return contact.phone
+
+        elif (b==9):
+            return contact.fax
+
+        elif (b==10):
+            return contact.email
+
+        elif (b==0):
+            return contact.header
+
+
+
 
 
     except TypeError:

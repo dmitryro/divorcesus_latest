@@ -156,7 +156,7 @@ background-color:rgba(255,255,255,.7);
       <div class="container" id="navapp">
         <div class="brand">
                     <div style="float:left;">  
-                        <a href="./"><img height="240" width="240" src="/media/images/logo_green_small.png" /></a>
+                        <a href="./"><img src="http://divorcesus.com/media/{% logo_meta 2 1 %}" width="{% logo_meta 2 2 %}" height="{% logo_meta 2 3 %}" /></a>
                     </div>
           
                     <div class="clear"></div>
@@ -3690,23 +3690,23 @@ background-color:rgba(255,255,255,.7);
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-4">
-            <h3><span>Address </span></h3>
-            <p>Our office is conveniently located in the Financial District in Downtown NYC. Please use Wall Street stop (2,3,4,5).</p>
-            <h4>76 Beaver Street, 10th Floor,<br>New York, NY 10004.</h4>
+            <h3><span>{% contact_meta 1 0 %} </span></h3>
+            <p>{% contact_meta 1 1 %}</p>
+            <h4>{% contact_meta 1 2 %},{% contact_meta 1 3 %}<br>{% contact_meta 1 4 %}, {% contact_meta 1 5 %} {% contact_meta 1 6 %}.</h4>
             <address class="addr">
               <dl>
                 <dt>Freephone:</dt>
-                <dd><a href="callto:#">+1 212 202 0342</a></dd>
+                <dd><a href="callto:#">{% contact_meta 1 7 %}</a></dd>
               </dl>
               <dl>
                 <dt>Telephone:</dt>
-                <dd><a href="callto:#">+1 212 202 0342</a></dd>
+                <dd><a href="callto:#">{% contact_meta 1 8 %}</a></dd>
               </dl>
               <dl>
                 <dt>FAX:</dt>
-                <dd><a href="callto:#">+1 212 202 0342</a></dd>
+                <dd><a href="callto:#">{% contact_meta 1 9 %}</a></dd>
               </dl>
-              <p>E-mail: <a class="link" href="mailto:#">info@myattorneyusa.com</a></p>
+              <p>E-mail: <a class="link" href="mailto:#">{% contact_meta 1 10 %}</a></p>
             </address>
           </div>
           <div class="col-xs-12 col-sm-8" id="contactus">

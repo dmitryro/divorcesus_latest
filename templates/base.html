@@ -19,16 +19,13 @@
   <script src="/static/js/jssor.slider.mini.js"></script>
   <script src="/static/js/jquery-migrate-1.2.1.js"></script>
   
-
+   <link rel="stylesheet" type="text/css" href="/static/css/wizard.css" />
    <link rel="stylesheet" href="/static/css/misc.css" />
    <link rel="stylesheet" href="/static/css/buttons-si.css" />
    <link href="/static/css/modal.css" rel="stylesheet" type="text/css"/>
    <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
-      
-
    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
    <script src="/static/js/vue-router.js"></script>
-
   <!--[if lt IE 9]> 
   <html class="lt-ie9">
   <div style=' clear: both; text-align:center; position: relative;'>
@@ -3665,6 +3662,9 @@ background-color:rgba(255,255,255,.7);
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+<vs-wizard :current-index.sync="currentStep">
+</vs-wizard>
 <!--
             <f/rm class="search-form" action="search.php" method="GET" accept-charset="utf-8">
               <label class="search-form_label">
@@ -3727,7 +3727,8 @@ background-color:rgba(255,255,255,.7);
                       <input type="text" 
                       name="name"
                       v-model="name"
-                      placeholder="Name*" 
+                      placeholder="Name*"
+                      value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}&nbsp;&nbsp;{% endif %}"
                       data-constraints="@LettersOnly @NotEmpty"/> 
                   </label> 
 
@@ -3735,7 +3736,7 @@ background-color:rgba(255,255,255,.7);
                       <input type="text" 
                       name="phone" 
                       v-model="phone"
-                      placeholder="Phone" 
+                      placeholder="Phone"
                       data-constraints="@Phone"/> 
                   </label> 
                   <label>
@@ -3745,6 +3746,7 @@ background-color:rgba(255,255,255,.7);
                       name="email" 
                       v-model="email"
                       placeholder="email"
+                      value="{% if logout %}{% user_meta user_id 4 %}&nbsp;&nbsp;{% endif %}"
                       data-constraints="@Email @NotEmpty"/>
                   </label>
                   </label> 
@@ -3806,29 +3808,58 @@ background-color:rgba(255,255,255,.7);
 
 
         <h3><span>Make a </span> Payment</h3>
+
+
+<ul class='nav nav-wizard'>
+  
+  <li><a href='#step1' data-toggle="tab">Step 1 - Name and Email</a></li>
+
+  <li class='active'><a href='#step2' data-toggle="tab">Step 2 - Active</a></li>
+
+  <li><a>Step 3 - Not Yet Reached</a></li>
+
+</ul>
+<br/><br/>
         <p>
 Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
           </p>
+<div>
+            <form class='mailform contact-form' method="post">
+                 {% csrf_token %}
+
+              <input type="hidden" name="form-type" value="email"/>
+              <fieldset>
+                  <label>
+                      <input type="text"
+                      name="name"
+                      v-model="name"
+                      placeholder="Name*"
+                      value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}&nbsp;&nbsp;{% endif %}" 
+                      data-constraints="@LettersOnly @NotEmpty"/>
+                  </label>
+                  
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="email"
+                      v-model="email"
+                      value="{% if logout %}{% user_meta user_id 4 %}&nbsp;&nbsp;{% endif %}"
+                      placeholder="Email"
+                      data-constraints="@Email @NotEmpty"/>
+                  </label>
+                  <div style="float:left;padding-top:1.9em;">
+                      <button class="btn4"  v-on:click="submit">Next</button>
+                  </div> 
+                  <div class="clear"></div>
+              </fieldset>
+             </form>
+</div>
+
           <p>
-                   Please 
 
 
         <div id="app" style="float:left;">
               <!-- use the modal component, pass in the prop -->
 
-            {% if not logout %}
-                  Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to continue.
-            {% endif %}
-
-            {% if logout %}
-                {% user_meta user_id 1 %}
-                &nbsp;
-                {% user_meta user_id 2 %}
-                &nbsp;&nbsp;
-
-
-
-            {% endif %}
 
                <modal :show.sync="showModal">
                <!--
@@ -3873,14 +3904,27 @@ Use this form to make a credit card payment. By using this form and accepting th
         <div class="col-md-2 col-sm-6 col-xs-6">
           <h4>About</h4>
           <ul class="list">
-              <li><a href="#">Lorem ipsum</a></li>
-              <li><a href="#">Dolor sit amet</a></li>
+              <li><a href="#">Our Team</a></li>
+              <li><a href="#">Why Us</a></li>
               <li><a href="#">Conse ctetur adipisicing</a></li>
               <li><a href="#">Elit sed do eiusmod</a></li>
               <li><a href="#">Tempor</a></li>
               <li><a href="#">Incididunt ut labore</a></li>
           </ul>
         </div>
+
+      <div class="col-md-2 col-sm-6 col-xs-6">
+          <h4>Practice Areas</h4>
+          <ul class="list">
+              <li><a href="#">Family Law</a></li>
+              <li><a href="#">Immigration Law</a></li>
+              <li><a href="#">Patent Law</a></li>
+              <li><a href="#">Business Law</a></li>
+              <li><a href="#">Other Areas</a></li>
+          </ul>
+        </div>
+
+
         <div class="col-md-2 col-sm-6 col-xs-16">
           <h4>Need Help?</h4>
           <ul class="list">
@@ -3909,7 +3953,8 @@ Use this form to make a credit card payment. By using this form and accepting th
           </form>             
           <p class="text1">Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
         </div>
-        <div class="col-md-4 col-sm-6 col-xs-6 pt">
+        
+        <div class="col-md-2 col-sm-6 col-xs-6 pt">
           <h4>Contact Us</h4>
           <ul class="list">
               <li><a href="#">Phone (212) 202 0342</a></li>
@@ -4103,7 +4148,7 @@ new Vue({
 
   ready: function () {
   }
-
+  
 })
 
  // register modal component

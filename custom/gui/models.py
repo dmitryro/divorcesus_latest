@@ -46,9 +46,9 @@ class LogoColor(models.Model):
 class Logo(models.Model):
    color = models.ForeignKey(LogoColor,related_name='logo_color',blank=True,null=True)
    logo = models.ImageField(upload_to='logos')
-   logo_thumbnail = ImageSpecField(source='slide',
+   logo_thumbnail = ImageSpecField(source='logo',
                                    processors=[ResizeToFill(100, 50)],
-                                   format='JPEG',
+                                   format='PNG',
                                    options={'quality': 60})
    width = models.IntegerField(default=0,blank=True,null=True)
    height = models.IntegerField(default=0,blank=True,null=True)

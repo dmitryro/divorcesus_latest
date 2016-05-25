@@ -42,7 +42,10 @@ def user_meta(a, b,  *args, **kwargs):
             return user.last_name
         elif (b==3):
             return profile.profile_image_path
- 
+        elif (b==4):
+            return user.email 
+
+  
     except TypeError:
         print "Invalid argument type"
 

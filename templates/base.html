@@ -4548,6 +4548,35 @@ Vue.component('modal', {
 
        });
 
+      $("#next_three").bind("click",function() {
+
+              var counter = eval($("#counter").val());
+
+
+
+
+
+
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","block");
+                     $("#stepfive").css("display","none");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").attr('class','active');
+                     $("#wizard :nth-child(5)").removeAttr('class');
+
+
+
+
+
+
+
+       });
+
 
       $( "#about" ).bind( "click", function() {
              console.log("about");

@@ -3814,9 +3814,11 @@ background-color:rgba(255,255,255,.7);
 
   <li><a id="progress_steptwo" href='#' data-toggle="tab">Step 2 - Payment Info</a></li>
 
-  <li><a id="progress_stepthree" href='#' data-toggle="tab">Step 3 - Review and Conirm</a></li>
+   <li><a id="progress_stepthree" href='#' data-toggle="tab">Step 3 - Billing Address</a></li>
 
-  <li><a id="progress_stepfour">Step 4 - Process Payment</a></li>
+  <li><a id="progress_stepfour" href='#' data-toggle="tab">Step 4 - Review and Conirm</a></li>
+
+  <li><a id="progress_stepfive">Step 5 - Process Payment</a></li>
 
 </ul>
 <br/><br/>
@@ -3864,24 +3866,50 @@ Use this form to make a credit card payment. By using this form and accepting th
 
               <input type="hidden" name="form-type" value="email"/>
               <input type="hidden" name="counter" id="counter" value=""/>
-              <fieldset>
-                  <label>
+              <fieldset> 
+                  <label style="padding-top:1.9em;">
                       <input type="text"
-                      name="name"
-                      v-model="name"
-                      placeholder="Name*"
-                      value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"
+                      name="cardtype"
+                      v-model="cardtype"
+                      placeholder="Card Type*"
+                      value="Visa,AMEX,MasterCard,Discover..."
                       data-constraints="@LettersOnly @NotEmpty"/>
                   </label>
 
                   <label style="padding-top:1.9em;">
                       <input type="text"
-                      name="email"
-                      v-model="email"
-                      value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
-                      placeholder="Email"
-                      data-constraints="@Email @NotEmpty"/>
+                      name="cardnumber"
+                      v-model="cardnumber"
+                      placeholder="Card Number*"
+                      value="Your Card Number (Digits Only, no dashes)..."
+                      data-constraints="@CreditCard @NotEmpty"/>
                   </label>
+
+                     <div style="width:20.5%;float:left;">
+                        <label style="padding-top:1.9em;"> 
+                          <input type="text"
+                                 name="expirationmonth"
+                                 v-model="expirationmonth"
+                                 style="width:96%;"
+                                 value=""
+                                 placeholder="Expiration Month"
+                                 data-constraints="@NotEmpty"/>
+                                 &nbsp;&nbsp;
+                          </label>
+                     </div>
+                     <div style="width:20.5%;float:left;">  
+                       <label style="padding-top:1.9em;">
+                          <input type="text"
+                                 name="expirationyear"
+                                 v-model="expirationyear"
+                                 style="width:96%;"
+                                 value=""
+                                 placeholder="Expiration Year"
+                                 data-constraints="@NotEmpty"/>
+                       </label>
+                     </div>
+                     <div class="clear"></div>
+
                   <div style="float:left;padding-top:1.9em;">
                       <button class="btn4" v-on:click="submit"  id="next_two">Next</button>
                   </div>
@@ -3891,11 +3919,92 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 </div>
 <div id="stepthree">
-  Step Three of the payment Process
+  Step Three of the payment Process - Billing Address
+
+            <form class='mailform contact-form' v-on="change:submit"  method="post">
+                 {% csrf_token %}
+
+              <input type="hidden" name="form-type" value="email"/>
+              <input type="hidden" name="counter" id="counter" value=""/>
+              <fieldset>
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="fullname"
+                      v-model="fullname"
+                      placeholder="Full Name*"
+                      value="Enter Your First and Last Name..."
+                      data-constraints="@LettersOnly @NotEmpty"/>
+                  </label>
+
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="address1"
+                      v-model="address1"
+                      placeholder="Address 1*"
+                      value="Address 1 ..."
+                      data-constraints="@NotEmpty"/>
+                  </label>
+
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="address2"
+                      v-model="address2"
+                      placeholder="Address 2*"
+                      value="Address 2 ..."
+                      data-constraints=""/>
+                  </label>
+
+
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="city"
+                      v-model="city"
+                      placeholder="City*"
+                      value="City..."
+                      data-constraints="@LettersOnly @NotEmpty"/>
+                  </label>
+
+                     <div style="width:20.5%;float:left;">
+                        <label style="padding-top:1.9em;">
+                          <input type="text"
+                                 name="state"
+                                 v-model="state"
+                                 style="width:96%;"
+                                 value="State..."
+                                 placeholder="State"
+                                 data-constraints="@LettersOnly @NotEmpty"/>
+                                 &nbsp;&nbsp;
+                          </label>
+                     </div>
+                     <div style="width:20.5%;float:left;">
+                       <label style="padding-top:1.9em;">
+                          <input type="text"
+                                 name="zip"
+                                 v-model="zip"
+                                 style="width:96%;"
+                                 value="Zip Code..."
+                                 placeholder="Zip"
+                                 data-constraints="@NotEmpty"/>
+                       </label>
+                     </div>
+                     <div class="clear"></div>
+
+                  <div style="float:left;padding-top:1.9em;">
+                      <button class="btn4" v-on:click="submit"  id="next_three">Next</button>
+                  </div>
+                  <div class="clear"></div>
+              </fieldset>
+             </form>
+
 </div>
 <div id="stepfour">
-  Step Three of the payment Process
+  Step Four of the payment Process - Review and confirm
 </div>
+<div id="stepfive">
+  Step Five of the payment Process - Process Payment
+</div>
+
+
 
 
 
@@ -4249,6 +4358,7 @@ Vue.component('modal', {
             $("#steptwo").css("display","none");
             $("#stepthree").css("display","none");
             $("#stepfour").css("display","none");
+            $("#stepfive").css("display","none");
 
             var jssor_1_SlideshowTransitions = [
               {$Duration:1200,x:0.2,y:-0.1,$Delay:20,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$Jease$.$InWave,$Top:$Jease$.$InWave,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:1.3,$Top:2.5}},
@@ -4304,11 +4414,13 @@ Vue.component('modal', {
                      $("#steptwo").css("display","none");
                      $("#stepthree").css("display","none");
                      $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","none");
 
                      $("#wizard :nth-child(1)").attr('class','active');
                      $("#wizard :nth-child(2)").removeAttr('class');
                      $("#wizard :nth-child(3)").removeAttr('class');
                      $("#wizard :nth-child(4)").removeAttr('class');
+                     $("#wizard :nth-child(5)").removeAttr('class');
 
       });
 
@@ -4318,11 +4430,13 @@ Vue.component('modal', {
                      $("#steptwo").css("display","block");
                      $("#stepthree").css("display","none");
                      $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","none");
 
                      $("#wizard :nth-child(1)").removeAttr('class');
                      $("#wizard :nth-child(2)").attr('class','active');
                      $("#wizard :nth-child(3)").removeAttr('class');
                      $("#wizard :nth-child(4)").removeAttr('class');
+                     $("#wizard :nth-child(5)").removeAttr('class');
 
       });
 
@@ -4332,11 +4446,13 @@ Vue.component('modal', {
                      $("#steptwo").css("display","none");
                      $("#stepthree").css("display","block");
                      $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","none");
 
                      $("#wizard :nth-child(1)").removeAttr('class');
                      $("#wizard :nth-child(2)").removeAttr('class');
                      $("#wizard :nth-child(3)").attr('class','active');
                      $("#wizard :nth-child(4)").removeAttr('class');
+                     $("#wizard :nth-child(5)").removeAttr('class');
 
       });
 
@@ -4346,11 +4462,29 @@ Vue.component('modal', {
                      $("#steptwo").css("display","none");
                      $("#stepthree").css("display","none");
                      $("#stepfour").css("display","block");
+                     $("#stepfive").css("display","none");
 
                      $("#wizard :nth-child(1)").removeAttr('class');
                      $("#wizard :nth-child(2)").removeAttr('class');
                      $("#wizard :nth-child(3)").removeAttr('class');
                      $("#wizard :nth-child(4)").attr('class','active');
+                     $("#wizard :nth-child(5)").removeAttr('class');
+
+      });
+
+      $("#progress_stepfive").bind("click",function() {
+                     counter = 4;
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","block");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").removeAttr('class');    
+                     $("#wizard :nth-child(5)").attr('class','active');
 
       });
 
@@ -4369,12 +4503,13 @@ Vue.component('modal', {
                      $("#steptwo").css("display","block");
                      $("#stepthree").css("display","none");
                      $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","none"); 
 
                      $("#wizard :nth-child(1)").removeAttr('class');
                      $("#wizard :nth-child(2)").attr('class','active');
                      $("#wizard :nth-child(3)").removeAttr('class');
                      $("#wizard :nth-child(4)").removeAttr('class');
-
+                     $("#wizard :nth-child(5)").removeAttr('class');
 
 
 
@@ -4397,12 +4532,13 @@ Vue.component('modal', {
                      $("#steptwo").css("display","none");
                      $("#stepthree").css("display","block");
                      $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","none");    
 
                      $("#wizard :nth-child(1)").removeAttr('class');
                      $("#wizard :nth-child(2)").removeAttr('class');
                      $("#wizard :nth-child(3)").attr('class','active');
                      $("#wizard :nth-child(4)").removeAttr('class');
-
+                     $("#wizard :nth-child(5)").removeAttr('class');  
 
 
 

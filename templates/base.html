@@ -466,6 +466,7 @@ background-color:rgba(255,255,255,.7);
             <li>ASP</li>
             <li>JavaScript</li>
             <li>XML</li>
+
             <li>HTML5</li>
           </ul>
           <div class="resp-tabs-container">
@@ -3663,10 +3664,7 @@ background-color:rgba(255,255,255,.7);
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
 
-<vs-wizard :current-index.sync="currentStep">
-</vs-wizard>
 <!--
-            <f/rm class="search-form" action="search.php" method="GET" accept-charset="utf-8">
               <label class="search-form_label">
                 <input class="search-form_input" type="text" name="s" autocomplete="off" placeholder="Search Scripts"/>
                 <span class="search-form_liveout"></span>
@@ -3805,36 +3803,39 @@ background-color:rgba(255,255,255,.7);
 
 <!-- toast element -->
 
-
+   <div id="paymentwizard">
 
         <h3><span>Make a </span> Payment</h3>
 
 
-<ul class='nav nav-wizard'>
+<ul class='nav nav-wizard' id="wizard">
   
-  <li><a href='#step1' data-toggle="tab">Step 1 - Name and Email</a></li>
+  <li><a id="progress_stepone" href='#' data-toggle="tab">Step 1 - Name and Email</a></li>
 
-  <li class='active'><a href='#step2' data-toggle="tab">Step 2 - Active</a></li>
+  <li><a id="progress_steptwo" href='#' data-toggle="tab">Step 2 - Payment Info</a></li>
 
-  <li><a>Step 3 - Not Yet Reached</a></li>
+  <li><a id="progress_stepthree" href='#' data-toggle="tab">Step 3 - Review and Conirm</a></li>
+
+  <li><a id="progress_stepfour">Step 4 - Process Payment</a></li>
 
 </ul>
 <br/><br/>
+<div id="stepone">
+
         <p>
 Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
           </p>
-<div>
             <form class='mailform contact-form' method="post">
                  {% csrf_token %}
 
-              <input type="hidden" name="form-type" value="email"/>
+              <input type="hidden" name="counter" id="counter" value=""/>
               <fieldset>
                   <label>
                       <input type="text"
-                      name="name"
-                      v-model="name"
+                      name="fullname"
+                      v-model="fullname"
                       placeholder="Name*"
-                      value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}&nbsp;&nbsp;{% endif %}" 
+                      value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}" 
                       data-constraints="@LettersOnly @NotEmpty"/>
                   </label>
                   
@@ -3842,19 +3843,60 @@ Use this form to make a credit card payment. By using this form and accepting th
                       <input type="text"
                       name="email"
                       v-model="email"
-                      value="{% if logout %}{% user_meta user_id 4 %}&nbsp;&nbsp;{% endif %}"
+                      value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
                       placeholder="Email"
                       data-constraints="@Email @NotEmpty"/>
                   </label>
                   <div style="float:left;padding-top:1.9em;">
-                      <button class="btn4"  v-on:click="submit">Next</button>
+                      <button class="btn4" v-on:click="submit"  id="next_one">Next</button>
                   </div> 
                   <div class="clear"></div>
               </fieldset>
              </form>
 </div>
 
-          <p>
+
+</div>
+<div id="steptwo">
+  Step Two of the payment Process
+            <form class='mailform contact-form' v-on="change:submit"  method="post">
+                 {% csrf_token %}
+
+              <input type="hidden" name="form-type" value="email"/>
+              <input type="hidden" name="counter" id="counter" value=""/>
+              <fieldset>
+                  <label>
+                      <input type="text"
+                      name="name"
+                      v-model="name"
+                      placeholder="Name*"
+                      value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"
+                      data-constraints="@LettersOnly @NotEmpty"/>
+                  </label>
+
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="email"
+                      v-model="email"
+                      value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
+                      placeholder="Email"
+                      data-constraints="@Email @NotEmpty"/>
+                  </label>
+                  <div style="float:left;padding-top:1.9em;">
+                      <button class="btn4" v-on:click="submit"  id="next_two">Next</button>
+                  </div>
+                  <div class="clear"></div>
+              </fieldset>
+             </form>
+
+</div>
+<div id="stepthree">
+  Step Three of the payment Process
+</div>
+<div id="stepfour">
+  Step Three of the payment Process
+</div>
+
 
 
         <div id="app" style="float:left;">
@@ -3874,7 +3916,6 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 
 
-          </p>
 
 
 
@@ -4043,7 +4084,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 </script>
 <script>
 
-
+var counter = 0;
 var modal_submit_register = 'Register';  
 var modal_submit_password = 'Reset Password';  
 var modal_submit_login    = 'Login';
@@ -4063,6 +4104,31 @@ Vue.component('modal', {
 
 // start app
 new Vue({
+  el: '#stepone',
+  data: {
+      email:'',
+      fullname:'',
+  },
+  options: {
+  },
+  methods: {
+     successCallback: function() {
+            alert("SUCCESS");
+     },
+     errorCallback: function() {
+            alert("ERROR");
+     },
+     validConfirm: function() {
+           alert("VALID");
+     },
+     submit: function() {
+     }
+  }
+})
+
+
+// start app
+new Vue({
   el: '#contactus',
   data: {
       email:'',
@@ -4079,7 +4145,7 @@ new Vue({
             alert("ERROR");
      },
      validConfirm: function() {
-           alsert("VALID");
+           alert("VALID");
            $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
      },
      submit: function() {
@@ -4174,7 +4240,15 @@ Vue.component('modal', {
 <script src="/static/js/jssor.slider.min.js"></script>
 
 <script>
+
    $(document).ready(function() {
+            var counter = 1;
+            $("#counter").attr("value",1);
+            $("#wizard :nth-child(1)").attr('class','active');
+            $("#stepone").css("display","block");
+            $("#steptwo").css("display","none");
+            $("#stepthree").css("display","none");
+            $("#stepfour").css("display","none");
 
             var jssor_1_SlideshowTransitions = [
               {$Duration:1200,x:0.2,y:-0.1,$Delay:20,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$Jease$.$InWave,$Top:$Jease$.$InWave,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:1.3,$Top:2.5}},
@@ -4224,8 +4298,119 @@ Vue.component('modal', {
             $(window).bind("resize", ScaleSlider);
             $(window).bind("orientationchange", ScaleSlider);
 
+      $("#progress_stepone").bind("click",function() {
+                     counter = 0;
+                     $("#stepone").css("display","block");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","none");
+
+                     $("#wizard :nth-child(1)").attr('class','active');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+
+      });
+
+      $("#progress_steptwo").bind("click",function() {
+                     counter = 1;
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","block");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","none");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").attr('class','active');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+
+      });
+
+      $("#progress_stepthree").bind("click",function() {
+                     counter = 2;
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","block");
+                     $("#stepfour").css("display","none");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").attr('class','active');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+
+      });
+
+      $("#progress_stepfour").bind("click",function() {
+                     counter = 3;
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","block");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").attr('class','active');
+
+      });
 
 
+
+      $("#next_one").bind("click",function() {  
+
+              var counter = eval($("#counter").val());            
+
+
+
+
+
+
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","block");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","none");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").attr('class','active');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+
+
+
+
+
+
+
+
+       });
+
+      $("#next_two").bind("click",function() {
+
+              var counter = eval($("#counter").val());
+
+
+
+
+
+
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","block");
+                     $("#stepfour").css("display","none");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").attr('class','active');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+
+
+
+
+
+
+
+
+       });
 
 
       $( "#about" ).bind( "click", function() {

@@ -4,9 +4,53 @@
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
 
 @font-face {
+    font-family: 'latomedium';
+    src: url('lato-medium-webfont.woff2') format('woff2'),
+         url('lato-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'latoheavy';
+    src: url('lato-heavy-webfont.woff2') format('woff2'),
+         url('lato-heavy-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'latosemibold';
+    src: url('lato-semibold-webfont.woff2') format('woff2'),
+         url('lato-semibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'latobold';
+    src: url('lato-bold-webfont.woff2') format('woff2'),
+         url('lato-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
     font-family: 'latoregular';
     src: url('lato-regular-webfont.woff2') format('woff2'),
          url('lato-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'latolight';
+    src: url('lato-light-webfont.woff2') format('woff2'),
+         url('lato-light-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -46,7 +90,7 @@
 =========================================================*/
 body {
   color: #777777;
-  font: 500 13px/25px 'latoregular';
+  font: 500 13px/25px 'latolight';
   -webkit-text-size-adjust: none;
   background: #1c1c1c; }
 
@@ -112,7 +156,7 @@ h4 {
 h5 {
   font-size: 29px;
   line-height: 33px;
-  font-family: 'latoregular';
+  font-family: 'latolight';
   color: #fff;
   font-weight: 800;
   text-transform: uppercase; }
@@ -137,7 +181,7 @@ time {
   display: block; }
 
 a {
-  font: inherit;
+  font: 'latolight';
   color: inherit;
   text-decoration: none;
   -moz-transition: 0.3s;
@@ -215,12 +259,11 @@ h6 + * {
   .brand_name {
     font-family:'BaskervilleSerial';
     position: relative;
-    padding-left: 82px;
+    padding-left:02px;
     margin-bottom:5px;
-    padding-right: 82px; }
+    padding-right: 42px; }
     .brand_name:before {
       font-family:'BaskervilleSerial';
-      content: url(../images/logo_img.png);
       position: absolute;
       left: 0;
       top: 8px; }

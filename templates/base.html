@@ -3996,17 +3996,17 @@ Use this form to make a credit card payment. By using this form and accepting th
   step four of the payment process - review and confirm
       <form class='mailform contact-form' method="post">
                  {% csrf_token %}
-                 <div><h4>Individual Details</h4></div>
+                 <div><h4><strong>Individual Details</strong></h4></div>
                  <div id="final_email"></div>
                  <div id="final_fullname"></div>  
                  <div>--------------------------------------------------------------------------------------------</div>
-                 <div><h4>Payment Card Details</h4></div>  
+                 <div><h4><strong>Payment Card Details</strong></h4></div>  
                  <div id="final_cardtype"></div>  
                  <div id="final_cardnumber"></div>
                  <div id="final_expirationmonth"></div>
                  <div id="final_expirationyear"></div>
                  <div>--------------------------------------------------------------------------------------------</div>
-                 <div><h4>Billing Address Details</h4></div>
+                 <div><h4><strong>Billing Address Details</strong></h4></div>
                  <div id="final_address1"></div>
                  <div id="final_address2"></div>   
                  <div id="final_city"></div>
@@ -4022,7 +4022,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 <fieldset>
                   <div style="float:left;padding-top:1.9em;">
-                      <button class="btn4" v-on="click:submitfour"  id="next_four">Next</button>
+                      <button class="btn4" v-on="click:submitfour"  id="next_four">Proceed</button>
                   </div>
                   <div class="clear"></div>
               </fieldset>

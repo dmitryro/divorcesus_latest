@@ -3023,13 +3023,13 @@ background-color:rgba(255,255,255,.7);
           </div>
         </div>
         <div class="btn-wrap">
-          <a href="#" class="btn">See all scripts</a>
+          <a href="#" class="btn">View Prices</a>
         </div>
       </div>
     </section>
-    <section class="parallax" data-url="images/parallax4.jpg">
+    <section class="parallax" data-url="/media/images/family_banner.jpg">
       <div class="container wow fadeIn">
-        <h2><span>Start different</span> profitable web sites with ease </h2>
+        <h2><span>Bring the change to your life</span> today.  </h2>
         <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
         <a href="#" class="btn4">Read more</a>
       </div>
@@ -3779,17 +3779,6 @@ background-color:rgba(255,255,255,.7);
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
 
-<!-- trigger examples -->
-
-<!--
-            <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
-              <label class="search-form_label">
-                <input class="search-form_input" type="text" name="s" autocomplete="off" placeholder="Search Scripts"/>
-                <span class="search-form_liveout"></span>
-              </label>
-              <button class="search-form_submit fa-search" type="submit"></button>
-            </form>          
--->
           </div>
         </div>        
       </div>
@@ -3822,6 +3811,8 @@ background-color:rgba(255,255,255,.7);
 
 </ul>
 <br/><br/>
+
+
 <div id="stepone">
 
         <p>
@@ -3830,11 +3821,13 @@ Use this form to make a credit card payment. By using this form and accepting th
             <form class='mailform contact-form' method="post">
                  {% csrf_token %}
 
+
               <input type="hidden" name="counter" id="counter" value=""/>
               <fieldset>
                   <label>
                       <input type="text"
                       name="fullname"
+                      id="fullname"
                       v-model="fullname"
                       placeholder="Name*"
                       value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}" 
@@ -3843,6 +3836,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                   
                   <label style="padding-top:1.9em;">
                       <input type="text"
+                      id="email"
                       name="email"
                       v-model="email"
                       value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
@@ -3850,7 +3844,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                       data-constraints="@Email @NotEmpty"/>
                   </label>
                   <div style="float:left;padding-top:1.9em;">
-                      <button class="btn4" v-on:click="submit"  id="next_one">Next</button>
+                      <button class="btn4" v-on:click="submitone"  id="next_one">Next</button>
                   </div> 
                   <div class="clear"></div>
               </fieldset>
@@ -3858,17 +3852,21 @@ Use this form to make a credit card payment. By using this form and accepting th
 </div>
 
 
-</div>
 <div id="steptwo">
-            <form class='mailform contact-form' v-on="change:submit"  method="post">
+            <form class='mailform contact-form' method="post">
                  {% csrf_token %}
 
-              <input type="hidden" name="form-type" value="email"/>
+              <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
+              <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{{ fullname }}"/>
               <input type="hidden" name="counter" id="counter" value=""/>
+  
+              {{ fullname }}<br/>
+              {{ email }}   
               <fieldset> 
                   <label style="padding-top:1.9em;">
                       <input type="text"
                       name="cardtype"
+                      id="cardtype"
                       v-model="cardtype"
                       placeholder="Card Type*"
                       value="Visa,AMEX,MasterCard,Discover..."
@@ -3878,6 +3876,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                   <label style="padding-top:1.9em;">
                       <input type="text"
                       name="cardnumber"
+                      id="cardnumber"
                       v-model="cardnumber"
                       placeholder="Card Number*"
                       value="Your Card Number (Digits Only, no dashes)..."
@@ -3887,6 +3886,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                      <div style="width:20.5%;float:left;">
                         <label style="padding-top:1.9em;"> 
                           <input type="text"
+                                 id="expirationmonth"
                                  name="expirationmonth"
                                  v-model="expirationmonth"
                                  style="width:96%;"
@@ -3899,6 +3899,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                      <div style="width:20.5%;float:left;">  
                        <label style="padding-top:1.9em;">
                           <input type="text"
+                                 id="expirationyear"
                                  name="expirationyear"
                                  v-model="expirationyear"
                                  style="width:96%;"
@@ -3910,30 +3911,25 @@ Use this form to make a credit card payment. By using this form and accepting th
                      <div class="clear"></div>
 
                   <div style="float:left;padding-top:1.9em;">
-                      <button class="btn4" v-on:click="submit"  id="next_two">Next</button>
+                      <button class="btn4" v-on:click="submittwo"  id="next_two">Next</button>
                   </div>
                   <div class="clear"></div>
               </fieldset>
              </form>
 
 </div>
+
+
 <div id="stepthree">
 
-            <form class='mailform contact-form' v-on="change:submit"  method="post">
+            <form class='mailform contact-form' method="post">
                  {% csrf_token %}
 
-              <input type="hidden" name="form-type" value="email"/>
+              <input type="hidden" name="email" id="email" v-model="email"  value=""/>
+              <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
+
               <input type="hidden" name="counter" id="counter" value=""/>
               <fieldset>
-                  <label style="padding-top:1.9em;">
-                      <input type="text"
-                      name="fullname"
-                      v-model="fullname"
-                      placeholder="Full Name*"
-                      value="Enter Your First and Last Name..."
-                      data-constraints="@LettersOnly @NotEmpty"/>
-                  </label>
-
                   <label style="padding-top:1.9em;">
                       <input type="text"
                       name="address1"
@@ -3988,18 +3984,65 @@ Use this form to make a credit card payment. By using this form and accepting th
                      <div class="clear"></div>
 
                   <div style="float:left;padding-top:1.9em;">
-                      <button class="btn4" v-on:click="submit"  id="next_three">Next</button>
+                      <button class="btn4" v-on:click="submitthree"  id="next_three">Next</button>
                   </div>
                   <div class="clear"></div>
               </fieldset>
              </form>
 
 </div>
+
 <div id="stepfour">
-  Step Four of the payment Process - Review and confirm
+  step four of the payment process - review and confirm
+      <form class='mailform contact-form' method="post">
+                 {% csrf_token %}
+                 <div><h4>Individual Details</h4></div>
+                 <div id="final_email"></div>
+                 <div id="final_fullname"></div>  
+                 <div>--------------------------------------------------------------------------------------------</div>
+                 <div><h4>Payment Card Details</h4></div>  
+                 <div id="final_cardtype"></div>  
+                 <div id="final_cardnumber"></div>
+                 <div id="final_expirationmonth"></div>
+                 <div id="final_expirationyear"></div>
+                 <div>--------------------------------------------------------------------------------------------</div>
+                 <div><h4>Billing Address Details</h4></div>
+                 <div id="final_address1"></div>
+                 <div id="final_address2"></div>   
+                 <div id="final_city"></div>
+                 <div id="final_state"></div>
+                 <div id="final_zip"></div>
+
+
+              <input type="hidden" name="email" id="email" v-model="email"  value=""/>
+              <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
+
+              <input type="hidden" name="counter" id="counter" value=""/>
+  
+
+<fieldset>
+                  <div style="float:left;padding-top:1.9em;">
+                      <button class="btn4" v-on="click:submitfour"  id="next_four">Next</button>
+                  </div>
+                  <div class="clear"></div>
+              </fieldset>
+
+
+  </form>
+
 </div>
 <div id="stepfive">
+    <form class='mailform contact-form' method="post">
+                 {% csrf_token %}
+        
+
+            <input type="hidden" name="counter" id="counter" value=""/>
+  
+ {% csrf_token %}
+
+
   Step Five of the payment Process - Process Payment
+  </form>
 </div>
 
 
@@ -4012,7 +4055,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 
                <modal :show.sync="showModal">
                <!--
-/                  you can use custom content here to overwrite
+                  you can use custom content here to overwrite
                   default content
                      -->
 
@@ -4192,6 +4235,9 @@ Use this form to make a credit card payment. By using this form and accepting th
 <script>
 
 var counter = 0;
+var first_name = '';
+var fullname = '';
+var email = '';
 var modal_submit_register = 'Register';  
 var modal_submit_password = 'Reset Password';  
 var modal_submit_login    = 'Login';
@@ -4209,27 +4255,198 @@ Vue.component('modal', {
 
 })
 
-// start app
-new Vue({
+var vm = new Vue({
   el: '#stepone',
   data: {
-      email:'',
-      fullname:'',
-  },
-  options: {
+    email:'',
+    fullname: '',
   },
   methods: {
-     successCallback: function() {
+    submitone: function (event) {
+               this.$set('email',$('#email').val());
+               this.$set('fullname',$('#fullname').val());               
+
+    },
+    submittwo: function (event) {
+    },
+
+    submitthree: function (event) {
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
             alert("SUCCESS");
-     },
-     errorCallback: function() {
+    },
+    errorCallback: function(event) {
             alert("ERROR");
-     },
-     validConfirm: function() {
+    },
+    validConfirm: function(event) {
            alert("VALID");
-     },
-     submit: function() {
-     }
+    }
+    
+  }
+})
+
+
+var vm2 = new Vue({
+  el: '#steptwo',
+  data: {
+    email:'',
+    fullname: '',
+    cardtype:'',
+    cardnumber:'',
+    expirationmonth:'',
+    expirationyear:'',
+  },
+  methods: {
+    submitone: function (event) {
+    },
+    submittwo: function (event) {
+           this.$set('email',vm.email);
+           this.$set('fullname',vm.fullname);
+           vm3.$set('email',this.email);
+           vm3.$set('fullname',this.fullname);
+           vm3.$set('cardtype',this.cardtype);
+           vm3.$set('cardnumber',this.cardnumber);
+           vm3.$set('expirationmonth',this.expirationmonth);
+           vm3.$set('expirationyear',this.expirationyear);
+    },
+
+    submitthree: function (event) {
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
+            alert("SUCCESS");
+    },
+    errorCallback: function(event) {
+            alert("ERROR");
+    },
+    validConfirm: function(event) {
+           alert("VALID");
+    }
+  },
+  ready:function() {
+      alert("let us set");
+      this.$set('email',$('#email').val());
+      this.$set('fullname',$('#fullname').val());
+    
+  }
+  
+})
+
+
+
+var vm3 = new Vue({
+  el: '#stepthree',
+  data: {
+    email:'',
+    fullname: '',
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    zip:  '',
+    cardtype: '',
+    cardnumber: '',
+    expirationmonth: '',
+    expirationyear: '',
+  },
+  methods: {
+    submitone: function (event) {
+    },
+    submittwo: function (event) {
+    },
+
+    submitthree: function (event) {
+               vm4.$set('email',this.email);
+               vm4.$set('fullname',this.fullname);
+               vm4.$set('cardtype',this.cardtype);
+               vm4.$set('cardnumber',this.cardnumber);
+               vm4.$set('expirationmonth',this.expirationmonth);
+               vm4.$set('expirationyear',this.expirationyear);
+               vm4.$set('address1',this.address1);
+               vm4.$set('address1',this.address2); 
+               vm4.$set('city',this.city);
+               vm4.$set('state',this.state);
+               vm4.$set('zip',this.zip);
+               $("#final_email").html("<p><strong>Email: "+this.email.toString()+"</strong></p>");
+               $("#final_fullname").html("<p><strong>Full Name: "+this.fullname.toString()+"</strong></p>");   
+               $("#final_cardtype").html("<p><strong>Credit Card: "+this.cardtype.toString()+"</strong></p>");  
+               $("#final_cardnumber").html("<p><strong>Full Name: "+this.cardnumber.toString()+"</strong></p>");   
+               $("#final_expirationmonth").html("<p><strong>Expiration Month: "+this.expirationmonth.toString()+"</strong></p>");
+               $("#final_expirationyear").html("<p><strong>Expiration Year: "+this.expirationyear.toString()+"</strong></p>");   
+               $("#final_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");   
+               $("#final_address2").html("<p><strong>Full Name: "+this.address2.toString()+"</strong></p>"); 
+               $("#final_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
+               $("#final_state").html("<p><strong>State: "+this.state.toString()+"</strong></p>");  
+               $("#final_zip").html("<p><strong>Zip Code: "+this.zip.toString()+"</strong></p>");
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
+            alert("SUCCESS");
+    },
+    errorCallback: function(event) {
+            alert("ERROR");
+    },
+    validConfirm: function(event) {
+           alert("VALID");
+    }
+
+  },
+  ready: function() {
+  }
+})
+
+
+var vm4 = new Vue({
+  el: '#stepfour',
+  data: {
+    email:vm3.email,
+    fullname: vm3.fullname,
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    zip:  '',
+    cardtype: '',
+    cardnumber: '',
+    expirationmonth: '',
+    expirationyear: '',
+  },
+  // define methods under the `methods` object
+  methods: {
+
+    submitone: function (event) {
+    },
+
+    submittwo: function (event) {
+    },
+
+    submitthree: function (event) {
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
+    },
+
+    errorCallback: function(event) {
+    },
+
+    validConfirm: function(event) {
+    }
+
+  },
+  ready:function() {
   }
 })
 
@@ -4455,7 +4672,7 @@ Vue.component('modal', {
       });
 
       $("#progress_stepfour").bind("click",function() {
-                     counter = 3;
+                     counter = 4;
                      $("#stepone").css("display","none");
                      $("#steptwo").css("display","none");
                      $("#stepthree").css("display","none");
@@ -4471,7 +4688,7 @@ Vue.component('modal', {
       });
 
       $("#progress_stepfive").bind("click",function() {
-                     counter = 4;
+                     counter = 5;
                      $("#stepone").css("display","none");
                      $("#steptwo").css("display","none");
                      $("#stepthree").css("display","none");
@@ -4575,6 +4792,34 @@ Vue.component('modal', {
 
        });
 
+      $("#next_four").bind("click",function() {
+
+              var counter = eval($("#counter").val());
+
+
+
+
+
+
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","block");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+                     $("#wizard :nth-child(5)").attr('class','active');
+
+
+
+
+
+
+
+       });
 
       $( "#about" ).bind( "click", function() {
              console.log("about");
@@ -4698,10 +4943,6 @@ Vue.component('modal', {
 </script>
 
 <script src="/static/js/classie.js"></script>
-<script src="/static/js/uisearch.js"></script>
-<script>
-			new UISearch( document.getElementById( 'sb-search' ) );
-</script>
 <div id="fb-root"></div>
 <script src="/static/js/script.js"></script>
 </body>

@@ -3,6 +3,7 @@ from django.forms.widgets import Input
 from django import forms
 from django.contrib.auth.models import User
 from bootstrap_toolkit.widgets import BootstrapDateInput, BootstrapTextInput, BootstrapUneditableInput
+from models import Service
 from models import Slide
 from models import ContactInfo
 
@@ -14,6 +15,18 @@ class SlideForm(ModelForm):
             'text': Textarea(attrs={'cols': 80, 'rows': 30}),
         }
         fields = '__all__' #
+
+
+class ServiceForm(ModelForm):
+    class Meta:
+        model = Service
+        widgets = {
+            'statement': Textarea(attrs={'cols': 80, 'rows': 30}),
+            'description': Textarea(attrs={'cols': 80, 'rows': 30}),
+            
+        }
+        fields = '__all__' #
+
 
 class ContactInfoForm(ModelForm):
     class Meta:

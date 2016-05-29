@@ -76,3 +76,24 @@ class ContactInfo(models.Model):
         verbose_name = 'Contanct Info'
         verbose_name_plural = 'Contact Info'
 
+
+class Service(models.Model):
+   title = models.CharField(max_length=150, blank=True)
+   statement = models.CharField(max_length=450, blank=True)
+   description = models.CharField(max_length=2500, blank=True)
+   service = models.ImageField(upload_to='servces')
+   service_thumbnail = ImageSpecField(source='services',
+                                     processors=[ResizeToFill(100, 50)],
+                                     format='JPEG',
+                                     options={'quality': 60})
+      
+
+   class Meta:
+        verbose_name = 'Service'
+        verbose_name_plural = 'Services'
+
+   def __str__(self):
+        return self.title
+
+   def __unicode__(self):
+        return unicode(self.service)

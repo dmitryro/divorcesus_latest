@@ -178,10 +178,40 @@ background-color:rgba(255,255,255,.7);
               <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="services" href="#">Services</a>
               <ul>
                 <li>
-                  <a v-link="{ path: '/contested' }" onclick="on_mobile_contested();"  href="#">Contested Divorce </a>
+                  <a v-link="{ path: '/adoption' }" onclick="on_mobile_adoption();">Adoption </a>
                 </li>
                 <li>
-                  <a href="#">Ait amet conse</a>
+                  <a v-link="{ path: '/agreements' }" onclick="on_mobile_agreements();">Agreements </a>
+                </li>
+                <li>
+                  <a v-link="{ path: '/contested' }" onclick="on_mobile_contested();">Contested Divorce </a>
+                </li>
+                <li>
+                  <a v-link="{ path: '/childcustody' }" onclick="on_mobile_child_custody();">Child Custody</a>
+                </li>
+                <li>
+                  <a v-link="{ path: '/childsupport' }" onclick="on_mobile_child_support();">Child Support</a>
+                </li>
+                <li>
+                  <a v-link="{ path: '/domesticviolence' }" onclick="on_mobile_domestic_violence();">Domestic Violence </a>
+                </li>
+                <li>
+                  <a v-link="{ path: '/freeconsultation' }" onclick="on_mobile_free_consultation();">Free Consultation </a>
+                </li>
+                <li>
+                  <a v-link="{ path: '/mediation' }" onclick="on_mobile_mediation();">Mediation</a>
+                </li>
+
+                <li>
+                  <a v-link="{ path: '/property' }" onclick="on_mobile_property();">Property </a>
+                </li>
+ 
+                <li>
+                  <a v-link="{ path: '/protection' }" onclick="on_mobile_protection();">Protection</a>
+                </li>
+
+                <li>
+                  <a v-link="{ path: '/spousalsupport' }" onclick="on_mobile_spousal_support();">Spousal Support</a>
                 </li>
                 <li>
                   <a v-link="{ path: '/uncontested' }" onclick="on_mobile_uncontested();">Uncontested Divorce</a>
@@ -384,10 +414,10 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-4">
             <div class="box">
                 <div class="box_aside">
-                  <a href="#"><img src="/media/images/free.jpg" alt=""/></a>
+                  <a v-link="{ path: '/freeconsutation' }" onclick="on_mobile_free_consultation();">><img src="/media/images/free.jpg" alt=""/></a>
                 </div>
                 <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a href="#">Free Consultation</a></h3>
+                  <h3 class="mod"><a v-link="{ path: '/freeconsultation' }" onclick="on_mobile_free_consultation();">Free Consultation</a></h3>
                   <span class="badge"></span>
                 </div>
             </div>
@@ -419,10 +449,10 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-4">
             <div class="box">
                 <div class="box_aside">
-                  <a href="#"><img height="100" width="100" src="/media/images/mediation.jpg" alt=""/></a>
+                  <a v-link="{ path: '/mediation' }" onclick="on_mobile_mediation();"><img height="100" width="100" src="/media/images/mediation.jpg" alt=""/></a>
                 </div>
                 <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a href="#">Mediation</a></h3>
+                  <h3 class="mod"><a v-link="{ path: '/mediation' }" onclick="on_mobile_mediation();">Mediation</a></h3>
                   <span class="badge"></span>
                 </div>
             </div>
@@ -430,10 +460,10 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-4">
             <div class="box">
                 <div class="box_aside">
-                  <a href="#"><img height="100" width="100" src="/media/images/domestic_violence.jpg" alt=""/></a>
+                  <a v-link="{ path: '/domesticviolence' }" onclick="on_mobile_domestic_violence();"><img height="100" width="100" src="/media/images/domestic_violence.jpg" alt=""/></a>
                 </div>
                 <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a href="#">Domestic Violence</a></h3> 
+                  <h3 class="mod"><a v-link="{ path: '/domesticviolence' }" onclick="on_mobile_domestic_violence();">Domestic Violence</a></h3> 
                   <span class="badge"></span>
                 </div>
             </div>
@@ -441,10 +471,10 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-4">
             <div class="box">
               <div class="box_aside">
-                <a href="#"><img height="100" width="100" src="/media/images/adopt.jpg" alt=""/></a>
+                <a v-link="{ path: '/adoption' }" onclick="on_mobile_adoption();"><img height="100" width="100" src="/media/images/adopt.jpg" alt=""/></a>
               </div>
               <div class="box_cnt__no-flow">
-                <h3 class="mod"><a href="#">Adoption</a></h3>
+                <h3 class="mod"><a v-link="{ path: '/adoption' }" onclick="on_mobile_adoption();">Adoption</a></h3>
                 <span class="badge"></span>
               </div>
             </div>
@@ -3973,7 +4003,7 @@ background-color:rgba(255,255,255,.7);
 
 
 <div id="uncontested_divorce_block">
-<main id="uncontent-contested-divorce">
+<main id="content-uncontested-divorce">
    <section class="bg-img well-top">
       <div class="container">
         <div class="row">
@@ -3998,6 +4028,110 @@ background-color:rgba(255,255,255,.7);
 </main>
 </div>
 
+
+<div id="mediation_block">
+<main id="content-mediation">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Mediation</span>
+          </p>
+
+
+          <h4>Mediation</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+<div id="adoption_block">
+<main id="content-adoption">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Adoption</span>
+          </p>
+
+
+          <h4>Adoption</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+<div id="domestic_violence_block">
+<main id="content-domestic-violence">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Domestic Violence</span>
+          </p>
+
+
+          <h4>Domestic Violence</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+<div id="free_consultation_block">
+<main id="content-free-consultation">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Free Consultation</span>
+          </p>
+
+
+          <h4>Free Consultation</h4>
+      </div>
+    </section>
+</main>
+</div>
 
 
 <div id="payment_block">
@@ -4843,6 +4977,11 @@ Vue.component('modal', {
             document.getElementById('spousal_support_block').style.display='none';
             document.getElementById('contested_divorce_block').style.display='none';
             document.getElementById('uncontested_divorce_block').style.display='none';
+            document.getElementById('domestic_violence_block').style.display='none';
+            document.getElementById('mediation_block').style.display='none';
+            document.getElementById('adoption_block').style.display='none';
+            document.getElementById('free_consultation_block').style.display='none';
+
 
 
             var jssor_1_SlideshowTransitions = [
@@ -5369,6 +5508,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5387,6 +5530,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5405,6 +5552,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5423,6 +5574,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;  
   }
 
@@ -5441,6 +5596,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5459,6 +5618,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5477,6 +5640,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='block';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5495,6 +5662,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='block';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5513,6 +5684,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5531,6 +5706,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5549,6 +5728,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5567,10 +5750,14 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
-  function on_mobile_child_suport() {
+  function on_mobile_child_support() {
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -5585,6 +5772,10 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='none';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
@@ -5603,13 +5794,105 @@ Vue.component('modal', {
       document.getElementById('spousal_support_block').style.display='block';
       document.getElementById('contested_divorce_block').style.display='none';
       document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
       return false;
   }
 
+  function on_mobile_domestic_violence() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='block';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none'; 
+      return false;
 
+  }
 
+  function on_mobile_mediation() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='block';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      return false;
 
+  }
 
+  function on_mobile_adoption() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='block';
+      document.getElementById('free_consultation_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_free_consultation() {
+
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='block';
+      return false;
+   
+
+  }
 </script>
 
 <script src="/static/js/classie.js"></script>

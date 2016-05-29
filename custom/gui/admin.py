@@ -3,9 +3,13 @@ from models import Slide
 from models import Logo
 from models import LogoColor
 from models import ContactInfo
+from models import Service
 from forms import SlideForm
 from forms import ContactInfoForm
+from forms import ServiceForm
 from imagekit.admin import AdminThumbnail
+
+
 
 class SlideAdmin(admin.ModelAdmin):
 
@@ -18,6 +22,19 @@ class SlideAdmin(admin.ModelAdmin):
     class Meta:
          verbose_name = 'Slide'
          verbose_name_plural = 'Slides'
+
+
+class ServiceAdmin(admin.ModelAdmin):
+
+    form = ServiceForm
+    fieldsets = ((None, {'fields': ['title','statement','description','service']}),)
+    list_display = ('id','title','statement','description','service_thumbnail')
+    list_editable = ('title','statement','description',)
+    service_thumbnail = AdminThumbnail(image_field='service_thumbnail')
+
+    class Meta:
+         verbose_name = 'Service'
+         verbose_name_plural = 'Services'
 
 
 class LogoColorAdmin(admin.ModelAdmin):
@@ -55,6 +72,7 @@ class ContactInfoAdmin(admin.ModelAdmin):
          verbose_name_plural = 'Contact Info'
 
 
+admin.site.register(Service,ServiceAdmin)
 admin.site.register(ContactInfo,ContactInfoAdmin)
 admin.site.register(Logo,LogoAdmin)
 admin.site.register(LogoColor,LogoColorAdmin)

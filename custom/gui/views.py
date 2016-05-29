@@ -36,6 +36,7 @@ from custom.users.models import MileStone
 from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
 from custom.gui.models import Slide
+from custom.gui.models import FAQ
 
 @ensure_csrf_cookie
 def environment(**options):
@@ -55,7 +56,7 @@ def home(request):
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
-
+    faqs = FAQ.objects.all()
     if request.user.is_authenticated():
         logout=True
         try:
@@ -86,6 +87,7 @@ def home(request):
                                            'first':first_name,
                                            'last':last_name,
                                            'slides':slides,
+                                           'faqs':faqs,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})

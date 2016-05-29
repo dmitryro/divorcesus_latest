@@ -4160,6 +4160,23 @@ background-color:rgba(255,255,255,.7);
 
 
           <h4>Frequently Asked Questions</h4>
+
+
+         {% for faq in faqs %}
+             <div style="width:90%;min-height:2em;margin-top:1.5em;">
+               <div style="float:left;width:5%;font-weight:bold;font-size=5.0em;font-family: 'BaskervilleSerial';">Q.</div>
+               <div style="float:let:width:94%;font-weight:norma;font-size:1.0em;">{{ faq.question }}</div>
+               <div class="clear"></div> 
+             </div>
+             <div style="width:90%;min-height:2em;margin-bottom:2em;">
+               <div style="float:left;width:5%;font-weight:bold;font-size=5.0em;font-family: 'BaskervilleSerial';">A.</div>
+               <div style="float:let:width:94%;font-weight:norma;font-size:1.0em;">{{ faq.answer }}</div>
+               <div class="clear"></div>
+             </div>
+             <div class="clear"></div>
+
+         {% endfor %} 
+         
       </div>
     </section>
 </main>

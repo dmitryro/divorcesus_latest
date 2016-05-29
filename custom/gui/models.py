@@ -96,4 +96,23 @@ class Service(models.Model):
         return self.title
 
    def __unicode__(self):
-        return unicode(self.service)
+        return unicode(self.title)
+
+
+
+class FAQ(models.Model):
+   question = models.CharField(max_length=450, blank=True)
+   note = models.CharField(max_length=450, blank=True)
+   answer = models.CharField(max_length=2500, blank=True)
+
+
+   class Meta:
+        verbose_name = 'Frequently Asked Question'
+        verbose_name_plural = 'Frequently Asked Questions'
+
+   def __str__(self):
+        return self.question
+
+   def __unicode__(self):
+        return unicode(self.question)
+

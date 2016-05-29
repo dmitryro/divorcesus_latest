@@ -4,9 +4,11 @@ from models import Logo
 from models import LogoColor
 from models import ContactInfo
 from models import Service
+from models import FAQ
 from forms import SlideForm
 from forms import ContactInfoForm
 from forms import ServiceForm
+from forms import FAQForm
 from imagekit.admin import AdminThumbnail
 
 
@@ -35,6 +37,17 @@ class ServiceAdmin(admin.ModelAdmin):
     class Meta:
          verbose_name = 'Service'
          verbose_name_plural = 'Services'
+
+class FAQAdmin(admin.ModelAdmin):
+
+    form = FAQForm
+    fieldsets = ((None, {'fields': ['question','note','answer']}),)
+    list_display = ('id','question','note','answer',)
+    list_editable = ('question','note','answer')
+
+    class Meta:
+         verbose_name = 'Frequently Asked Questions'
+         verbose_name_plural = 'Frequently Asked Questions'
 
 
 class LogoColorAdmin(admin.ModelAdmin):
@@ -72,6 +85,7 @@ class ContactInfoAdmin(admin.ModelAdmin):
          verbose_name_plural = 'Contact Info'
 
 
+admin.site.register(FAQ,FAQAdmin)
 admin.site.register(Service,ServiceAdmin)
 admin.site.register(ContactInfo,ContactInfoAdmin)
 admin.site.register(Logo,LogoAdmin)

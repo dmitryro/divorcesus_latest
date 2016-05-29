@@ -6,7 +6,7 @@ from bootstrap_toolkit.widgets import BootstrapDateInput, BootstrapTextInput, Bo
 from models import Service
 from models import Slide
 from models import ContactInfo
-
+from models import FAQ
 
 class SlideForm(ModelForm):
     class Meta:
@@ -24,6 +24,17 @@ class ServiceForm(ModelForm):
             'statement': Textarea(attrs={'cols': 80, 'rows': 30}),
             'description': Textarea(attrs={'cols': 80, 'rows': 30}),
             
+        }
+        fields = '__all__' #
+
+
+class FAQForm(ModelForm):
+    class Meta:
+        model = FAQ
+        widgets = {
+            'note': Textarea(attrs={'cols': 80, 'rows': 30}),
+            'answer': Textarea(attrs={'cols': 80, 'rows': 30}),
+
         }
         fields = '__all__' #
 

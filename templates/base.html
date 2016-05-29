@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 {% load static %}
 {% load gui_extras %}
 
@@ -106,7 +106,7 @@ background-color:rgba(255,255,255,.7);
    <section class="panel">
       <div class="container">
           <ul class="inline-list">
-              <li><a href="#">FAQ</a></li>
+              <li><a v-link="{ path: '/faq' }" onclick="on_mobile_faq();return false;">FAQ</a></li>
               <li><a href="#">Ask A Question </a></li>
               <li><a href="#">Online Consultation </a></li>
               <li><a href="#">Chat with US</a></li>
@@ -228,13 +228,20 @@ background-color:rgba(255,255,255,.7);
                
               </ul>
             </li>
-              <li>
+             
+            <li>
                   <a v-link="{ path: '/contact' }" onclick="on_mobile_contact();return false;" id="contact" href="#">Contact Us</a>
-                </li>
-                <li>
+            </li>
+            
+            <li>
                   <a v-link="{ path: '/payment' }" onclick="on_mobile_payment();return false;" id="payment" href="#">Make a Payment </a>
-                </li>
+            </li>
 
+            <li>
+                  <a v-link="{ path: '/blog' }" onclick="on_mobile_blog();return false;" id="blog" href="#">Blog </a>
+            </li>
+
+             
           </ul>
         </nav>
       </div>
@@ -4121,13 +4128,64 @@ background-color:rgba(255,255,255,.7);
     <section class="terms">
       <div class="container">
           <p>
-             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
-             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;">Services</a>&nbsp; >>&nbsp;
              <span>Free Consultation</span>
           </p>
 
 
           <h4>Free Consultation</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+<div id="faq_block">
+<main id="content-faq">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <span>Frequently Asked Questions</span>
+          </p>
+
+
+          <h4>Frequently Asked Questions</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+
+<div id="blog_block">
+<main id="content-blog">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <span>Blog</span>
+          </p>
+
+
+          <h4>Blog</h4>
       </div>
     </section>
 </main>
@@ -4981,8 +5039,8 @@ Vue.component('modal', {
             document.getElementById('mediation_block').style.display='none';
             document.getElementById('adoption_block').style.display='none';
             document.getElementById('free_consultation_block').style.display='none';
-
-
+            document.getElementById('blog_block').style.display='none';
+            document.getElementById('faq_block').style.display='none';
 
             var jssor_1_SlideshowTransitions = [
               {$Duration:1200,x:0.2,y:-0.1,$Delay:20,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$Jease$.$InWave,$Top:$Jease$.$InWave,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:1.3,$Top:2.5}},
@@ -5512,6 +5570,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5534,6 +5594,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5556,6 +5618,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5578,6 +5642,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;  
   }
 
@@ -5600,6 +5666,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5622,6 +5690,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5644,6 +5714,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5666,6 +5738,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5688,6 +5762,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5710,6 +5786,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5732,6 +5810,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5754,6 +5834,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5776,6 +5858,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5798,6 +5882,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5820,6 +5906,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none'; 
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
 
   }
@@ -5843,6 +5931,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='block';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
 
   }
@@ -5866,6 +5956,8 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='block';
       document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
   }
 
@@ -5889,10 +5981,67 @@ Vue.component('modal', {
       document.getElementById('mediation_block').style.display='none';
       document.getElementById('adoption_block').style.display='none';
       document.getElementById('free_consultation_block').style.display='block';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
       return false;
    
 
   }
+
+  function on_mobile_blog() {
+
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='block';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+
+
+  }
+
+  function on_mobile_faq() {
+
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='block'; 
+      return false;
+
+
+  }
+
 </script>
 
 <script src="/static/js/classie.js"></script>

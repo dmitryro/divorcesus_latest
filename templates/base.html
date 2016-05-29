@@ -3789,12 +3789,54 @@ background-color:rgba(255,255,255,.7);
 
 
 
+              <!-- use the modal component, pass in the prop -->
+
+            {% if not logout %}
+
+
+
+        <div id="app" style="float:left;">
+              <!-- use the modal component, pass in the prop -->
+
+            {% if not logout %}
+                  Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to continue with your payment.
+            {% endif %}
+
+            {% if logout %}
+                {% user_meta user_id 1 %}
+                &nbsp;
+                {% user_meta user_id 2 %}
+                &nbsp;&nbsp;
+
+
+
+            {% endif %}
+
+               <modal :show.sync="showModal">
+               <!--
+/                  you can use custom content here to overwrite
+                  default content
+                     -->
+
+              </modal>
+
+
+       </div>
+
+            {% endif %}
+
+            {% if logout %}
+
 
 <!-- toast element -->
 
    <div id="paymentwizard">
 
         <h3><span>Make a </span> Payment</h3>
+
+
+
+
 
 
 <ul class='nav nav-wizard' id="wizard">
@@ -3811,7 +3853,7 @@ background-color:rgba(255,255,255,.7);
 
 </ul>
 <br/><br/>
-
+</div>
 
 <div id="stepone">
 
@@ -4042,33 +4084,18 @@ Use this form to make a credit card payment. By using this form and accepting th
 
   Step Five of the payment Process - Process Payment
   </form>
-</div>
 
 
 
 
 
-        <div id="app" style="float:left;">
-              <!-- use the modal component, pass in the prop -->
-
-
-               <modal :show.sync="showModal">
-               <!--
-                  you can use custom content here to overwrite
-                  default content
-                     -->
-
-              </modal>
-
-
-       </div>
 
 
 
-
-
+</div> {% endif %}
 
     </section>
+
   </main>
 
 </div>
@@ -4374,12 +4401,12 @@ var vm3 = new Vue({
                vm4.$set('zip',this.zip);
                $("#final_email").html("<p><strong>Email: "+this.email.toString()+"</strong></p>");
                $("#final_fullname").html("<p><strong>Full Name: "+this.fullname.toString()+"</strong></p>");   
-               $("#final_cardtype").html("<p><strong>Credit Card: "+this.cardtype.toString()+"</strong></p>");  
-               $("#final_cardnumber").html("<p><strong>Full Name: "+this.cardnumber.toString()+"</strong></p>");   
+               $("#final_cardtype").html("<p><strong>Card Type: "+this.cardtype.toString()+"</strong></p>");  
+               $("#final_cardnumber").html("<p><strong>Card Number: "+this.cardnumber.toString()+"</strong></p>");   
                $("#final_expirationmonth").html("<p><strong>Expiration Month: "+this.expirationmonth.toString()+"</strong></p>");
                $("#final_expirationyear").html("<p><strong>Expiration Year: "+this.expirationyear.toString()+"</strong></p>");   
                $("#final_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");   
-               $("#final_address2").html("<p><strong>Full Name: "+this.address2.toString()+"</strong></p>"); 
+               $("#final_address2").html("<p><strong>Address 2: "+this.address2.toString()+"</strong></p>"); 
                $("#final_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
                $("#final_state").html("<p><strong>State: "+this.state.toString()+"</strong></p>");  
                $("#final_zip").html("<p><strong>Zip Code: "+this.zip.toString()+"</strong></p>");

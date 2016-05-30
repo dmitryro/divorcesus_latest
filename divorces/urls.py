@@ -51,7 +51,7 @@ urlpatterns = [
     url(r'^api/',include('rest_framework.urls', namespace='rest_framework')),
     url(r'api/accounts/', include('rest_framework.urls', namespace='rest_framework')), 
     url(r'^$', 'custom.gui.views.home'),
-#   url(r'^home/$', 'custom.gui.views.home'),
+    url(r'^dashboard/$', 'custom.gui.views.dashboard'),
     url(r'^accounts/login/?next=/signout/$','custom.gui.views.home'),
     url(r'^accounts/login/$','custom.gui.views.home'),
     url(r'^login/linkedin/$','custom.gui.views.home'),

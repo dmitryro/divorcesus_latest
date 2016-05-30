@@ -51,6 +51,53 @@ def environment(**options):
 def index(request):
     return render(request, 'index.html',{'home':'index.html'})
 
+
+@ensure_csrf_cookie
+def dashboard(request):
+
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+
+    if request.user.is_authenticated():
+        logout=True
+
+        try:
+           user_id = request.user.id
+           username = request.user.username
+           first_name = request.user.first_name
+           last_name = request.user.last_name
+           profile_image_path = ''
+        except Exception, R:
+           log = Logger(log='WE GOT SOME ERROR'+str(R))
+           log.save()
+           user_id = -1
+           username = ''
+           first_name = ''
+           last_name = ''
+           profile_image_path = ''
+
+    else:
+        user_id = -1
+        logout=False
+        username = ''
+        first_name = ''
+        last_name = ''
+        profile_image_path = ''
+
+    return render(request, 'dashboard.html',{'logout':logout,
+                                           'user_id':user_id,
+                                           'first':first_name,
+                                           'last':last_name,
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
+                                           'profile_image':profile_image_path})
+
+
+
 @ensure_csrf_cookie
 def home(request):
     milestones = MileStone.objects.all()

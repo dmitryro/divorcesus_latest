@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+{% load static %}
+{% load gui_extras %}
+
+<html>
+    <head>
+        <title>Dashboard</title>
+        <meta charset="utf-8">
+        <meta http-equiv="cleartype" content="on">
+        <meta name="MobileOptimized" content="320">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" type="text/css" href="/static/css/slideout.css" />
+
+        <link rel="stylesheet" href="/static/css/misc.css" />
+        <link rel="stylesheet" href="/static/css/buttons-si.css" />
+        <link href="/static/css/modal.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
+        <script src="/static/js/vue-router.js"></script>
+
+        <script src="/static/js/jquery.js"></script>
+        <script src="/static/js/jquery-migrate-1.2.1.js"></script>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.12/slideout.min.js"></script>
+    </head>
+
+    <body>
+    {% block content %}{% endblock content %}
+
+
+
+<!-- template for the modal component -->
+<script type="x/template" id="modal-template-signin">
+
+  <div class="modal-mask" v-show="show" transition="modal">
+    <div class="modal-wrapper">
+
+ <div class="modal-container">
+
+        <div class="modal-header">
+           <div class="header-left">
+             <h3><strong>SIGN IN</strong></h3>
+           </div>
+           <div class="header-right">
+              <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
+           </div>
+           <div class="clear">
+
+        </div>
+
+        <div class="modal-body">
+          <slot name="body">
+
+        <form novalidate>
+
+              <div class="form-login" id="form-login">
+
+			<div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
+
+		                <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        </div>
+
+                        <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
+                                <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        </div>
+
+                        <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
+                                <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        </div>
+                        <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
+
+                                <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        </div>
+
+
+
+
+
+
+
+        </div>
+        </form>
+
+          </slot>
+        </div>
+
+</div>
+
+
+
+    </div>
+
+</div>
+</script>
+<script>
+
+var counter = 0;
+var first_name = '';
+var fullname = '';
+var email = '';
+var modal_submit_register = 'Register';  
+var modal_submit_password = 'Reset Password';  
+var modal_submit_login    = 'Login';
+ // register modal component
+Vue.config.devtools = true;
+Vue.component('modal', {
+  template: '#modal-template-signin',
+  props: {
+    show: {
+      type: Boolean,
+      required: true,
+      twoWay: true
+    }
+  }
+
+})
+
+new Vue({
+  el: '#app',
+  data: {
+    showModal: false,
+    active: null,
+  },
+  methods: {
+    open: function(which, e) {
+      // Prevents clicking the link from doing anything
+        e.preventDefault();
+        modal.active = which;
+    },
+    close: function (e) {
+    },
+    submit: function(which, e) {
+            e.preventDefault();
+    }
+
+
+  },
+
+  ready: function () {
+  }
+  
+})
+
+ // register modal component
+Vue.component('modal', {
+  template: '#modal-template-signup',
+  props: {
+    show: {
+      type: Boolean,
+      required: true,
+      twoWay: true
+    }
+  }
+
+})
+
+
+// now we can start the app!
+// router will create an instance of App and mount to
+// the element matching the selector #app.
+
+ </script>
+
+<script src="/static/js/classie.js"></script>
+<div id="fb-root"></div>
+<script src="/static/js/script.js"></script>
+
+
+    <script>
+          var slideout = new Slideout({
+                  'panel': document.getElementById('main'),
+                  'menu': document.getElementById('menu'),
+                  'padding': 256,
+                  'tolerance': 70
+          });
+
+          document.querySelector('.js-slideout-toggle').addEventListener('click', function() {
+                   slideout.toggle();
+          });
+
+          document.querySelector('.menu').addEventListener('click', function(eve) {
+                   if (eve.target.nodeName === 'A') { slideout.close(); }
+          });
+
+          slideout.on('beforeopen', function() {
+                   document.querySelector('.fixed').classList.add('fixed-open');
+          });
+
+          slideout.on('beforeclose', function() {
+                   document.querySelector('.fixed').classList.remove('fixed-open');
+          });
+
+    </script>
+    </body>
+</html>

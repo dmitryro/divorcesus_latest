@@ -1,5 +1,8 @@
-<!DOCTYPE html>
+
+{% load static %}
 {% load gui_extras %}
+
+
 <html lang="en">
 <head>
 <title>Home</title>
@@ -16,13 +19,13 @@
   <script src="/static/js/jssor.slider.mini.js"></script>
   <script src="/static/js/jquery-migrate-1.2.1.js"></script>
   
-
+   <link rel="stylesheet" type="text/css" href="/static/css/wizard.css" />
    <link rel="stylesheet" href="/static/css/misc.css" />
    <link rel="stylesheet" href="/static/css/buttons-si.css" />
    <link href="/static/css/modal.css" rel="stylesheet" type="text/css"/>
    <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
-
    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
+   <script src="/static/js/vue-router.js"></script>
   <!--[if lt IE 9]> 
   <html class="lt-ie9">
   <div style=' clear: both; text-align:center; position: relative;'>
@@ -36,9 +39,6 @@
 
   <script src='/static/js/device.min.js'></script>
     <meta id="_token" value="{% csrf_token %}"> 
-
-
-
 <style>
 
 .background-fade .et_pb_slide.et_pb_bg_layout_dark:after {
@@ -95,10 +95,10 @@ background-color:rgba(255,255,255,.7);
 }
 }
 </style>
-
 </head>
 <body>
 <div class="page">
+
   <!--========================================================
                             HEADER
   =========================================================-->
@@ -106,7 +106,8 @@ background-color:rgba(255,255,255,.7);
    <section class="panel">
       <div class="container">
           <ul class="inline-list">
-              <li><a href="#">FAQ</a></li>
+    
+              <li><a onclick="on_mobile_faq();return false;">FAQ</a></li>
               <li><a href="#">Ask A Question </a></li>
               <li><a href="#">Online Consultation </a></li>
               <li><a href="#">Chat with US</a></li>
@@ -120,9 +121,6 @@ background-color:rgba(255,255,255,.7);
 
         <!-- app -->
         <div id="app" style="float:left;">
-              <!-- use the modal component, pass in the prop -->
-            {% user_meta user_id 1 %}  
-            &nbsp;
               <!-- use the modal component, pass in the prop -->
             {% user_meta user_id 1 %}  
             &nbsp;
@@ -153,45 +151,71 @@ background-color:rgba(255,255,255,.7);
       </div>
     </section>
    <div id="stuck_container" class="stuck_container">
-      <div class="container">
+      <div class="container" id="navapp">
         <div class="brand">
-          <h1 class="brand_name">
-            <a href="./">Grinberg & Segal</a>
-          </h1>
-  
-          <p class="brand_slogan" style="padding-top:10%;">
-           <br/>
-           <div class="division" style="margin-left:24em;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Family Law Division </div>
-           <div class="clear"></div>
-          </p>
+                    <div style="float:left;">  
+                        <a href="./"><img src="http://divorcesus.com/media/{% logo_meta 2 1 %}" width="{% logo_meta 2 2 %}" height="{% logo_meta 2 3 %}" /></a>
+                    </div>
+          
+                    <div class="clear"></div>
         </div>
 
         <nav class="nav">
           <ul class="sf-menu" data-type="navbar">
 
             <li class="active">
-              <a id="home" href="#">Home</a>
+              <a  onclick="on_mobile_home();return false;" id="home" href="#">Home</a>
             </li>
 
             <li>
-              <a id="about" href="#">About</a>
+              <a onclick="on_mobile_about();return false;" id="about" href="#">About</a>
             </li>
 
             <li>
-              <a id="pricing"  href="#">Pricing</a>
+              <a onclick="on_mobile_pricing();return false;" id="pricing"  href="#">Pricing</a>
             </li>
 
             <li>
-              <a id="services" href="#">Services</a>
+              <a onclick="on_mobile_services();return false;" id="services" href="#">Services</a>
               <ul>
                 <li>
-                  <a href="#">Contested Divorce </a>
+                  <a onclick="on_mobile_adoption();">Adoption </a>
                 </li>
                 <li>
-                  <a href="#">Ait amet conse</a>
+                  <a onclick="on_mobile_agreements();">Agreements </a>
                 </li>
                 <li>
-                  <a href="#">Uncontested Divorce</a>
+                  <a onclick="on_mobile_contested();">Contested Divorce </a>
+                </li>
+                <li>
+                  <a onclick="on_mobile_child_custody();">Child Custody</a>
+                </li>
+                <li>
+                  <a onclick="on_mobile_child_support();">Child Support</a>
+                </li>
+                <li>
+                  <a onclick="on_mobile_domestic_violence();">Domestic Violence </a>
+                </li>
+                <li>
+                  <a onclick="on_mobile_free_consultation();">Free Consultation </a>
+                </li>
+                <li>
+                  <a  onclick="on_mobile_mediation();">Mediation</a>
+                </li>
+
+                <li>
+                  <a  onclick="on_mobile_property();">Property </a>
+                </li>
+ 
+                <li>
+                  <a  onclick="on_mobile_protection();">Protection</a>
+                </li>
+
+                <li>
+                  <a  onclick="on_mobile_spousal_support();">Spousal Support</a>
+                </li>
+                <li>
+                  <a  onclick="on_mobile_uncontested();">Uncontested Divorce</a>
                   <ul>
                     <li>
                       <a href="#">With Children</a>
@@ -205,13 +229,20 @@ background-color:rgba(255,255,255,.7);
                
               </ul>
             </li>
-              <li>
-                  <a id="contact" href="#">Contact Us</a>
-                </li>
-                <li>
-                  <a id="payment" href="#">Make a Payment </a>
-                </li>
+             
+            <li>
+                  <a onclick="on_mobile_contact();return false;" id="contact" href="#">Contact Us</a>
+            </li>
+            
+            <li>
+                  <a onclick="on_mobile_payment();return false;" id="payment" href="#">Make a Payment </a>
+            </li>
 
+            <li>
+                  <a onclick="on_mobile_blog();return false;" id="blog" href="#">Blog </a>
+            </li>
+
+             
           </ul>
         </nav>
       </div>
@@ -240,107 +271,24 @@ background-color:rgba(255,255,255,.7);
         </div>
         <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 1800px; height: 900px; overflow: hidden;">
 
+          {% for slide in slides %}
 
             <div data-p="112.50" style="display: none;" class="et_pb_slide">
-                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4197_e.jpg" />
-                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  border-radius:10px;
-  font-size:1.5em;
-  text-align:center;
-  padding-top:2%;
-  color:rgb(68, 57, 49);
-  background: #fff; /* fallback for browsers that don't understand rgba */
-  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
-  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
-  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
-  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
-                           Family Law 
+                <img data-u="image" src="http://divorcesus.com/media/{{ slide.slide }}" />
+                  <div class="slide-item">
+                           {{ slide.title }} 
                   </div>
-
+                  <div class="slide-caption">
+                        <strong>{{ slide.text }}</strong>
+                        <br/> 
+                        <strong><a href="{{ slide.link }}"><span style="font-size:0.7em;font-weight:bold;padding-top:0.8em;text-align:center;display:box;">Read More >>
+                        </span></a></strong>
+                        
+                  </div>
             </div>
 
+          {% endfor %}
 
-<div data-p="112.50" style="display: none;" class="et_pb_slide">
-                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4228.jpg" />
-                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  border-radius:10px;
-  font-size:1.5em;
-  text-align:center;
-  padding-top:2%;
-  color:rgb(68, 57, 49);
-  background: #fff; /* fallback for browsers that don't understand rgba */
-  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
-  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
-  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
-  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
-                           Child Custody
-                  </div>
-
-            </div>
-
-<div data-p="112.50" style="display: none;" class="et_pb_slide">
-                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4210.jpg" />
-                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  border-radius:10px;
-  font-size:1.5em;
-  text-align:center;
-  padding-top:2%;
-  color:rgb(68, 57, 49);
-  background: #fff; /* fallback for browsers that don't understand rgba */
-  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
-  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
-  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
-  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
-                           Property Division
-                  </div>
-
-            </div>
-
-
-<div data-p="112.50" style="display: none;" class="et_pb_slide">
-                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4237.jpg" />
-
-                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  border-radius:10px;
-  font-size:1.5em;
-  text-align:center;
-  padding-top:2%;
-  color:rgb(68, 57, 49);
-  background: #fff; /* fallback for browsers that don't understand rgba */
-  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
-  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
-  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
-  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
-                          Spousal Support
-                  </div>
-
-
-            </div>
-
-<div data-p="112.50" style="display: none;" class="et_pb_slide">
-                <img data-u="image" src="http://divorcesus.com/static/office/_MG_4231.jpg" />
-
-                  <div style="position: absolute; top: 20px; left: 20px; width: 300px; height: 100px;  opacity:.50;-moz-opacity:.80;filter:alpha(opacity=80);  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  border-radius:10px;
-  font-size:1.5em;
-  text-align:center;
-  padding-top:2%;
-  color:rgb(68, 57, 49);
-  background: #fff; /* fallback for browsers that don't understand rgba */
-  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
-  background-color: rgb(150, 135, 124) !important;/* slighly transparent white */
-  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
-  border-color: rgba(0,0,0,0.2) /*Very transparent black*/">
-                           Agreements
-                  </div>
-                      
-
-            </div>
 
 
             <a data-u="ad" href="http://www.jssor.com" style="display:none">jQuery Slider</a>
@@ -404,10 +352,10 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-4">
             <div class="box">
               <div class="box_aside">
-                <a href="#"><img src="/media/images/custody.jpg" alt=""/></a>
+                <a v-link="{ path: '/childcustody' }" onclick="on_mobile_child_custody();"><img src="/media/images/custody.jpg" alt=""/></a>
               </div>
               <div class="box_cnt__no-flow">
-                <h3 class="mod"><a href="#">Child Custody</a></h3>
+                <h3 class="mod"><a v-link="{ path: '/childcustody' }" onclick="on_mobile_child_custody();">Child Custody</a></h3>
                 <span class="badge"></span>
               </div>
             </div>
@@ -415,10 +363,10 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-4">
             <div class="box">
               <div class="box_aside">
-                <a href="#"><img src="/media/images/icon-money.jpg" alt=""/></a>
+                <a v-link="{ path: '/property' }" onclick="on_mobile_property();"><img src="/media/images/icon-money.jpg" alt=""/></a>
               </div>
               <div class="box_cnt__no-flow">
-                <h3 class="mod"><a href="#">Property</a></h3> 
+                <h3 class="mod"><a v-link="{ path: '/property' }" onclick="on_mobile_property();">Property</a></h3> 
                 <span class="badge"></span>
               </div>
             </div>
@@ -426,80 +374,10 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-4">
             <div class="box">
               <div class="box_aside">
-                <a href="#"><img src="/media/images/shield.jpg" alt=""/></a>
+                <a v-link="{ path: '/protection' }" onclick="on_mobile_protection();"><img src="/media/images/shield.jpg" alt=""/></a>
               </div>
               <div class="box_cnt__no-flow">
-                <h3 class="mod"><a href="#">Protection</a></h3>
-                <span class="badge"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-4">
-            <div class="box">
-                <div class="box_aside">
-                  <a href="#"><img src="/media/images/childsupport.jpg" alt=""/></a>
-                </div>
-                <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a href="#">Child Support</a></h3>
-                  <span class="badge"></span>
-                </div>
-            </div>
-          </div>
-          <div class="col-xs-4">
-            <div class="box">
-                <div class="box_aside">
-                  <a href="#"><img src="/media/images/spousal.jpg" alt=""/></a>
-                </div>
-                <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a href="#">Spousal Support</a></h3> 
-                  <span class="badge"></span>
-                </div>
-            </div>
-          </div>
-          <div class="col-xs-4">
-            <div class="box">
-                <div class="box_aside">
-                  <a href="#"><img src="/media/images/agree.jpg" alt=""/></a>
-                </div>
-                <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a href="#">Agreements</a></h3>
-                  <span class="badge"></span>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-4">
-            <div class="box">
-                <div class="box_aside">
-                  <a href="#"><img src="/media/images/free.jpg" alt=""/></a>
-                </div>
-                <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a href="#">Free Consultation</a></h3>
-                  <span class="badge"></span>
-                </div>
-            </div>
-          </div>
-          <div class="col-xs-4">
-            <div class="box">
-                <div class="box_aside">
-                  <a href="#"><img src="/media/images/icon7.jpg" alt=""/></a>
-                </div>
-                <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a href="#">CFML</a></h3> 
-                  <span class="badge"></span>
-                </div>
-            </div>
-          </div>
-          <div class="col-xs-4">
-            <div class="box">
-              <div class="box_aside">
-                <a href="#"><img src="/media/images/icon11.jpg" alt=""/></a>
-              </div>
-              <div class="box_cnt__no-flow">
-                <h3 class="mod"><a href="#">Java</a></h3> 
+                <h3 class="mod"><a v-link="{ path: '/protection' }" onclick="on_mobile_protection();">Protection</a></h3>
                 <span class="badge"></span>
               </div>
             </div>
@@ -509,10 +387,10 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-4">
             <div class="box">
                 <div class="box_aside">
-                  <a href="#"><img src="/media/images/icon4.jpg" alt=""/></a>
+                  <a v-link="{ path: '/childsupport' }" onclick="on_mobile_child_support();"><img height="100" width="100" src="/media/images/childsupport.jpg" alt=""/></a>
                 </div>
                 <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a href="#">ASP</a></h3>
+                  <h3 class="mod"><a v-link="{ path: '/childsupport' }" onclick="on_mobile_child_support();">Child Support</a></h3>
                   <span class="badge"></span>
                 </div>
             </div>
@@ -520,10 +398,45 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-4">
             <div class="box">
                 <div class="box_aside">
-                  <a href="#"><img src="/media/images/icon8.jpg" alt=""/></a>
+                  <a v-link="{ path: '/spousalsupport' }" onclick="on_mobile_spousal_support();"><img src="/media/images/spousal.jpg" alt=""/></a>
                 </div>
                 <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a href="#">CGI and Perl</a></h3> 
+                  <h3 class="mod"><a v-link="{ path: '/spousalsupport' }" onclick="on_mobile_spousal_support();">Spousal Support</a></h3> 
+                  <span class="badge"></span>
+                </div>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="box">
+                <div class="box_aside">
+                  <a v-link="{ path: '/agreements' }" onclick="on_mobile_agreements();"><img src="/media/images/agree.jpg" alt=""/></a>
+                </div>
+                <div class="box_cnt__no-flow">
+                  <h3 class="mod"><a v-link="{ path: '/agreements' }" onclick="on_mobile_agreements();">Agreements</a></h3>
+                  <span class="badge"></span>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-4">
+            <div class="box">
+                <div class="box_aside">
+                  <a v-link="{ path: '/freeconsutation' }" onclick="on_mobile_free_consultation();">><img src="/media/images/free.jpg" alt=""/></a>
+                </div>
+                <div class="box_cnt__no-flow">
+                  <h3 class="mod"><a v-link="{ path: '/freeconsultation' }" onclick="on_mobile_free_consultation();">Free Consultation</a></h3>
+                  <span class="badge"></span>
+                </div>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="box">
+                <div class="box_aside">
+                  <a  v-link="{ path: '/uncontested' }" onclick="on_mobile_uncontested();"><img height="100" width="100"  src="/media/images/uncontested.jpg" alt=""/></a>
+                </div>
+                <div class="box_cnt__no-flow">
+                  <h3 class="mod"><a  v-link="{ path: '/uncontested' }" onclick="on_mobile_uncontested();">Uncontested Divorce</a></h3> 
                   <span class="badge"></span>
                 </div>
             </div>
@@ -531,10 +444,45 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-4">
             <div class="box">
               <div class="box_aside">
-                <a href="#"><img src="/media/images/icon12.jpg" alt=""/></a>
+                <a  v-link="{ path: '/contested' }" onclick="on_mobile_contested();"><img src="/media/images/contested.jpg" alt=""/></a>
               </div>
               <div class="box_cnt__no-flow">
-                <h3 class="mod"><a href="#">Python</a></h3>
+                <h3 class="mod"><a  v-link="{ path: '/contested' }" onclick="on_mobile_contested();">Contested Divorce</a></h3> 
+                <span class="badge"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-4">
+            <div class="box">
+                <div class="box_aside">
+                  <a v-link="{ path: '/mediation' }" onclick="on_mobile_mediation();"><img height="100" width="100" src="/media/images/mediation.jpg" alt=""/></a>
+                </div>
+                <div class="box_cnt__no-flow">
+                  <h3 class="mod"><a v-link="{ path: '/mediation' }" onclick="on_mobile_mediation();">Mediation</a></h3>
+                  <span class="badge"></span>
+                </div>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="box">
+                <div class="box_aside">
+                  <a v-link="{ path: '/domesticviolence' }" onclick="on_mobile_domestic_violence();"><img height="100" width="100" src="/media/images/domestic_violence.jpg" alt=""/></a>
+                </div>
+                <div class="box_cnt__no-flow">
+                  <h3 class="mod"><a v-link="{ path: '/domesticviolence' }" onclick="on_mobile_domestic_violence();">Domestic Violence</a></h3> 
+                  <span class="badge"></span>
+                </div>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="box">
+              <div class="box_aside">
+                <a v-link="{ path: '/adoption' }" onclick="on_mobile_adoption();"><img height="100" width="100" src="/media/images/adopt.jpg" alt=""/></a>
+              </div>
+              <div class="box_cnt__no-flow">
+                <h3 class="mod"><a v-link="{ path: '/adoption' }" onclick="on_mobile_adoption();">Adoption</a></h3>
                 <span class="badge"></span>
               </div>
             </div>
@@ -556,6 +504,7 @@ background-color:rgba(255,255,255,.7);
             <li>ASP</li>
             <li>JavaScript</li>
             <li>XML</li>
+
             <li>HTML5</li>
           </ul>
           <div class="resp-tabs-container">
@@ -1337,17 +1286,21 @@ background-color:rgba(255,255,255,.7);
           </div>
           <div class="col-xs-12 col-sm-4 wow fadeInUp" data-wow-delay=".4s">
             <h3><span>Our</span> Advantages</h3>
-            <h4 class="pt1">Excepteur sint occaecat cupidatat non</h4>
-            <p>Quisque finibus urna in venenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venenatis ullamcorper purus. Maur is vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nunc vehicula pharetra. In dictum </p>
+            <h4 class="pt1">{% advantage_meta 1 1 %}</h4>
+            <p>{% advantage_meta 1 2 %} </p>
             <ul class="list2">
-              <li><a href="#">Pestibulum molestieenean nonummys tudin</a></li>
+              {% for link in advantage_links %}
+              <li><a href="{{ link.link }}">{{ link.title }}</a></li>
+<!--
               <li><a href="#">Hendreritivamus eget nibh vel metus</a></li>
               <li><a href="#">Etiam cursus leo psumfaucibus orci suere</a></li>
               <li><a href="#">Nulla facilisii primis neclaoreet</a></li>
               <li><a href="#">Aenean nec eros luctus estibulum ante</a></li>
               <li><a href="#">Ultrices pouspendisse sollic velita</a></li>
+-->
+              {% endfor %}
             </ul>
-            <p>Quisque finibus urna in venenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venenatis ullamcorper purus. Maur is vel lobortis leo, sed ullamcorper </p>
+            <p>{% advantage_meta 1 3 %}</p>
           </div>
         </div>
       </div>
@@ -1374,7 +1327,7 @@ background-color:rgba(255,255,255,.7);
           <div class="col-xs-12 col-sm-3 wow fadeInRight">
             <img src="/media/images/page-2_img05.jpg" alt=""/>
             <h4>Chandra Vancova</h4>
-            <p>Аvenenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venen</p>
+            <p>Ðvenenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venen</p>
           </div>
         </div>
       </div>
@@ -1462,6 +1415,8 @@ background-color:rgba(255,255,255,.7);
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+
 <!--
             <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
               <label class="search-form_label">
@@ -1475,7 +1430,17 @@ background-color:rgba(255,255,255,.7);
         </div>        
       </div>
     </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <span>Services</span>
+          </p>
+      </div>
+    </secttion>
     <section class="well7">
+
+
       <h3><span>New York</span> Divorce Packages</h3>
       <div class="container mt1">
         <div class="row">
@@ -3108,13 +3073,13 @@ background-color:rgba(255,255,255,.7);
           </div>
         </div>
         <div class="btn-wrap">
-          <a href="#" class="btn">See all scripts</a>
+          <a href="#" class="btn">View Prices</a>
         </div>
       </div>
     </section>
-    <section class="parallax" data-url="images/parallax4.jpg">
+    <section class="parallax" data-url="/media/images/family_banner.jpg">
       <div class="container wow fadeIn">
-        <h2><span>Start different</span> profitable web sites with ease </h2>
+        <h2><span>Bring the change to your life</span> today.  </h2>
         <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
         <a href="#" class="btn4">Read more</a>
       </div>
@@ -3748,8 +3713,8 @@ background-color:rgba(255,255,255,.7);
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
 <!--
-            <f/rm class="search-form" action="search.php" method="GET" accept-charset="utf-8">
               <label class="search-form_label">
                 <input class="search-form_input" type="text" name="s" autocomplete="off" placeholder="Search Scripts"/>
                 <span class="search-form_liveout"></span>
@@ -3773,23 +3738,23 @@ background-color:rgba(255,255,255,.7);
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-4">
-            <h3><span>Address </span></h3>
-            <p>Our office is conveniently located in the Financial District in Downtown NYC. Please use Wall Street stop (2,3,4,5).</p>
-            <h4>76 Beaver Street, 10th Floor,<br>New York, NY 10004.</h4>
+            <h3><span>{% contact_meta 1 0 %} </span></h3>
+            <p>{% contact_meta 1 1 %}</p>
+            <h4>{% contact_meta 1 2 %},{% contact_meta 1 3 %}<br>{% contact_meta 1 4 %}, {% contact_meta 1 5 %} {% contact_meta 1 6 %}.</h4>
             <address class="addr">
               <dl>
                 <dt>Freephone:</dt>
-                <dd><a href="callto:#">+1 212 202 0342</a></dd>
+                <dd><a href="callto:#">{% contact_meta 1 7 %}</a></dd>
               </dl>
               <dl>
                 <dt>Telephone:</dt>
-                <dd><a href="callto:#">+1 212 202 0342</a></dd>
+                <dd><a href="callto:#">{% contact_meta 1 8 %}</a></dd>
               </dl>
               <dl>
                 <dt>FAX:</dt>
-                <dd><a href="callto:#">+1 212 202 0342</a></dd>
+                <dd><a href="callto:#">{% contact_meta 1 9 %}</a></dd>
               </dl>
-              <p>E-mail: <a class="link" href="mailto:#">info@myattorneyusa.com</a></p>
+              <p>E-mail: <a class="link" href="mailto:#">{% contact_meta 1 10 %}</a></p>
             </address>
           </div>
           <div class="col-xs-12 col-sm-8" id="contactus">
@@ -3810,7 +3775,8 @@ background-color:rgba(255,255,255,.7);
                       <input type="text" 
                       name="name"
                       v-model="name"
-                      placeholder="Name*" 
+                      placeholder="Name*"
+                      value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}&nbsp;&nbsp;{% endif %}"
                       data-constraints="@LettersOnly @NotEmpty"/> 
                   </label> 
 
@@ -3818,7 +3784,7 @@ background-color:rgba(255,255,255,.7);
                       <input type="text" 
                       name="phone" 
                       v-model="phone"
-                      placeholder="Phone" 
+                      placeholder="Phone"
                       data-constraints="@Phone"/> 
                   </label> 
                   <label>
@@ -3828,6 +3794,7 @@ background-color:rgba(255,255,255,.7);
                       name="email" 
                       v-model="email"
                       placeholder="email"
+                      value="{% if logout %}{% user_meta user_id 4 %}&nbsp;&nbsp;{% endif %}"
                       data-constraints="@Email @NotEmpty"/>
                   </label>
                   </label> 
@@ -3855,8 +3822,392 @@ background-color:rgba(255,255,255,.7);
 
 </div>
 
+<div id="agreements_block">
+<main id="content-agreements">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Agreements</span>
+          </p>
 
 
+          <h4>Agreemens</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+
+<div id="protection_block">
+<main id="content-protection">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Protection</span>
+          </p>
+
+
+          <h4>Protection</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+
+
+<div id="property_block">
+<main id="content-property">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+                
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+         <p>
+          <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+          <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+          <span>Property</span>
+         </p>
+
+          <h4>Property</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+
+<div id="child_custody_block">
+<main id="content-child_custody">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+           <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Child Custody</span>
+           </p>
+
+          <h4>Child Custody</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+
+<div id="spousal_support_block">
+<main id="content-spousal-support">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Spousal Support</span>
+          </p>
+
+          <h4>Spousal Support</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+
+
+<div id="child_support_block">
+<main id="content-child-support">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Child Support</span>
+          </p>
+
+
+          <h4>Child Support</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+
+<div id="contested_divorce_block">
+<main id="content-contested-divorce">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Contested Divorce</span>
+          </p>
+
+          <h4>Contested Divorce</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+
+<div id="uncontested_divorce_block">
+<main id="content-uncontested-divorce">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Uncontested Divorce</span>
+          </p>
+
+
+          <h4>Uncontested Divorce</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+
+<div id="mediation_block">
+<main id="content-mediation">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Mediation</span>
+          </p>
+
+
+          <h4>Mediation</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+<div id="adoption_block">
+<main id="content-adoption">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Adoption</span>
+          </p>
+
+
+          <h4>Adoption</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+<div id="domestic_violence_block">
+<main id="content-domestic-violence">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
+             <span>Domestic Violence</span>
+          </p>
+
+
+          <h4>Domestic Violence</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+<div id="free_consultation_block">
+<main id="content-free-consultation">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;">Home</a>&nbsp; >>&nbsp;
+             <a v-link="{ path: '/services' }" onclick="on_mobile_services();return false;">Services</a>&nbsp; >>&nbsp;
+             <span>Free Consultation</span>
+          </p>
+
+
+          <h4>Free Consultation</h4>
+      </div>
+    </section>
+</main>
+</div>
+
+<div id="faq_block">
+<main id="content-faq">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <span>Frequently Asked Questions</span>
+          </p>
+
+
+          <h4>Frequently Asked Questions</h4>
+
+
+         {% for faq in faqs %}
+             <div style="width:90%;min-height:2em;margin-top:1.5em;">
+               <div style="float:left;width:5%;font-weight:bold;font-size=5.0em;font-family: 'BaskervilleSerial';">Q.</div>
+               <div style="float:let:width:94%;font-weight:norma;font-size:1.0em;">{{ faq.question }}</div>
+               <div class="clear"></div> 
+             </div>
+             <div style="width:90%;min-height:2em;margin-bottom:2em;">
+               <div style="float:left;width:5%;font-weight:bold;font-size=5.0em;font-family: 'BaskervilleSerial';">A.</div>
+               <div style="float:let:width:94%;font-weight:norma;font-size:1.0em;">{{ faq.answer }}</div>
+               <div class="clear"></div>
+             </div>
+             <div class="clear"></div>
+
+         {% endfor %} 
+         
+      </div>
+    </section>
+</main>
+</div>
+
+
+<div id="blog_block">
+<main id="content-blog">
+   <section class="bg-img well-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="terms">
+      <div class="container">
+          <p>
+             <a v-link="{ path: '/home' }" onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+             <span>Blog</span>
+          </p>
+
+
+          <h4>Blog</h4>
+      </div>
+    </section>
+</main>
+</div>
 
 
 <div id="payment_block">
@@ -3866,17 +4217,6 @@ background-color:rgba(255,255,255,.7);
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
 
-<!-- trigger examples -->
-
-<!--
-            <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
-              <label class="search-form_label">
-                <input class="search-form_input" type="text" name="s" autocomplete="off" placeholder="Search Scripts"/>
-                <span class="search-form_liveout"></span>
-              </label>
-              <button class="search-form_submit fa-search" type="submit"></button>
-            </form>          
--->
           </div>
         </div>        
       </div>
@@ -3885,26 +4225,21 @@ background-color:rgba(255,255,255,.7);
       <div class="container">
 
 
- <F3> 
 
 
-<!-- toast element -->
+              <!-- use the modal component, pass in the prop -->
 
+            {% if not logout %}
 
-
-        <h3><span>Make a </span> Payment</h3>
-        <p>
-Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
-          </p>
-          <p>
-                   Please 
 
 
         <div id="app" style="float:left;">
               <!-- use the modal component, pass in the prop -->
 
             {% if not logout %}
-                  Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to continue.
+              <div style="min-height:30%;pading-top:2.4em;font-size:1.2em;">
+                  Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to continue with your payment.
+              </div>
             {% endif %}
 
             {% if logout %}
@@ -3913,7 +4248,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                 {% user_meta user_id 2 %}
                 &nbsp;&nbsp;
 
-                <div id="field6"></div>
+
 
             {% endif %}
 
@@ -3928,15 +4263,282 @@ Use this form to make a credit card payment. By using this form and accepting th
 
        </div>
 
+            {% endif %}
 
+            {% if logout %}
+
+
+<!-- toast element -->
+
+   <div id="paymentwizard">
+
+        <h3><span>Make a </span> Payment</h3>
+
+
+
+
+
+
+<ul class='nav nav-wizard' id="wizard">
+  
+  <li><a id="progress_stepone" href='#' data-toggle="tab">Step 1 - Name and Email</a></li>
+
+  <li><a id="progress_steptwo" href='#' data-toggle="tab">Step 2 - Payment Info</a></li>
+
+   <li><a id="progress_stepthree" href='#' data-toggle="tab">Step 3 - Billing Address</a></li>
+
+  <li><a id="progress_stepfour" href='#' data-toggle="tab">Step 4 - Review and Conirm</a></li>
+
+  <li><a id="progress_stepfive">Step 5 - Process Payment</a></li>
+
+</ul>
+<br/><br/>
+</div>
+
+<div id="stepone">
+
+        <p>
+Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
           </p>
-      </div>
-    </section>
-  </main>
+            <form class='mailform contact-form' method="post">
+                 {% csrf_token %}
+
+
+              <input type="hidden" name="counter" id="counter" value=""/>
+              <fieldset>
+                  <label>
+                      <input type="text"
+                      name="fullname"
+                      id="fullname"
+                      v-model="fullname"
+                      placeholder="Name*"
+                      value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}" 
+                      data-constraints="@LettersOnly @NotEmpty"/>
+                  </label>
+                  
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      id="email"
+                      name="email"
+                      v-model="email"
+                      value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
+                      placeholder="Email"
+                      data-constraints="@Email @NotEmpty"/>
+                  </label>
+                  <div style="float:left;padding-top:1.9em;">
+                      <button class="btn4" v-on:click="submitone"  id="next_one">Next</button>
+                  </div> 
+                  <div class="clear"></div>
+              </fieldset>
+             </form>
+</div>
+
+
+<div id="steptwo">
+            <form class='mailform contact-form' method="post">
+                 {% csrf_token %}
+
+              <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
+              <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{{ fullname }}"/>
+              <input type="hidden" name="counter" id="counter" value=""/>
+  
+              {{ fullname }}<br/>
+              {{ email }}   
+              <fieldset> 
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="cardtype"
+                      id="cardtype"
+                      v-model="cardtype"
+                      placeholder="Card Type*"
+                      value="Visa,AMEX,MasterCard,Discover..."
+                      data-constraints="@LettersOnly @NotEmpty"/>
+                  </label>
+
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="cardnumber"
+                      id="cardnumber"
+                      v-model="cardnumber"
+                      placeholder="Card Number*"
+                      value="Your Card Number (Digits Only, no dashes)..."
+                      data-constraints="@CreditCard @NotEmpty"/>
+                  </label>
+
+                     <div style="width:20.5%;float:left;">
+                        <label style="padding-top:1.9em;"> 
+                          <input type="text"
+                                 id="expirationmonth"
+                                 name="expirationmonth"
+                                 v-model="expirationmonth"
+                                 style="width:96%;"
+                                 value=""
+                                 placeholder="Expiration Month"
+                                 data-constraints="@NotEmpty"/>
+                                 &nbsp;&nbsp;
+                          </label>
+                     </div>
+                     <div style="width:20.5%;float:left;">  
+                       <label style="padding-top:1.9em;">
+                          <input type="text"
+                                 id="expirationyear"
+                                 name="expirationyear"
+                                 v-model="expirationyear"
+                                 style="width:96%;"
+                                 value=""
+                                 placeholder="Expiration Year"
+                                 data-constraints="@NotEmpty"/>
+                       </label>
+                     </div>
+                     <div class="clear"></div>
+
+                  <div style="float:left;padding-top:1.9em;">
+                      <button class="btn4" v-on:click="submittwo"  id="next_two">Next</button>
+                  </div>
+                  <div class="clear"></div>
+              </fieldset>
+             </form>
 
 </div>
 
 
+<div id="stepthree">
+
+            <form class='mailform contact-form' method="post">
+                 {% csrf_token %}
+
+              <input type="hidden" name="email" id="email" v-model="email"  value=""/>
+              <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
+
+              <input type="hidden" name="counter" id="counter" value=""/>
+              <fieldset>
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="address1"
+                      v-model="address1"
+                      placeholder="Address 1*"
+                      value="Address 1 ..."
+                      data-constraints="@NotEmpty"/>
+                  </label>
+
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="address2"
+                      v-model="address2"
+                      placeholder="Address 2*"
+                      value="Address 2 ..."
+                      data-constraints=""/>
+                  </label>
+
+
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      name="city"
+                      v-model="city"
+                      placeholder="City*"
+                      value="City..."
+                      data-constraints="@LettersOnly @NotEmpty"/>
+                  </label>
+
+                     <div style="width:20.5%;float:left;">
+                        <label style="padding-top:1.9em;">
+                          <input type="text"
+                                 name="state"
+                                 v-model="state"
+                                 style="width:96%;"
+                                 value="State..."
+                                 placeholder="State"
+                                 data-constraints="@LettersOnly @NotEmpty"/>
+                                 &nbsp;&nbsp;
+                          </label>
+                     </div>
+                     <div style="width:20.5%;float:left;">
+                       <label style="padding-top:1.9em;">
+                          <input type="text"
+                                 name="zip"
+                                 v-model="zip"
+                                 style="width:96%;"
+                                 value="Zip Code..."
+                                 placeholder="Zip"
+                                 data-constraints="@NotEmpty"/>
+                       </label>
+                     </div>
+                     <div class="clear"></div>
+
+                  <div style="float:left;padding-top:1.9em;">
+                      <button class="btn4" v-on:click="submitthree"  id="next_three">Next</button>
+                  </div>
+                  <div class="clear"></div>
+              </fieldset>
+             </form>
+
+</div>
+
+<div id="stepfour">
+      <form class='mailform contact-form' method="post">
+                 {% csrf_token %}
+                 <div><h4><strong>Individual Details</strong></h4></div>
+                 <div id="final_email"></div>
+                 <div id="final_fullname"></div>  
+                 <div>--------------------------------------------------------------------------------------------</div>
+                 <div><h4><strong>Payment Card Details</strong></h4></div>  
+                 <div id="final_cardtype"></div>  
+                 <div id="final_cardnumber"></div>
+                 <div id="final_expirationmonth"></div>
+                 <div id="final_expirationyear"></div>
+                 <div>--------------------------------------------------------------------------------------------</div>
+                 <div><h4><strong>Billing Address Details</strong></h4></div>
+                 <div id="final_address1"></div>
+                 <div id="final_address2"></div>   
+                 <div id="final_city"></div>
+                 <div id="final_state"></div>
+                 <div id="final_zip"></div>
+
+
+              <input type="hidden" name="email" id="email" v-model="email"  value=""/>
+              <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
+
+              <input type="hidden" name="counter" id="counter" value=""/>
+  
+
+<fieldset>
+                  <div style="float:left;padding-top:1.9em;">
+                      <button class="btn4" v-on="click:submitfour"  id="next_four">Proceed</button>
+                  </div>
+                  <div class="clear"></div>
+              </fieldset>
+
+
+  </form>
+
+</div>
+<div id="stepfive">
+    <form class='mailform contact-form' method="post">
+                 {% csrf_token %}
+        
+
+            <input type="hidden" name="counter" id="counter" value=""/>
+  
+ {% csrf_token %}
+
+
+  Step Five of the payment Process - Process Payment
+  </form>
+
+
+
+
+
+
+
+
+</div> {% endif %}
+
+    </section>
+
+  </main>
+
+</div>
 
   <!--========================================================
                             FOOTER
@@ -3959,14 +4561,27 @@ Use this form to make a credit card payment. By using this form and accepting th
         <div class="col-md-2 col-sm-6 col-xs-6">
           <h4>About</h4>
           <ul class="list">
-              <li><a href="#">Lorem ipsum</a></li>
-              <li><a href="#">Dolor sit amet</a></li>
+              <li><a href="#">Our Team</a></li>
+              <li><a href="#">Why Us</a></li>
               <li><a href="#">Conse ctetur adipisicing</a></li>
               <li><a href="#">Elit sed do eiusmod</a></li>
               <li><a href="#">Tempor</a></li>
               <li><a href="#">Incididunt ut labore</a></li>
           </ul>
         </div>
+
+      <div class="col-md-2 col-sm-6 col-xs-6">
+          <h4>Practice Areas</h4>
+          <ul class="list">
+              <li><a href="#">Family Law</a></li>
+              <li><a href="#">Immigration Law</a></li>
+              <li><a href="#">Patent Law</a></li>
+              <li><a href="#">Business Law</a></li>
+              <li><a href="#">Other Areas</a></li>
+          </ul>
+        </div>
+
+
         <div class="col-md-2 col-sm-6 col-xs-16">
           <h4>Need Help?</h4>
           <ul class="list">
@@ -3995,7 +4610,8 @@ Use this form to make a credit card payment. By using this form and accepting th
           </form>             
           <p class="text1">Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
         </div>
-        <div class="col-md-4 col-sm-6 col-xs-6 pt">
+        
+        <div class="col-md-2 col-sm-6 col-xs-6 pt">
           <h4>Contact Us</h4>
           <ul class="list">
               <li><a href="#">Phone (212) 202 0342</a></li>
@@ -4009,7 +4625,9 @@ Use this form to make a credit card payment. By using this form and accepting th
     </div>
     <hr/>
     <div class="container">
-      <p class="copy">Grinberg & Segal © <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p>
+      <center>
+           <p class="copy">Grinberg & Segal Â© <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p>
+      </center>
     </div>
   </footer>
 
@@ -4017,6 +4635,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 </div>
 <div id="fb-root"></div>
+
 
 <!-- template for the modal component -->
 <script type="x/template" id="modal-template-signin">
@@ -4081,13 +4700,17 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 </div>
 </script>
-
 <script>
 
+var counter = 0;
+var first_name = '';
+var fullname = '';
+var email = '';
 var modal_submit_register = 'Register';  
 var modal_submit_password = 'Reset Password';  
 var modal_submit_login    = 'Login';
  // register modal component
+Vue.config.devtools = true;
 Vue.component('modal', {
   template: '#modal-template-signin',
   props: {
@@ -4099,6 +4722,201 @@ Vue.component('modal', {
   }
 
 })
+
+var vm = new Vue({
+  el: '#stepone',
+  data: {
+    email:'',
+    fullname: '',
+  },
+  methods: {
+    submitone: function (event) {
+               this.$set('email',$('#email').val());
+               this.$set('fullname',$('#fullname').val());               
+
+    },
+    submittwo: function (event) {
+    },
+
+    submitthree: function (event) {
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
+            alert("SUCCESS");
+    },
+    errorCallback: function(event) {
+            alert("ERROR");
+    },
+    validConfirm: function(event) {
+           alert("VALID");
+    }
+    
+  }
+})
+
+
+var vm2 = new Vue({
+  el: '#steptwo',
+  data: {
+    email:'',
+    fullname: '',
+    cardtype:'',
+    cardnumber:'',
+    expirationmonth:'',
+    expirationyear:'',
+  },
+  methods: {
+    submitone: function (event) {
+    },
+    submittwo: function (event) {
+           this.$set('email',vm.email);
+           this.$set('fullname',vm.fullname);
+           vm3.$set('email',this.email);
+           vm3.$set('fullname',this.fullname);
+           vm3.$set('cardtype',this.cardtype);
+           vm3.$set('cardnumber',this.cardnumber);
+           vm3.$set('expirationmonth',this.expirationmonth);
+           vm3.$set('expirationyear',this.expirationyear);
+    },
+
+    submitthree: function (event) {
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
+            alert("SUCCESS");
+    },
+    errorCallback: function(event) {
+            alert("ERROR");
+    },
+    validConfirm: function(event) {
+           alert("VALID");
+    }
+  },
+  ready:function() {
+      this.$set('email',$('#email').val());
+      this.$set('fullname',$('#fullname').val());
+    
+  }
+  
+})
+
+
+
+var vm3 = new Vue({
+  el: '#stepthree',
+  data: {
+    email:'',
+    fullname: '',
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    zip:  '',
+    cardtype: '',
+    cardnumber: '',
+    expirationmonth: '',
+    expirationyear: '',
+  },
+  methods: {
+    submitone: function (event) {
+    },
+    submittwo: function (event) {
+    },
+
+    submitthree: function (event) {
+               vm4.$set('email',this.email);
+               vm4.$set('fullname',this.fullname);
+               vm4.$set('cardtype',this.cardtype);
+               vm4.$set('cardnumber',this.cardnumber);
+               vm4.$set('expirationmonth',this.expirationmonth);
+               vm4.$set('expirationyear',this.expirationyear);
+               vm4.$set('address1',this.address1);
+               vm4.$set('address1',this.address2); 
+               vm4.$set('city',this.city);
+               vm4.$set('state',this.state);
+               vm4.$set('zip',this.zip);
+               $("#final_email").html("<p><strong>Email: "+this.email.toString()+"</strong></p>");
+               $("#final_fullname").html("<p><strong>Full Name: "+this.fullname.toString()+"</strong></p>");   
+               $("#final_cardtype").html("<p><strong>Card Type: "+this.cardtype.toString()+"</strong></p>");  
+               $("#final_cardnumber").html("<p><strong>Card Number: "+this.cardnumber.toString()+"</strong></p>");   
+               $("#final_expirationmonth").html("<p><strong>Expiration Month: "+this.expirationmonth.toString()+"</strong></p>");
+               $("#final_expirationyear").html("<p><strong>Expiration Year: "+this.expirationyear.toString()+"</strong></p>");   
+               $("#final_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");   
+               $("#final_address2").html("<p><strong>Address 2: "+this.address2.toString()+"</strong></p>"); 
+               $("#final_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
+               $("#final_state").html("<p><strong>State: "+this.state.toString()+"</strong></p>");  
+               $("#final_zip").html("<p><strong>Zip Code: "+this.zip.toString()+"</strong></p>");
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
+            alert("SUCCESS");
+    },
+    errorCallback: function(event) {
+            alert("ERROR");
+    },
+    validConfirm: function(event) {
+           alert("VALID");
+    }
+
+  },
+  ready: function() {
+  }
+})
+
+
+var vm4 = new Vue({
+  el: '#stepfour',
+  data: {
+    email:vm3.email,
+    fullname: vm3.fullname,
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    zip:  '',
+    cardtype: '',
+    cardnumber: '',
+    expirationmonth: '',
+    expirationyear: '',
+  },
+  // define methods under the `methods` object
+  methods: {
+
+    submitone: function (event) {
+    },
+
+    submittwo: function (event) {
+    },
+
+    submitthree: function (event) {
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
+    },
+
+    errorCallback: function(event) {
+    },
+
+    validConfirm: function(event) {
+    }
+
+  },
+  ready:function() {
+  }
+})
+
 
 // start app
 new Vue({
@@ -4118,7 +4936,7 @@ new Vue({
             alert("ERROR");
      },
      validConfirm: function() {
-           alsert("VALID");
+           alert("VALID");
            $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
      },
      submit: function() {
@@ -4187,7 +5005,7 @@ new Vue({
 
   ready: function () {
   }
-
+  
 })
 
  // register modal component
@@ -4203,12 +5021,44 @@ Vue.component('modal', {
 
 })
 
+
+// now we can start the app!
+// router will create an instance of App and mount to
+// the element matching the selector #app.
+
  </script>
 <script src="/static/js/jssor.slider.mini.js"></script>
 <script src="/static/js/jssor.slider.min.js"></script>
 
 <script>
+
    $(document).ready(function() {
+
+
+            var counter = 1;
+
+            $("#counter").attr("value",1);
+            $("#wizard :nth-child(1)").attr('class','active');
+            $("#stepone").css("display","block");
+            $("#steptwo").css("display","none");
+            $("#stepthree").css("display","none");
+            $("#stepfour").css("display","none");
+            $("#stepfive").css("display","none");
+
+            document.getElementById('property_block').style.display='none';
+            document.getElementById('protection_block').style.display='none';
+            document.getElementById('agreements_block').style.display='none';
+            document.getElementById('child_custody_block').style.display='none';
+            document.getElementById('child_support_block').style.display='none';
+            document.getElementById('spousal_support_block').style.display='none';
+            document.getElementById('contested_divorce_block').style.display='none';
+            document.getElementById('uncontested_divorce_block').style.display='none';
+            document.getElementById('domestic_violence_block').style.display='none';
+            document.getElementById('mediation_block').style.display='none';
+            document.getElementById('adoption_block').style.display='none';
+            document.getElementById('free_consultation_block').style.display='none';
+            document.getElementById('blog_block').style.display='none';
+            document.getElementById('faq_block').style.display='none';
 
             var jssor_1_SlideshowTransitions = [
               {$Duration:1200,x:0.2,y:-0.1,$Delay:20,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$Jease$.$InWave,$Top:$Jease$.$InWave,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:1.3,$Top:2.5}},
@@ -4245,6 +5095,10 @@ Vue.component('modal', {
             function ScaleSlider() {
                 var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
                 if (refSize) {
+                    //refSize = Math.min(refSize, 600);
+                    refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
+                    jssor_1_slider.$ScaleWidth(refSize);
+                }
                 else {
                     window.setTimeout(ScaleSlider, 30);
                 }
@@ -4254,17 +5108,220 @@ Vue.component('modal', {
             $(window).bind("resize", ScaleSlider);
             $(window).bind("orientationchange", ScaleSlider);
 
+      $("#progress_stepone").bind("click",function() {
+                     counter = 0;
+                     $("#stepone").css("display","block");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","none");
+
+                     $("#wizard :nth-child(1)").attr('class','active');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+                     $("#wizard :nth-child(5)").removeAttr('class');
+
+      });
+
+      $("#progress_steptwo").bind("click",function() {
+                     counter = 1;
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","block");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","none");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").attr('class','active');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+                     $("#wizard :nth-child(5)").removeAttr('class');
+
+      });
+
+      $("#progress_stepthree").bind("click",function() {
+                     counter = 2;
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","block");
+                     $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","none");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").attr('class','active');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+                     $("#wizard :nth-child(5)").removeAttr('class');
+
+      });
+
+      $("#progress_stepfour").bind("click",function() {
+                     counter = 4;
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","block");
+                     $("#stepfive").css("display","none");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").attr('class','active');
+                     $("#wizard :nth-child(5)").removeAttr('class');
+
+      });
+
+      $("#progress_stepfive").bind("click",function() {
+                     counter = 5;
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","block");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").removeAttr('class');    
+                     $("#wizard :nth-child(5)").attr('class','active');
+
+      });
 
 
 
+      $("#next_one").bind("click",function() {  
+
+              var counter = eval($("#counter").val());            
+
+
+
+
+
+
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","block");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","none"); 
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").attr('class','active');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+                     $("#wizard :nth-child(5)").removeAttr('class');
+
+
+
+
+
+
+
+       });
+
+      $("#next_two").bind("click",function() {
+
+              var counter = eval($("#counter").val());
+
+
+
+
+
+
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","block");
+                     $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","none");    
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").attr('class','active');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+                     $("#wizard :nth-child(5)").removeAttr('class');  
+
+
+
+
+
+
+
+       });
+
+      $("#next_three").bind("click",function() {
+
+              var counter = eval($("#counter").val());
+
+
+
+
+
+
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","block");
+                     $("#stepfive").css("display","none");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").attr('class','active');
+                     $("#wizard :nth-child(5)").removeAttr('class');
+
+
+
+
+
+
+
+       });
+
+      $("#next_four").bind("click",function() {
+
+              var counter = eval($("#counter").val());
+
+
+
+
+
+
+                     $("#stepone").css("display","none");
+                     $("#steptwo").css("display","none");
+                     $("#stepthree").css("display","none");
+                     $("#stepfour").css("display","none");
+                     $("#stepfive").css("display","block");
+
+                     $("#wizard :nth-child(1)").removeAttr('class');
+                     $("#wizard :nth-child(2)").removeAttr('class');
+                     $("#wizard :nth-child(3)").removeAttr('class');
+                     $("#wizard :nth-child(4)").removeAttr('class');
+                     $("#wizard :nth-child(5)").attr('class','active');
+
+
+
+
+
+
+
+       });
 
       $( "#about" ).bind( "click", function() {
+             console.log("about");
              jQuery("#home_block").css('display', 'none');
              jQuery("#about_block").css('display', 'block');
              jQuery("#services_block").css('display', 'none');
              jQuery("#pricing_block").css('display', 'none');
              jQuery("#contact_block").css('display', 'none');
              jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');    
+             jQuery("#uncontested_divorce_block").css('display', 'none');
        });
 
       $( "#home" ).bind( "click", function() {
@@ -4274,6 +5331,15 @@ Vue.component('modal', {
              jQuery("#pricing_block").css('display', 'none');
              jQuery("#contact_block").css('display', 'none');
              jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+ 
        });
 
       $( "#pricing" ).bind( "click", function() {
@@ -4283,7 +5349,16 @@ Vue.component('modal', {
              jQuery("#pricing_block").css('display', 'block');
              jQuery("#contact_block").css('display', 'none');
              jQuery("#payment_block").css('display', 'none');
-       });
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+  
+      });
 
       $( "#services" ).bind( "click", function() {
              jQuery("#home_block").css('display', 'none');
@@ -4292,14 +5367,34 @@ Vue.component('modal', {
              jQuery("#pricing_block").css('display', 'none');
              jQuery("#contact_block").css('display', 'none');
              jQuery("#payment_block").css('display', 'none');
-       });
-      $( "#contact" ).bind( "click", function() {
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+  
+      });
+ 
+
+     $( "#contact" ).bind( "click", function() {
              jQuery("#home_block").css('display', 'none');
              jQuery("#about_block").css('display', 'none');
              jQuery("#services_block").css('display', 'none');
              jQuery("#pricing_block").css('display', 'none');
              jQuery("#contact_block").css('display', 'block');
              jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+ 
        });
 
       $( "#payment" ).bind( "click", function() {
@@ -4309,10 +5404,665 @@ Vue.component('modal', {
              jQuery("#pricing_block").css('display', 'none');
              jQuery("#contact_block").css('display', 'none');
              jQuery("#payment_block").css('display', 'block');
-       });
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+  
+      });
 
-   })
+      $( "#spousal_support" ).bind( "click", function() {
+             jQuery("#home_block").css('display', 'none');
+             jQuery("#about_block").css('display', 'none');
+             jQuery("#services_block").css('display', 'none');
+             jQuery("#pricing_block").css('display', 'none');
+             jQuery("#contact_block").css('display', 'none');
+             jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'block')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+
+      });
+
+
+      $( "#child_support" ).bind( "click", function() {
+             jQuery("#home_block").css('display', 'none');
+             jQuery("#about_block").css('display', 'none');
+             jQuery("#services_block").css('display', 'none');
+             jQuery("#pricing_block").css('display', 'none');
+             jQuery("#contact_block").css('display', 'none');
+             jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'block')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+
+      });
+
+
+      $( "#child_custody" ).bind( "click", function() {
+             jQuery("#home_block").css('display', 'none');
+             jQuery("#about_block").css('display', 'none');
+             jQuery("#services_block").css('display', 'none');
+             jQuery("#pricing_block").css('display', 'none');
+             jQuery("#contact_block").css('display', 'none');
+             jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'block')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+
+      });
+
+
+      $( "#agreements" ).bind( "click", function() {
+             jQuery("#home_block").css('display', 'none');
+             jQuery("#about_block").css('display', 'none');
+             jQuery("#services_block").css('display', 'none');
+             jQuery("#pricing_block").css('display', 'none');
+             jQuery("#contact_block").css('display', 'none');
+             jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'block')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+
+      });
+
+
+      $( "#protection" ).bind( "click", function() {
+             jQuery("#home_block").css('display', 'none');
+             jQuery("#about_block").css('display', 'none');
+             jQuery("#services_block").css('display', 'none');
+             jQuery("#pricing_block").css('display', 'none');
+             jQuery("#contact_block").css('display', 'none');
+             jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'block')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+
+      });
+
+
+      $( "#property" ).bind( "click", function() {
+             jQuery("#home_block").css('display', 'none');
+             jQuery("#about_block").css('display', 'none');
+             jQuery("#services_block").css('display', 'none');
+             jQuery("#pricing_block").css('display', 'none');
+             jQuery("#contact_block").css('display', 'none');
+             jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'block')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+
+      });
+
+
+      $( "#contested" ).bind( "click", function() {
+             jQuery("#home_block").css('display', 'none');
+             jQuery("#about_block").css('display', 'none');
+             jQuery("#services_block").css('display', 'none');
+             jQuery("#pricing_block").css('display', 'none');
+             jQuery("#contact_block").css('display', 'none');
+             jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'block');
+             jQuery("#uncontested_divorce_block").css('display', 'none');
+
+      });
+
+      $( "#uncontested" ).bind( "click", function() {
+             jQuery("#home_block").css('display', 'none');
+             jQuery("#about_block").css('display', 'none');
+             jQuery("#services_block").css('display', 'none');
+             jQuery("#pricing_block").css('display', 'none');
+             jQuery("#contact_block").css('display', 'none');
+             jQuery("#payment_block").css('display', 'none');
+             jQuery("#property_block").css('display', 'none')
+             jQuery("#protection_block").css('display', 'none')
+             jQuery("#agreements_block").css('display', 'none')
+             jQuery("#child_custody_block").css('display', 'none')
+             jQuery("#child_support_block").css('display', 'none')
+             jQuery("#spousal_support_block").css('display', 'none')
+             jQuery("#contested_divorce_block").css('display', 'none');
+             jQuery("#uncontested_divorce_block").css('display', 'block');
+
+      });
+
+
+
+
+  });
+  function on_mobile_about() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='block';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_home() {
+      document.getElementById('home_block').style.display='block';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_services() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='block';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_contact() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='block';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;  
+  }
+
+  function on_mobile_payment() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='block';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_pricing() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='block';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_contested() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='block';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_uncontested() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';  
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='block';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_property() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='block';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_protection() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='block';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_agreements() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='block';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_child_custody() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='block';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_child_support() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='block';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_spousal_support() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='block';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_domestic_violence() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='block';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none'; 
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+
+  }
+
+  function on_mobile_mediation() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='block';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+
+  }
+
+  function on_mobile_adoption() {
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='block';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+  }
+
+  function on_mobile_free_consultation() {
+
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='block';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+   
+
+  }
+
+  function on_mobile_blog() {
+
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='block';
+      document.getElementById('faq_block').style.display='none';
+      return false;
+
+
+  }
+
+  function on_mobile_faq() {
+
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='block'; 
+      return false;
+
+
+  }
+
 </script>
+
+<script src="/static/js/classie.js"></script>
 <div id="fb-root"></div>
 <script src="/static/js/script.js"></script>
 </body>

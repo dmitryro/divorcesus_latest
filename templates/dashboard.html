@@ -1,0 +1,227 @@
+
+{% extends "base_dashboard.html" %}
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% load static %}
+{% load gui_extras %}
+{% load bootstrap3 %}
+{% block content %}
+<nav id="menu" class="menu">
+  <a href="https://github.com/mango/slideout" target="_blank">
+    <header class="menu-header">
+      <span class="menu-header-title">
+
+
+ <!-- app -->
+           <!-- use the modal component, pass in the prop -->
+
+         {% if user.is_authenticated %}
+         {% endif %}
+
+        <!-- app -->
+        <div id="app" style="float:left;padding-top:3.5%;">
+              <!-- use the modal component, pass in the prop -->
+             {% if logout %}
+             <div style="float:left;margin-top:2.5%;">
+                <img src="{% user_meta user_id 3 %}" class="avatar" />
+             </div>
+             <div style="float:left;color:#ffffff;font-weight:bold;margin-top:2.5%;padding-top:1.3em;padding-bottom:1.3em;">
+              {% user_meta user_id 1 %}
+            &nbsp;
+            {% user_meta user_id 2 %}
+  
+             </div>
+             <div class="clear"></div>
+                &nbsp;&nbsp;
+            {% endif %}
+  
+               <modal :show.sync="showModal">
+               <!--
+/                  you can use custom content here to overwrite
+                  default content
+                     -->
+
+              </modal>
+
+
+       </div>
+       <div class="clear"></div>
+
+
+
+
+
+      </span>
+    </header>
+  </a>
+
+  <section class="menu-section">
+    <h3 class="menu-section-title">Settings</h3>
+    <ul class="menu-section-list">
+      <li><a href="https://github.com/mango/slideout#installation" target="_blank">Installation</a></li>
+      <li><a href="https://github.com/mango/slideout#usage" target="_blank">Usage</a></li>
+      <li><a href="https://github.com/mango/slideout#api" target="_blank">API</a></li>
+      <li><a href="https://github.com/mango/slideout#npm-scripts" target="_blank">npm-scripts</a></li>
+    </ul>
+  </section>
+
+  <section class="menu-section">
+    <h3 class="menu-section-title">Notifications</h3>
+    <ul class="menu-section-list">
+      <li><a href="https://github.com/mango/slideout" target="_blank">Fork it</a></li>
+      <li><a href="https://github.com/mango/slideout/issues/new" target="_blank">Create an issue</a></li>
+      <li><a href="https://github.com/mango/slideout/releases/">Download</a></li>
+    </ul>
+  </section>
+
+  <section class="menu-section">
+    <h3 class="menu-section-title">Blog</h3>
+    <ul class="menu-section-list">
+      <li><a href="https://getmango.com" target="_blank">About Mango</a></li>
+      <li><a href="https://twitter.com/getmango" target="_blank">Follow Us</a></li>
+    </ul>
+  </section>
+
+  <section class="menu-section">
+    <h3 class="menu-section-title">Cases</h3>
+    <ul class="menu-section-list">
+      <li><a href="https://github.com/mango/slideout" target="_blank">Fork it</a></li>
+      <li><a href="https://github.com/mango/slideout/issues/new" target="_blank">Create an issue</a></li>
+      <li><a href="https://github.com/mango/slideout/releases/">Download</a></li>
+    </ul>
+  </section>
+
+</nav>
+
+<header class="header-hamburger fixed">
+ <div style="float:left;width:4%;">
+
+   <button class="btn-hamburger js-slideout-toggle"></button> 
+</div>
+ <div style="float:right;color:#ffffff;width:4%;padding-top:1.2%;margin-right:20%;positon:absolute;">
+        <div id="app" style="float:right;color:#ffffff;">
+             {% if logout %}
+                <a href="/signout"  class="btn2" style="color:#ffffff;font-weight:bold;text-decoration:none;position:fixed;" id="show-modal" @click="showModal = false">Sign Out</a>
+
+            {% endif %}
+
+       </div>
+ </div>
+       <div class="clear"></div>
+
+
+
+</header>
+
+
+<main id="main" class="panel">
+  <header class="panel-header">
+    <h2 class="subtitle">A touch slideout navigation menu for your mobile web apps.</h2>
+    <div class="panel-actions">
+      <a href="https://github.com/mango/slideout/releases/" class="btn btn-download">Download</a>
+      <a href="https://github.com/mango/slideout" target="_blank" class="btn btn-fork">Fork it</a>
+    </div>
+  </header>
+
+  <div class="panel-demo iphone">
+    <img data-aload="/static/poster.png">
+  </div>
+
+  <section class="box">
+    <h2 class="box-title">Features</h2>
+    <div class="box-content">
+      <ul>
+        <li>Dependency-free.</li>
+        <li>Simple markup.</li>
+        <li>Native scrolling.</li>
+        <li>Easy customization.</li>
+        <li>CSS transforms &amp; transitions.</li>
+        <li>Just 4 Kb!</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2 class="box-title">Installation</h2>
+    <div class="box-content">
+      <pre>
+$ npm install slideout
+
+$ bower install https://github.com/mango/slideout.git
+
+$ component install mango/slideout</pre>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2 class="box-title">Usage</h2>
+    <div class="box-content">
+      <p>1. First of all, you'll need to have a menu ("#menu") and a main content ("#panel") into your body.</p>
+      <pre><code class="language-markup">
+&lt;nav id=&quot;menu&quot;&gt;
+&lt;header&gt;
+  &lt;h2&gt;Menu&lt;/h2&gt;
+&lt;/header&gt;
+&lt;/nav&gt;
+
+&lt;main id=&quot;panel&quot;&gt;
+&lt;header&gt;
+  &lt;h2&gt;Panel&lt;/h2&gt;
+&lt;/header&gt;
+&lt;/main&gt;</code></pre>
+
+      <p>2. Add the Slideout.js styles (index.css) in your web application.</p>
+      <pre><code class="language-css">
+body {
+width: 100%;
+height: 100%;
+}
+
+.slideout-menu {
+position: fixed;
+left: 0;
+top: 0;
+bottom: 0;
+right: 0;
+z-index: 0;
+width: 256px;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+display: none;
+}
+
+.slideout-panel {
+position: relative;
+z-index: 1;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+display: block;
+}</code></pre>
+
+      <p>3. Then you just include Slideout.js and create a new instace with some options:</p>
+
+      <pre><code class="language-markup">
+&lt;script src=&quot;dist/slideout.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var slideout = new Slideout({
+  'panel': document.getElementById('panel'),
+  'menu': document.getElementById('menu'),
+  'padding': 256,
+  'tolerance': 70
+});
+&lt;/script&gt;</code></pre>
+    </div>
+  </section>
+
+  <footer class="panel-footer">
+    <p>with <span class="heart">❤</span> by <a href="https://getmango.com/en" target="_blank">Mango</a></p>
+  </footer>
+</main>
+{% endblock %}
+

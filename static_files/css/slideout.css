@@ -34,6 +34,14 @@ body {
   color:#959699;
   will-change: transform;
 }
+.slideout-panel a {
+  color:#ffffff;
+  text-decoration:none;
+}
+.slideout-panel a:hover {
+  color:#ffffff;
+  text-decoration:none;
+}
 
 .slideout-open,
 .slideout-open body,
@@ -112,7 +120,9 @@ button, input, optgroup, select, textarea {
 
 .hamburger-wrapper {
   float:left;
-  min-width:3%;
+  min-width:2%;
+  width:3%;
+  max-width:3%;
   min-height:100%;
 }
 
@@ -123,24 +133,32 @@ button, input, optgroup, select, textarea {
 
 .bar-spacer {
    float:left;
-   min-width:74%;
+   min-width:-10%;
+   width:76%;
+   max-width:76%;
    min-height:100%;
 }
 .fixed-open .bar-spacer {
    float:left;
-   min-width:64%;
+   min-width:-13%;
+   width:63%;
+   max-width:63%;
    min-height:100%;
 }
 .slideout-open .bar-spacer {
    float:left;
-   min-width:64%;
+   min-width:-13%;
+   width:63%;
+   max-width:63%;
    min-height:100%;
 }
 
 .signout-wrapper {
    float:left;
    color:#ffffff;
-   min-width:3%;
+   min-width:6%;
+   width:10%;
+   max-width:100%;
    min-height:100%;
    padding-top:1.2%;
 }
@@ -161,14 +179,28 @@ button, input, optgroup, select, textarea {
 }
 .fixed-open .signout-wrapper {
    color:#ffffff;
-   min-width:20%;
+   min-width:6%;
+   width:10%;
+   max-width:100%;
    min-height:100%;
    padding-top:1.2%;
 }
    
 .slideout-open .signout-wrapper {
    color:#ffffff;
-   min-width:20%;
+   min-width:6%;
+   width:10%;
+   max-width:100%;
    min-height:100%;
    padding-top:1.2%;
 }
+.slideout-open a {
+  color:#ffffff;
+  text-decoration:none;
+}
+.slideout-panel a:hover {
+  color:#ffffff;
+  text-decoration:none;
+}
+
+

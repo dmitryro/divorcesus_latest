@@ -193,6 +193,23 @@ Vue.component('modal', {
                    document.querySelector('.fixed').classList.remove('fixed-open');
           });
 
+
+
     </script>
+
+<script type="text/javascript">
+function swap(targetId){
+  if (document.getElementById){
+        target = document.getElementById(targetId);
+            if (target.style.display == "none"){
+                target.style.display = "";
+            } else{
+                target.style.display = "none";
+            }
+                
+  }
+}
+</script>
+
     </body>
 </html>

@@ -52,27 +52,50 @@
       </span>
     </header>
   </a>
+<div id="navigation">
 
-  <section class="menu-section">
-    <h3 class="menu-section-title">Settings</h3>
-    <ul class="menu-section-list">
-        <li><a href="#">Personal Info</a></li>
-        <li><a href="#">Payment Methods</a></li>
+    <a class="navigation-head" href="#" onclick="swap('sectionOneLinks');return false;"><h3 class="menu-section-title">User Profile</h3></a>
+    <ul class="menu-section-list" id="sectionOneLinks" style="display: none;">
+        <li><a href="#">Edit Profile</a></li>
+        <li><a href="#">Preferences</a></li>
         <li><a href="#">Addresses</a></li>
-        <li><a href="#">Email</a></li>   
-    </ul>    
-  </section>
-
-
-  <section class="menu-section">
-    <h3 class="menu-section-title">Cases</h3>
-    <ul class="menu-section-list">
-      <li><a href="https://github.com/mango/slideout" target="_blank">Fork it</a></li>
-      <li><a href="https://github.com/mango/slideout/issues/new" target="_blank">Create an issue</a></li>
-      <li><a href="https://github.com/mango/slideout/releases/">Download</a></li>
+        <li><a href="#">Contacts</a></li>
     </ul>
-  </section>
 
+
+    <a class="navigation-head" href="#" onclick="swap('sectionTwoLinks');return false;"><h3 class="menu-section-title">Payments</h3></a>
+    <ul class="menu-section-list" id="sectionTwoLinks" style="display: none;">
+        <li><a href="#">Payment History</a></li>
+        <li><a href="#">Add Payment Method</a></li>
+        <li><a href="#">Dispute Transaction</a></li>
+        <li><a href="#">Billing Addresses</a></li>
+    </ul>
+
+
+    <a class="navigation-head"  href="#" onclick="swap('sectionThreeLinks');return false;"><h3 class="menu-section-title">Cases</h3></a>
+    <ul class="menu-section-list" id="sectionThreeLinks" style="display: none;">
+      <li><a href="https://github.com/mango/slideout" target="_blank">Inquire About</a></li>
+      <li><a href="https://github.com/mango/slideout/issues/new" target="_blank">Check Status</a></li>
+      <li><a href="https://github.com/mango/slideout/releases/">Similar Cases</a></li>
+    </ul>
+
+
+    <a class="navigation-head"  href="#" onclick="swap('sectionThreeLinks');return false;"><h3 class="menu-section-title">Blog</h3></a>
+    <ul class="menu-section-list" id="sectionFourLinks" style="display: none;">
+      <li><a href="https://github.com/mango/slideout" target="_blank">New Thread</a></li>
+      <li><a href="https://github.com/mango/slideout/issues/new" target="_blank">New Post</a></li>
+      <li><a href="https://github.com/mango/slideout/releases/">Edit Post</a></li>
+    </ul>
+
+
+    <a class="navigation-head"  href="#" onclick="swap('sectionFiveLinks');return false;"><h3 class="menu-section-title">Notifications</h3></a>
+    <ul class="menu-section-list" id="sectionFiveLinks" style="display: none;">
+      <li><a href="https://github.com/mango/slideout" target="_blank">Turn ON/OFF</a></li>
+      <li><a href="https://github.com/mango/slideout/issues/new" target="_blank">Personal Notifications</a></li>
+      <li><a href="https://github.com/mango/slideout/releases/">Respond Incoming</a></li>
+      <li><a href="https://github.com/mango/slideout/releases/">Notify</a></li>
+    </ul>
+</div>
 </nav>
 
 <header class="header-hamburger fixed">
@@ -83,7 +106,7 @@
  </div>
  <div class="signout-wrapper">
              {% if logout %}
-                <a href="/signout"  class="btn2" style="color:#ffffff;font-weight:bold;text-decoration:none;position:fixed;" id="show-modal" @click="showModal = false">Sign Out</a>
+                <a href="/signout"  class="btn2" style="color:#ffffff;font-weight:bold;text-decoration:none;margin-top:-0.3em;position:fixed;" id="show-modal" @click="showModal = false">Sign Out</a>
 
             {% endif %}
  </div>

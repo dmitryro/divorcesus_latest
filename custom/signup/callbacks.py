@@ -275,7 +275,7 @@ def facebook_profile(sender, instance, is_new, email, facebook_id, request):
     
     profile = Profile.objects.get(id=instance.id)
 
-    if not profile.is_facebook_signup_use:
+    if not profile.is_facebook_signup_used:
         new_account_created(instance=instance)
         profile.is_facebook_signup_used=True
         profile.save()

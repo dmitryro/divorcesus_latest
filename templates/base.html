@@ -129,7 +129,7 @@ background-color:rgba(255,255,255,.7);
                 <img src="{% user_meta user_id 3 %}" class="avatar" />
 
                 &nbsp;&nbsp;   
-                <a href="/signout"  class="btn2" id="show-modal" @click="showModal = false">Sign Out</a> 
+                <a href="/signout"  class="btn2" id="show-modal" @click="showModal = false">Sign Out</a>&nbsp;&nbsp; <a href="/dashboard"  class="btn2" id="show-modal" @click="showModal = false">Dashboard</a> 
 
             {% elif not logout %}
               <a class="btn2" id="show-modal" @click="showModal = true">Sign In</a>

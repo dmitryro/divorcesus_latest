@@ -54,7 +54,7 @@ def index(request):
 
 @ensure_csrf_cookie
 def dashboard(request):
-
+    
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -86,6 +86,18 @@ def dashboard(request):
         last_name = ''
         profile_image_path = ''
 
+        return render(request, 'index-0.html',{'logout':logout,
+                                               'user_id':user_id,
+                                               'first':first_name,
+                                               'last':last_name,
+                                               'slides':slides,
+                                               'faqs':faqs,
+                                               'milestones':milestones,
+                                               'advantage_links':advantage_links,
+                                               'profile_image':profile_image_path})
+
+    
+    
     return render(request, 'dashboard.html',{'logout':logout,
                                            'user_id':user_id,
                                            'first':first_name,

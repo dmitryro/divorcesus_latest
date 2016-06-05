@@ -274,7 +274,7 @@ def service_meta(a, b,  *args, **kwargs):
         elif (b==3):
             return service.description
 
-        elif (b==4)
+        elif (b==4):
             return service.service
 
       except TypeError:

@@ -17,6 +17,7 @@ from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
 from custom.gui.models import Logo
 from custom.gui.models import ContactInfo
+from custom.gui.models import Service
 
 register = template.Library()
 
@@ -250,3 +251,34 @@ def contact_meta(a, b,  *args, **kwargs):
     except NameError:
         print "No result for this id"
 
+
+
+"""
+ Get the service provided  info data
+"""
+@register.simple_tag
+def service_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            service = Service.objects.get(id=int(a))
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return service.title
+
+        elif (b==2):
+            return service.statement
+
+        elif (b==3):
+            return service.description
+
+        elif (b==4)
+            return service.service
+
+      except TypeError:
+        print "Invalid argument type"
+
+      except NameError:
+        print "No result for this id"

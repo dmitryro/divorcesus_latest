@@ -277,8 +277,8 @@ def service_meta(a, b,  *args, **kwargs):
         elif (b==4):
             return service.service
 
-      except TypeError:
+    except TypeError:
         print "Invalid argument type"
 
-      except NameError:
+    except NameError:
         print "No result for this id"

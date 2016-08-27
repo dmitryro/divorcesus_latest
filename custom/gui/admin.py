@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from models import Slide
 from models import Logo
@@ -10,7 +11,10 @@ from forms import ContactInfoForm
 from forms import ServiceForm
 from forms import FAQForm
 from imagekit.admin import AdminThumbnail
-
+from ckeditor.widgets import CKEditorWidget
+from django.db import models
+from wymeditor.models import WYMEditorField
+from wymeditor.widgets import AdminWYMEditorArea
 
 
 class SlideAdmin(admin.ModelAdmin):
@@ -26,14 +30,19 @@ class SlideAdmin(admin.ModelAdmin):
          verbose_name_plural = 'Slides'
 
 
-class ServiceAdmin(admin.ModelAdmin):
 
+class ServiceAdmin(admin.ModelAdmin):
+    content = forms.CharField(widget=CKEditorWidget())
     form = ServiceForm
     fieldsets = ((None, {'fields': ['title','statement','description','service']}),)
     list_display = ('id','title','statement','description','service_thumbnail')
-    list_editable = ('title','statement','description',)
+    list_editable = ('title','statement')
     service_thumbnail = AdminThumbnail(image_field='service_thumbnail')
 
+
+#    formfield_overrides = {
+#        WYMEditorField: {'widget': AdminWYMEditorArea},
+#    }
     class Meta:
          verbose_name = 'Service'
          verbose_name_plural = 'Services'
@@ -44,6 +53,11 @@ class FAQAdmin(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ['question','note','answer']}),)
     list_display = ('id','question','note','answer',)
     list_editable = ('question','note','answer')
+#    formfield_overrides = { models.TextField: {'widget': forms.Textarea(attrs={'class':'ckeditor'})}, }
+
+
+    class Media:
+         js = ('static/ckeditor/ckeditor/ckeditor.js',)
 
     class Meta:
          verbose_name = 'Frequently Asked Questions'

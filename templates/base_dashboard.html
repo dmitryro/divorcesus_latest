@@ -198,6 +198,17 @@ Vue.component('modal', {
     </script>
 
 <script type="text/javascript">
+
+function openmenu(option) {
+  alert(option);
+}
+
+function collapse(targetId){
+  if (document.getElementById){
+        target = document.getElementById(targetId);
+       target.style.display = "none";
+  }
+}
 function swap(targetId){
   if (document.getElementById){
         target = document.getElementById(targetId);

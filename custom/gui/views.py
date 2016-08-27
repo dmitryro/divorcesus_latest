@@ -186,7 +186,11 @@ def about(request):
                                            'profile_image':profile_image_path})
 
 @ensure_csrf_cookie
-def services(request):
+def services(request,service):
+
+    log = Logger(log='SERVICE IS '+service)
+    log.save()
+
     if request.user.is_authenticated():
         logout=True
         try:
@@ -213,7 +217,8 @@ def services(request):
         last_name = ''
         profile_image_path = ''
 
-    return render(request, 'index-2.html',{'logout':logout,
+    return render(request, 'index.html',{'logout':logout,
+                                           'service':service,
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,

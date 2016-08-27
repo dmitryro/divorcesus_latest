@@ -3,7 +3,10 @@ from __future__ import unicode_literals
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from django.db import models
-
+from ckeditor.fields import RichTextField
+from tinymce.models import HTMLField
+from froala_editor.fields import FroalaField
+from redactor.fields import RedactorField
 
 class Slide(models.Model):
     title =  models.CharField(max_length=150, blank=True)
@@ -80,7 +83,7 @@ class ContactInfo(models.Model):
 class Service(models.Model):
    title = models.CharField(max_length=150, blank=True)
    statement = models.CharField(max_length=450, blank=True)
-   description = models.CharField(max_length=2500, blank=True)
+   description = RedactorField(verbose_name=u'Description')
    service = models.ImageField(upload_to='servces')
    service_thumbnail = ImageSpecField(source='service',
                                      processors=[ResizeToFill(100, 50)],
@@ -103,8 +106,7 @@ class Service(models.Model):
 class FAQ(models.Model):
    question = models.CharField(max_length=450, blank=True)
    note = models.CharField(max_length=450, blank=True)
-   answer = models.CharField(max_length=2500, blank=True)
-
+   answer = RedactorField(verbose_name=u'Answer')
 
    class Meta:
         verbose_name = 'Frequently Asked Question'

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
+{% load wysiwyg %}
+{% wysiwyg_setup %}
 {% load gui_extras %}
 
 
@@ -4424,7 +4426,7 @@ Use this form to make a credit card payment. By using this form and accepting th
       </div>
     </section>
     <section class="terms">
-      <div class="container">
+      <div class="container" style="font-siize:1.4em;">
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
@@ -4432,7 +4434,13 @@ Use this form to make a credit card payment. By using this form and accepting th
           </p>
 
 
-          <h4>Domestic Violence</h4>
+          <h4>
+           {% service_meta 6 1 %}</h4>
+          <br/>
+           {% autoescape off %}
+          
+          {% service_meta 6 3 %}
+           {% endautoescape %}
       </div>
     </section>
   </main>

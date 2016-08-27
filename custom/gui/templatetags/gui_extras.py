@@ -1,5 +1,7 @@
 import logging
 import re
+from lxml import html, etree
+
 import sys
 from urlparse import urlparse
 from django.template import Library, Node, NodeList, TemplateSyntaxError
@@ -19,10 +21,43 @@ from custom.gui.models import Logo
 from custom.gui.models import ContactInfo
 from custom.gui.models import Service
 
+
 register = template.Library()
 
 kw_pat = re.compile(r'^(?P<key>[\w]+)=(?P<value>.+)$')
 logger = logging.getLogger('sorl.thumbnail')
+
+register = Library()
+
+css_cleanup_regex = re.compile('((font|padding|margin)(-[^:]+)?|line-height):\s*[^;]+;')
+def _cleanup_elements(elem):
+    """
+    Removes empty elements from HTML (i.e. those without text inside).
+    If the tag has a 'style' attribute, we remove the css attributes we don't want.
+    """
+    if elem.text_content().strip() == '':
+        elem.drop_tree()
+    else:
+        if elem.attrib.has_key('style'):
+            elem.attrib['style'] = css_cleanup_regex.sub('', elem.attrib['style'])
+        for sub in elem:
+            _cleanup_elements(sub)
+
+def cleanup_html(string):
+    """
+    Makes generated HTML (i.e. ouput from the WYSISYG) look almost decent.
+    """
+    try:
+        elem = html.fromstring(string)
+        _cleanup_elements(elem)
+        html_string = html.tostring(elem)
+        lines = []
+        for line in html_string.splitlines():
+            line = line.rstrip()
+            if line != '': lines.append(line)
+        return '\n'.join(lines)
+    except etree.XMLSyntaxError:
+        return string
 
 """
  Get the logo meta
@@ -272,7 +307,7 @@ def service_meta(a, b,  *args, **kwargs):
             return service.statement
 
         elif (b==3):
-            return service.description
+            return cleanup_html(service.description)
 
         elif (b==4):
             return service.service

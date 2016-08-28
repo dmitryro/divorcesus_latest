@@ -18,10 +18,10 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
     def __str__(self):
-        return self.title
+        return self.name
 
     def __unicode__(self):
-        return unicode(self.title)
+        return unicode(self.name)
 # Create your models here.
 
 
@@ -30,7 +30,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200,blank=True,null=True)
     time_published = models.DateTimeField(auto_now_add=True)
     body = models.CharField(max_length=1500,blank=True,null=True) 
-    author = models.ForeignKey(User,related_name='author',blank=True,null=True)  
+    author = models.ForeignKey(User,related_name='author',db_column="author",blank=True,null=True)  
     category = models.ForeignKey(Category,related_name='author',blank=True,null=True)
     is_archived = models.NullBooleanField(default=False,blank=True,null=True)
     is_flagged = models.NullBooleanField(default=False,blank=True,null=True)
@@ -42,6 +42,16 @@ class Post(models.Model):
                                      format='JPEG',
                                      options={'quality': 60})
 
+    @property
+    def author_name(self):
+        if not self.author:
+           return 'some author'
+        else:
+           return self.author.first_name+' '+self.author.last_name
+
+#    @author.setter
+#    def author(self, value):
+#        self._author = value
 
     class Meta:
         verbose_name = 'Post'

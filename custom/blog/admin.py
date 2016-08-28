@@ -12,9 +12,9 @@ from forms import PostForm
 class PostAdmin(admin.ModelAdmin):
 
     form = PostForm
-    fieldsets = ((None, {'fields': ['title','body','image']}),)
-    list_display = ('id','title','body','image_thumbnail')
-    list_editable = ('title','body')
+    fieldsets = ((None, {'fields': ['title','category','body','author','image']}),)
+    list_display = ('id','title','body','category','author_name','image_thumbnail','time_published')
+    list_editable = ('title','category','body')
     image_thumbnail = AdminThumbnail(image_field='image_thumbnail')
 
     class Meta:
@@ -24,8 +24,8 @@ class PostAdmin(admin.ModelAdmin):
 
 class CommentAdmin(admin.ModelAdmin):
 
-    fieldsets = ((None, {'fields': ['post','title','body','author','time_publised']}),)
-    list_display = ('id','title','body','author','time_publised')
+    fieldsets = ((None, {'fields': ['post','title','body','author']}),)
+    list_display = ('id','title','body','author')
     list_editable = ('title','body')
 
     class Meta:

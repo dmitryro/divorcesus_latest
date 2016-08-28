@@ -12,6 +12,8 @@ from django.shortcuts import render
 # Restless Endpoints 
 from restless.views import Endpoint
 
+from custom.utils.models import Logger
+
 from models import Category
 from models import Post
 from models import Comment
@@ -131,4 +133,5 @@ class ArchivePostView(Endpoint):
 
         user = request.user
         post_id = request.data["post_id"]
+
 

@@ -44,9 +44,12 @@ class MetaProp(models.Model):
     description  =  models.TextField(max_length=1500)
     author  =  models.CharField(max_length=140)
     analytics =  models.CharField(max_length=60)
+    h1header = models.CharField(max_length=140,null=True,blank=True)
+    content = models.TextField(max_length=1600,null=True,blank=True)
+
     # meta class
     class Meta:
-        verbose_name = 'meta property'
-        verbose_name_plural = 'meta properties'
+        verbose_name = 'seo meta property'
+        verbose_name_plural = 'seo meta properties'
 
 # Create your models here.

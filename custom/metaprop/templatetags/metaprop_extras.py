@@ -4,16 +4,25 @@ import sys
 from urlparse import urlparse
 from django.template import Library, Node, NodeList, TemplateSyntaxError
 from django.utils.encoding import smart_str
-from metaprop.models import MetaProp, ContactMetaProp
+from custom.metaprop.models import MetaProp, ContactMetaProp
 from tagging.models import Tag, TaggedItem
 from django import template
 from django.template.defaultfilters import stringfilter
 
-register = template.Library()
+
+
+
+
+kw_paster = template.Library()
 
 kw_pat = re.compile(r'^(?P<key>[\w]+)=(?P<value>.+)$')
 logger = logging.getLogger('sorl.thumbnail')
 
+register = Library()
+
+"""
+ Get the logo meta
+"""
 @register.simple_tag
 def metaprop_meta(key, *args, **kwargs):
 
@@ -29,6 +38,12 @@ def metaprop_meta(key, *args, **kwargs):
         return metaproperty.author
     elif (key==5):
         return metaproperty.analytics
+    elif (key==6):
+        return metaproperty.h1header
+    elif (key==7):
+        return metaproperty.content
+
+
 
 
 @register.simple_tag

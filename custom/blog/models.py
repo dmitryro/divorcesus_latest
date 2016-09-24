@@ -28,6 +28,7 @@ class Category(models.Model):
 class Post(models.Model):
 
     title = models.CharField(max_length=200,blank=True,null=True)
+    link = models.CharField(max_length=700,blank=True,null=True)
     time_published = models.DateTimeField(auto_now_add=True)
     body = models.CharField(max_length=1500,blank=True,null=True) 
     author = models.ForeignKey(User,related_name='author',db_column="author",blank=True,null=True)  
@@ -74,7 +75,6 @@ class Comment(models.Model):
     is_flagged = models.NullBooleanField(default=False,blank=True,null=True)
     is_deleted = models.NullBooleanField(default=False,blank=True,null=True)
     is_published = models.NullBooleanField(default=False,blank=True,null=True)
-
 
 
     class Meta:

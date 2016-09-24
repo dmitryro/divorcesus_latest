@@ -9,7 +9,7 @@ from models import Comment
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = StateProvince
+        model = Category
         fields = ('id','name','code')
 
 
@@ -19,7 +19,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id','author','title','time_published','category','body')
+        fields = ('id','author','title','time_published','category','body','link')
 
 class CommentSerializer(serializers.ModelSerializer):
 

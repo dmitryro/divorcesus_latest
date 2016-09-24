@@ -37,6 +37,7 @@ from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
 from custom.gui.models import Slide
 from custom.gui.models import FAQ
+from custom.blog.models import Category
 
 @ensure_csrf_cookie
 def environment(**options):
@@ -59,6 +60,7 @@ def dashboard(request):
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
+    categories = Category.objects.all()
 
     if request.user.is_authenticated():
         logout=True
@@ -104,6 +106,7 @@ def dashboard(request):
                                            'last':last_name,
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'categories':categories,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
@@ -187,19 +190,18 @@ def about(request):
 
 @ensure_csrf_cookie
 def services(request,service):
-
-    log = Logger(log='SERVICE IS '+service)
-    log.save()
-
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
     if request.user.is_authenticated():
         logout=True
         try:
            user_id = request.user.id
-           profile = User.objects.get(id=request.user.id)
            username = request.user.username
            first_name = request.user.first_name
            last_name = request.user.last_name
-           profile_image_path = profile.profile_image_path
+           profile_image_path = ''
         except Exception, R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
@@ -217,12 +219,18 @@ def services(request,service):
         last_name = ''
         profile_image_path = ''
 
-    return render(request, 'index.html',{'logout':logout,
-                                           'service':service,
+    return render(request, 'index-0.html',{'logout':logout,
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'service':service,
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
+
+
 @ensure_csrf_cookie
 def pricing(request):
     if request.user.is_authenticated():

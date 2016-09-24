@@ -33,8 +33,10 @@ from rest_framework.authtoken import views as drf_views
 from custom.gui.views import DashboardLogoutView
 from custom.signup.views import SendEmailView
 from custom.signup.views import logout_view
-#from custom.users.views import ProfileViewSet
-
+from custom.blog.views import AddPostView
+from custom.blog.views import GetPostsView
+from custom.blog.views import DeletePostView
+from custom.blog.views import ReadPostView
 router = routers.DefaultRouter()
 
 #router.register(r'profiles',ProfileViewSet,base_name='profiles')
@@ -63,6 +65,10 @@ urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^froala_editor/', include('froala_editor.urls')),
     url(r'^redactor/', include('redactor.urls')),
+    url(r'^postblog',AddPostView.as_view()),
+    url(r'^deleteblog',DeletePostView.as_view()),
+    url(r'^getposts',GetPostsView.as_view()),
+    url(r'^readpost',ReadPostView.as_view()),
 #    url(r'^divorce/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
     url(r'^services/(?P<service>[^/]+)/$', 'custom.gui.views.services'),

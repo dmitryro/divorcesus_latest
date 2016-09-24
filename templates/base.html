@@ -13,14 +13,15 @@
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/static/css/grid.css">
   <link rel="stylesheet" href="/static/css/mailform.css"/>
-  <link rel="stylesheet" href="/static/css/search.css">
-  <link rel="stylesheet" href="/static/css/style.css">
-  <link rel="stylesheet" href="/static/css/jssor.css">
+  <link rel="stylesheet" href="/static/css/search.css"/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+  <link rel="stylesheet" href="/static/css/jssor.css"/>
+  <link rel="stylesheet" href="/static/css/jquery.ui.chatbox.css"/>
+  <link rel="stylesheet" href="/static/js/jquery-ui.min.css"/>
   <script src="/static/js/jquery.js"></script>
   <script src="/static/js/jssor.slider.min.js"></script>
   <script src="/static/js/jssor.slider.mini.js"></script>
   <script src="/static/js/jquery-migrate-1.2.1.js"></script>
-  
    <link rel="stylesheet" type="text/css" href="/static/css/wizard.css" />
    <link rel="stylesheet" href="/static/css/misc.css" />
    <link rel="stylesheet" href="/static/css/buttons-si.css" />
@@ -28,6 +29,17 @@
    <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
    <script src="/static/js/vue-router.js"></script>
+
+   <link type="text/css" href="http://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
+
+   <script type="text/javascript" src="/static/js/jquery-ui.js"></script> 
+   <link type="text/css" href="/static/js/jquery-ui.min.css" rel="stylesheet" />
+   <link type="text/css" href="/static/js/themes/overcast/jquery-ui.css"  rel="stylesheet" />
+   <link type="text/css" href="/static/js/themes/overcast/theme.css" rel="stylesheet" />
+
+   <script type="text/javascript" src="http://magma.cs.uiuc.edu/wenpu1/js/jquery.ui.chatbox.js"></script> 
+ 
+
   <!--[if lt IE 9]> 
   <html class="lt-ie9">
   <div style=' clear: both; text-align:center; position: relative;'>
@@ -99,6 +111,7 @@ background-color:rgba(255,255,255,.7);
 </style>
 </head>
 <body>
+
 <div class="page">
 
   <!--========================================================
@@ -111,7 +124,7 @@ background-color:rgba(255,255,255,.7);
               <li><a onclick="on_mobile_faq();return false;">FAQ</a></li>
               <li><a href="#">Ask A Question </a></li>
               <li><a href="#">Online Consultation </a></li>
-              <li><a href="#">Chat with US</a></li>
+              <li><a href="#" id="chat_with_us">Chat with US</a></li>
           </ul>
           <div class="btn-wr-header">
          <!-- app -->
@@ -4163,11 +4176,17 @@ Use this form to make a credit card payment. By using this form and accepting th
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-             <span>Agreements</span>
+             <span>{% service_meta 2 1 %}</span>
           </p>
 
 
-          <h4>Agreemens</h4>
+          <h4>{% service_meta 2 1 %}</h4>
+           {% autoescape off %}
+
+          {% service_meta 2 3 %}
+           {% endautoescape %}
+
+
       </div>
     </section>
   </main>
@@ -4190,11 +4209,15 @@ Use this form to make a credit card payment. By using this form and accepting th
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-             <span>Protection</span>
+             <span> {% service_meta 10 1 %}</span>
           </p>
 
+          <h4>{% service_meta 10 1 %}</h4>
+           {% autoescape off %}
 
-          <h4>Protection</h4>
+          {% service_meta 10 3 %}
+           {% endautoescape %}
+
       </div>
     </section>
   </main>
@@ -4219,10 +4242,14 @@ Use this form to make a credit card payment. By using this form and accepting th
          <p>
           <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
           <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-          <span>Property</span>
+          <span> {% service_meta 9 1 %}</span>
          </p>
+          <h4>{% service_meta 9 1 %}</h4>
+           {% autoescape off %}
 
-          <h4>Property</h4>
+          {% service_meta 9 3 %}
+           {% endautoescape %}
+
       </div>
     </section>
  </main>
@@ -4245,10 +4272,18 @@ Use this form to make a credit card payment. By using this form and accepting th
            <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-             <span>Child Custody</span>
+             <span> {% service_meta 4 1 %}</span>
            </p>
 
-          <h4>Child Custody</h4>
+        <h4>
+           {% service_meta 4 1 %}</h4>
+          <br/>
+           {% autoescape off %}
+
+          {% service_meta 4 3 %}
+           {% endautoescape %}
+
+
       </div>
     </section>
    </main>
@@ -4271,10 +4306,18 @@ Use this form to make a credit card payment. By using this form and accepting th
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-             <span>Spousal Support</span>
+             <span>{% service_meta 11 1 %}</span>
           </p>
+        <h4>
+           {% service_meta 11 1 %}</h4>
+          <br/>
+           {% autoescape off %}
 
-          <h4>Spousal Support</h4>
+          {% service_meta 11 3 %}
+           {% endautoescape %}
+
+
+
       </div>
     </section>
   </main>
@@ -4298,11 +4341,19 @@ Use this form to make a credit card payment. By using this form and accepting th
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-             <span>Child Support</span>
+             <span>{% service_meta 5 1 %}</span>
           </p>
+        <h4>
+           {% service_meta 5 1 %}</h4>
+ 
+           {% autoescape off %}
+
+          {% service_meta 5 3 %}
+           {% endautoescape %}
 
 
-          <h4>Child Support</h4>
+
+
       </div>
     </section>
   </main>
@@ -4325,10 +4376,15 @@ Use this form to make a credit card payment. By using this form and accepting th
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-             <span>Contested Divorce</span>
+             <span>{% service_meta 3 1 %}</span>
           </p>
+          <h4>{% service_meta 3 1 %}</h4>
+          <br/>
+           {% autoescape off %}
 
-          <h4>Contested Divorce</h4>
+           {% service_meta 3 3 %}
+           {% endautoescape %}
+
       </div>
     </section>
   </main>
@@ -4351,11 +4407,16 @@ Use this form to make a credit card payment. By using this form and accepting th
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-             <span>Uncontested Divorce</span>
+             <span>{% service_meta 12 1 %}</span>
           </p>
 
+          <h4>{% service_meta 12 1 %}</h4>
+          <br/>
+           {% autoescape off %}
 
-          <h4>Uncontested Divorce</h4>
+           {% service_meta 12 3 %}
+           {% endautoescape %}
+
       </div>
     </section>
   </main>
@@ -4378,11 +4439,18 @@ Use this form to make a credit card payment. By using this form and accepting th
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-             <span>Mediation</span>
+             <span>{% service_meta 8 1 %}</span>
           </p>
 
 
-          <h4>Mediation</h4>
+                 <h4>
+           {% service_meta 8 1 %}</h4>
+          <br/>
+           {% autoescape off %}
+
+          {% service_meta 8 3 %}
+           {% endautoescape %}
+
       </div>
     </section>
   </main>
@@ -4404,11 +4472,16 @@ Use this form to make a credit card payment. By using this form and accepting th
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-             <span>Adoption</span>
+             <span>{% service_meta 1 1 %}</span>
           </p>
+          <h4>
+           {% service_meta 1 1 %}</h4>
+          <br/>
+           {% autoescape off %}
 
+          {% service_meta 1 3 %}
+           {% endautoescape %}
 
-          <h4>Adoption</h4>
       </div>
     </section>
  </main>
@@ -4430,7 +4503,7 @@ Use this form to make a credit card payment. By using this form and accepting th
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
-             <span>Domestic Violence</span>
+             <span>{% service_meta 6 1 %}</span>
           </p>
 
 
@@ -4462,8 +4535,15 @@ Use this form to make a credit card payment. By using this form and accepting th
           <p>
              <a onclick="on_mobile_home();return false;">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;">Services</a>&nbsp; >>&nbsp;
-             <span>Free Consultation</span>
+             <span>{% service_meta 7 1 %}</span>
           </p>
+        <h4>
+           {% service_meta 7 1 %}</h4>
+          <br/>
+           {% autoescape off %}
+
+          {% service_meta 7 3 %}
+           {% endautoescape %}
 
 
           <h4>Free Consultation</h4>
@@ -4640,8 +4720,8 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 </div>
 <div id="fb-root"></div>
-
-
+<div id="chat_div"  width="200" height="200"></div>
+<div id="log"></div>
 <!-- template for the modal component -->
 <script type="x/template" id="modal-template-signin">
 
@@ -5038,7 +5118,28 @@ Vue.component('modal', {
 <script>
 
    $(document).ready(function() {
+          var box = null;
+          $("#chat_with_us").bind('click',function(event, ui) {
+              if(box) {
+                  box.chatbox("option", "boxManager").toggleBox();
+              }
+              else {
+                  box = $("#chat_div").chatbox({id:"chat_div", 
+                                                user:{key : "value"},
+                                                title:"Chat with us",
+                                                messageSent : function(id, user, msg) {
+                                                    $("#log").append(id + " said: " + msg + "<br/>");
+                                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                                }});
+              }
+          });
 
+            $(function(){ 
+                  $(".ui-chatbox") 
+                        .draggable() 
+                        .resizable(); 
+         
+            });
 
             var counter = 1;
 
@@ -5112,6 +5213,7 @@ Vue.component('modal', {
             $(window).bind("load", ScaleSlider);
             $(window).bind("resize", ScaleSlider);
             $(window).bind("orientationchange", ScaleSlider);
+
 
       $("#progress_stepone").bind("click",function() {
                      counter = 0;
@@ -6070,5 +6172,109 @@ Vue.component('modal', {
 <script src="/static/js/classie.js"></script>
 <div id="fb-root"></div>
 <script src="/static/js/script.js"></script>
+{% if service  == "domesticviolence" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_domestic_violence();
+    });
+</script>
+{% endif %}
+{% if service  == "alimony" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_spousal_support();
+    });
+</script>
+{% endif %}
+{% if service  == "child-custody" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_child_custody();
+    });
+</script>
+{% endif %}
+
+{% if service  == "spousal-support" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_spousal_support();
+    });
+</script>
+{% endif %}
+
+{% if service  == "mediation" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_mediation();
+    });
+</script>
+{% endif %}
+
+{% if service  == "consultation" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_free_consultation();
+    });
+</script>
+{% endif %}
+
+{% if service  == "contested-divorce" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_contested();
+    });
+</script>
+{% endif %}
+
+
+{% if service  == "uncontested-divorce" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_uncontested();
+    });
+</script>
+{% endif %}
+
+{% if service  == "agreements" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_agreements();
+    });
+</script>
+{% endif %}
+
+{% if service  == "property" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_property();
+    });
+
+</script>
+{% endif %}
+
+{% if service  == "protection" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_protection();
+    });
+</script>
+{% endif %}
+
+{% if service  == "child-support" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_child_support();
+    });
+</script>
+{% endif %}
+
+{% if service  == "adoption" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_adoption();
+    });
+</script>
+{% endif %}
+
 </body>
 </html>

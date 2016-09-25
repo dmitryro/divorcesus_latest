@@ -38,6 +38,8 @@ from custom.users.models import AdvantageLink
 from custom.gui.models import Slide
 from custom.gui.models import FAQ
 from custom.blog.models import Category
+from custom.blog.models import Post
+
 
 @ensure_csrf_cookie
 def environment(**options):

@@ -354,9 +354,10 @@ function editpost(id) {
                      url: "http://divorcesus.com/readpost",
                      data: { post_id:id}
    }).done(function( msg ) {
+   //   alert(msg.category.id);
       $('#post_id').attr('value',msg.id);
       $('#posttitle').attr('value',msg.title);
-      $('#category_id').attr('value',msg.title);
+      $('#category_id').attr('value',msg.category.id);
       $('#link').attr('value',msg.link);
       $('.errors').html('');
       tinyMCE.activeEditor.setContent(msg.body); 
@@ -441,6 +442,68 @@ new Vue({
           },
           onReset: function () {
             this.$resetValidation()
+          },
+          editblog: function() {
+              $.ajax({
+                     method: "POST",
+                     url: "http://divorcesus.com/savepost",
+                     data: { title: $('#posttitle').val(),post_id: $('#post_id').val(),category_id:$('#category_id').val(), body:tinyMCE.activeEditor.getContent(), link:$('#link').val()}
+              }).done(function( msg ) {
+                       var result = '';
+
+                           result=result+"<div style='width:96%;margin-top:2%;border-bottom:1px dotted;'>";
+                           result=result+"<div style='float:left;width:5%;'>&nbsp;</div>";
+
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'ID';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:30%;'>";
+                           result=result+'Title';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:30%;'>";
+                           result=result+'Link';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Edit';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Delete';
+                           result=result+"</div>";
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                       for(var i=0;i<msg.length;i++) {
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:5%;'>&nbsp;</div>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+msg[i].id;
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:30%;'>";
+                           result=result+msg[i].title;
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:30%;'>";
+                           result=result+msg[i].link;
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<a href='#' onclick='editpost("+msg[i].id+");'  style='color:blue;'>Edit</a>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<a href='#' style='color:red;' onclick='deletepost("+msg[i].id+");'>Delete</a>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                       }
+
+
+                       $('#panel-posts').html(result);
+              });
+
+
           },
           submitblog: function(){
               $.ajax({

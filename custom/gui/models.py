@@ -83,7 +83,7 @@ class ContactInfo(models.Model):
 class Service(models.Model):
    title = models.CharField(max_length=150, blank=True)
    statement = models.CharField(max_length=450, blank=True)
-   description = RedactorField(verbose_name=u'Description')
+   description = RedactorField(verbose_name=u'Description',null=True,blank=True,default='')
    service = models.ImageField(upload_to='servces')
    service_thumbnail = ImageSpecField(source='service',
                                      processors=[ResizeToFill(100, 50)],

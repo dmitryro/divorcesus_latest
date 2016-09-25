@@ -29,11 +29,12 @@ css_cleanup_regex = re.compile('((font|padding|margin)(-[^:]+)?|line-height):\s*
  Get the service provided  info data
 """
 @register.simple_tag
-def category_meta(a, b,  *args, **kwargs):
+def last_posted(a, b,  *args, **kwargs):
 
     try:
         try:
-            category = Category.objects.get(id=int(a))
+            posts = Post.obects.all().sort_by('-time-published')
+            return posts
         except Exception, R:
             return ""
 

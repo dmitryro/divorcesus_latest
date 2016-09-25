@@ -37,6 +37,9 @@ from custom.blog.views import AddPostView
 from custom.blog.views import GetPostsView
 from custom.blog.views import DeletePostView
 from custom.blog.views import ReadPostView
+from custom.blog.views import GetAllPostsView
+from custom.blog.views import SavePostView
+
 router = routers.DefaultRouter()
 
 #router.register(r'profiles',ProfileViewSet,base_name='profiles')
@@ -68,7 +71,10 @@ urlpatterns = [
     url(r'^postblog',AddPostView.as_view()),
     url(r'^deleteblog',DeletePostView.as_view()),
     url(r'^getposts',GetPostsView.as_view()),
+    url(r'^getallposts',GetAllPostsView.as_view()),
     url(r'^readpost',ReadPostView.as_view()),
+    url(r'^savepost',SavePostView.as_view()),
+    url(r'^search/', include('haystack.urls')),
 #    url(r'^divorce/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
     url(r'^services/(?P<service>[^/]+)/$', 'custom.gui.views.services'),

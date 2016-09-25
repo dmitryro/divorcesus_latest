@@ -6,7 +6,9 @@
 {% load wysiwyg %}
 {% wysiwyg_setup %}
 {% load gui_extras %}
+{% load blog_extras %}
 {% load metaprop_extras %}
+
 <meta charset="utf-8">
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7 ie" lang="pt_BR"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8 ie" lang="pt_BR"> <![endif]-->
@@ -123,6 +125,17 @@ background-color:rgba(255,255,255,.7);
 }
 }
 </style>
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-34075839-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
 </head>
 <body>
 
@@ -275,6 +288,47 @@ background-color:rgba(255,255,255,.7);
           </ul>
         </nav>
 
+<div class="search-div" id="search-div">
+
+<form method="get" action="." class="search">
+	<!-- We'll have a button that'll make the search input appear, a submit button and the input -->
+        {{ form.as_table }}	
+	<!-- Alosi, a label for it so that we can style it however we want it-->
+	<input id="submit" value="" type="submit">
+          
+	<label for="submit" class="submit"></label>
+	
+	<!-- trigger button and input -->
+	<a href="javascript: void(0)" class="icon"></a>
+        <input type="search" name="Search" id="search" placeholder="Search">
+
+ {% if query %}
+            <h3>Results</h3>
+
+            {% for result in page.object_list %}
+                <p>
+                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
+                </p>
+            {% empty %}
+                <p>No results found.</p>
+            {% endfor %}
+
+            {% if page.has_previous or page.has_next %}
+                <div>
+                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+                    |
+                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
+
+
+</form>
+
+</div>
+<div class="clear"></div>
       </div>
     </div>
 
@@ -4621,13 +4675,16 @@ Use this form to make a credit card payment. By using this form and accepting th
     </section>
     <section class="terms">
       <div class="container">
-          <p>
-             <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
-             <span>Blog</span>
-          </p>
+          <div id="blog-header">
+              <p>
+                 <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
+                 <span>Blog</span>
+              </p>
 
 
-          <h4>Blog</h4>
+          </div>
+          <div id="blog-posts">
+          </div>
       </div>
     </section>
   </main>
@@ -5687,6 +5744,48 @@ Vue.component('modal', {
       });
 
 
+// Ok, the CSS is complete. Now we need to hide the input and make it appear on clicking the icon.
+// Now, we have a small problem. Clicking on search butotn doesnt perform any search and the input element hides. To make search button work, we'll use a flag
+
+// Perfect! This thing is cross browser compatible and works even in IE8! You can use the same technique to create some other cool effects like on http://www.apple.com/ and http://developer.android.com/index.html
+
+$(".icon").click(function() {
+	var icon = $(this),
+			input = icon.parent().find("#search"),
+			submit = icon.parent().find(".submit"),
+			is_submit_clicked = false;
+	
+	// Animate the input field
+	input.animate({
+		"width": "165px",
+		"padding": "10px",
+		"opacity": 1
+	}, 300, function() {
+		input.focus();
+	});
+	
+	submit.mousedown(function() {
+		is_submit_clicked = true;
+	});
+	
+	// Now, we need to hide the icon too
+	icon.fadeOut(300);
+	
+	// Looks great, but what about hiding the input when it loses focus and doesnt contain any value? Lets do that too
+	input.blur(function() {
+		if(!input.val() && !is_submit_clicked) {
+			input.animate({
+				"width": "0",
+				"padding": "0",
+				"opacity": 0
+			}, 200);
+			
+			// Get the icon back
+			icon.fadeIn(200);
+		};
+	});
+});
+
 
 
   });
@@ -6167,6 +6266,85 @@ Vue.component('modal', {
       document.getElementById('free_consultation_block').style.display='none';
       document.getElementById('blog_block').style.display='block';
       document.getElementById('faq_block').style.display='none';
+  
+
+              $.ajax({
+                     method: "POST",
+                     url: "http://divorcesus.com/getallposts",
+                     data: {}
+              }).done(function( msg ) {
+                       var result = '';
+
+
+
+                       for(var i=0;i<msg.length;i++) {
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Title:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:30%;font-weight:bold;'>";
+                           result=result+msg[i].title;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Link:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:30%;font-weight:bold;'>";
+                           result=result+msg[i].link;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Posted by:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:30%;font-weight:bold;'>";
+                           result=result+msg[i].author.first_name+' '+msg[i].author.last_name;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:60%;'>";
+                           result=result+msg[i].body;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+"<a href='#'>All Comments</a>";
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+"<a href='#'>Post Comment</a>";
+                           result=result+"</div>";
+
+                           result=result+"</div>";
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<br/><br/>";
+                       }
+
+                       $('#blog-posts').html(result);
+              });
+
+
       jQuery('body').scrollTop(0);
       return false;
 
@@ -6309,15 +6487,5 @@ Vue.component('modal', {
     });
 </script>
 {% endif %}
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-34075839-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
 </body>
 </html>

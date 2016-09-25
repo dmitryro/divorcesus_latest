@@ -118,6 +118,115 @@ class AddPostView(Endpoint):
             log.save()
             return {'message':'error  '+str(R)}     
 
+
+############################################
+## Add a New Post view                    ##
+## Extends: restless Endpoint             ##
+## METHOD:  GET, POST                     ##
+## Type:    Endpoint View (JSON)          ##
+############################################
+
+class SavePostView(Endpoint):
+
+    @csrf_exempt
+    def get(self, request):
+
+        user = request.user
+        post_id = request.params.get("post_id","")
+        title = request.params.get("title","")
+        body = request.params.get("body","")
+        category_id = request.params.get("category_id","")
+        link = request.params.get("link","")
+
+        try:
+
+            category = Category.objects.get(id=int(category_id))
+            post = Post.objects.get(id=int(post_id))
+            post.category=category
+            post.title=title
+            post.body=body
+            post.link=link
+            post.save()   
+            posts = Post.objects.filter(author=user)
+            serializer = PostSerializer(posts,many=True)
+            return serializer.data
+
+        except Exception,R:
+            return {'message':'error '+str(R)}
+
+
+    @csrf_exempt
+    def post(self, request):
+       
+        user = request.user
+        post_id = request.data["post_id"]
+        title = request.data["title"]
+        body = request.data["body"]
+        category_id = request.data["category_id"]
+        link = request.data["link"]
+
+        try:
+
+            category = Category.objects.get(id=int(category_id))
+            post = Post.objects.get(id=int(post_id))
+            post.category=category
+            post.title=title
+            post.body=body
+            post.link=link
+            post.save()
+            posts = Post.objects.filter(author=user)
+            serializer = PostSerializer(posts,many=True)
+            return serializer.data
+
+        except Exception,R:
+            log = Logger(log=str(R))
+            log.save()
+            return {'message':'error  '+str(R)}
+
+
+############################################
+## Add a New Post view                    ##
+## Extends: restless Endpoint             ##
+## METHOD:  GET, POST                     ##
+## Type:    Endpoint View (JSON)          ##
+############################################
+
+class GetAllPostsView(Endpoint):
+
+    @csrf_exempt
+    def get(self, request):
+
+        user = request.user
+
+        try:
+
+            posts = Post.objects.all().order_by('-time_published')
+            serializer = PostSerializer(posts,many=True)
+            return serializer.data
+
+        except Exception,R:
+            return {'message':'error '+str(R)}
+
+
+    @csrf_exempt
+    def post(self, request):
+
+        user = request.user
+
+        try:
+
+            posts = Post.objects.all().order_by('-time_published')
+            serializer = PostSerializer(posts,many=True)
+            return serializer.data
+
+        except Exception,R:
+            log = Logger(log=str(R))
+            log.save()
+            return {'message':'error  '+str(R)}
+
+
+
+
 ############################################
 ## Add a New Post view                    ##
 ## Extends: restless Endpoint             ##

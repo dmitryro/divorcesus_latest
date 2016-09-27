@@ -62,6 +62,8 @@ def dashboard(request):
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+
     categories = Category.objects.all()
 
     if request.user.is_authenticated():
@@ -96,6 +98,7 @@ def dashboard(request):
                                                'last':last_name,
                                                'slides':slides,
                                                'faqs':faqs,
+                                               'posts':posts,
                                                'milestones':milestones,
                                                'advantage_links':advantage_links,
                                                'profile_image':profile_image_path})
@@ -108,6 +111,7 @@ def dashboard(request):
                                            'last':last_name,
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'posts':posts,
                                            'categories':categories,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
@@ -121,6 +125,8 @@ def home(request):
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
+    posts = post = Post.objects.all()
+
     if request.user.is_authenticated():
         logout=True
         try:
@@ -152,12 +158,19 @@ def home(request):
                                            'last':last_name,
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'posts':posts,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
 
 @ensure_csrf_cookie
 def about(request):
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+
     if request.user.is_authenticated():
         logout=True
         try:
@@ -183,12 +196,18 @@ def about(request):
         last_name = ''
         profile_image_path = ''
 
-
-    return render(request, 'index-1.html',{'logout':logout,
+    return render(request, 'index-0.html',{'logout':logout,
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'service':'about',
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'posts':posts,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
+
 
 @ensure_csrf_cookie
 def services(request,service):
@@ -196,6 +215,8 @@ def services(request,service):
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+
     if request.user.is_authenticated():
         logout=True
         try:
@@ -228,6 +249,98 @@ def services(request,service):
                                            'service':service,
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'posts':posts,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
+                                           'profile_image':profile_image_path})
+
+@ensure_csrf_cookie
+def posts(request,page):
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+
+    if request.user.is_authenticated():
+        logout=True
+        try:
+           user_id = request.user.id
+           username = request.user.username
+           first_name = request.user.first_name
+           last_name = request.user.last_name
+           profile_image_path = ''
+        except Exception, R:
+           log = Logger(log='WE GOT SOME ERROR'+str(R))
+           log.save()
+           user_id = -1
+           username = ''
+           first_name = ''
+           last_name = ''
+           profile_image_path = ''
+
+    else:
+        user_id = -1
+        logout=False
+        username = ''
+        first_name = ''
+        last_name = ''
+        profile_image_path = ''
+
+    return render(request, 'index-0.html',{'logout':logout,
+                                           'user_id':user_id,
+                                           'first':first_name,
+                                           'last':last_name,
+                                           'service':"blog",
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'posts':posts,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
+                                           'profile_image':profile_image_path})
+
+
+@ensure_csrf_cookie
+def post(request):
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+
+    if request.user.is_authenticated():
+        logout=True
+        try:
+           user_id = request.user.id
+           username = request.user.username
+           first_name = request.user.first_name
+           last_name = request.user.last_name
+           profile_image_path = ''
+        except Exception, R:
+           log = Logger(log='WE GOT SOME ERROR'+str(R))
+           log.save()
+           user_id = -1
+           username = ''
+           first_name = ''
+           last_name = ''
+           profile_image_path = ''
+
+    else:
+        user_id = -1
+        logout=False
+        username = ''
+        first_name = ''
+        last_name = ''
+        profile_image_path = ''
+
+    return render(request, 'index-0.html',{'logout':logout,
+                                           'user_id':user_id,
+                                           'first':first_name,
+                                           'last':last_name,
+                                           'service':"blog",
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'posts':posts,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
@@ -336,15 +449,20 @@ def contacts(request):
 
 @ensure_csrf_cookie
 def payment(request):
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+
     if request.user.is_authenticated():
         logout=True
         try:
            user_id = request.user.id
-           profile = User.objects.get(id=request.user.id)
            username = request.user.username
            first_name = request.user.first_name
            last_name = request.user.last_name
-           profile_image_path = profile.profile_image_path
+           profile_image_path = ''
         except Exception, R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
@@ -362,11 +480,18 @@ def payment(request):
         last_name = ''
         profile_image_path = ''
 
-    return render(request, 'index-5.html',{'logout':logout,
-                                           'first':first_name,
+    return render(request, 'index-0.html',{'logout':logout,
                                            'user_id':user_id,
+                                           'first':first_name,
                                            'last':last_name,
+                                           'service':'payment',
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'posts':posts,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
+
 
 @ensure_csrf_cookie
 def toast(request):

@@ -87,7 +87,8 @@ class AddPostView(Endpoint):
         try:
 
             category = Category.objects.get(id=int(category_id))
-            post = Post.objects.create(title=title,body=body,category=category,author=user)
+            post = Post.objects.create(title=title,body=body,
+                                       category=category,author=user)
             posts = Post.objects.filter(author=user)
             serializer = PostSerializer(posts,many=True)
             return serializer.data
@@ -108,7 +109,8 @@ class AddPostView(Endpoint):
         try:
 
             category = Category.objects.get(id=int(category_id))
-            post = Post.objects.create(title=title,body=body,category=category,author=user,link=link,is_published=True)
+            post = Post.objects.create(title=title,body=body,category=category,
+                                       author=user,link=link,is_published=True)
             posts = Post.objects.filter(author=user)
             serializer = PostSerializer(posts,many=True)
             return serializer.data

@@ -128,7 +128,9 @@ background-color:rgba(255,255,255,.7);
 <style type="text/css">
 .tweetbutton {
   inherit: none;
-  height: 16px;
+  height: 25px;
+  width: 90px;
+  padding-top:-2px;
   display: inline-block;
   border-radius: 3px;
   -moz-border-radius: 3px;
@@ -4718,6 +4720,87 @@ Use this form to make a credit card payment. By using this form and accepting th
 
           </div>
           <div id="blog-posts">
+
+          {% for post in posts %}
+                   <div style="width:100%;">
+                           <div style='width:100%;'>
+                              <div style='float:left;width:10%;'>
+                               Title:
+                               </div>
+                               <div style='float:left;width:30%;font-weight:bold;'>
+                               {{ post.title }}
+                               </div>
+                               <div class='clear'></div>
+                           </div>
+
+
+                           <div style='width:100%;'>
+                              <div style='float:left;width:10%;'>
+                               Link:
+                              </div>
+                              <div style='float:left;width:30%;font-weight:bold;'>";
+                                 <a href='{{ post.link }}'>{{ post.link }}</a>
+                              </div>
+                              <div class='clear'></div> 
+                           </div>
+
+
+                          <div style='width:100%;'>
+                           <div style='float:left;width:10%;'>
+                           Posted by:
+                           </div>
+                           <div style='float:left;width:30%;font-weight:bold;'>
+                               {{ post.author.first_name }} {{ post.author.last_name }}
+                           </div>
+                           <div class='clear'></div>
+                           </div>
+
+
+                           <div style='width:100%;'>
+                            <div style='float:left;width:70%;'>
+                               {{ post.body|safe }}
+                             </div>
+                           </div>
+
+                           <div style='width:100%;'>
+                               <div style='floatdd:left;width:10%;'><a href="#">Post Comment</a></div>
+                               <div style='float:left;width:12%;'>
+                                         <social-shares inline-template>
+                                                     <a title="Share in facebook"
+                                                              @click="share('facebook')"
+                                                     >
+                                                      Share in facebook
+                                                     </a>
+                                         </social-shares>
+
+                              </div>
+                               <div style='float:left;width:12%;'>
+                                         <social-shares inline-template>
+                                                     <a title="Tweet" class="tweetbutton"
+                                                              @click="share('twitter')"
+                                                     >
+                                                      Tweet
+                                                     </a>
+                                         </social-shares>
+
+                              </div>
+                               <div style='float:left;width:12%;'>
+                                         <social-shares inline-template>
+                                                     <a title="G+"
+                                                              @click="share('googleplus')"
+                                                     >
+                                                      Share in G+
+                                                     </a>
+                                         </social-shares>
+
+                              </div>
+                              <div class='clear'></div>
+
+                           </div>
+
+                   </div>
+              {% endfor %}
+
           </div>
       </div>
     </section>
@@ -4853,21 +4936,27 @@ Use this form to make a credit card payment. By using this form and accepting th
 
               <div class="form-login" id="form-login">
 
-			<div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
-
+			<div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                            <center>
 		                <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                            </center>
                         </div>
 
-                        <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
+                        <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                            <center>   
                                 <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                            </center> 
                         </div>
 
-                        <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
+                        <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                            <center> 
                                 <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                            </center>
                         </div>
-                        <div style="margin-top:15%;margin-bottom:15%;padding-left:2.5%;">
-
+                        <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                            <center>
                                 <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                            </center>
                         </div>
 
 
@@ -4901,6 +4990,7 @@ var modal_submit_password = 'Reset Password';
 var modal_submit_login    = 'Login';
  // register modal component
 Vue.config.devtools = true;
+
 Vue.component('modal', {
   template: '#modal-template-signin',
   props: {
@@ -5211,7 +5301,39 @@ Vue.component('modal', {
 
 })
 
-
+var bapp = new Vue({
+                el: '#blog_posts',
+                data:
+                {
+                    url: undefined,
+                    alert:
+                    {
+                        isActive: false,
+                        message: undefined,
+                    },
+                },
+                methods:
+                {
+                    showAlert: function(message)
+                    {
+                        this.$set('alert.isActive', true);
+                        this.$set('alert.message', message);
+                    },
+                    hideAlert: function()
+                    {
+                        this.$set('alert.isActive', false);
+                        this.$set('alert.message', undefined);
+                    },
+                },
+                events:
+                {
+                    'social_shares_click': function(network, url)
+                    {
+                        this.showAlert('Sharer activated for <strong>'+network+'</strong>.');
+                        setTimeout(this.hideAlert, 3500);
+                    },
+                },
+})
 // now we can start the app!
 // router will create an instance of App and mount to
 // the element matching the selector #app.
@@ -6375,7 +6497,7 @@ $(".icon").click(function() {
                            result=result+"<br/><br/>";
                        }
 
-                       $('#blog-posts').html(result);
+                  //     $('#blog-posts').html(result);
               });
 
 

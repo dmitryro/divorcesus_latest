@@ -298,6 +298,15 @@ ga('send', 'pageview');
 
             <li>
               <a onclick="on_mobile_pricing();return false;" id="pricing"  href="#">Pricing</a>
+             <ul>
+                <li>
+                  <a onclick="on_mobile_pricing();">New York Packages</a>
+                </li>
+                <li>
+                  <a onclick="on_mobile_pricing();">New Jersey Packages</a>
+                </li>
+             </ul>
+
             </li>
 
             <li>
@@ -322,7 +331,7 @@ ga('send', 'pageview');
                   <a onclick="on_mobile_domestic_violence();">Domestic Violence </a>
                 </li>
                 <li>
-                  <a onclick="on_mobile_free_consultation();">Free Consultation </a>
+                  <a onclick="on_mobile_free_consultation();">Consultation </a>
                 </li>
                 <li>
                   <a onclick="on_mobile_mediation();">Mediation</a>
@@ -341,14 +350,6 @@ ga('send', 'pageview');
                 </li>
                 <li>
                   <a onclick="on_mobile_uncontested();">Uncontested Divorce</a>
-                  <ul>
-                    <li>
-                      <a href="#">With Children</a>
-                    </li>
-                    <li>
-                      <a href="#">Without Children</a>
-                    </li>
-                  </ul>
                 </li>
               
                
@@ -593,7 +594,7 @@ ga('send', 'pageview');
                   <a onclick="on_mobile_free_consultation();"><img src="/media/images/free.jpg" alt=""/></a>
                 </div>
                 <div class="box_cnt__no-flow">
-                  <h3 class="mod"><a onclick="on_mobile_free_consultation();">Free Consultation</a></h3>
+                  <h3 class="mod"><a onclick="on_mobile_free_consultation();">Consultation</a></h3>
                   <span class="badge"></span>
                 </div>
             </div>
@@ -4331,7 +4332,6 @@ Use this form to make a credit card payment. By using this form and accepting th
           </p>
 
 
-          <h4>{% service_meta 2 1 %}</h4>
            {% autoescape off %}
 
           {% service_meta 2 3 %}
@@ -4395,7 +4395,6 @@ Use this form to make a credit card payment. By using this form and accepting th
           <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
           <span> {% service_meta 9 1 %}</span>
          </p>
-          <h4>{% service_meta 9 1 %}</h4><br/>
            {% autoescape off %}
 
           {% service_meta 9 3 %}
@@ -4494,8 +4493,6 @@ Use this form to make a credit card payment. By using this form and accepting th
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
              <span>{% service_meta 5 1 %}</span>
           </p>
-        <h4>
-           {% service_meta 5 1 %}</h4>
  
            {% autoescape off %}
 
@@ -4559,8 +4556,6 @@ Use this form to make a credit card payment. By using this form and accepting th
              <span>{% service_meta 12 1 %}</span>
           </p>
 
-          <h4>{% service_meta 12 1 %}</h4>
-          <br/>
            {% autoescape off %}
 
            {% service_meta 12 3 %}
@@ -4623,8 +4618,6 @@ Use this form to make a credit card payment. By using this form and accepting th
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
              <span>{% service_meta 1 1 %}</span>
           </p>
-          <h4>
-           {% service_meta 1 1 %}</h4>
           <br/>
            {% autoescape off %}
 
@@ -4695,7 +4688,7 @@ Use this form to make a credit card payment. By using this form and accepting th
            {% endautoescape %}
 
 
-          <h4>Free Consultation</h4>
+          <h4>Consultation</h4>
       </div>
     </section>
   </main>

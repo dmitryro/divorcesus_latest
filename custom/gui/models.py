@@ -104,8 +104,8 @@ class Service(models.Model):
 
 
 class FAQ(models.Model):
-   question = models.CharField(max_length=450, blank=True)
-   note = models.CharField(max_length=450, blank=True)
+   question = models.CharField(max_length=1550, blank=True)
+   note = models.CharField(max_length=1550, blank=True)
    answer = RedactorField(verbose_name=u'Answer')
 
    class Meta:

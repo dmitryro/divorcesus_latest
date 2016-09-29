@@ -22,6 +22,7 @@ from django.contrib.auth.models import (
     User, BaseUserManager, AbstractBaseUser
 )
 
+from redactor.fields import RedactorField
 from rest_framework.authtoken.models import Token
 from datetime import date
 # Datetime related imports
@@ -249,7 +250,7 @@ class TeamMember(models.Model):
 class MileStone(models.Model):
     title = models.CharField(max_length=140, blank=True,null=True)
     year = models.CharField(max_length=140, blank=True,null=True)
-    body = models.CharField(max_length=500, blank=True,null=True)
+    body = models.CharField(max_length=1500, blank=True,null=True)
 
     class Meta:
         verbose_name = 'Milestone'
@@ -263,9 +264,12 @@ class MileStone(models.Model):
 
 class Advantage(models.Model):
     title = models.CharField(max_length=140, blank=True,null=True)
-    section_one = models.CharField(max_length=500, blank=True,null=True)
-    section_two = models.CharField(max_length=500, blank=True,null=True)
-    section_three = models.CharField(max_length=500, blank=True,null=True)
+    section_one =  RedactorField(verbose_name=u'Section One',null=True,blank=True,default='')
+
+    section_two =  RedactorField(verbose_name=u'Section Two',null=True,blank=True,default='')
+
+    section_three =  RedactorField(verbose_name=u'Section Three',null=True,blank=True,default='')
+
    
     class Meta:
         verbose_name = 'Advantage'
@@ -278,7 +282,7 @@ class Advantage(models.Model):
 class AdvantageLink(models.Model):
     advantage = models.ForeignKey(Advantage,blank=False,null=False) 
     title = models.CharField(max_length=140, blank=True,null=True)
-    link = models.CharField(max_length=500, blank=True,null=True)
+    link = models.CharField(max_length=1500, blank=True,null=True)
 
     class Meta:
         verbose_name = 'Advantage Link'

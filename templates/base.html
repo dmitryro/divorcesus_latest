@@ -8,6 +8,7 @@
 {% load gui_extras %}
 {% load blog_extras %}
 {% load metaprop_extras %}
+{% load bootstrap_pagination %}
 
 <meta charset="utf-8">
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7 ie" lang="pt_BR"> <![endif]-->
@@ -1337,20 +1338,20 @@ ga('send', 'pageview');
     </section>
     <section class="well4">
       <div class="container">
-        <h3><span>Featured</span> Scripts</h3>
+        <h3><span>Featured</span> Packages</h3>
         <div class="row">
           <div class="col-xs-6 wow fadeInLeft ">
             <div class="box">
               <div class="box_aside3">
-                <div class="icon2 fa fa-shekel">
-                  <h5>Lorem ipsum dolor sit </h5>
+                <div class="icon2 fa fa-compass">
+                  <h5>New York</h5>
                 </div>
               </div>
               <div class="box_cnt__no-flow">
-                <h6><a href="#">JavaScript</a></h6>
-                <h4><a href="#">Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod.</a></h4>
-                <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
-                <a href="#" class="btn5">Buy Now!</a>
+                <h6><a href="#">New York</a></h6>
+                <h4><a href="#">New York Uncontested Divorce package.</a></h4>
+                <p>Our fee for uncontested divorce in New York state is to come soon.</p>
+                <a href="#" class="btn5">Start Now!</a>
               </div>
             </div>
           </div>
@@ -1358,14 +1359,14 @@ ga('send', 'pageview');
             <div class="box">
               <div class="box_aside3">
                 <div class="icon2 fa fa-compass">
-                  <h5>Excepteur sint</h5>
+                  <h5>New Jersey</h5>
                 </div>
               </div>
               <div class="box_cnt__no-flow">
-                <h6><a href="#">JavaScript</a></h6>
-                <h4><a href="#">Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod.</a></h4>
-                <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
-                <a href="#" class="btn5">Buy Now!</a>
+                <h6><a href="#">New Jersey</a></h6>
+                <h4><a href="#">New Jersey Uncontested Divorce package.</a></h4>
+                <p>Our fee for uncontested divorce in New Jersey is to come soon.</p>
+                <a href="#" class="btn5">Start Now!</a>
               </div>
             </div>
           </div>
@@ -1455,6 +1456,7 @@ ga('send', 'pageview');
             <h3><span>Our</span> Advantages</h3>
             <h4 class="pt1">{% advantage_meta 1 1 %}</h4>
             <p>{% advantage_meta 1 2 %} </p>
+
             <ul class="list2">
               {% for link in advantage_links %}
               <li><a href="{{ link.link }}">{{ link.title }}</a></li>
@@ -1468,6 +1470,8 @@ ga('send', 'pageview');
               {% endfor %}
             </ul>
             <p>{% advantage_meta 1 3 %}</p>
+            <br/>
+            <p>{% advantage_meta 1 4 %}</p>     
           </div>
         </div>
       </div>
@@ -3244,11 +3248,11 @@ ga('send', 'pageview');
       </div>
     </section>
     <section class="well5">
-      <h3><span>Sub-</span>Categories</h3>
+      <h3><span>Our Featured Packages</span></h3>
       <div class="container mt1">
         <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInLeft ">
-            <h4>C AND C++ SCRIPTS</h4>
+            <h4>New York Uncontested Package</h4>
             <table class="tables">
               <tr>
                   <th class="bg1 text-center">Hits</th>
@@ -3401,7 +3405,7 @@ ga('send', 'pageview');
             
           </div>
           <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInRight">
-            <h4>COLDFUSION SCRIPTS</h4>
+            <h4>New Jersey Uncontested Package</h4>
             <table class="tables">
                <tr>
                    <th class="bg2 text-center">Hits</th>
@@ -3555,7 +3559,7 @@ ga('send', 'pageview');
         </div>
         <div class="row mt1">
           <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInLeft ">
-             <h4>ASP SCRIPTS</h4>
+             <h4>New York Conested Package</h4>
              <table class="tables">
                <tr>
                    <th class="bg3 text-center">Hits</th>
@@ -3707,7 +3711,7 @@ ga('send', 'pageview');
            </table>
          </div>
          <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInRight">
-             <h4>ASP NET SCRIPTS</h4>
+             <h4>New Jersey Contested Package</h4>
              <table class="tables">
                  <tr>
                      <th class="bg4 text-center">Hits</th>
@@ -4758,7 +4762,6 @@ Use this form to make a credit card payment. By using this form and accepting th
 
           </div>
           <div id="blog-posts">
-
           {% for post in posts %}
                    <div style="width:100%;">
                            <div style='width:100%;'>
@@ -6685,5 +6688,14 @@ $(".icon").click(function() {
     });
 </script>
 {% endif %}
+
+{% if service  == "about" %}
+<script>
+    $(document).ready(function() {
+        on_mobile_about();
+    });
+</script>
+{% endif %}
+
 </body>
 </html>

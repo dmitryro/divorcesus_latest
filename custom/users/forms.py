@@ -5,6 +5,7 @@ from models import TeamMember
 from models import MileStone
 from models import AboutUs
 from models import Advantage
+from redactor.widgets import RedactorEditor
 
 class EmailInput(Input):
     input_type = 'email'
@@ -39,13 +40,11 @@ class AdvantageModelForm(ModelForm):
     class Meta:
         model = Advantage
         widgets = {
-            'section_one': Textarea(attrs={'cols': 80, 'rows': 30}),
-            'section_two': Textarea(attrs={'cols': 80, 'rows': 30}),
-            'section_three': Textarea(attrs={'cols': 80, 'rows': 30}),
+            'section_one': RedactorEditor(),
+            'section_two': RedactorEditor(),
+            'section_three': RedactorEditor(),
         }
         fields = '__all__' #
-
-
 
 class TeamMemberModelForm(ModelForm):
     class Meta:

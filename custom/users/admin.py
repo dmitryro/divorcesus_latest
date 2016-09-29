@@ -85,14 +85,11 @@ class TeamMemberAdmin(admin.ModelAdmin):
 
 
 class AdvantageAdmin(admin.ModelAdmin):
-    section_one = forms.CharField( widget=forms.Textarea )
-    section_two = forms.CharField( widget=forms.Textarea )
-    section_three = forms.CharField( widget=forms.Textarea )
+    form = AdvantageModelForm
 
     fieldsets = ((None, {'fields': ['title','section_one','section_two','section_three']}),)
     list_display = ('__str__','title','section_one','section_two','section_three')
     list_editable = ('title',)
-    form =  AdvantageModelForm
 
 
 class AdvantageLinkAdmin(admin.ModelAdmin):

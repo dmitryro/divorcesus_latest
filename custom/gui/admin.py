@@ -20,9 +20,9 @@ from wymeditor.widgets import AdminWYMEditorArea
 class SlideAdmin(admin.ModelAdmin):
 
     form = SlideForm
-    fieldsets = ((None, {'fields': ['title','text','link','slide']}),)
-    list_display = ('id','title','text','link','slide_thumbnail')
-    list_editable = ('title','text','link')
+    fieldsets = ((None, {'fields': ['title','text','link','action','slide']}),)
+    list_display = ('id','title','text','link','action','slide_thumbnail')
+    list_editable = ('title','text','link','action')
     slide_thumbnail = AdminThumbnail(image_field='slide_thumbnail')
 
     class Meta:

@@ -243,17 +243,27 @@ ga('send', 'pageview');
 
          {% if user.is_authenticated %}
          {% endif %}
+        <div style="float:left;min-width:200px;">
+             {% if logout %}
+                       <div style="float:left;min-width:100px;margin-top:-3px;">
+                                <img src="{% user_meta user_id 3 %}" class="avatar" />
+                       </div>
+             {% endif %}
 
+            <div style="float:left;">       
+             {% user_meta user_id 1 %}
+              &nbsp;
+              {% user_meta user_id 2 %}
+              &nbsp;&nbsp;
+            </div>
+            <div class="clear:both;"></div>
+        </div>
         <!-- app -->
-        <div id="app" style="float:left;">
+        <div id="app" style="float:left;min-with:200px;padding-top:10px;">
               <!-- use the modal component, pass in the prop -->
-            {% user_meta user_id 1 %}  
-            &nbsp;
-            {% user_meta user_id 2 %}
+
             &nbsp;&nbsp;
              {% if logout %}
-                <img src="{% user_meta user_id 3 %}" class="avatar" />
-
                 &nbsp;&nbsp;   
                 <a href="/signout"  class="btn2" id="show-modal" @click="showModal = false">Sign Out</a>&nbsp;&nbsp; <a href="/dashboard"  class="btn2" id="show-modal" @click="showModal = false">Dashboard</a> 
 
@@ -287,7 +297,7 @@ ga('send', 'pageview');
 
 
         <nav class="nav">
-          <ul class="sf-menu" data-type="navbar">
+          <ul id="nav-menu" class="sf-menu" data-type="navbar">
 
             <li class="active">
               <a  onclick="on_mobile_home();return false;" id="home" href="#">Home</a>
@@ -373,7 +383,17 @@ ga('send', 'pageview');
           </ul>
         </nav>
 
-<div class="search-div" id="search-div">
+<div style="float: left;
+    margin-left:3%;
+    margin-top: 2%;
+    width:42%;
+    font-size:1.1em;
+    height:2%;color:#3b5998;">
+<strong>{% contact_meta 1 10 %}</strong>
+&nbsp;&nbsp;
+<strong>{% contact_meta 1 7 %}</strong>
+</div>
+<div class="search-div" id="search-div" style="margin-top:-8%;">
 
 <form method="get" action="." class="search">
 	<!-- We'll have a button that'll make the search input appear, a submit button and the input -->
@@ -413,8 +433,12 @@ ga('send', 'pageview');
 </form>
 
 </div>
+
 <div class="clear"></div>
-      </div>
+
+</div>
+
+
     </div>
 
   </header>
@@ -451,7 +475,7 @@ ga('send', 'pageview');
                   <div class="slide-caption">
                         <strong>{{ slide.text }}</strong>
                         <br/> 
-                        <strong><a href="{{ slide.link }}"><span style="font-size:0.7em;font-weight:bold;padding-top:0.8em;text-align:center;display:box;">Read More >>
+                        <strong><a onclick="{{ slide.action }}" href="{{ slide.link }}"><span style="font-size:0.7em;font-weight:bold;padding-top:0.8em;text-align:center;display:box;">Read More >>
                         </span></a></strong>
                         
                   </div>
@@ -3897,6 +3921,7 @@ ga('send', 'pageview');
         </li>
       </ul>
     </section>
+   <div class="container wow fadeInUp">
     <section class="well5">
       <div class="container">
         <div class="row">
@@ -3978,6 +4003,7 @@ ga('send', 'pageview');
         </div>
       </div>
     </section>
+   </div>
   </main>
 
 
@@ -4045,7 +4071,7 @@ ga('send', 'pageview');
 
 
 <!-- toast element -->
-
+   <div class="container wow fadeInUp">
    <div id="paymentwizard">
 
         <h3><span>Make a </span> Payment</h3>
@@ -4307,7 +4333,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 
 
-
+</div>
 </div> {% endif %}
 
     </section>
@@ -4335,12 +4361,12 @@ Use this form to make a credit card payment. By using this form and accepting th
              <span>{% service_meta 2 1 %}</span>
           </p>
 
-
+        <div class="container wow fadeInUp">
            {% autoescape off %}
 
           {% service_meta 2 3 %}
            {% endautoescape %}
-
+        </div>
 
       </div>
     </section>
@@ -4366,13 +4392,13 @@ Use this form to make a credit card payment. By using this form and accepting th
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
              <span> {% service_meta 10 1 %}</span>
           </p>
-
+          <div class="container wow fadeInUp">
           <h4>{% service_meta 10 1 %}</h4>
            {% autoescape off %}
 
           {% service_meta 10 3 %}
            {% endautoescape %}
-
+          </div>
       </div>
     </section>
   </main>
@@ -4399,11 +4425,12 @@ Use this form to make a credit card payment. By using this form and accepting th
           <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
           <span> {% service_meta 9 1 %}</span>
          </p>
+         <div class="container wow fadeInUp">
            {% autoescape off %}
 
           {% service_meta 9 3 %}
            {% endautoescape %}
-
+         </div>
       </div>
     </section>
  </main>
@@ -4428,7 +4455,7 @@ Use this form to make a credit card payment. By using this form and accepting th
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
              <span> {% service_meta 4 1 %}</span>
            </p>
-
+          <div class="container wow fadeInUp">
         <h4>
            {% service_meta 4 1 %}</h4>
           <br/>
@@ -4436,7 +4463,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 
           {% service_meta 4 3 %}
            {% endautoescape %}
-
+          </div>
 
       </div>
     </section>
@@ -4462,6 +4489,7 @@ Use this form to make a credit card payment. By using this form and accepting th
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
              <span>{% service_meta 11 1 %}</span>
           </p>
+         <div class="container wow fadeInUp">
         <h4>
            {% service_meta 11 1 %}</h4>
           <br/>
@@ -4470,7 +4498,7 @@ Use this form to make a credit card payment. By using this form and accepting th
           {% service_meta 11 3 %}
            {% endautoescape %}
 
-
+         </div>
 
       </div>
     </section>
@@ -4497,12 +4525,12 @@ Use this form to make a credit card payment. By using this form and accepting th
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
              <span>{% service_meta 5 1 %}</span>
           </p>
- 
+         <div class="container wow fadeInUp">
            {% autoescape off %}
 
           {% service_meta 5 3 %}
            {% endautoescape %}
-
+         </div>
 
 
 
@@ -4514,6 +4542,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 <div id="contested_divorce_block" class="service-block">
   <main id="container-contested-divorce">
+
    <section class="bg-img well-top">
       <div class="container">
         <div class="row">
@@ -4524,18 +4553,21 @@ Use this form to make a credit card payment. By using this form and accepting th
       </div>
     </section>
     <section class="terms">
-      <div class="container">
+ 
+     <div class="container">
           <p>
              <a onclick="on_mobile_home();return false;" id="home" href="#">Home</a>&nbsp; >>&nbsp;
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
              <span>{% service_meta 3 1 %}</span>
           </p>
+        <div class="container wow fadeInUp">
            {% autoescape off %}
 
            {% service_meta 3 3 %}
            {% endautoescape %}
 
-      </div>
+        </div>
+     </div>
     </section>
   </main>
 </div>
@@ -4559,11 +4591,12 @@ Use this form to make a credit card payment. By using this form and accepting th
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
              <span>{% service_meta 12 1 %}</span>
           </p>
-
+      <div class="container wow fadeInUp">
            {% autoescape off %}
 
            {% service_meta 12 3 %}
            {% endautoescape %}
+      </div>
 
       </div>
     </section>
@@ -4589,7 +4622,7 @@ Use this form to make a credit card payment. By using this form and accepting th
              <a onclick="on_mobile_services();return false;" id="home" href="#">Services</a>&nbsp; >>&nbsp;
              <span>{% service_meta 8 1 %}</span>
           </p>
-
+          <div class="container wow fadeInUp">
 
                  <h4>
            {% service_meta 8 1 %}</h4>
@@ -4598,7 +4631,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 
           {% service_meta 8 3 %}
            {% endautoescape %}
-
+          </div>
       </div>
     </section>
   </main>
@@ -4623,11 +4656,12 @@ Use this form to make a credit card payment. By using this form and accepting th
              <span>{% service_meta 1 1 %}</span>
           </p>
           <br/>
+          <div class="container wow fadeInUp">
            {% autoescape off %}
 
-          {% service_meta 1 3 %}
+           {% service_meta 1 3 %}
            {% endautoescape %}
-
+         </div
       </div>
     </section>
  </main>
@@ -4652,7 +4686,7 @@ Use this form to make a credit card payment. By using this form and accepting th
              <span>{% service_meta 6 1 %}</span>
           </p>
 
-
+          <div class="container wow fadeInUp">
           <h4>
            {% service_meta 6 1 %}</h4>
           <br/>
@@ -4660,6 +4694,7 @@ Use this form to make a credit card payment. By using this form and accepting th
           
           {% service_meta 6 3 %}
            {% endautoescape %}
+          </div>
       </div>
     </section>
   </main>
@@ -4683,6 +4718,7 @@ Use this form to make a credit card payment. By using this form and accepting th
              <a onclick="on_mobile_services();return false;">Services</a>&nbsp; >>&nbsp;
              <span>{% service_meta 7 1 %}</span>
           </p>
+         <div class="container wow fadeInUp">
         <h4>
            {% service_meta 7 1 %}</h4>
           <br/>
@@ -4692,7 +4728,7 @@ Use this form to make a credit card payment. By using this form and accepting th
            {% endautoescape %}
 
 
-          <h4>Consultation</h4>
+          </div>
       </div>
     </section>
   </main>
@@ -4761,7 +4797,9 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 
           </div>
+          
           <div id="blog-posts">
+          <div class="container wow fadeInUp">
           {% for post in posts %}
                    <div style="width:100%;">
                            <div style='width:100%;'>
@@ -4844,6 +4882,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                          </div>
 
                    </div>
+                </div>
               {% endfor %}
 
           </div>
@@ -5391,6 +5430,7 @@ var bapp = new Vue({
 
    $(document).ready(function() {
           var box = null;
+
           $("#chat_with_us").bind('click',function(event, ui) {
               if(box) {
                   box.chatbox("option", "boxManager").toggleBox();

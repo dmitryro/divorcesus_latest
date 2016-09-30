@@ -12,6 +12,7 @@ class Slide(models.Model):
     title =  models.CharField(max_length=150, blank=True)
     text =  models.CharField(max_length=450, blank=True)
     link = models.CharField(max_length=350, blank=True)
+    action = models.CharField(max_length=500, blank=True)
     slide = models.ImageField(upload_to='slides')
     slide_thumbnail = ImageSpecField(source='slide',
                                      processors=[ResizeToFill(100, 50)],

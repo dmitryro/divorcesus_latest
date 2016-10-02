@@ -2,21 +2,6 @@ from __future__ import absolute_import  # Python 2 only
 from jinja2 import Environment
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.urlresolvers import reverse
-from rest_framework.authentication import SessionAuthentication
-from rest_framework.authentication import  BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.request import Request
-from rest_framework import status
-from rest_framework import generics
-from rest_framework import permissions
-from rest_framework.authtoken.models import Token
-from django.core.urlresolvers import reverse
 from django.contrib.auth import logout as log_out
 from django.shortcuts import render
 from django.shortcuts import render_to_response
@@ -604,6 +589,99 @@ def logout(request):
 
     return HttpResponseRedirect('/')
 
+
+@ensure_csrf_cookie
+def check_qualify(request):
+
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+
+    if request.user.is_authenticated():
+        logout=True
+        try:
+           user_id = request.user.id
+           username = request.user.username
+           first_name = request.user.first_name
+           last_name = request.user.last_name
+           profile_image_path = ''
+        except Exception, R:
+           log = Logger(log='WE GOT SOME ERROR'+str(R))
+           log.save()
+           user_id = -1
+           username = ''
+           first_name = ''
+           last_name = ''
+           profile_image_path = ''
+
+    else:
+        user_id = -1
+        logout=False
+        username = ''
+        first_name = ''
+        last_name = ''
+        profile_image_path = ''
+
+    return render(request, 'index-0.html',{'logout':logout,
+                                           'user_id':user_id,
+                                           'first':first_name,
+                                           'last':last_name,
+                                           'service':'qualify',
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'posts':posts,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
+                                           'profile_image':profile_image_path})
+
+
+@ensure_csrf_cookie
+def contact(request):
+
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+
+    if request.user.is_authenticated():
+        logout=True
+        try:
+           user_id = request.user.id
+           username = request.user.username
+           first_name = request.user.first_name
+           last_name = request.user.last_name
+           profile_image_path = ''
+        except Exception, R:
+           log = Logger(log='WE GOT SOME ERROR'+str(R))
+           log.save()
+           user_id = -1
+           username = ''
+           first_name = ''
+           last_name = ''
+           profile_image_path = ''
+
+    else:
+        user_id = -1
+        logout=False
+        username = ''
+        first_name = ''
+        last_name = ''
+        profile_image_path = ''
+
+    return render(request, 'index-0.html',{'logout':logout,
+                                           'user_id':user_id,
+                                           'first':first_name,
+                                           'last':last_name,
+                                           'service':'contact',
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'posts':posts,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
+                                           'profile_image':profile_image_path})
 
 
 class DashboardLogoutViewMixin(object):

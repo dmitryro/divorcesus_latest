@@ -208,6 +208,43 @@ background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat
 .buffer {
     background-color: #323b43;
 }
+/*==================  RD Parallax    ======================*/
+.parallax {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  padding-top: 0px;
+  padding-bottom: 150px; }
+  @media (max-width: 767px) {
+     max-height:540px;    
+    .parallax {
+      padding-top: 70px;
+      padding-bottom: 80px; } }
+  .parallax h2, .parallax h3, .parallax h4, .parallax h5, .parallax h6 {
+    color: #fff;
+    text-align: center; }
+  .parallax_image, .parallax_pattern {
+    max-height:540px;
+    overflow:hidden;
+    padding-top:3%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0%;
+    background-position: center center;
+    will-change: transform; }
+  .parallax_image {
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    padding-bottom:0px;
+    background-size: cover; }
+  .parallax_pattern {
+    background-repeat: repeat; }
+  .parallax_cnt {
+    position: relative;
+    text-align: center; }
+
 </style>
 <!-- Google Analytics -->
 <script>
@@ -395,39 +432,18 @@ ga('send', 'pageview');
 </div>
 <div class="search-div" id="search-div" style="margin-top:-8%;">
 
-<form method="get" action="." class="search">
+<form class="search">
 	<!-- We'll have a button that'll make the search input appear, a submit button and the input -->
-        {{ form.as_table }}	
+        {% csrf_token %} 
 	<!-- Alosi, a label for it so that we can style it however we want it-->
-	<input id="submit" value="" type="submit">
+	<input id="submit" value="" type="button">
           
 	<label for="submit" class="submit"></label>
 	
 	<!-- trigger button and input -->
 	<a href="javascript: void(0)" class="icon"></a>
-        <input type="search" name="Search" id="search" placeholder="Search">
+        <input type="search" name="q" id="search">
 
-        {% if query %}
-            <h3>Results</h3>
-
-            {% for result in page.object_list %}
-                <p>
-                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
-                </p>
-            {% empty %}
-                <p>No results found.</p>
-            {% endfor %}
-
-            {% if page.has_previous or page.has_next %}
-                <div>
-                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
-                    |
-                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
-                </div>
-            {% endif %}
-        {% else %}
-            {# Show some example queries to run, maybe query syntax, something else? #}
-        {% endif %}
 
 
 </form>
@@ -448,6 +464,7 @@ ga('send', 'pageview');
   =========================================================-->
 
 <div id="home_block">
+
   <main id="content-home">
 <!--
         <div class="row">
@@ -1349,7 +1366,7 @@ ga('send', 'pageview');
           </div>
         </div>
         <div class="btn-wrap">
-          <a href="#" class="btn">See all scripts</a>
+          <a href="#" class="btn">See all packages</a>
         </div>
       </div>
     </section>
@@ -1357,7 +1374,7 @@ ga('send', 'pageview');
       <div class="container wow fadeIn">
         <h2><span> Start Your Case with US Today</span> </h2>
         <h4>Get the expert assistance with your most intimate and important life matters from the leading professional lawers.</h4>
-        <a href="#" class="btn4">Start</a>
+        <a href="#" onclick="on_mobile_qualify();return false;" class="btn4">Start</a>
       </div>
     </section>
     <section class="well4">
@@ -1375,7 +1392,7 @@ ga('send', 'pageview');
                 <h6><a href="#">New York</a></h6>
                 <h4><a href="#">New York Uncontested Divorce package.</a></h4>
                 <p>Our fee for uncontested divorce in New York state is to come soon.</p>
-                <a href="#" class="btn5">Start Now!</a>
+                <a href="#" onclick="on_mobile_qualify();return false;" class="btn5">Start Now!</a>
               </div>
             </div>
           </div>
@@ -1390,7 +1407,7 @@ ga('send', 'pageview');
                 <h6><a href="#">New Jersey</a></h6>
                 <h4><a href="#">New Jersey Uncontested Divorce package.</a></h4>
                 <p>Our fee for uncontested divorce in New Jersey is to come soon.</p>
-                <a href="#" class="btn5">Start Now!</a>
+                <a href="#" onclick="on_mobile_qualify();return false;" class="btn5">Start Now!</a>
               </div>
             </div>
           </div>
@@ -1398,7 +1415,7 @@ ga('send', 'pageview');
       </div>
     </section>
     <section class="parallax" data-url="/media/images/family-law.jpg">
-      <div class="container wow fadeIn" style="max-height:600px;">
+      <div class="container wow fadeIn">
         <h2><span>Still not sure if you re ready to start?</span></h2>
         <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
         <a href="#" class="btn4">Read more</a>
@@ -1778,6 +1795,15 @@ ga('send', 'pageview');
         </div>
       </div>
     </section>
+
+    <section class="parallax" data-url="/media/images/family-law.jpg">
+      <div class="container wow fadeIn" style="max-height:600px;">
+        <h2><span>Still not sure if you re ready to start?</span></h2>
+        <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
+        <a href="#" class="btn4">Read more</a>
+      </div>
+    </section>
+
     <section class="well7">
       <h3><span>New York</span> Divorce Packages</h3>
       <div class="container mt1">
@@ -4158,6 +4184,26 @@ ga('send', 'pageview');
 
 </div>
 
+<div id="search_block">
+    <main id="content-qualify">
+        <section class="bg-img well-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="terms">
+
+            <div class="container">
+                   <div id="search-results"></div>
+            </div>
+       </section>
+    </main>
+</div>
+
 <div id="qualify_block">
     <main id="content-qualify">
         <section class="bg-img well-top">
@@ -4170,9 +4216,60 @@ ga('send', 'pageview');
             </div>
         </section>
         <section class="terms">
-            <div class="container">
-                  Verify that you qualify to use the package.
-            </div>
+
+   <div class="container">
+   <div id="qualifywizard">
+
+        <h3><span>Verify You</span> Qualify</h3>
+
+
+
+
+
+
+<ul class='nav nav-wizard' id="wizard">
+
+  <li><a id="progress_stepone" href='#' data-toggle="tab">Verify</a></li>
+
+  <li><a id="progress_steptwo" href='#' data-toggle="tab">Confirm</a></li>
+
+  <li><a id="progress_stepthree">Start Process</a></li>
+
+</ul>
+<br/><br/>
+</div>
+
+<div id="stepone" style="font-size:1.3em;">
+
+          </p>
+            <form class='mailform contact-form' method="post">
+                 {% csrf_token %}
+
+
+              <input type="hidden" name="counter" id="counter" value=""/>
+             {% for q in qualifying %}
+                    <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
+                        {{ q.question }}
+                    </div>
+                    <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
+                        <input type="radio" name="yes_{{ q.id }}" value="yes" checked> Yes<br>
+                    </div>
+                    <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
+                        <input type="radio" name="yes_{{ q.id }}" value="no" checked> No<br>
+                    </div>
+                    <div class="clear"></div> 
+            {% endfor %}
+
+                  <div style="float:left;padding-top:1.9em;">
+                      <button class="btn4" v-on:click="submitone"  id="next_one">Next</button>
+                  </div>
+                  <div class="clear"></div>
+
+            </form>
+</div>
+
+
+
         </section>
     </main>
 </div>
@@ -7937,7 +8034,99 @@ $(".icon").click(function() {
 	});
 	
 	submit.mousedown(function() {
-		is_submit_clicked = true;
+	      is_submit_clicked = true;
+              $.ajax({
+                     method: "GET",
+                     url: "http://divorcesus.com/searchresults?q="+$("#search").val(),
+                     data: {}
+              }).done(function( msg ) {
+                       var result = '';
+                       for(var i=0;i<msg.posts.length;i++) {
+                           if(i==0) {
+                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;'><h4><strong>Posts Found</strong></h4></div>";
+                           }
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Title:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+msg.posts[i].title;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Link:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+msg.posts[i].link;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<br/><br/>";
+                       }
+
+                       for(var i=0;i<msg.services.length;i++) {
+                           if(i==0) {
+                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;'><h4><strong>Services Found</strong></h4></div>";
+                           }
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Title:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+msg.services[i].title;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Description:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+msg.services[i].description;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Service:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+msg.services[i].service;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+
+                           result=result+"<br/><br/>";
+                       }
+                      
+                       on_mobile_search();
+                       $('#search-results').html(result);
+                       return false;       
+
+              }); 
 	});
 	
 	// Now, we need to hide the icon too
@@ -7961,7 +8150,35 @@ $(".icon").click(function() {
 
 
   });
+  function on_mobile_search() {
+      document.getElementById('search_block').style.display='block';     
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      document.getElementById('qualify_block').style.display='none';
+      jQuery('body').scrollTop(0);
+      return false;
+  }
+
   function on_mobile_about() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='block';
       document.getElementById('services_block').style.display='none';
@@ -7988,6 +8205,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_home() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='block';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8014,6 +8232,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_services() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='block';
@@ -8040,6 +8259,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_contact() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8066,6 +8286,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_payment() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8092,6 +8313,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_pricing() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8118,6 +8340,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_contested() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8144,6 +8367,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_uncontested() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8170,6 +8394,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_property() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8196,6 +8421,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_protection() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8222,6 +8448,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_agreements() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8248,6 +8475,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_child_custody() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8274,6 +8502,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_child_support() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8300,6 +8529,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_spousal_support() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8326,6 +8556,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_domestic_violence() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8353,6 +8584,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_mediation() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8380,6 +8612,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_adoption() {
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8406,7 +8639,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_free_consultation() {
-
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8435,7 +8668,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_blog() {
-
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8542,7 +8775,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_faq() {
-
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8571,7 +8804,7 @@ $(".icon").click(function() {
   }
 
   function on_mobile_qualify() {
-
+      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';

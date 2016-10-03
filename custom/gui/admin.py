@@ -6,6 +6,9 @@ from models import LogoColor
 from models import ContactInfo
 from models import Service
 from models import FAQ
+from models import State
+from models import QualifyQuestion
+from models import QualifyQuestionnaire
 from forms import SlideForm
 from forms import ContactInfoForm
 from forms import ServiceForm
@@ -15,6 +18,39 @@ from ckeditor.widgets import CKEditorWidget
 from django.db import models
 from wymeditor.models import WYMEditorField
 from wymeditor.widgets import AdminWYMEditorArea
+
+
+class QualifyQuestionnaireAdmin(admin.ModelAdmin):
+
+    fieldsets = ((None, {'fields': ['state','action_taken','does_qualify']}),)
+    list_display = ('id','state','action_taken','does_qualify')
+    list_editable = ('state','action_taken','does_qualify')
+
+    class Meta:
+         verbose_name = 'Questionnaire'
+         verbose_name_plural = 'Questionnaires'
+
+
+class QualifyQuestionAdmin(admin.ModelAdmin):
+
+    fieldsets = ((None, {'fields': ['questionnaire','question','answer']}),)
+    list_display = ('id','questionnaire','question','answer')
+    list_editable = ('questionnaire','question','answer')
+
+    class Meta:
+         verbose_name = 'Question'
+         verbose_name_plural = 'Questions'
+
+
+class StateAdmin(admin.ModelAdmin):
+
+    fieldsets = ((None, {'fields': ['state','code']}),)
+    list_display = ('id','state','code')
+    list_editable = ('state','code')
+
+    class Meta:
+         verbose_name = 'State'
+         verbose_name_plural = 'States'
 
 
 class SlideAdmin(admin.ModelAdmin):
@@ -99,6 +135,9 @@ class ContactInfoAdmin(admin.ModelAdmin):
          verbose_name_plural = 'Contact Info'
 
 
+admin.site.register(QualifyQuestionnaire,QualifyQuestionnaireAdmin)
+admin.site.register(QualifyQuestion,QualifyQuestionAdmin)
+admin.site.register(State,StateAdmin)
 admin.site.register(FAQ,FAQAdmin)
 admin.site.register(Service,ServiceAdmin)
 admin.site.register(ContactInfo,ContactInfoAdmin)

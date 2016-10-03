@@ -1,8 +1,11 @@
 from __future__ import absolute_import  # Python 2 only
 from jinja2 import Environment
+import itertools
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout as log_out
+from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.contrib import messages
@@ -13,6 +16,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.views.decorators.csrf import ensure_csrf_cookie
 from custom.utils.models import Logger
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views.generic.base import View
@@ -21,9 +25,85 @@ from custom.users.models import MileStone
 from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
 from custom.gui.models import Slide
+from custom.gui.models import Service
 from custom.gui.models import FAQ
+from custom.gui.models import QualifyQuestion
+from custom.gui.models import QualifyQuestionnaire
 from custom.blog.models import Category
 from custom.blog.models import Post
+from rest_framework import generics
+from restless.views import Endpoint
+from custom.gui.serializers import GlobalSearchSerializer
+from custom.gui.serializers import ServiceSerializer
+from custom.gui.serializers import CategorySerializer
+
+############################################
+## Add a New Post view                    ##
+## Extends: restless Endpoint             ##
+## METHOD:  GET, POST                     ##
+## Type:    Endpoint View (JSON)          ##
+############################################
+
+class GetSearchResultsView(Endpoint):
+    @csrf_exempt
+    def get(self, request):
+
+        try:
+            query = request.params.get('q','')
+            categories = Category.objects.filter(Q(name__icontains=query) | Q(code__icontains=query))
+            services = Service.objects.filter(Q(description__icontains=query) | Q(statement__icontains=query) | Q(title__icontains=query) | Q(service__icontains=query))
+            posts = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+        #    res = chain(posts,categories)
+            all_results = list(posts)
+            serializer_categories = CategorySerializer(categories,many=True)
+            serializer_services = ServiceSerializer(services,many=True)
+            serializer_posts = GlobalSearchSerializer(posts,many=True)
+                               
+            return {'posts':serializer_posts.data,'services':serializer_services.data,'categories':serializer_categories.data,'q':query}
+
+        except Exception,R:
+            return {'message':'error '+str(R)}
+
+
+    @csrf_exempt
+    def post(self, request):
+
+
+        try:
+
+            query = request.data['q']
+            categories = Category.objects.filter(Q(name__icontains=query) | Q(code__icontains=query))
+            services = Service.objects.filter(Q(description__icontains=query) | Q(statement__icontains=query) | Q(title__icontains=query) | Q(service__icontains=query))
+            posts = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+        #    res = chain(posts,categories)
+            all_results = list(posts)
+            serializer_categories = CategorySerializer(categories,many=True)
+            serializer_services = ServiceSerializer(services,many=True)
+            serializer_posts = GlobalSearchSerializer(posts,many=True)
+
+            return {'posts':serializer_posts.data,'services':serializer_services.data,'categories':serializer_categories.data,'q':query}
+
+
+
+
+
+        except Exception,R:
+
+            log = Logger(log=str(R))
+            log.save()
+            return {'message':'error  '+str(R)}
+
+
+class GlobalSearchList(generics.ListAPIView):
+   serializer_class = GlobalSearchSerializer
+
+   def get_queryset(self):
+      query = self.request.QUERY_PARAMS.get('query', None)
+      posts = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(category__icontains=query))
+      users = User.objects.filter(username__icontains=query)
+      all_results = list(chain(posts, users)) 
+      all_results.sort(key=lambda x: x.created)
+      return all_results
 
 
 @ensure_csrf_cookie
@@ -48,7 +128,7 @@ def dashboard(request):
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
     posts = Post.objects.all()
-
+    qquestions = QualifyQuestion.objects.all()
     categories = Category.objects.all()
 
     if request.user.is_authenticated():
@@ -84,6 +164,7 @@ def dashboard(request):
                                                'slides':slides,
                                                'faqs':faqs,
                                                'posts':posts,
+                                               'qualifying':qquestions,
                                                'milestones':milestones,
                                                'advantage_links':advantage_links,
                                                'profile_image':profile_image_path})
@@ -96,6 +177,7 @@ def dashboard(request):
                                            'last':last_name,
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'qualifying':qquestions,
                                            'posts':posts,
                                            'categories':categories,
                                            'milestones':milestones,
@@ -111,6 +193,7 @@ def home(request):
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
     posts = post = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
 
     if request.user.is_authenticated():
         logout=True
@@ -143,6 +226,7 @@ def home(request):
                                            'last':last_name,
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'qualifying':qquestions,
                                            'posts':posts,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
@@ -155,6 +239,7 @@ def about(request):
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
     posts = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
 
     if request.user.is_authenticated():
         logout=True
@@ -188,6 +273,7 @@ def about(request):
                                            'service':'about',
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'qualifying':qquestions,
                                            'posts':posts,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
@@ -201,6 +287,7 @@ def services(request,service):
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
     posts = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
 
     if request.user.is_authenticated():
         logout=True
@@ -234,6 +321,7 @@ def services(request,service):
                                            'service':service,
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'qualifying':qquestions,
                                            'posts':posts,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
@@ -246,6 +334,7 @@ def posts(request,page):
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
     posts = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
 
     if request.user.is_authenticated():
         logout=True
@@ -279,6 +368,7 @@ def posts(request,page):
                                            'service':"blog",
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'qualifying':qquestions,
                                            'posts':posts,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
@@ -292,6 +382,7 @@ def post(request):
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
     posts = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
 
     if request.user.is_authenticated():
         logout=True
@@ -325,6 +416,7 @@ def post(request):
                                            'service':"blog",
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'qualifying':qquestions,   
                                            'posts':posts,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
@@ -439,6 +531,7 @@ def payment(request):
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
     posts = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
 
     if request.user.is_authenticated():
         logout=True
@@ -473,6 +566,7 @@ def payment(request):
                                            'slides':slides,
                                            'faqs':faqs,
                                            'posts':posts,
+                                           'qualifying':qquestions, 
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
@@ -598,6 +692,7 @@ def check_qualify(request):
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
     posts = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
 
     if request.user.is_authenticated():
         logout=True
@@ -631,6 +726,7 @@ def check_qualify(request):
                                            'service':'qualify',
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'qualifying':qquestions,
                                            'posts':posts,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
@@ -645,6 +741,7 @@ def contact(request):
     slides = Slide.objects.all()
     faqs = FAQ.objects.all()
     posts = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
 
     if request.user.is_authenticated():
         logout=True
@@ -675,6 +772,7 @@ def contact(request):
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'qualifying':qquestions,
                                            'service':'contact',
                                            'slides':slides,
                                            'faqs':faqs,

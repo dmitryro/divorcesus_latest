@@ -30,7 +30,9 @@ from rest_framework import generics
 from rest_framework import viewsets, routers
 from rest_framework.authtoken import views as drf_views
 
+from custom.gui.views import GlobalSearchList
 from custom.gui.views import DashboardLogoutView
+from custom.gui.views import GetSearchResultsView
 from custom.signup.views import SendEmailView
 from custom.signup.views import logout_view
 from custom.blog.views import AddPostView
@@ -77,6 +79,8 @@ urlpatterns = [
     url(r'^search/', include('haystack.urls')),
 #    url(r'^divorce/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
+    url(r'^search/$', GlobalSearchList.as_view(), name="search"),
+    url(r'^searchresults/$',GetSearchResultsView.as_view(),name="searchresults"),
     url(r'^services/(?P<service>[^/]+)/$', 'custom.gui.views.services'),
     url(r'^blog/$','custom.gui.views.post'),
     url(r'^blog/(?P<page>[^/]+)/$','custom.gui.views.posts'),

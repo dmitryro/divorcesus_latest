@@ -8,6 +8,21 @@ from tinymce.models import HTMLField
 from froala_editor.fields import FroalaField
 from redactor.fields import RedactorField
 
+class State(models.Model):
+    state = models.CharField(max_length=150, blank=True)
+    code = models.CharField(max_length=10, blank=True)
+
+    class Meta:
+        verbose_name = 'State'
+        verbose_name_plural = 'States'
+
+    def __str__(self):
+        return self.state
+
+    def __unicode__(self):
+        return unicode(self.state)
+
+
 class Slide(models.Model):
     title =  models.CharField(max_length=150, blank=True)
     text =  models.CharField(max_length=450, blank=True)
@@ -101,6 +116,30 @@ class Service(models.Model):
 
    def __unicode__(self):
         return unicode(self.title)
+
+
+class QualifyQuestionnaire(models.Model):
+
+   state =  models.ForeignKey(State,blank=True,null=True)
+   does_qualify = models.NullBooleanField(default=False,blank=True,null=True)
+   date_avaluated = models.DateTimeField(auto_now_add=True)
+   action_taken = models.NullBooleanField(default=False,blank=True,null=True)
+
+   class Meta:
+        verbose_name = 'Qualify Questionnaire'
+        verbose_name_plural = 'Qualify Questionnaires'
+
+
+
+class QualifyQuestion(models.Model):
+
+   questionnaire = models.ForeignKey(QualifyQuestionnaire,blank=True,null=True) 
+   question = models.CharField(max_length=550, null=True, blank=True)
+   answer = models.NullBooleanField(default=False,blank=True,null=True)
+
+   class Meta:
+        verbose_name = 'Question'
+        verbose_name_plural = 'Questions'
 
 
 

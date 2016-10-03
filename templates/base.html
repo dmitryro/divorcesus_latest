@@ -4225,7 +4225,6 @@ ga('send', 'pageview');
 
 
 
-
 <ul class='nav nav-wizard' id="qualify-wizard">
 
   <li><a id="qualify_progress_stepone" href='#' data-toggle="tab">Verify</a></li>
@@ -4251,10 +4250,10 @@ ga('send', 'pageview');
                         {{ q.question }}
                     </div>
                     <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                        <input type="radio" id="{{ q.html_id }}" name="yes_{{ q.id }}" value="yes" checked> Yes<br>
+                        <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="yes" checked> Yes<br>
                     </div>
                     <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                        <input type="radio" id="{{ q.html_id }}" name="yes_{{ q.id }}" value="no" checked> No<br>
+                        <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="no"> No<br>
                     </div>
                     <div class="clear"></div> 
             {% endfor %}
@@ -4267,14 +4266,19 @@ ga('send', 'pageview');
             </form>
 </div>
 <div id="qualify-steptwo" style="font-size:1.3em;">
-           <h4>Result</h>
-
             <form class='mailform contact-form' method="post">
-                 {% csrf_token %}
+             {% csrf_token %}
 
+                 <div><h4><strong>Result:</strong></h4></div>
+                 <div id="final_does_qualify"></div>
+                 <div id="final_ready_start"></div>
+                 <div>--------------------------------------------------------------------------------------------</div>
+              
+ 
               <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
               <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
               <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
+              <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
             </form>              
  
 </div>
@@ -7129,6 +7133,7 @@ Vue.component('modal', {
 var qvm = new Vue({
   el: '#qualify-stepone',
   data: {
+    state:'',
     is_spouse_location_known:'',
     are_there_children: '',
     does_spouse_agree:'',
@@ -7136,10 +7141,20 @@ var qvm = new Vue({
   },
   methods: {
     submitone: function (event) {
+              
                this.$set('is_spouse_location_known',$('#is_spouse_location_known').val());
                this.$set('are_there_children',$('#are_there_children').val());
                this.$set('does_spouse_agree',$('#does_spouse_agree').val());
                this.$set('is_military',$('#is_military').val());
+
+               if(!$('#is_spouse_location_known').is(":checked") || !$('#does_spouse_agree').is(":checked")) {
+                      $('#final_does_qualify').html("We're sorry,but you might need to use our contested divorce services");
+               }          
+
+               else {
+                      $('#final_does_qualify').html("Congratulations! You qualify to use our uncontested divorce package!");
+               }
+
 
     },
     submittwo: function (event) {
@@ -7168,6 +7183,7 @@ var qvm = new Vue({
 var qvm2 = new Vue({
   el: '#qualify-steptwo',
   data: {
+    state:'',
     does_qualify:'',
     agree_to_start: '',
     is_spouse_location_known:'',
@@ -7177,6 +7193,7 @@ var qvm2 = new Vue({
   },
   methods: {
     submitone: function (event) {
+           this.$set('does_qualify','NO');
     },
     submittwo: function (event) {
     },
@@ -7198,9 +7215,7 @@ var qvm2 = new Vue({
     }
   },
   ready:function() {
-      this.$set('email',$('#email').val());
-      this.$set('fullname',$('#fullname').val());
-
+      this.$set('does_qualify','NO');
   }
 
 })
@@ -9023,6 +9038,7 @@ $(".icon").click(function() {
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='block';  
       $("#qualify-wizard :nth-child(1)").attr('class','active');
+      $("#qualify-steptwo").attr("style","display:none;");
       jQuery('body').scrollTop(0);
       return false;
 

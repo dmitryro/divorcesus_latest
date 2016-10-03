@@ -4190,14 +4190,13 @@ ga('send', 'pageview');
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-offset-2 col-sm-8">
-
                     </div>
                 </div>
             </div>
         </section>
         <section class="terms">
 
-            <div class="container">
+            <div class="container wow fadeInUp">
                    <div id="search-results"></div>
             </div>
        </section>
@@ -8121,7 +8120,41 @@ $(".icon").click(function() {
 
                            result=result+"<br/><br/>";
                        }
-                      
+                     
+                       for(var i=0;i<msg.categories.length;i++) {
+                           if(i==0) {
+                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;'><h4><strong>Categories Found</strong></h4></div>";
+                           }
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Name:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+msg.categories[i].name;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Code:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+msg.categories[i].code;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<br/><br/>";
+                       }
+ 
                        on_mobile_search();
                        $('#search-results').html(result);
                        return false;       

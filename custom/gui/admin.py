@@ -33,9 +33,9 @@ class QualifyQuestionnaireAdmin(admin.ModelAdmin):
 
 class QualifyQuestionAdmin(admin.ModelAdmin):
 
-    fieldsets = ((None, {'fields': ['questionnaire','question','answer']}),)
-    list_display = ('id','questionnaire','question','answer')
-    list_editable = ('questionnaire','question','answer')
+    fieldsets = ((None, {'fields': ['questionnaire','question','answer','html_id']}),)
+    list_display = ('id','questionnaire','question','answer','html_id')
+    list_editable = ('questionnaire','question','answer','html_id')
 
     class Meta:
          verbose_name = 'Question'

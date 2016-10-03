@@ -132,7 +132,7 @@ class QualifyQuestionnaire(models.Model):
 
 
 class QualifyQuestion(models.Model):
-
+   html_id = models.CharField(max_length=400,null=True,blank=True)
    questionnaire = models.ForeignKey(QualifyQuestionnaire,blank=True,null=True) 
    question = models.CharField(max_length=550, null=True, blank=True)
    answer = models.NullBooleanField(default=False,blank=True,null=True)

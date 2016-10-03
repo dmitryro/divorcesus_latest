@@ -441,7 +441,7 @@ ga('send', 'pageview');
 	<label for="submit" class="submit"></label>
 	
 	<!-- trigger button and input -->
-	<a href="javascript: void(0)" class="icon"></a>
+	<a href="#" class="icon"></a>
         <input type="search" name="q" id="search">
 
 
@@ -4219,26 +4219,26 @@ ga('send', 'pageview');
    <div class="container">
    <div id="qualifywizard">
 
-        <h3><span>Verify You</span> Qualify</h3>
+        <h3><span>Verify You Qualify</span></h3>
 
 
 
 
 
 
-<ul class='nav nav-wizard' id="wizard">
+<ul class='nav nav-wizard' id="qualify-wizard">
 
-  <li><a id="progress_stepone" href='#' data-toggle="tab">Verify</a></li>
+  <li><a id="qualify_progress_stepone" href='#' data-toggle="tab">Verify</a></li>
 
-  <li><a id="progress_steptwo" href='#' data-toggle="tab">Confirm</a></li>
+  <li><a id="qualify_progress_steptwo" href='#' data-toggle="tab">Confirm</a></li>
 
-  <li><a id="progress_stepthree">Start Process</a></li>
+  <li><a id="qualify_progress_stepthree">Start Process</a></li>
 
 </ul>
 <br/><br/>
 </div>
 
-<div id="stepone" style="font-size:1.3em;">
+<div id="qualify-stepone" style="font-size:1.3em;">
 
           </p>
             <form class='mailform contact-form' method="post">
@@ -4251,16 +4251,16 @@ ga('send', 'pageview');
                         {{ q.question }}
                     </div>
                     <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                        <input type="radio" name="yes_{{ q.id }}" value="yes" checked> Yes<br>
+                        <input type="radio" id="{{ q.html_id }}" name="yes_{{ q.id }}" value="yes" checked> Yes<br>
                     </div>
                     <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                        <input type="radio" name="yes_{{ q.id }}" value="no" checked> No<br>
+                        <input type="radio" id="{{ q.html_id }}" name="yes_{{ q.id }}" value="no" checked> No<br>
                     </div>
                     <div class="clear"></div> 
             {% endfor %}
 
                   <div style="float:left;padding-top:1.9em;">
-                      <button class="btn4" v-on:click="submitone"  id="next_one">Next</button>
+                      <button class="btn4" v-on:click="submitone-qualify"  id="qualify_next_one">Next</button>
                   </div>
                   <div class="clear"></div>
 
@@ -7114,6 +7114,86 @@ Vue.component('modal', {
 
 })
 
+var qvm = new Vue({
+  el: '#qualify-stepone',
+  data: {
+    is_spouse_location_known:'',
+    are_there_children: '',
+    does_spouse_agree:'',
+    is_military:'',
+  },
+  methods: {
+    submitone: function (event) {
+               this.$set('is_spouse_location_known',$('#is_spouse_location_known').val());
+               this.$set('are_there_children',$('#are_there_children').val());
+               this.$set('does_spouse_agree',$('#does_spouse_agree').val());
+               this.$set('does_spouse_agree',$('#is_military').val());
+
+    },
+    submittwo: function (event) {
+    },
+
+    submitthree: function (event) {
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
+            alert("SUCCESS");
+    },
+    errorCallback: function(event) {
+            alert("ERROR");
+    },
+    validConfirm: function(event) {
+           alert("VALID");
+    }
+
+  }
+})
+
+
+var qvm2 = new Vue({
+  el: '#qualify-steptwo',
+  data: {
+    does_qualify:'',
+    agree_to_start: '',
+    is_spouse_location_known:'',
+    are_there_children: '',
+    does_spouse_agree:'',
+    is_military:'',
+  },
+  methods: {
+    submitone: function (event) {
+    },
+    submittwo: function (event) {
+    },
+
+    submitthree: function (event) {
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
+            alert("SUCCESS");
+    },
+    errorCallback: function(event) {
+            alert("ERROR");
+    },
+    validConfirm: function(event) {
+           alert("VALID");
+    }
+  },
+  ready:function() {
+      this.$set('email',$('#email').val());
+      this.$set('fullname',$('#fullname').val());
+
+  }
+
+})
+
+
 var vm = new Vue({
   el: '#stepone',
   data: {
@@ -7552,6 +7632,55 @@ var bapp = new Vue({
             $(window).bind("load", ScaleSlider);
             $(window).bind("resize", ScaleSlider);
             $(window).bind("orientationchange", ScaleSlider);
+
+      $("#qualify_progress_stepone").bind("click",function() {
+                     counter = 0;
+                     $("#qualify_stepone").css("display","block");
+                     $("#qualify_steptwo").css("display","none");
+                     $("#qualify_stepthree").css("display","none");
+                     $("#qualify_stepfour").css("display","none");
+                     $("#qualify_stepfive").css("display","none");
+
+                     $("#qualify-wizard :nth-child(1)").attr('class','active');
+                     $("#qualify-wizard :nth-child(2)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(3)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(4)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(5)").removeAttr('class');
+
+      });
+
+      $("#qualify_progress_steptwo").bind("click",function() {
+                     counter = 1;
+                     $("#qualify_stepone").css("display","none");
+                     $("#qualify_steptwo").css("display","block");
+                     $("#qualify_stepthree").css("display","none");
+                     $("#qualify_stepfour").css("display","none");
+                     $("#qualify_stepfive").css("display","none");
+
+                     $("#qualify-wizard :nth-child(1)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(2)").attr('class','active');
+                     $("#qualify-wizard :nth-child(3)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(4)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(5)").removeAttr('class');
+
+      });
+
+      $("#qualify_progress_stepthree").bind("click",function() {
+                     counter = 2;
+                     $("#qualify_stepone").css("display","none");
+                     $("#qualify_steptwo").css("display","none");
+                     $("#qualify_stepthree").css("display","block");
+                     $("#qualify_stepfour").css("display","none");
+                     $("#qualify_stepfive").css("display","none");
+
+                     $("#qualify-wizard :nth-child(1)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(2)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(3)").attr('class','active');
+                     $("#qualify-wizard :nth-child(4)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(5)").removeAttr('class');
+
+      });
+
 
 
       $("#progress_stepone").bind("click",function() {

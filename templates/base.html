@@ -4260,11 +4260,23 @@ ga('send', 'pageview');
             {% endfor %}
 
                   <div style="float:left;padding-top:1.9em;">
-                      <button class="btn4" v-on:click="submitone-qualify"  id="qualify_next_one">Next</button>
+                      <button class="btn4" v-on:click="submitone"  id="qualify_next_one">Next</button>
                   </div>
                   <div class="clear"></div>
 
             </form>
+</div>
+<div id="qualify-steptwo" style="font-size:1.3em;">
+           <h4>Result</h>
+
+            <form class='mailform contact-form' method="post">
+                 {% csrf_token %}
+
+              <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
+              <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
+              <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
+            </form>              
+ 
 </div>
 
 
@@ -7127,7 +7139,7 @@ var qvm = new Vue({
                this.$set('is_spouse_location_known',$('#is_spouse_location_known').val());
                this.$set('are_there_children',$('#are_there_children').val());
                this.$set('does_spouse_agree',$('#does_spouse_agree').val());
-               this.$set('does_spouse_agree',$('#is_military').val());
+               this.$set('is_military',$('#is_military').val());
 
     },
     submittwo: function (event) {
@@ -7635,11 +7647,11 @@ var bapp = new Vue({
 
       $("#qualify_progress_stepone").bind("click",function() {
                      counter = 0;
-                     $("#qualify_stepone").css("display","block");
-                     $("#qualify_steptwo").css("display","none");
-                     $("#qualify_stepthree").css("display","none");
-                     $("#qualify_stepfour").css("display","none");
-                     $("#qualify_stepfive").css("display","none");
+                     $("#qualify-stepone").css("display","block");
+                     $("#qualify-steptwo").css("display","none");
+                     $("#qualify-stepthree").css("display","none");
+                     $("#qualify-stepfour").css("display","none");
+                     $("#qualify-stepfive").css("display","none");
 
                      $("#qualify-wizard :nth-child(1)").attr('class','active');
                      $("#qualify-wizard :nth-child(2)").removeAttr('class');
@@ -7651,11 +7663,11 @@ var bapp = new Vue({
 
       $("#qualify_progress_steptwo").bind("click",function() {
                      counter = 1;
-                     $("#qualify_stepone").css("display","none");
-                     $("#qualify_steptwo").css("display","block");
-                     $("#qualify_stepthree").css("display","none");
-                     $("#qualify_stepfour").css("display","none");
-                     $("#qualify_stepfive").css("display","none");
+                     $("#qualify-stepone").css("display","none");
+                     $("#qualify-steptwo").css("display","block");
+                     $("#qualify-stepthree").css("display","none");
+                     $("#qualify-stepfour").css("display","none");
+                     $("#qualify-stepfive").css("display","none");
 
                      $("#qualify-wizard :nth-child(1)").removeAttr('class');
                      $("#qualify-wizard :nth-child(2)").attr('class','active');
@@ -7667,11 +7679,11 @@ var bapp = new Vue({
 
       $("#qualify_progress_stepthree").bind("click",function() {
                      counter = 2;
-                     $("#qualify_stepone").css("display","none");
-                     $("#qualify_steptwo").css("display","none");
-                     $("#qualify_stepthree").css("display","block");
-                     $("#qualify_stepfour").css("display","none");
-                     $("#qualify_stepfive").css("display","none");
+                     $("#qualify-stepone").css("display","none");
+                     $("#qualify-steptwo").css("display","none");
+                     $("#qualify-stepthree").css("display","block");
+                     $("#qualify-stepfour").css("display","none");
+                     $("#qualify-stepfive").css("display","none");
 
                      $("#qualify-wizard :nth-child(1)").removeAttr('class');
                      $("#qualify-wizard :nth-child(2)").removeAttr('class');
@@ -7794,6 +7806,7 @@ var bapp = new Vue({
 
        });
 
+
       $("#next_two").bind("click",function() {
 
               var counter = eval($("#counter").val());
@@ -7880,6 +7893,27 @@ var bapp = new Vue({
 
 
        });
+
+
+      $("#qualify_next_one").bind("click",function() {
+
+
+                     $("#qualify-stepone").css("display","none");
+                     $("#qualify-steptwo").css("display","block");
+                     $("#qualify-stepthree").css("display","none");
+                     $("#qualify-stepfour").css("display","none");
+                     $("#qualify-stepfive").css("display","none");
+
+                     $("#qualify-wizard :nth-child(1)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(2)").attr('class','active');
+                     $("#qualify-wizard :nth-child(3)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(4)").removeAttr('class');
+                     $("#qualify-wizard :nth-child(5)").removeAttr('class');
+
+
+       });
+
+
 
       $( "#about" ).bind( "click", function() {
              console.log("about");
@@ -8988,6 +9022,7 @@ $(".icon").click(function() {
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='block';  
+      $("#qualify-wizard :nth-child(1)").attr('class','active');
       jQuery('body').scrollTop(0);
       return false;
 

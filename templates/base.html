@@ -1,4 +1,4 @@
-<d!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -39,6 +39,9 @@
   <script src="/static/js/jssor.slider.min.js"></script>
   <script src="/static/js/jssor.slider.mini.js"></script>
   <script src="/static/js/jquery-migrate-1.2.1.js"></script>
+
+
+
    <link rel="stylesheet" type="text/css" href="/static/css/wizard.css" />
    <link rel="stylesheet" href="/static/css/misc.css" />
    <link rel="stylesheet" href="/static/css/buttons-si.css" />
@@ -245,6 +248,59 @@ background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat
     position: relative;
     text-align: center; }
 
+.text-area, 
+pre {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  border: 0;
+}
+.expandingArea {
+  position: relative;
+  border: 1px solid #888;
+  background: #fff;
+}
+
+.expandingArea > textarea,
+.expandingArea > pre {
+  padding: 5px;
+  background: transparent;
+  font: 400 13px/16px helvetica, arial, sans-serif;
+  /* Make the text soft-wrap */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.expandingArea > textarea {
+  /* The border-box box model is used to allow
+   * padding whilst still keeping the overall width
+   * at exactly that of the containing element.
+   */
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  /* This height is used when JS is disabled */
+  height: 100px;
+}
+.expandingArea.active > textarea {
+  /* Hide any scrollbars */
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  /* Remove WebKit user-resize widget */
+  resize: none;
+}
+.expandingArea > pre {
+  display: none;
+}
+.expandingArea.active > pre {
+  display: block;
+  /* Hide the text; just using it for sizing */
+  visibility: hidden;
+}
 </style>
 <!-- Google Analytics -->
 <script>
@@ -259,69 +315,91 @@ ga('send', 'pageview');
 <!-- End Google Analytics -->
 </head>
 <body>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '831699350268733',
+      xfbml      : true,
+      version    : 'v2.7'
+    });
+  };
 
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 <div class="page">
 
   <!--========================================================
                             HEADER
   =========================================================-->
   <header>
+
    <section class="panel">
       <div class="container">
-          <ul class="inline-list">
-              <li><a onclick="on_mobile_faq();return false;">FAQ</a></li>
-              <li><a href="#">Ask A Question </a></li>
-              <li><a href="#">Online Consultation </a></li>
-              <li><a href="#" id="chat_with_us">Chat with US</a></li>
-          </ul>
+         <div style="float:left;">
+                  <ul class="inline-list">
+                       <li><a onclick="on_mobile_faq();return false;">FAQ</a></li>
+                       <li><a href="#">Ask A Question </a></li>
+                       <li><a href="#">Online Consultation </a></li>
+                       <li><a href="#" id="chat_with_us">Chat with US</a></li>
+                  </ul>
+
+          </div>
+
           <div class="btn-wr-header">
          <!-- app -->
            <!-- use the modal component, pass in the prop -->
 
          {% if user.is_authenticated %}
          {% endif %}
-        <div style="float:left;min-width:200px;">
-             {% if logout %}
-                       <div style="float:left;min-width:100px;margin-top:-3px;">
-                                <img src="{% user_meta user_id 3 %}" class="avatar" />
-                       </div>
-             {% endif %}
-
-            <div style="float:left;">       
-             {% user_meta user_id 1 %}
-              &nbsp;
-              {% user_meta user_id 2 %}
-              &nbsp;&nbsp;
-            </div>
-            <div class="clear:both;"></div>
-        </div>
+                   <div style="float:left;min-width:200px;">
+                      {% if logout %}
+                                 <div style="float:left;min-width:100px;margin-top:-3px;">
+                                            <img src="{% user_meta user_id 3 %}" class="avatar" />
+                                 </div>
+                     {% endif %}
+                  
+                                 <div style="float:left;">       
+                                       {% user_meta user_id 1 %}
+                                            &nbsp;
+                                       {% user_meta user_id 2 %}
+                                       &nbsp;&nbsp;
+                                 </div>
+                                <div class="clear"></div>
+                    </div>
         <!-- app -->
-        <div id="app" style="float:left;min-with:200px;padding-top:10px;">
+                    <div id="app" style="float:left;min-with:200px;padding-top:10px;">
               <!-- use the modal component, pass in the prop -->
 
-            &nbsp;&nbsp;
-             {% if logout %}
-                &nbsp;&nbsp;   
-                <a href="/signout"  class="btn2" id="show-modal" @click="showModal = false">Sign Out</a>&nbsp;&nbsp; <a href="/dashboard"  class="btn2" id="show-modal" @click="showModal = false">Dashboard</a> 
+                               &nbsp;&nbsp;
+                                      {% if logout %}
+                                 &nbsp;&nbsp;   
+                               <a href="/signout"  class="btn2" id="show-modal" @click="showModal = false">Sign Out</a>&nbsp;&nbsp; <a href="/dashboard"  class="btn2" id="show-modal" @click="showModal = false">Dashboard</a> 
 
-            {% elif not logout %}
-              <a class="btn2" id="show-modal" @click="showModal = true">Sign In</a>
-            {% endif %}
+                                     {% elif not logout %}
+                                          <a class="btn2" id="show-modal" @click="showModal = true">Sign In</a>
+                                     {% endif %}
   
-               <modal :show.sync="showModal">
+                              <modal :show.sync="showModal">
                <!--
 /                  you can use custom content here to overwrite
                   default content
                      -->
 
-              </modal>
+                             </modal>
 
 
-       </div>
-       <div class="clear"></div>
-          </div>
-      </div>
+                    </div><!-- end app -->
+                    <div class="clear"></div>
+               </div>
+             </div>
     </section>
+ <section style="margin-top:0px;">
    <div id="stuck_container" class="stuck_container">
       <div class="container" id="navapp">
         <div class="brand">
@@ -452,10 +530,12 @@ ga('send', 'pageview');
 
 <div class="clear"></div>
 
-</div>
+          </div> <!--  end stuck_container -->
 
 
-    </div>
+    </div> <!-- end container-->
+</section>
+
 
   </header>
 <div id="main_wrapper">  
@@ -1374,7 +1454,7 @@ ga('send', 'pageview');
       <div class="container wow fadeIn">
         <h2><span> Start Your Case with US Today</span> </h2>
         <h4>Get the expert assistance with your most intimate and important life matters from the leading professional lawers.</h4>
-        <a href="#" onclick="on_mobile_qualify();return false;" class="btn4">Start</a>
+        <a href="#" onclick="on_mobile_qualify(0);return false;" class="btn4">Start</a>
       </div>
     </section>
     <section class="well4">
@@ -1392,7 +1472,7 @@ ga('send', 'pageview');
                 <h6><a href="#">New York</a></h6>
                 <h4><a href="#">New York Uncontested Divorce package.</a></h4>
                 <p>Our fee for uncontested divorce in New York state is to come soon.</p>
-                <a href="#" onclick="on_mobile_qualify();return false;" class="btn5">Start Now!</a>
+                <a href="#" onclick="on_mobile_qualify(1);return false;" class="btn5">Start Now!</a>
               </div>
             </div>
           </div>
@@ -1407,7 +1487,7 @@ ga('send', 'pageview');
                 <h6><a href="#">New Jersey</a></h6>
                 <h4><a href="#">New Jersey Uncontested Divorce package.</a></h4>
                 <p>Our fee for uncontested divorce in New Jersey is to come soon.</p>
-                <a href="#" onclick="on_mobile_qualify();return false;" class="btn5">Start Now!</a>
+                <a href="#" onclick="on_mobile_qualify(2);return false;" class="btn5">Start Now!</a>
               </div>
             </div>
           </div>
@@ -4245,6 +4325,13 @@ ga('send', 'pageview');
 
 
               <input type="hidden" name="counter" id="counter" value=""/>
+
+                    <div id="qualify-state-label" style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:none;">
+                        State
+                    </div>
+                    <div id="qualify-state" style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;">
+                    </div>
+       
              {% for q in qualifying %}
                     <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
                         {{ q.question }}
@@ -4269,10 +4356,8 @@ ga('send', 'pageview');
             <form class='mailform contact-form' method="post">
              {% csrf_token %}
 
-                 <div><h4><strong>Result:</strong></h4></div>
                  <div id="final_does_qualify"></div>
                  <div id="final_ready_start"></div>
-                 <div>--------------------------------------------------------------------------------------------</div>
               
  
               <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
@@ -6881,8 +6966,20 @@ Use this form to make a credit card payment. By using this form and accepting th
                                {{ post.body|safe }}
                            </div>
                            <div style='width:100%;padding-top:5px;'>
-                             <div style='float:left;width:15%;'>
-                                   Comment
+                              <div style='float:left;width:15%;'>
+                                   <a href="#"  style="font-weight:bold;">Comment</a>
+
+
+               <!--
+/                  you can use custom content here to overwrite
+                  default content
+                     -->
+
+                       
+
+
+
+
                              </div>
 
                              <div style='float:left;width:15%;'>
@@ -7107,7 +7204,6 @@ Use this form to make a credit card payment. By using this form and accepting th
 </div>
 </script>
 <script>
-
 var counter = 0;
 var first_name = '';
 var fullname = '';
@@ -7552,11 +7648,8 @@ var bapp = new Vue({
                     },
                 },
 })
-// now we can start the app!
-// router will create an instance of App and mount to
-// the element matching the selector #app.
-
- </script>
+ 
+</script>
 <script src="/static/js/jssor.slider.mini.js"></script>
 <script src="/static/js/jssor.slider.min.js"></script>
 
@@ -7564,6 +7657,7 @@ var bapp = new Vue({
 
    $(document).ready(function() {
           var box = null;
+
 
           $("#chat_with_us").bind('click',function(event, ui) {
               if(box) {
@@ -7611,7 +7705,9 @@ var bapp = new Vue({
             document.getElementById('free_consultation_block').style.display='none';
             document.getElementById('blog_block').style.display='none';
             document.getElementById('faq_block').style.display='none';
-
+            jQuery("#search_block").css('display', 'none');
+            jQuery("#qualify_block").css('display', 'none');
+ 
             var jssor_1_SlideshowTransitions = [
               {$Duration:1200,x:0.2,y:-0.1,$Delay:20,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$Jease$.$InWave,$Top:$Jease$.$InWave,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:1.3,$Top:2.5}},
               {$Duration:1500,x:0.3,y:-0.3,$Delay:20,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.1,0.9],$Top:[0.1,0.9]},$SlideOut:true,$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$Jease$.$InJump,$Top:$Jease$.$InJump,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:0.8,$Top:2.5}},
@@ -7946,6 +8042,10 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');    
              jQuery("#uncontested_divorce_block").css('display', 'none');
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
+ 
        });
 
       $( "#home" ).bind( "click", function() {
@@ -7963,7 +8063,10 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
- 
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
+
        });
 
       $( "#pricing" ).bind( "click", function() {
@@ -7981,7 +8084,10 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
-  
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
+
       });
 
       $( "#services" ).bind( "click", function() {
@@ -7999,7 +8105,10 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
-  
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
+
       });
  
 
@@ -8018,7 +8127,10 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
- 
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
+
        });
 
       $( "#payment" ).bind( "click", function() {
@@ -8036,8 +8148,11 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
-  
-      });
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
+ 
+     });
 
       $( "#spousal_support" ).bind( "click", function() {
              jQuery("#home_block").css('display', 'none');
@@ -8054,6 +8169,9 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'block')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
 
       });
 
@@ -8073,6 +8191,9 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
 
       });
 
@@ -8092,6 +8213,9 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
 
       });
 
@@ -8111,6 +8235,9 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
 
       });
 
@@ -8130,6 +8257,9 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
 
       });
 
@@ -8149,6 +8279,9 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'none');
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+
 
       });
 
@@ -8168,7 +8301,9 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'block');
              jQuery("#uncontested_divorce_block").css('display', 'none');
-
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
+ 
       });
 
       $( "#uncontested" ).bind( "click", function() {
@@ -8186,6 +8321,8 @@ var bapp = new Vue({
              jQuery("#spousal_support_block").css('display', 'none')
              jQuery("#contested_divorce_block").css('display', 'none');
              jQuery("#uncontested_divorce_block").css('display', 'block');
+             jQuery("#search_block").css('display', 'none');
+             jQuery("#qualify_block").css('display', 'none');
 
       });
 
@@ -8361,6 +8498,34 @@ $(".icon").click(function() {
 
 
   });
+
+
+  function makeExpandingArea(container) {
+     var area = container.querySelector('textarea');
+     var span = container.querySelector('span');
+
+     if (area.addEventListener) {
+       area.addEventListener('input', function() {
+       span.textContent = area.value;
+      }, false);
+     span.textContent = area.value;
+    } else if (area.attachEvent) {
+   // IE8 compatibility
+   area.attachEvent('onpropertychange', function() {
+     span.innerText = area.value;
+   });
+   span.innerText = area.value;
+ }
+// Enable extra CSS
+container.className += "active";
+     }var areas = document.querySelectorAll('.expandingArea');
+     var l = areas.length;while (l--) {
+     makeExpandingArea(areas[l]);
+  }
+  function on_mobile_showcomments(){
+      return false;         
+  }
+
   function on_mobile_search() {
       document.getElementById('search_block').style.display='block';     
       document.getElementById('home_block').style.display='none';
@@ -8411,6 +8576,7 @@ $(".icon").click(function() {
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      
       jQuery('body').scrollTop(0);
       return false;
   }
@@ -8497,7 +8663,6 @@ $(".icon").click(function() {
   }
 
   function on_mobile_payment() {
-      document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
@@ -8519,6 +8684,7 @@ $(".icon").click(function() {
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('search_block').style.display='none';
       jQuery('body').scrollTop(0);
       return false;
   }
@@ -9014,7 +9180,26 @@ $(".icon").click(function() {
 
   }
 
-  function on_mobile_qualify() {
+  function on_mobile_qualify(state) {
+      if  (state==1) {
+             jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+             jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+             jQuery("#qualify-state").html("<h4>New York</h4>");
+ 
+      }
+      else 
+      if  (state==2) {
+             jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+             jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+             jQuery("#qualify-state").html("<h4>New Jersey</h4>");
+      }
+      else
+      if  (state==0) {
+             jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
+             jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
+      }
+
+
       document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
@@ -9067,7 +9252,7 @@ $(".icon").click(function() {
 {% if service  == "qualify" %}
 <script>
     $(document).ready(function() {
-        on_mobile_qualify();
+        on_mobile_qualify(0);
     });
 </script>
 {% endif %}

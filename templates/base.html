@@ -47,7 +47,7 @@
    <link rel="stylesheet" href="/static/css/buttons-si.css" />
    <link href="/static/css/modal.css" rel="stylesheet" type="text/css"/>
    <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.js"></script>
    <script src="/static/js/vue-router.js"></script>
     <script src="/static/js/vue.social-shares.js"></script>
    <link type="text/css" href="http://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
@@ -301,6 +301,33 @@ pre {
   /* Hide the text; just using it for sizing */
   visibility: hidden;
 }
+.slide-item {
+  position: absolute;
+  top: 20px; left: 20px;
+  width: 300px; height: 100px;
+  opacity:.50;-moz-opacity:.80;
+  filter:alpha(opacity=80);
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+  border-radius:4px;
+  font-size:1.8em;
+  text-align:center;
+  padding-top:2%;
+  color:#ffffff;
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: #151515; !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/"
+   text-shadow: 1px 1px #fe4902, 
+                2px 2px #fe4902, 
+                3px 3px #fe4902;
+   -webkit-transition: all 0.12s ease-out;
+   -moz-transition:    all 0.12s ease-out;
+   -ms-transition:     all 0.12s ease-out;
+   -o-transition:      all 0.12s ease-out;
+}
+
 </style>
 <!-- Google Analytics -->
 <script>
@@ -782,6 +809,76 @@ ga('send', 'pageview');
         <div class="btn-wrap">
           <a href="#" class="btn3">See all categories</a>
         </div>
+      </div>
+    </section>
+    <!--section class="parallax" data-url="/media/images/couple-resized.jpg">
+      <div class="container wow fadeIn">
+        <h2><span> Start Your Case with US Today</span> </h2>
+        <h4>Get the expert assistance with your most intimate and important life matters from the leading professional lawers.</h4>
+        <a href="#" onclick="on_mobile_qualify(0);return false;" class="btn4">Start</a>
+      </div>
+    </section-->
+    <section class="well4">
+      <div class="container">
+        <h3><span>Featured</span> Packages</h3>
+        <div class="row">
+          <div class="col-xs-6 wow fadeInLeft ">
+            <div class="box">
+              <div class="box_aside3">
+                <div class="icon2 fa fa-compass" onclick="on_mobile_qualify(1);return false;">
+                  <h5>New York</h5>
+                </div>
+              </div>
+              <div class="box_cnt__no-flow">
+                <h6><a href="#">New York</a></h6>
+                <h4><a href="#">New York Uncontested Divorce package.</a></h4>
+                <p>Our fee for uncontested divorce in New York state is to come soon.</p>
+                <a href="#" onclick="on_mobile_qualify(1);return false;" class="btn5">Start Now!</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-6 wow fadeInRight">
+            <div class="box">
+              <div class="box_aside3">
+                <div class="icon2 fa fa-compass" onclick="on_mobile_qualify(2);return false;">
+                  <h5>New Jersey</h5>
+                </div>
+              </div>
+              <div class="box_cnt__no-flow">
+                <h6><a href="#">New Jersey</a></h6>
+                <h4><a href="#">New Jersey Uncontested Divorce package.</a></h4>
+                <p>Our fee for uncontested divorce in New Jersey is to come soon.</p>
+                <a href="#" onclick="on_mobile_qualify(2);return false;" class="btn5">Start Now!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="parallax" data-url="/media/images/family-law.jpg">
+      <div class="container wow fadeIn">
+        <h2><span>Still not sure if you re ready to start?</span></h2>
+        <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
+        <a href="#" class="btn4">Read more</a>
+      </div>
+    </section>
+    <section class="well5">
+      <div class="container">
+        <h3>Our<span> Events</span></h3>
+        <ul class="index-list row">
+          <li class="col-xs-12 col-sm-4 wow fadeInUp">
+            <h4><a href="#">Lorem ipsum dolor sit amet conse ctetur adipisicing elit</a></h4>
+            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>
+          </li>
+          <li class="col-xs-12 col-sm-4 wow fadeInUp" data-wow-delay=".2s">
+            <h4><a href="#">Lorem ipsum dolor sit amet conse ctetur adipisicing elit</a></h4>
+            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>
+          </li>
+          <li class="col-xs-12 col-sm-4 wow fadeInUp" data-wow-delay=".4s">
+            <h4><a href="#">Lorem ipsum dolor sit amet conse ctetur adipisicing elit</a></h4>
+            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>
+          </li>           
+        </ul>
       </div>
     </section>
     <section class="well3">
@@ -1448,76 +1545,6 @@ ga('send', 'pageview');
         <div class="btn-wrap">
           <a href="#" class="btn">See all packages</a>
         </div>
-      </div>
-    </section>
-    <section class="parallax" data-url="/media/images/couple-resized.jpg">
-      <div class="container wow fadeIn">
-        <h2><span> Start Your Case with US Today</span> </h2>
-        <h4>Get the expert assistance with your most intimate and important life matters from the leading professional lawers.</h4>
-        <a href="#" onclick="on_mobile_qualify(0);return false;" class="btn4">Start</a>
-      </div>
-    </section>
-    <section class="well4">
-      <div class="container">
-        <h3><span>Featured</span> Packages</h3>
-        <div class="row">
-          <div class="col-xs-6 wow fadeInLeft ">
-            <div class="box">
-              <div class="box_aside3">
-                <div class="icon2 fa fa-compass">
-                  <h5>New York</h5>
-                </div>
-              </div>
-              <div class="box_cnt__no-flow">
-                <h6><a href="#">New York</a></h6>
-                <h4><a href="#">New York Uncontested Divorce package.</a></h4>
-                <p>Our fee for uncontested divorce in New York state is to come soon.</p>
-                <a href="#" onclick="on_mobile_qualify(1);return false;" class="btn5">Start Now!</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-6 wow fadeInRight">
-            <div class="box">
-              <div class="box_aside3">
-                <div class="icon2 fa fa-compass">
-                  <h5>New Jersey</h5>
-                </div>
-              </div>
-              <div class="box_cnt__no-flow">
-                <h6><a href="#">New Jersey</a></h6>
-                <h4><a href="#">New Jersey Uncontested Divorce package.</a></h4>
-                <p>Our fee for uncontested divorce in New Jersey is to come soon.</p>
-                <a href="#" onclick="on_mobile_qualify(2);return false;" class="btn5">Start Now!</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="parallax" data-url="/media/images/family-law.jpg">
-      <div class="container wow fadeIn">
-        <h2><span>Still not sure if you re ready to start?</span></h2>
-        <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
-        <a href="#" class="btn4">Read more</a>
-      </div>
-    </section>
-    <section class="well5">
-      <div class="container">
-        <h3>Our<span> Events</span></h3>
-        <ul class="index-list row">
-          <li class="col-xs-12 col-sm-4 wow fadeInUp">
-            <h4><a href="#">Lorem ipsum dolor sit amet conse ctetur adipisicing elit</a></h4>
-            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>
-          </li>
-          <li class="col-xs-12 col-sm-4 wow fadeInUp" data-wow-delay=".2s">
-            <h4><a href="#">Lorem ipsum dolor sit amet conse ctetur adipisicing elit</a></h4>
-            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>
-          </li>
-          <li class="col-xs-12 col-sm-4 wow fadeInUp" data-wow-delay=".4s">
-            <h4><a href="#">Lorem ipsum dolor sit amet conse ctetur adipisicing elit</a></h4>
-            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>
-          </li>           
-        </ul>
       </div>
     </section>
   </main>
@@ -6967,18 +6994,20 @@ Use this form to make a credit card payment. By using this form and accepting th
                            </div>
                            <div style='width:100%;padding-top:5px;'>
                               <div style='float:left;width:15%;'>
-                                   <a href="#"  style="font-weight:bold;">Comment</a>
 
 
+<!-- app -->
+<div id="app">
+              <modal :show.sync="showNewCommentModal">
                <!--
 /                  you can use custom content here to overwrite
                   default content
                      -->
 
-                       
+              </modal>
 
-
-
+    <button @click="showNewCommentModal = true">New Comment</button>
+</div>
 
                              </div>
 
@@ -7134,6 +7163,8 @@ Use this form to make a credit card payment. By using this form and accepting th
 <div id="fb-root"></div>
 <div id="chat_div"  width="200" height="200"></div>
 <div id="log"></div>
+
+
 <!-- template for the modal component -->
 <script type="x/template" id="modal-template-signin">
 
@@ -7143,7 +7174,7 @@ Use this form to make a credit card payment. By using this form and accepting th
  <div class="modal-container">
 
         <div class="modal-header">
-           <div class="header-left">
+           <div id="modal-header" class="header-left">
              <h3><strong>SIGN IN</strong></h3>
            </div>
            <div class="header-right">
@@ -7203,6 +7234,66 @@ Use this form to make a credit card payment. By using this form and accepting th
 
 </div>
 </script>
+
+<!-- template for the Modal component -->
+<script type="x/template" id="modal-template">
+    <div class="modal-mask" @click="close" v-show="show" transition="modal">
+        <div class="modal-container" @click.stop>
+            <slot></slot>
+        </div>
+    </div>
+</script>
+
+<!-- template for the NewPostModal component -->
+<script type="x/template" id="new-post-modal-template">
+    <modal :show.sync="show" :on-close="close">
+        <div class="modal-header">
+            <h3>New Post</h3>
+        </div>
+
+        <div class="modal-body">
+            <label class="form-label">
+                Title
+                <input v-model="title" class="form-control">
+            </label>
+            <label class="form-label">
+                Body
+                <textarea v-model="body" rows="5" class="form-control"></textarea>
+            </label>
+        </div>
+
+        <div class="modal-footer text-right">
+            <button class="modal-default-button" @click="savePost()">
+                Save
+            </button>
+        </div>
+    </modal>
+</script>
+<!-- template for the NewCommentModal component -->
+<script type="x/template" id="new-comment-modal-template">
+    <modal :show.sync="show" :on-close="close">
+        <div class="modal-header">
+            <h3>New Comment</h3>
+        </div>
+
+        <div class="modal-body">
+            <label class="form-label">
+                Comment
+                <textarea v-model="comment" rows="5" class="form-control"></textarea>
+            </label>
+        </div>
+
+        <div class="modal-footer text-right">
+            <button class="modal-default-button" @click="postComment()">
+                Post
+            </button>
+        </div>
+    </modal>
+</script>
+
+
+
+
 <script>
 var counter = 0;
 var first_name = '';
@@ -7214,6 +7305,16 @@ var modal_submit_login    = 'Login';
  // register modal component
 Vue.config.devtools = true;
 
+Vue.transition('fade', {
+    enterClass: 'fadeIn',
+    leaveClass: 'fadeOut'
+});
+
+Vue.transition('fadeWithMove', {
+    enterClass: 'fadeInDown',
+    leaveClass: 'fadeOutUp'
+});
+
 Vue.component('modal', {
   template: '#modal-template-signin',
   props: {
@@ -7222,9 +7323,23 @@ Vue.component('modal', {
       required: true,
       twoWay: true
     }
+  },
+  methods: {
+    close: function () {
+        this.show = false;
+    }
+  },
+  ready: function () {
+    document.addEventListener("keydown", (e) => {
+      if (this.show && e.keyCode == 27) {
+        this.close();
+      }
+    });
   }
 
 })
+
+
 
 var qvm = new Vue({
   el: '#qualify-stepone',
@@ -7553,6 +7668,7 @@ new Vue({
   el: '#main_wrapper',
   data: {
     showModal: false,
+    showNewCommentModal: false,
     active: null,
   },
   methods: {
@@ -7575,11 +7691,32 @@ new Vue({
 
 })
 
+
+Vue.component('NewCommentModal', {
+  template: '#new-comment-modal-template',
+  props: ['show'],
+  data: function () {
+  	return {
+      comment: ''
+    };
+  },
+  methods: {
+    close: function () {
+      this.show = false;
+      this.comment = '';
+    },
+    postComment: function () {
+      // Insert AJAX call here...
+      this.close();
+    }
+  }
+})
 
 new Vue({
   el: '#app',
   data: {
     showModal: false,
+    showNewCommentModal: false,
     active: null,
   },
   methods: {
@@ -7599,21 +7736,10 @@ new Vue({
 
   ready: function () {
   }
-  
-})
-
- // register modal component
-Vue.component('modal', {
-  template: '#modal-template-signup',
-  props: {
-    show: {
-      type: Boolean,
-      required: true,
-      twoWay: true
-    }
-  }
 
 })
+
+
 
 var bapp = new Vue({
                 el: '#blog_posts',

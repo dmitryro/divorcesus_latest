@@ -307,7 +307,7 @@
 </script>
 
 <!-- template for the modal component -->
-<script type="x/template" id="modal-template-signin">
+<script type="x/template" id="modal-template-comment">
 
   <div class="modal-mask" v-show="show" transition="modal">
     <div class="modal-wrapper">
@@ -316,7 +316,7 @@
 
         <div class="modal-header">
            <div class="header-left">
-             <h3><strong>SIGN IN</strong></h3>
+             <h3><strong>Post a Comment</strong></h3>
            </div>
            <div class="header-right">
               <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
@@ -336,7 +336,7 @@
           <div class="error-message">
             <p v-show="$validation1.type.required">Username or Email Required.</p>
           </div>
-            <input type="text" name="user" v-validate:type="['required']"  placeholder="Email or Username" v-model="loginUser" v-on="keyup: submit('login', $event) | key 'enter'">
+            <input type="text" name="title" v-validate:type="['required']"  placeholder="Title" v-model="loginUser" v-on="keyup: submit('login', $event) | key 'enter'">
 
           <div class="error-message">
             <p v-show="$validation1.password.required">Password is Required.</p>

@@ -8,13 +8,13 @@ from models import ProfileMetaProp
 ################################
 
 class MetaPropAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {'fields': ['title','description','h1header','content','author','analytics']}),)
-    list_display = ('id','title','description','h1header','content','author','analytics')
-    list_editable = ('title','description','h1header','content','author','analytics')
+    fieldsets = ((None, {'fields': ['title','keywords','description','h1header','content','author','analytics']}),)
+    list_display = ('id','title','keywords','description','h1header','content','author','analytics')
+    list_editable = ('title','keywords','description','h1header','content','author','analytics')
 
     class Meta:
-         verbose_name = 'Meta Property'
-         verbose_name_plural = 'Meta Properties'
+         verbose_name = 'SEO Property'
+         verbose_name_plural = 'SEO Properties'
 
 
 class ContactMetaPropAdmin(admin.ModelAdmin):

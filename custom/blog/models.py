@@ -64,6 +64,8 @@ class Post(models.Model):
     def __unicode__(self):
         return unicode(self.title)
 
+    def get_absolute_url(self):
+        return "/posts/%i/" % self.id
 
 class Comment(models.Model):
 
@@ -75,7 +77,9 @@ class Comment(models.Model):
     is_flagged = models.NullBooleanField(default=False,blank=True,null=True)
     is_deleted = models.NullBooleanField(default=False,blank=True,null=True)
     is_published = models.NullBooleanField(default=False,blank=True,null=True)
-
+    is_anonymous = models.NullBooleanField(default=False,blank=True,null=True)
+    avatar =  models.CharField(max_length=500,blank=True,null=True)
+    username = models.CharField(max_length=200,blank=True,null=True)
 
     class Meta:
         verbose_name = 'Comment'

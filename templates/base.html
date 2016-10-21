@@ -6149,8 +6149,32 @@ Use this form to make a credit card payment. By using this form and accepting th
     <div id="comments-section" style="margin-left:20%;margin-right:20%;width:59.5%;">
  
 
-       <div style="float:left;width:98%;min-height:30px;">
-         comments come here
+       <div style="float:left;width:98%;min-height:120px;">
+                     <form class='mailform contact-form' method="post">
+
+
+                  {% csrf_token %}
+                  <input type="hidden" name="comments-open" id="comments-open" v-model="comments-open"/>
+                 
+                  <div class="clear"></div>
+                  <div style="float:top;padding-top:1.9em;">
+
+
+                  <label class="label_message">
+                      <textarea name="comment*" id="comment" rows="8" cols="60"  placeholder="Comment"
+                      v-model="comment"
+                      data-constraints="@NotEmpty"></textarea>
+                  </label>
+
+
+                  </div>
+
+                  <div style="float:top;padding-top:1.9em;">
+                     <button class="btn4" v-on:click="submitcomment"  id="submitcomment">Post</button>
+                  </div>
+                  <div class="clear"></div>
+
+         </form>
        </div>
 
        <div style="float:left;width:1.5%;">
@@ -6162,6 +6186,7 @@ Use this form to make a credit card payment. By using this form and accepting th
        </div>
 
        <div class="clear"></div>
+       <div id="comments-list"></div>
     </div>
 
 
@@ -6857,16 +6882,15 @@ new Vue({
 var bapp = new Vue({
                 el: '#blog_posts',
                 data:
-                {
-                    url: undefined,
-                    alert:
-                    {
-                        isActive: false,
-                        message: undefined,
-                    },
+                { 
+                   url: undefined,
                 },
                 methods:
                 {
+                    submitcomment: function (event) {
+                       $('#comments-list').html("TTTTT");
+                    },
+
                     showAlert: function(message)
                     {
                         this.$set('alert.isActive', true);
@@ -6885,7 +6909,29 @@ var bapp = new Vue({
                         this.showAlert('Sharer activated for <strong>'+network+'</strong>.');
                         setTimeout(this.hideAlert, 3500);
                     },
-                },
+                }
+})
+
+var vcom = new Vue({
+  el: '#comments-section',
+  data: {
+    comment: '',
+    comments-open: '',
+  },
+  methods: {
+    submitcomment: function (event) {
+           this.$set('comment',this.comment);
+           
+           $('#comments-list').html('SSSSSS');
+    },
+    validConfirm: function(event) {
+           $('#comments-list').html('SSSSSS');          
+    }
+  },
+  ready:function() {
+      this.$set('comment',$('#comment').val());
+  }
+
 })
  
 </script>
@@ -6913,6 +6959,7 @@ var bapp = new Vue({
                                                 }});
               }
           });
+          $('#submitcomment').bind('click',handlePost); 
 
           $(function(){ 
                   $(".ui-chatbox") 
@@ -8537,11 +8584,87 @@ container.className += "active";
 
    function close_comments() {
       $('#comments-section').css('display','none');
+      $("#comments-open").attr('value',0);
       return false;
    }
+   function handlePost() {
+              var post_id = $('#current_post_id').val()
+              $.ajax({
+                     method: "GET",
+                     url: "http://divorcesus.com/addcomment?post_id=3&body='"+$('#current_post_id').val()+"'",
+                     data: {}
+              }).done(function( msg ) {
 
+
+                       var result = '';
+                       for(var i=0;i<msg.comments.length;i++) {
+                           if(i==0) {
+                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;'><h4><strong>Comments</strong></h4></div>";
+                           }
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'User:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+msg.comments[i].username;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Avatar:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+"<img src='"+msg.comments[i].avatar+"' height='50' width='50'/>";
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Comment:';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+msg.comments[i].body;
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           result=result+"<br/><br/>";
+                       }
+                       $('#comments-list').html(result);
+                       return false;
+
+              }); 
+
+   }
    function handleComments() {
-      $('#comments-section').css('display','block');
+      var commentsopen = eval($("#comments-open").val());
+
+      if  (commentsopen==undefined) {
+           $("#comments-open").attr('value','1');
+           $('#comments-section').css('display','block'); 
+      }
+
+      if  (commentsopen==1) {
+           $("#comments-open").attr('value','0');
+           $('#comments-section').css('display','none');
+      }
+
+      if  (commentsopen==0) {
+           $("#comments-open").attr('value','1');
+           $('#comments-section').css('display','block');
+      }
+
       return false;     
    }
 

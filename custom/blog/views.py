@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models import Q,Min,Max
 from django.shortcuts import render
+from rest_framework import viewsets
 
 # Restless Endpoints 
 from restless.views import Endpoint
@@ -17,10 +18,24 @@ from custom.utils.models import Logger
 from models import Category
 from models import Post
 from models import Comment
-
+from custom.users.models import Profile
 from serializers import CategorySerializer
 from serializers import PostSerializer
 from serializers import CommentSerializer
+
+class PostViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing post instances.
+    """
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+
+class CommentViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing post instances.
+    """
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
 
 
 ############################################
@@ -36,16 +51,55 @@ class AddCommentView(Endpoint):
     def get(self, request):
         user = request.user
         post_id = request.params.get('post_id','')
-        comment = request.params.get('comment','')
+        body = request.params.get('body','')
+
+        try:
+            try:
+               post = Post.objects.get(id=int(post_id))
+            except Exception,R:
+               return {'message':'error','error':str(R)}
+
+            if not user.is_authenticated():
+                 comment = Comment.objects.create(title='',body=body,username='Anonymous',is_anonymous=True,post=post,avatar='http://divorcesus.com/static/images/user_no_avatar.png',is_flagged=False)
+            else:
+                 profile = Profile.objects.get(id=user.id)
+                 comment = Comment.objects.create(title='',body=body,author=user,username=user.username,is_anonymous=False,post=post,avatar=profile.profile_image_path,is_flagged=False)
+
+            comments = Comment.objects.filter(post_id=int(post_id))
+            serializer = CommentSerializer(comments,many=True)
+            return {"comments":serializer.data}
+
+        except Exception, R:
+            return {'message':'error','error':str(R)}
    
+
 
     @csrf_exempt
     def post(self, request):
         user = request.user
         post_id = request.data['post_id']
-        commment = request.data['comment']
-        
+        body = request.data['body']
 
+        try:
+            try:
+               post = Post.objects.get(id=int(post_id))
+            except Exception,R:
+               return {'message':'error','error':str(R)}
+
+            if not user.is_authenticated():
+                 comment = Comment.objects.create(title='',body=body,username='Anonymous',is_anonymous=True,post=post,avatar='http://divorcesus.com/static/images/user_no_avatar.png',is_flagged=False)
+            else:
+                 profile = Profile.objects.get(id=user.id)
+                 comment = Comment.objects.create(title='',body=body,author=user,username=user.username,is_anonymous=False,post=post,avatar=profile.profile_image_path,is_flagged=False)
+
+            comments = Comment.objects.filter(post_id=int(post_id))
+            serializer = CommentSerializer(comments,many=True)
+            return {"comments":serializer.data}
+
+        except Exception, R:
+            return {'message':'error','error':str(R)}
+                  
+  
 
 ############################################
 ## Add comment to a post                  ##

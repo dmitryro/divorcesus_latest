@@ -36,17 +36,25 @@ from custom.gui.views import GetSearchResultsView
 from custom.signup.views import SendEmailView
 from custom.signup.views import logout_view
 from custom.blog.views import AddPostView
+from custom.blog.views import AddCommentView
 from custom.blog.views import GetPostsView
 from custom.blog.views import DeletePostView
 from custom.blog.views import ReadPostView
 from custom.blog.views import GetAllPostsView
 from custom.blog.views import SavePostView
+from custom.blog.views import PostViewSet
+from custom.blog.views import CommentViewSet
+from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
 
 router = routers.DefaultRouter()
 
-#router.register(r'profiles',ProfileViewSet,base_name='profiles')
+
 
 admin.autodiscover()
+#router.register(r'bushwick',BushwickArtistViewSet)
+router.register(r'posts',PostViewSet)
+router.register(r'comments',CommentViewSet)
+
 urlpatterns = [
 #    url(r'^', include(router.urls)),
     url(r'^admin/', include(admin.site.urls)),
@@ -76,6 +84,7 @@ urlpatterns = [
     url(r'^getallposts',GetAllPostsView.as_view()),
     url(r'^readpost',ReadPostView.as_view()),
     url(r'^savepost',SavePostView.as_view()),
+    url(r'^addcomment',AddCommentView.as_view()),
     url(r'^search/', include('haystack.urls')),
 #    url(r'^divorce/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
@@ -95,5 +104,12 @@ urlpatterns = [
     url(r'^pricing/$', 'custom.gui.views.pricing'),
     url(r'^prices/$', 'custom.gui.views.pricing'),  
     url(r'^ask/$', 'custom.gui.views.ask'),
+    url(r'^api/$',include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^accounts_api/', include('registration_api.urls')),
+    url(r'^api/', include(router.urls)),
+    url(r'^rss/$', RssSiteNewsFeed()),
+    url(r'^atom/$', AtomSiteNewsFeed()),
     url('', include('social.apps.django_app.urls', namespace='social')),
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

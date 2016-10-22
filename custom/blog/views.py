@@ -23,12 +23,14 @@ from serializers import CategorySerializer
 from serializers import PostSerializer
 from serializers import CommentSerializer
 
+
 class PostViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing post instances.
     """
     serializer_class = PostSerializer
     queryset = Post.objects.all()
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     """
@@ -39,6 +41,46 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 ############################################
+## Add comment to a post                  ##
+## Extends: restless Endpoint             ##
+## METHOD:  GET, POST                     ##
+## Type:    Endpoint View (JSON)          ##
+############################################
+
+class GetCommentsView(Endpoint):
+
+    @csrf_exempt
+    def get(self, request):
+        user = request.user
+        post_id = request.params.get('post_id','')
+
+        try:
+            post = Post.objects.get(id=int(post_id))
+            comments = Comment.objects.filter(post=post)
+            serializer = CommentSerializer(comments,many=True)
+            return {"comments":serializer.data}
+
+        except Exception,R:
+            return {'message':'error','error':str(R)}
+  
+
+
+    @csrf_exempt
+    def post(self, request):
+        user = request.user
+        post_id = request.data['post_id']
+
+        try:
+            post = Post.objects.get(id=int(post_id))
+            comments = Comment.objects.filter(post=post)
+            serializer = CommentSerializer(comments,many=True)
+            return {"comments":serializer.data}
+
+        except Exception,R:
+            return {'message':'error','error':str(R)}
+
+
+#########################################
 ## Add comment to a post                  ##
 ## Extends: restless Endpoint             ##
 ## METHOD:  GET, POST                     ##
@@ -56,14 +98,33 @@ class AddCommentView(Endpoint):
         try:
             try:
                post = Post.objects.get(id=int(post_id))
+               post.total_comments=post.total_comments+1
+               post.save()
             except Exception,R:
                return {'message':'error','error':str(R)}
+            anonymous_avatar = 'http://divorcesus.com/static/images/user_no_avatar.png'
 
             if not user.is_authenticated():
-                 comment = Comment.objects.create(title='',body=body,username='Anonymous',is_anonymous=True,post=post,avatar='http://divorcesus.com/static/images/user_no_avatar.png',is_flagged=False)
+
+                 comment = Comment.objects.create(title='',
+                                                  body=body,
+                                                  username='Anonymous',
+                                                  is_anonymous=True,
+                                                  post=post,
+                                                  avatar=anonymous_avatar,
+                                                  is_flagged=False)
             else:
+
                  profile = Profile.objects.get(id=user.id)
-                 comment = Comment.objects.create(title='',body=body,author=user,username=user.username,is_anonymous=False,post=post,avatar=profile.profile_image_path,is_flagged=False)
+
+                 comment = Comment.objects.create(title='',
+                                                  body=body,
+                                                  author=user,
+                                                  username=user.username,
+                                                  is_anonymous=False,
+                                                  post=post,
+                                                  avatar=profile.profile_image_path,
+                                                  is_flagged=False)
 
             comments = Comment.objects.filter(post_id=int(post_id))
             serializer = CommentSerializer(comments,many=True)
@@ -83,14 +144,33 @@ class AddCommentView(Endpoint):
         try:
             try:
                post = Post.objects.get(id=int(post_id))
+               post.total_comments=post.total_comments+1
+               post.save()
             except Exception,R:
                return {'message':'error','error':str(R)}
 
             if not user.is_authenticated():
-                 comment = Comment.objects.create(title='',body=body,username='Anonymous',is_anonymous=True,post=post,avatar='http://divorcesus.com/static/images/user_no_avatar.png',is_flagged=False)
+
+                 comment = Comment.objects.create(title='',
+                                                  body=body,
+                                                  username='Anonymous',
+                                                  is_anonymous=True,
+                                                  post=post,
+                                                  avatar=anonymous_avatar,
+                                                  is_flagged=False)
             else:
+
                  profile = Profile.objects.get(id=user.id)
-                 comment = Comment.objects.create(title='',body=body,author=user,username=user.username,is_anonymous=False,post=post,avatar=profile.profile_image_path,is_flagged=False)
+
+                 comment = Comment.objects.create(title='',
+                                                  body=body,
+                                                  author=user,
+                                                  username=user.username,
+                                                  is_anonymous=False,
+                                                  post=post,
+                                                  avatar=profile.profile_image_path,
+                                                  is_flagged=False)
+
 
             comments = Comment.objects.filter(post_id=int(post_id))
             serializer = CommentSerializer(comments,many=True)
@@ -257,6 +337,7 @@ class GetAllPostsView(Endpoint):
         try:
 
             posts = Post.objects.all().order_by('-time_published')
+            
             serializer = PostSerializer(posts,many=True)
             return serializer.data
 

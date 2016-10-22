@@ -44,6 +44,7 @@ from custom.blog.views import GetAllPostsView
 from custom.blog.views import SavePostView
 from custom.blog.views import PostViewSet
 from custom.blog.views import CommentViewSet
+from custom.blog.views import GetCommentsView
 from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
 
 router = routers.DefaultRouter()
@@ -81,6 +82,7 @@ urlpatterns = [
     url(r'^postblog',AddPostView.as_view()),
     url(r'^deleteblog',DeletePostView.as_view()),
     url(r'^getposts',GetPostsView.as_view()),
+    url(r'^getcomments/$',GetCommentsView.as_view()),
     url(r'^getallposts',GetAllPostsView.as_view()),
     url(r'^readpost',ReadPostView.as_view()),
     url(r'^savepost',SavePostView.as_view()),

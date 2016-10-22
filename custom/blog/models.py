@@ -43,6 +43,8 @@ class Post(models.Model):
                                      format='JPEG',
                                      options={'quality': 60})
 
+    total_comments = models.IntegerField(default=0,blank=True,null=True)
+
     @property
     def author_name(self):
         if not self.author:

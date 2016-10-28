@@ -141,11 +141,11 @@ background-color:rgba(255,255,255,.7);
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   /* gradient background -- thanks http://ie.microsoft.com/testdrive/graphics/cssgradientbackgroundmaker/ */
-background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -ms-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
-background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -moz-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
-background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -o-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
-background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -webkit-gradient(linear, left top, left bottom, color-stop(0, #FEFEFE), color-stop(1, #DFDFDF));
-background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -webkit-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -ms-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -moz-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -o-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -webkit-gradient(linear, left top, left bottom, color-stop(0, #FEFEFE), color-stop(1, #DFDFDF));
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -webkit-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
   border: 1px solid #cccccc;
   padding-left: 22px;
   padding-right: 4px;
@@ -6096,7 +6096,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                            <div style='width:100%;padding-top:5px;'>
                               <div style='float:left;width:15%;'>
 
-                              <button id="comments">Comments</button>
+                              <button id="comments" onclick="handlePostId({{ post.id }});">Comments({{ post.total_comments }})</button>
 
 <!-- app -->
                              </div>
@@ -6150,12 +6150,12 @@ Use this form to make a credit card payment. By using this form and accepting th
  
 
        <div style="float:left;width:98%;min-height:120px;">
-                     <form class='mailform contact-form' method="post">
+             <form class='mailform contact-form' method="post">
 
 
                   {% csrf_token %}
-                  <input type="hidden" name="comments-open" id="comments-open" v-model="comments-open"/>
-                 
+                  <input type="hidden" name="comments-open" id="comments-open" />
+                  <input type="hidden" name="post-id" id="post-id" value="{{ post.id }}" />    
                   <div class="clear"></div>
                   <div style="float:top;padding-top:1.9em;">
 
@@ -6173,8 +6173,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                      <button class="btn4" v-on:click="submitcomment"  id="submitcomment">Post</button>
                   </div>
                   <div class="clear"></div>
-
-         </form>
+             </form>
        </div>
 
        <div style="float:left;width:1.5%;">
@@ -6882,15 +6881,16 @@ new Vue({
 var bapp = new Vue({
                 el: '#blog_posts',
                 data:
-                { 
-                   url: undefined,
+                {
+                    url: undefined,
+                    alert:
+                    {
+                        isActive: false,
+                        message: undefined,
+                    },
                 },
                 methods:
                 {
-                    submitcomment: function (event) {
-                       $('#comments-list').html("TTTTT");
-                    },
-
                     showAlert: function(message)
                     {
                         this.$set('alert.isActive', true);
@@ -6909,31 +6909,9 @@ var bapp = new Vue({
                         this.showAlert('Sharer activated for <strong>'+network+'</strong>.');
                         setTimeout(this.hideAlert, 3500);
                     },
-                }
+                },
 })
 
-var vcom = new Vue({
-  el: '#comments-section',
-  data: {
-    comment: '',
-    comments-open: '',
-  },
-  methods: {
-    submitcomment: function (event) {
-           this.$set('comment',this.comment);
-           
-           $('#comments-list').html('SSSSSS');
-    },
-    validConfirm: function(event) {
-           $('#comments-list').html('SSSSSS');          
-    }
-  },
-  ready:function() {
-      this.$set('comment',$('#comment').val());
-  }
-
-})
- 
 </script>
 
 <script src="/static/js/jssor.slider.mini.js"></script>
@@ -6959,7 +6937,8 @@ var vcom = new Vue({
                                                 }});
               }
           });
-          $('#submitcomment').bind('click',handlePost); 
+
+           $('#submitcomment').bind('click',handlePost); 
 
           $(function(){ 
                   $(".ui-chatbox") 
@@ -8416,7 +8395,7 @@ container.className += "active";
 
                            result=result+"<div style='width:96%;'>";
                            result=result+"<div style='float:left;width:15%;'>";
-                           result=result+"<a href='#'>All Comments</a>";
+                           result=result+"<a href='#'>All omments
                            result=result+"</div>";
                            result=result+"<div style='float:left;width:15%;'>";
                            result=result+"<a href='#'>Post Comment</a>";
@@ -8583,60 +8562,58 @@ container.className += "active";
 <script>
 
    function close_comments() {
+
       $('#comments-section').css('display','none');
-      $("#comments-open").attr('value',0);
+      $("#comments-open").attr('value','0');
       return false;
+
    }
+
+   function handlePostId(id) {
+      $('#post-id').attr('value',id);
+   }
+
    function handlePost() {
+              var post_id = $('#post-id').val();
+              var comment = $('#comment').val();
+
               $.ajax({
                      method: "GET",
-                     url: "http://divorcesus.com/addcomment?post_id=3&body='"+$('#current_post_id').val()+"'",
+                     url: "http://divorcesus.com/addcomment?post_id="+post_id+"&body='"+comment+"'",
                      data: {}
               }).done(function( msg ) {
 
 
                        var result = '';
+
                        for(var i=0;i<msg.comments.length;i++) {
-                           if(i==0) {
-                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;'><h4><strong>Comments</strong></h4></div>";
-                           }
-                           result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:10%;'>";
-                           result=result+'User:';
-                           result=result+"</div>";
-                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
-                           result=result+msg.comments[i].username;
-                           result=result+"</div>";
-                           result=result+"</div>";
 
-                           result=result+"<div class='clear'></div>";
-                           result=result+"</div>"
-                           result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:10%;'>";
-                           result=result+'Avatar:';
-                           result=result+"</div>";
-                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
-                           result=result+"<img src='"+msg.comments[i].avatar+"' height='50' width='50'/>";
-                           result=result+"</div>";
-                           result=result+"</div>";
-
-                           result=result+"<div class='clear'></div>";
-                           result=result+"</div>"
-
+  //                         if(i==0) {
+  //                            result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;'><h4><strong>Comments</strong></h4></div>";
+ //                          }
 
                            result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:10%;'>";
-                           result=result+'Comment:';
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar' />";
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+"<div style='float:left;width:80%;padding-left:2%;'>";
                            result=result+msg.comments[i].body;
                            result=result+"</div>";
                            result=result+"</div>";
 
-
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                  //         result=result+"<div style='width:96%;'>";
+                  //         result=result+"<div style='float:left;width:5%;text-align:center;font-weight:bold;'><center>";
+                  //         result=result+msg.comments[i].username
+                  //         result=result+"</center></div>";
+                  //         result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                  //         result=result+"</div>";
+                   //        result=result+"</div>";
 
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
+
 
                            result=result+"<br/><br/>";
                        }
@@ -8649,9 +8626,59 @@ container.className += "active";
    function handleComments() {
       var commentsopen = eval($("#comments-open").val());
 
-      if  (commentsopen==undefined) {
+      var post_id = $('#post-id').val();
+
+
+      if  (commentsopen==undefined || commentsopen==0) {
            $("#comments-open").attr('value','1');
            $('#comments-section').css('display','block'); 
+
+              $.ajax({
+                     method: "GET",
+                     url: "http://divorcesus.com/getcomments?post_id="+post_id,
+                     data: {}
+              }).done(function( msg ) {
+
+
+                       var result = '';
+
+                       for(var i=0;i<msg.comments.length;i++) {
+
+//                           if(i==0) {
+//                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;'><h4><strong>Comments</strong></h4></div>";
+//                           }
+
+
+                     //      result=result+"<div style='width:96%;'>";
+                     //      result=result+"<div style='float:left;width:5%;'>";
+                    //       result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar' />";
+                     //      result=result+"</div>";
+                     ///      result=result+"<div style='float:left;width:80%;padding-left:2%;'>";
+                     //      result=result+msg.comments[i].body;
+                     //      result=result+"</div>";
+                      //     result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:5%;text-align:center;font-weight:bold;'><center>";
+                           result=result+msg.comments[i].username
+                           result=result+"</center></div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+"</div>";
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+
+                           result=result+"<br/><br/>";
+                       }
+                       $('#comments-list').html(result);
+
+              });
+
+
       }
 
       if  (commentsopen==1) {
@@ -8659,22 +8686,26 @@ container.className += "active";
            $('#comments-section').css('display','none');
       }
 
-      if  (commentsopen==0) {
-           $("#comments-open").attr('value','1');
-           $('#comments-section').css('display','block');
-      }
 
       return false;     
    }
 
+
    $(document).ready(function() {
+
+
 
           var box = null;
  
           var service = $("#page-service").val();
-         $('#comments-section').css('display','none');
+          $('#comments-section').css('display','none');
    
-         $('#comments').bind('click',handleComments);
+          $('#comments').bind('click',handleComments);
+          if  (service=='contact')  {
+               on_mobile_contact();
+          }
+
+
           if  (service=='contact')  {
                on_mobile_contact();
           }

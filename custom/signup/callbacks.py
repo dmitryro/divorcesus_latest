@@ -46,7 +46,34 @@ from signals import twitter_strategy_used
 from signals import linkedin_strategy_used 
 from signals import facebook_authenticated
 from signals import googleplus_strategy_used 
-
+from signals import user_account_activated
+from signals import register_redirect 
+from signals import user_send_email
+from signals import user_resend_activation
+from signals import user_pending_activation
+from signals import user_account_activated 
+from signals import new_user_created 
+from signals import new_user_cleared 
+from signals import new_user_resend_notification 
+from signals import user_needs_recovery 
+from signals import user_password_reset 
+from signals import log_new_user 
+from signals import facebook_strategy_new_user 
+from signals import facebook_strategy_existing_user
+from signals import facebook_strategy_used 
+from signals import twitter_strategy_used 
+from signals import linkedin_strategy_used 
+from signals import facebook_authenticated 
+from signals import googleplus_strategy_used 
+from signals import googleplus_strategy_fails 
+from signals import googleplus_strategy_succeeds 
+from signals import instagram_strategy_used 
+from signals import default_strategy_used 
+from signals import default_strategy_succeeds 
+from signals import default_strategy_fails 
+from signals import facebook_strategy_fails 
+from signals import facebook_strategy_succeeds 
+from signals import new_mailchimp_subscriber 
 
 
 
@@ -120,121 +147,6 @@ def process_user_email(contact):
     except Exception, R:
         log = Logger(log=str(R))
         log.save()
-
-
-# Django Imports
-from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import User
-from django.contrib.auth.signals import user_logged_in
-from django.core.urlresolvers import reverse
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.files.storage import default_storage as storage
-from django.core.signals import request_finished
-from django.db.models.signals import post_save
-from django.db.models import F
-from django.dispatch import receiver
-from django.http import HttpResponse, HttpResponseRedirect
-from django.core.mail import EmailMessage
-from django.core.mail import EmailMultiAlternatives
-from django.template import Context
-from django.template.loader import render_to_string
-from social.apps.django_app.views import _do_login
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.db.models import Min,Max,F
-
-# Open Graph
-from open_facebook import utils
-from open_facebook import api
-
-# Datetime related imports
-# Python Misc Imports
-import datetime as dtime
-from datetime import datetime
-from datetime import date
-from datetime import time
-from datetime import tzinfo
-from dateutil import parser
-from datetime import timedelta
-import datetime as dtime
-from dateutil import parser
-import random
-import json
-import re
-import time, os.path
-import random
-import json
-import os
-import codecs
-import string
-
-from rq import Queue,Worker
-from redis import Redis
-import django_rq
-
-from PIL import Image
-from PIL import ImageFont, ImageDraw
-from StringIO import StringIO
-import urllib2
-
-today = date.today()
-repo_date = date(today.year, today.month, today.day)
-import re
-import codecs
-import hashlib
-import random
-# Email imports
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
-# smtp imports
-import smtplib
-import string
-import urllib2
-from smtplib import SMTPRecipientsRefused
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
-from django.template import Context
-# Custom
-from custom.metaprop.models import ProfileMetaProp
-from custom.users.models import Profile
-from custom.tasks.models import TaskLog
-# Signal Imports
-from signals import new_user_created, log_new_user
-from signals import new_user_cleared
-from signals import new_user_resend_notification
-from signals import user_needs_recovery
-from signals import user_resend_activation
-from signals import user_password_reset
-from signals import user_account_activated
-from signals import facebook_authenticated
-from signals import googleplus_strategy_used
-from signals import facebook_strategy_used
-from signals import facebook_strategy_succeeds
-from signals import facebook_strategy_fails
-from signals import instagram_strategy_used
-from signals import googleplus_strategy_used
-from signals import googleplus_strategy_succeeds
-from signals import googleplus_strategy_fails
-from signals import default_strategy_used
-from signals import default_strategy_succeeds
-from signals import default_strategy_fails
-
-from custom.utils.models import Logger
-
-
-import requests
-# Get Today's Date
-today = date.today()
-now = date.today()
-access_date = date(today.year, today.month, today.day)
-access_time = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
-
-from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
 
 
 ########################

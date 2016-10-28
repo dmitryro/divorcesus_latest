@@ -38,10 +38,10 @@ class ProfileAdmin(admin.ModelAdmin):
                                     'phone','address',
                                     'profile_image_path']}),)
 
-    list_display = ('id','username','user','email','first_name','last_name','date_joined','is_new')
+    list_display = ('id','username','user','email','first_name','last_name','date_joined','is_new','phone')
 
-    list_editable = ('username','user','email','first_name','last_name','is_new')
-    search_fields = ('username', 'first_name', 'last_name','email',)
+    list_editable = ('username','user','email','first_name','last_name','is_new','phone',)
+    search_fields = ('username', 'first_name', 'last_name','email','phone',)
     class Meta:
          verbose_name = 'User Profile'
          verbose_name_plural = 'User Profiles'

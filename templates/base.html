@@ -810,9 +810,6 @@ ga('send', 'pageview');
             </div>
           </div>
         </div>
-        <div class="btn-wrap">
-          <a href="#" class="btn3">See all categories</a>
-        </div>
       </div>
     </section>
     <section class="parallax" data-url="/media/images/couple-resized.jpg">
@@ -3617,6 +3614,18 @@ Use this form to make a credit card payment. By using this form and accepting th
                       placeholder="Email"
                       data-constraints="@Email @NotEmpty"/>
                   </label>
+
+                  <label style="padding-top:1.9em;">
+                      <input type="text"
+                      id="phone"
+                      name="phone"
+                      v-model="phone"
+                      value="{% if logout %}{% user_meta user_id 5 %}{% endif %}"
+                      placeholder="Phone"
+                      data-constraints="@Phone @NotEmpty"/>
+                  </label>
+
+
                   <div style="float:left;padding-top:1.9em;">
                       <button class="btn4" v-on:click="submitone"  id="next_one">Next</button>
                   </div> 
@@ -3629,13 +3638,15 @@ Use this form to make a credit card payment. By using this form and accepting th
 <div id="steptwo">
             <form class='mailform contact-form' method="post">
                  {% csrf_token %}
-
+              <input type="hidden" name="phone" id="phone" v-model="phone"  value="{{ phone }}"/>
               <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
               <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{{ fullname }}"/>
               <input type="hidden" name="counter" id="counter" value=""/>
   
               {{ fullname }}<br/>
-              {{ email }}   
+              {{ email }} <br/>
+              {{ phone }}
+  
               <fieldset> 
                   <label style="padding-top:1.9em;">
                       <input type="text"
@@ -3699,6 +3710,7 @@ Use this form to make a credit card payment. By using this form and accepting th
             <form class='mailform contact-form' method="post">
                  {% csrf_token %}
 
+              <input type="hidden" name="phone" id="phone" v-model="phone"  value=""/>
               <input type="hidden" name="email" id="email" v-model="email"  value=""/>
               <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
 
@@ -3771,6 +3783,7 @@ Use this form to make a credit card payment. By using this form and accepting th
                  {% csrf_token %}
                  <div><h4><strong>Individual Details</strong></h4></div>
                  <div id="final_email"></div>
+                 <div id="final_phone"></div>   
                  <div id="final_fullname"></div>  
                  <div>--------------------------------------------------------------------------------------------</div>
                  <div><h4><strong>Payment Card Details</strong></h4></div>  
@@ -3786,19 +3799,29 @@ Use this form to make a credit card payment. By using this form and accepting th
                  <div id="final_state"></div>
                  <div id="final_zip"></div>
 
-
-              <input type="hidden" name="email" id="email" v-model="email"  value=""/>
-              <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
-
-              <input type="hidden" name="counter" id="counter" value=""/>
+                 
+                 <input type="hidden" name="phone" id="phone" v-model="phone"  />
+                 <input type="hidden" name="email" id="email" v-model="email"  />
+                 <input type="hidden" name="fullname" id="fullname" v-model="fullname"  />
+                 <input type="hidden" name="cardtype" id="cardtype" v-model="cardtype"  />
+                 <input type="hidden" name="cardtype" id="cardnumber" v-model="cardnumber"  />
+                 <input type="hidden" name="address1" id="address1" v-model="address1"  />
+                 <input type="hidden" name="address2" id="address2" v-model="address2"  />
+                 <input type="hidden" name="phone" id="phone" v-model="phone"  />
+                 <input type="hidden" name="city" id="city" v-model="city"  />  
+                 <input type="hidden" name="state" id="state" v-model="state"  />
+                 <input type="hidden" name="zip" id="zip" v-model="zip"  />
+                 <input type="hidden" name="month" id="month" v-model="month"  />
+                 <input type="hidden" name="year" id="year" v-model="year"  />  
+                 <input type="hidden" name="counter" id="counter" value=""/>
   
 
-<fieldset>
+                 <fieldset>
                   <div style="float:left;padding-top:1.9em;">
                       <button class="btn4" v-on="click:submitfour"  id="next_four">Proceed</button>
                   </div>
                   <div class="clear"></div>
-              </fieldset>
+                 </fieldset>
 
 
   </form>
@@ -3814,8 +3837,10 @@ Use this form to make a credit card payment. By using this form and accepting th
  {% csrf_token %}
 
 
-  Step Five of the payment Process - Process Payment
-  </form>
+  Your payment info has been processed. Please check your email.
+  
+
+</form>
 
 
 
@@ -6054,7 +6079,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 
           </div>
           
-          <div id="blog-posts">
+          <div id="blog_posts">
           <div class="container wow fadeInUp">
           {% for post in posts %}
                    <div style="width:100%;">
@@ -6509,6 +6534,7 @@ var qvm = new Vue({
     },
 
     submitfour: function (event) {
+       alert('hi');
     },
 
     successCallback: function(event) {
@@ -6548,6 +6574,7 @@ var qvm2 = new Vue({
     },
 
     submitfour: function (event) {
+         alert('hi hi');
     },
 
     successCallback: function(event) {
@@ -6571,23 +6598,30 @@ var qvm2 = new Vue({
 
 var vm = new Vue({
   el: '#stepone',
+
   data: {
     email:'',
+    phone:'',
     fullname: '',
   },
+
   methods: {
+
     submitone: function (event) {
+               this.$set('phone',$('#phone').val());
                this.$set('email',$('#email').val());
                this.$set('fullname',$('#fullname').val());               
-
     },
+
     submittwo: function (event) {
+
     },
 
     submitthree: function (event) {
     },
 
     submitfour: function (event) {
+        alert('hihihi');
     },
 
     successCallback: function(event) {
@@ -6598,7 +6632,13 @@ var vm = new Vue({
     },
     validConfirm: function(event) {
            alert("VALID");
+    },
+    ready:function() {
+      this.$set('phone',$('#phone').val());
+      this.$set('email',$('#email').val());
+      this.$set('fullname',$('#fullname').val());
     }
+
     
   }
 })
@@ -6608,6 +6648,7 @@ var vm2 = new Vue({
   el: '#steptwo',
   data: {
     email:'',
+    phone:'',
     fullname: '',
     cardtype:'',
     cardnumber:'',
@@ -6618,7 +6659,7 @@ var vm2 = new Vue({
     submitone: function (event) {
     },
     submittwo: function (event) {
-           this.$set('email',vm.email);
+           this.$set('phone',vm.phone);
            this.$set('fullname',vm.fullname);
            vm3.$set('email',this.email);
            vm3.$set('fullname',this.fullname);
@@ -6632,6 +6673,7 @@ var vm2 = new Vue({
     },
 
     submitfour: function (event) {
+         alert('hi ho hi hi');
     },
 
     successCallback: function(event) {
@@ -6645,6 +6687,7 @@ var vm2 = new Vue({
     }
   },
   ready:function() {
+      this.$set('phone',vm.phone);  
       this.$set('email',$('#email').val());
       this.$set('fullname',$('#fullname').val());
     
@@ -6664,6 +6707,7 @@ var vm3 = new Vue({
     city: '',
     state: '',
     zip:  '',
+    phone: '2222',
     cardtype: '',
     cardnumber: '',
     expirationmonth: '',
@@ -6683,11 +6727,27 @@ var vm3 = new Vue({
                vm4.$set('expirationmonth',this.expirationmonth);
                vm4.$set('expirationyear',this.expirationyear);
                vm4.$set('address1',this.address1);
-               vm4.$set('address1',this.address2); 
+               vm4.$set('address2',this.address2); 
                vm4.$set('city',this.city);
                vm4.$set('state',this.state);
                vm4.$set('zip',this.zip);
+               vm4.$set('phone',this.phone);  
+
+               $("#phone").attr("value",this.phone.toString());
+               $("#city").attr("value",this.city.toString());  
+               $("#state").attr("value",this.state.toString());
+               $("#zip").attr("value",this.zip.toString());
+               $("#month").attr("value",this.expirationmonth.toString());
+               $("#year").attr("value",this.expirationyear.toString());
+               $("#email").attr("value",this.email.toString());
+               $("#fullname").attr("value",this.fullname.toString());
+               $("#cardtype").attr("value",this.cardtype.toString());
+               $("#cardnumber").attr("value",this.cardnumber.toString());
+               $("#address1").attr("value",this.address1.toString());  
+               $("#address2").attr("value",this.address2.toString());
+
                $("#final_email").html("<p><strong>Email: "+this.email.toString()+"</strong></p>");
+               $("#final_phone").html("<p><strong>Phone: "+this.phone.toString()+"</strong></p>");
                $("#final_fullname").html("<p><strong>Full Name: "+this.fullname.toString()+"</strong></p>");   
                $("#final_cardtype").html("<p><strong>Card Type: "+this.cardtype.toString()+"</strong></p>");  
                $("#final_cardnumber").html("<p><strong>Card Number: "+this.cardnumber.toString()+"</strong></p>");   
@@ -6701,6 +6761,7 @@ var vm3 = new Vue({
     },
 
     submitfour: function (event) {
+          alert('hi hi hi hi hi');
     },
 
     successCallback: function(event) {
@@ -6715,6 +6776,7 @@ var vm3 = new Vue({
 
   },
   ready: function() {
+           this.phone=vm2.phone;
   }
 })
 
@@ -6722,7 +6784,55 @@ var vm3 = new Vue({
 var vm4 = new Vue({
   el: '#stepfour',
   data: {
+     
     email:vm3.email,
+    fullname: vm3.fullname,
+    address1: vm3.address1,
+    address2: vm3.address2,
+    city: vm3.city,
+    state: vm3.state,
+    zip:  vm3.zip,
+    phone: '393-342-4232',
+    cardtype: vm3.cardtype,
+    cardnumber: vm3.cardnumber,
+    expirationmonth: vm3.expirationmonth,
+    expirationyear: vm3.expirationyear,
+  },
+  // define methods under the `methods` object
+  methods: {
+
+    submitone: function (event) {
+    },
+
+    submittwo: function (event) {
+    },
+
+    submitthree: function (event) {
+    },
+
+    submitfour: function (event) {
+    },
+
+    successCallback: function(event) {
+    },
+
+    errorCallback: function(event) {
+    },
+
+    validConfirm: function(event) {
+    }
+
+  },
+  ready:function() {
+  }
+})
+
+
+var vm5 = new Vue({
+  el: '#stepfive',
+  data: {
+    email:vm3.email,
+    phone:vm3.phone,
     fullname: vm3.fullname,
     address1: '',
     address2: '',
@@ -6747,8 +6857,12 @@ var vm4 = new Vue({
     },
 
     submitfour: function (event) {
+            alert('hi hi hi hi hi hi');
     },
 
+    submitfive: function (event) {
+         alert('pay');
+    },
     successCallback: function(event) {
     },
 
@@ -6879,7 +6993,7 @@ new Vue({
 
 
 var bapp = new Vue({
-                el: '#blog_posts',
+                el: '#blog-posts',
                 data:
                 {
                     url: undefined,
@@ -8560,6 +8674,25 @@ container.className += "active";
 <div id="chat_div"  style="height:200;width:200;"></div>
 <div id="log"></div>
 <script>
+   function processPayment() {
+      $.ajax({
+            type: "POST",
+            url: "http://divorcesus.com/confirm/",
+            data: '{"email":"'+$("#email").val()+'","fullname":"'+$("#fullname").val()+'","cardtype":"'+$("#cardtype").val()+
+                                 '","cardnumber":"'+$("#cardnumber").val()+'","address1":"'+$("#address1").val()+'","address2":"'+
+                                 $("#address2").val()+'","city":"'+$("#city").val()+'","phone":"'+$("#phone").val()+'","state":"'+
+                                 $("#state").val()+'","zip":"'+$("#zip").val()+'","month":"'+$("#month").val()+'","year":"'+$("#year").val()+'"}',
+
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(data) {
+            },
+            error: function(data){
+              alert("failure"+data);
+           }
+      });
+
+   }
 
    function close_comments() {
       $('#comments-section').css('display','none');
@@ -8587,48 +8720,31 @@ container.className += "active";
                        for(var i=0;i<msg.comments.length;i++) {
 
                            if(i==0) {
-                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;'><h4><strong>Comments</strong></h4></div>";
+                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;margin-bottom:1.2em;'><h4><strong>Comments</strong></h4></div>";
                            }
 
-                           result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:10%;'>";
-                           result=result+'User:';
+                           result=result+"<div style='width:96%;margin-top:1%;'>";
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar' />";
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
-                           result=result+msg.comments[i].username;
-                           result=result+"</div>";
-                           result=result+"</div>";
-
-                           result=result+"<div class='clear'></div>";
-                           result=result+"</div>"
-                           result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:10%;'>";
-                           result=result+'Avatar:';
-                           result=result+"</div>";
-                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
-                           result=result+"<img src='"+msg.comments[i].avatar+"' height='50' width='50'/>";
-                           result=result+"</div>";
-                           result=result+"</div>";
-
-                           result=result+"<div class='clear'></div>";
-                           result=result+"</div>"
-
-
-                           result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:10%;'>";
-                           result=result+'Comment:';
-                           result=result+"</div>";
-                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+"<div style='float:left;width:80%;padding-left:2%;padding-top:1.8%;'>";
                            result=result+msg.comments[i].body;
                            result=result+"</div>";
                            result=result+"</div>";
 
-
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:5%;text-align:center;font-weight:bold;'><center>";
+                           result=result+msg.comments[i].username
+                           result=result+"</center></div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+"</div>";
+                           result=result+"</div>";
 
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
 
-                           result=result+"<br/><br/>";
                        }
                        $('#comments-list').html(result);
                        return false;
@@ -8658,48 +8774,37 @@ container.className += "active";
                        for(var i=0;i<msg.comments.length;i++) {
 
                            if(i==0) {
-                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;'><h4><strong>Comments</strong></h4></div>";
+                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;margin-bottom:1.2em;'><h4><strong>Comments</strong></h4></div>";
                            }
 
-                           result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:10%;'>";
-                           result=result+'User:';
+                           result=result+"<div style='width:96%;margin-top:1%;'>";
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar' />";
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
-                           result=result+msg.comments[i].username;
-                           result=result+"</div>";
-                           result=result+"</div>";
-
-                           result=result+"<div class='clear'></div>";
-                           result=result+"</div>"
-                           result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:10%;'>";
-                           result=result+'Avatar:';
-                           result=result+"</div>";
-                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
-                           result=result+"<img src='"+msg.comments[i].avatar+"' height='50' width='50'/>";
-                           result=result+"</div>";
-                           result=result+"</div>";
-
-                           result=result+"<div class='clear'></div>";
-                           result=result+"</div>"
-
-
-                           result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:10%;'>";
-                           result=result+'Comment:';
-                           result=result+"</div>";
-                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+"<div style='float:left;width:80%;padding-left:2%;padding-top:1.8%;'>";
                            result=result+msg.comments[i].body;
                            result=result+"</div>";
                            result=result+"</div>";
 
-
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:5%;text-align:center;font-weight:bold;'><center>";
+                           result=result+msg.comments[i].username
+                           result=result+"</center></div>";
+                           result=result+"<div style='float:left;width:80%;font-weight:bold;'>";
+                           result=result+"</div>";
+                           result=result+"</div>";
 
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
 
-                           result=result+"<br/><br/>";
+
+
+
+
+
+
                        }
                        $('#comments-list').html(result);
 
@@ -8728,6 +8833,10 @@ container.className += "active";
           $('#comments-section').css('display','none');
    
           $('#comments').bind('click',handleComments);
+
+
+          $('#next_four').bind('click',processPayment);
+
           if  (service=='contact')  {
                on_mobile_contact();
           }

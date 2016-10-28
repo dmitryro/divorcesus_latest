@@ -188,6 +188,27 @@ class Transaction(MerchantActivity):
         return self.transaction_id
 
 
+class Payment(models.Model):
+    fullname = models.CharField(max_length=100,blank=True,null=True)
+    email = models.CharField(max_length=100,blank=True)
+    address1 = models.CharField(max_length=100,blank=True,null=True)
+    address2 = models.CharField(max_length=100,blank=True,null=True)
+    city = models.CharField(max_length=100,blank=True,null=True)
+    state = models.CharField(max_length=100,blank=True,null=True)
+    cardtype = models.CharField(max_length=100,blank=True,null=True)
+    cardnumber = models.CharField(max_length=100,blank=True,null=True)
+    month = models.CharField(max_length=100,blank=True,null=True)
+    year = models.CharField(max_length=100,blank=True,null=True)
+    zipcode = models.CharField(max_length=100,blank=True,null=True)
+    phone = models.CharField(max_length=100,blank=True,null=True)
+    message = models.CharField(max_length=100,blank=True,null=True)
+
+    class Meta:
+        verbose_name = 'Payment'
+        verbose_name_plural = 'Payments'
+
+
+
 class CustomerProfile(models.Model):
     customer_id = models.IntegerField(blank=True,null=True)
     token = models.CharField(max_length=1500,blank=False,null=False)

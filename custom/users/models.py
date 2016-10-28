@@ -163,14 +163,14 @@ class Address(models.Model):
 
 
 class Profile(models.Model):
-    user =  models.OneToOneField(User,parent_link=True,related_name='profile_user',blank=True,null=True)
+    user =  models.OneToOneField(User,blank=True,null=True)
     first_name = models.CharField(max_length=250,blank=True, null=True)
     last_name = models.CharField(max_length=250,blank=True, null=True)
     email = models.CharField(max_length=250,blank=True, null=True)
     username = models.CharField(max_length=250,blank=True, null=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     profile_image_path =  models.CharField(max_length=250,blank=True, null=True)
-    phone = models.CharField(max_length=250,blank=True, null=True)
+    phone = models.CharField(max_length=250,blank=True, null=True,default='')
     address = models.ForeignKey(Address,blank=True,null=True)
     is_new = models.NullBooleanField(default=True,blank=True,null=True)
     is_avatar_processed = models.BooleanField(default=False,blank=True)

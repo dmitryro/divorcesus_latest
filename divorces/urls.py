@@ -46,7 +46,7 @@ from custom.blog.views import PostViewSet
 from custom.blog.views import CommentViewSet
 from custom.blog.views import GetCommentsView
 from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
-
+from custom.payments.views import SendConfirmationEmailView
 router = routers.DefaultRouter()
 
 
@@ -88,6 +88,7 @@ urlpatterns = [
     url(r'^savepost',SavePostView.as_view()),
     url(r'^addcomment',AddCommentView.as_view()),
     url(r'^search/', include('haystack.urls')),
+    url(r'^confirm/',SendConfirmationEmailView.as_view()),
 #    url(r'^divorce/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
     url(r'^search/$', GlobalSearchList.as_view(), name="search"),

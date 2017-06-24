@@ -35,7 +35,7 @@ from rest_framework import generics
 from restless.views import Endpoint
 from custom.gui.serializers import GlobalSearchSerializer
 from custom.gui.serializers import ServiceSerializer
-from custom.gui.serializers import CategorySerializer
+from custom.blog.serializers import CategorySerializer
 
 ############################################
 ## Add a New Post view                    ##
@@ -50,16 +50,30 @@ class GetSearchResultsView(Endpoint):
 
         try:
             query = request.params.get('q','')
-            categories = Category.objects.filter(Q(name__icontains=query) | Q(code__icontains=query))
-            services = Service.objects.filter(Q(description__icontains=query) | Q(statement__icontains=query) | Q(title__icontains=query) | Q(service__icontains=query))
-            posts = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+
+            categories = Category.objects.filter(Q(name__icontains=query) | 
+                                                 Q(code__icontains=query))
+
+
+            services = Service.objects.filter(Q(description__icontains=query) | 
+                                              Q(statement__icontains=query) | 
+                                              Q(title__icontains=query) | 
+                                              Q(service__icontains=query))
+
+            posts = Post.objects.filter(Q(title__icontains=query) | 
+                                        Q(body__icontains=query))
         #    res = chain(posts,categories)
+
             all_results = list(posts)
-            serializer_categories = CategorySerializer(categories,many=True)
-            serializer_services = ServiceSerializer(services,many=True)
-            serializer_posts = GlobalSearchSerializer(posts,many=True)
+
+            serializer_categories = CategorySerializer(categories, many=True)
+            serializer_services = ServiceSerializer(services, many=True)
+            serializer_posts = GlobalSearchSerializer(posts, many=True)
                                
-            return {'posts':serializer_posts.data,'services':serializer_services.data,'categories':serializer_categories.data,'q':query}
+            return { 'posts': serializer_posts.data,
+                     'services': serializer_services.data,
+                     'categories':serializer_categories.data,
+                     'q':query }
 
         except Exception,R:
             return {'message':'error '+str(R)}
@@ -72,16 +86,26 @@ class GetSearchResultsView(Endpoint):
         try:
 
             query = request.data['q']
-            categories = Category.objects.filter(Q(name__icontains=query) | Q(code__icontains=query))
-            services = Service.objects.filter(Q(description__icontains=query) | Q(statement__icontains=query) | Q(title__icontains=query) | Q(service__icontains=query))
-            posts = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+            categories = Category.objects.filter(Q(name__icontains=query) | 
+                                                 Q(code__icontains=query))
+
+            services = Service.objects.filter(Q(description__icontains=query) | 
+                                              Q(statement__icontains=query) | 
+                                              Q(title__icontains=query) | 
+                                              Q(service__icontains=query))
+
+            posts = Post.objects.filter(Q(title__icontains=query) | 
+                                        Q(body__icontains=query))
         #    res = chain(posts,categories)
             all_results = list(posts)
             serializer_categories = CategorySerializer(categories,many=True)
             serializer_services = ServiceSerializer(services,many=True)
             serializer_posts = GlobalSearchSerializer(posts,many=True)
 
-            return {'posts':serializer_posts.data,'services':serializer_services.data,'categories':serializer_categories.data,'q':query}
+            return {'posts':serializer_posts.data,
+                    'services':serializer_services.data,
+                    'categories':serializer_categories.data,
+                    'q':query}
 
 
 
@@ -140,7 +164,9 @@ def dashboard(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
+
         except Exception, R:
+
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -150,6 +176,7 @@ def dashboard(request):
            profile_image_path = ''
 
     else:
+
         user_id = -1
         logout=False
         username = ''

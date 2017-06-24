@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.conf.urls import patterns, include, url
+from django.conf.urls import *
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -45,6 +45,7 @@ from custom.blog.views import SavePostView
 from custom.blog.views import PostViewSet
 from custom.blog.views import CommentViewSet
 from custom.blog.views import GetCommentsView
+from custom.blog.views import DeleteCommentView
 from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
 from custom.payments.views import SendConfirmationEmailView
 router = routers.DefaultRouter()
@@ -60,13 +61,13 @@ urlpatterns = [
 #    url(r'^', include(router.urls)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^grappelli/', include('grappelli.urls')),
-
-#    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')), 
+    url(r'^chatbot/', include('custom.chatbot.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')), 
     url(r'^django-rq/', include('django_rq.urls')),
     url(r'^accounts_api/', include('registration_api.urls')),
     url(r'^api/',include('rest_framework.urls', namespace='rest_framework')),
     url(r'api/accounts/', include('rest_framework.urls', namespace='rest_framework')), 
-    url(r'^$', 'custom.gui.views.home'),
+    url(r'^$','custom.gui.views.home'),
     url(r'^dashboard/$', 'custom.gui.views.dashboard'),
     url(r'^accounts/login/?next=/signout/$','custom.gui.views.home'),
     url(r'^accounts/login/$','custom.gui.views.home'),
@@ -89,6 +90,7 @@ urlpatterns = [
     url(r'^addcomment',AddCommentView.as_view()),
     url(r'^search/', include('haystack.urls')),
     url(r'^confirm/',SendConfirmationEmailView.as_view()),
+    url(r'^deletecomment/',DeleteCommentView.as_view()),
 #    url(r'^divorce/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
     url(r'^search/$', GlobalSearchList.as_view(), name="search"),
@@ -108,7 +110,7 @@ urlpatterns = [
     url(r'^prices/$', 'custom.gui.views.pricing'),  
     url(r'^ask/$', 'custom.gui.views.ask'),
     url(r'^api/$',include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^accounts_api/', include('registration_api.urls')),
+ #   url(r'^accounts_api/', include('registration_api.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^rss/$', RssSiteNewsFeed()),
     url(r'^atom/$', AtomSiteNewsFeed()),

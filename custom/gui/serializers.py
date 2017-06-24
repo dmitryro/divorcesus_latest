@@ -1,17 +1,8 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from custom.blog.models import Post
-from custom.blog.models import Category
 from models import Slide
 from models import Service
 
-class CategorySerializer(serializers.ModelSerializer):
-   class Meta:
-      model = Category
-
-class PostSerializer(serializers.ModelSerializer):
-   class Meta:
-      model = Post
 
 class SlideSerializer(serializers.ModelSerializer):
    class Meta:
@@ -21,25 +12,29 @@ class SlideSerializer(serializers.ModelSerializer):
 class ServiceSerializer(serializers.ModelSerializer):
    class Meta:
       model = Service
-
-class UserSerializer(serializers.ModelSerializer):
-   class Meta:
-      model = User
-
+      fields = ('id', 'title', 'statement', 'description', 'service',)
 
 
 class GlobalSearchSerializer(serializers.ModelSerializer):
 
    class Meta:
+
       model = Post
+      fields = ('id', 'author', 'title', 'time_published', 
+                'category', 'body', 'link', 'image', 'total_comments')
 
    def to_native(self, obj):
+
       if isinstance(obj, Post): 
          serializer = PostSerializer(obj)
+
       elif isinstance(obj,Service):
          serializer = ServiceSerializer(obj)
+
       elif isinstance(obj, Slide):
          serializer = SlideSerializer(obj)
+
       else:
          raise Exception("Neither a Snippet nor User instance!")
+
       return serializer.data

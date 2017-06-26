@@ -2,6 +2,10 @@
 {% load bootstrap3 %}
 {% load static %}
 {% load gui_extras %}
+{% load blog_extras %}
+{% load metaprop_extras %}
+{% load bootstrap_pagination %}
+
 <html>
     <head>
         <title>Dashboard</title>
@@ -26,6 +30,12 @@
         <link href="/static/css/modal.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
         <link rel="stylesheet" type="text/css" href="/static/css/dashboard.css" />
+<!--
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.js"></script>
+-->
+  <!--
+        <script scr="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+  -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-validator/2.1.6/vue-validator.js"></script>
         <script src="/static/js/jquery.js"></script>
@@ -56,6 +66,17 @@
     border: 1px solid #CCC;
     height: 2000px;
     margin: 0px auto;
+}
+
+.avatar-small {
+    height: 40px;
+    width: : 40px;
+    float: left;
+    margin-right: 1em;
+    position: relative;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
 }
 
         </style>
@@ -260,9 +281,28 @@ Vue.component('modal', {
     
     
     function openmenu(target) {
+          $('#commentform').hide();
           allWells.hide();
           $('#' + target).show();
-          if(target=='newpost') {
+          if(target==='newpost' || target==='allposts') {
+                  
+              if ( target==='newpost') {
+                  $('.panel-all-your-posts').hide();
+                  $('#allposts').hide();
+                  $('#editpost').hide();
+                  $('#appform').show();
+                  resetpost();
+                    
+              } else if (target==='allposts') {
+                  //$('.panel-all-your-posts').show();
+                  $('#allposts').show();
+                  $('#editpost').hide();
+                  $('#appform').hide();
+              } else if (target==='editpost') {
+                  $('#editpost').show();
+                  $('#appform').hide();
+                  $('#allposts').hide();
+              }
 
               $.ajax({
                      method: "POST",
@@ -271,55 +311,71 @@ Vue.component('modal', {
               }).done(function( msg ) {
                        var result = '';
 
-                           result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:5%;'>&nbsp;</div>";
+                           result=result+"<div style='width:99%;'>";
+                           result=result+"<div style='float:left;width:2%;'>&nbsp;</div>";
 
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:5%;'>";
                            result=result+'ID';
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:30%;'>";
+                           result=result+"<div style='float:left;width:45%;'>";
                            result=result+'Title';
                            result=result+"</div>";
+/*
                            result=result+"<div style='float:left;width:30%;'>";
                            result=result+'Link';
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:10%;'>";
+  */
+                           result=result+"<div style='float:left;width:15%;'>";
                            result=result+'Edit';
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:15%;'>";
                            result=result+'Delete';
                            result=result+"</div>";
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+'Comments';
+                           result=result+"</div>";                           
+
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
 
                        for(var i=0;i<msg.length;i++) {
-                           result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:5%;'>&nbsp;</div>";
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='width:99%;font-weight:0.8em;'>";
+                           result=result+"<div style='float:left;width:2%;'>&nbsp;</div>";
+                           result=result+"<div style='float:left;width:5%;'>";
                            result=result+msg[i].id;
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:30%;'>";
+                           result=result+"<div style='float:left;width:45%;'>";
                            result=result+msg[i].title;
                            result=result+"</div>";
+/*
                            result=result+"<div style='float:left;width:30%;'>";
                            result=result+msg[i].link;
                            result=result+"</div>";
-
-                           result=result+"<div style='float:left;width:10%;'>";
+*/
+                           result=result+"<div style='float:left;width:15%;'>";
                            result=result+"<a href='#' onclick='editpost("+msg[i].id+");'  style='color:blue;'>Edit</a>";
                            result=result+"</div>";
 
 
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:15%;'>";
                            result=result+"<a href='#' style='color:red;' onclick='deletepost("+msg[i].id+");'>Delete</a>";
                            result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+"<a href='#' style='color:red;' onclick='postcomments("+msg[i].id+");'>Comments</a>";
+                           result=result+"</div>";
+
+
 
 
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
                        }
-
-                       $('#panel-posts').html(result);
+                      // $('.panel-all-your-posts').show();
+                       //$('.panel-all-your-posts .panel-posts').html(result);
+                       $('#allposts .panel-all-posts .panel-posts').html(result);
+                 //      $('.newpost').css('display','none');
+                       //$('#panel-all-posts').html(result);
               });
 
 
@@ -327,12 +383,14 @@ Vue.component('modal', {
 
     }
 
+
 function collapse(targetId){
   if (document.getElementById){
         target = document.getElementById(targetId);
        target.style.display = "none";
   }
 }
+
 function swap(targetId){
   if (document.getElementById){
         target = document.getElementById(targetId);
@@ -370,24 +428,295 @@ Vue.validator('required', {
         },
         check: Vue.validator('required') // re-use validator logic
 })
+
+function resetpost() {
+      tinyMCE.activeEditor.setContent('');
+      $('#postbody').attr('value','');
+      $('#link').attr('value','');
+      $('#posttitle').attr('value',''); 
+      return false;
+}
 function editpost(id) {
    $.ajax({
                      method: "POST",
                      url: "http://divorcesus.com/readpost",
                      data: { post_id:id}
    }).done(function( msg ) {
-   //   alert(msg.category.id);
       $('#post_id').attr('value',msg.id);
       $('#posttitle').attr('value',msg.title);
       $('#category_id').attr('value',msg.category.id);
       $('#link').attr('value',msg.link);
       $('.errors').html('');
       tinyMCE.activeEditor.setContent(msg.body); 
-      $('#bostbody').attr('value',msg.body); 
+      $('#postbody').attr('value',msg.body); 
       $('#edit_post').attr('style','display:block;');
+    //  $('post-editing-conianer').attr('style','display:block;');
+      $('#editpost').show();
+      $('#allposts').hide();
    });
    return false;
 }
+
+function editcomment(comment_id,post_id,comment_body) {
+
+   //tinyMCE.execCommand('mceRemoveControl', true, 'edit_comment_body');
+
+   var code = "<a href='#'"+
+              " style='color:red;'"+
+              " onclick='postcomments("+
+              +post_id
+              +");'>Back</a><br/><br/>";
+
+  // tinyMCE.activeEditor.setContent(comment_body); 
+   $('#comments_comment_id').attr('value',comment_id);
+   $('#comments_post_id').attr('value',post_id);
+   $('.panel-posts').html(code);
+   $('#commentform').show();
+   $('#mceu_13').css('width','90%');
+   $('#mceu_13').css('margin-left','5%');
+   tinyMCE.activeEditor.setContent(comment_body);
+}
+
+function deletecomment(comment_id,post_id) {
+    $('.panel-posts').html('<a href="#" style="color:red;" onclick="restoreposts('+post_id+');">Back</a>');
+
+              $.ajax({
+                     method: "GET",
+                     url: "http://divorcesus.com/deletecomment?comment_id="+comment_id+"&post_id="+post_id,
+                     data: {}
+              }).done(function( msg ) {
+                           var result = '<a href="#" style="color:red;" onclick="restoreposts('+post_id+');">Back</a><br/><br/>';
+                           result=result+"<div style='width:99%;'>";
+
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+'ID';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:12%;'>";
+                           result=result+'Avatar';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+'User';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:48%;'>";
+                           result=result+'Comment';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:8%;'>";
+                           result=result+'Edit';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Delete';
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+
+                       for(var i=0;i<msg.comments.length;i++) {
+                           result=result+"<div style='width:99%;min-height:70px;'>";
+
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+msg.comments[i].id;
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:12%;'>";
+                           result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar-small' />";
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+msg.comments[i].username;
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:48%;'>";
+                           result=result+msg.comments[i].body;
+                           result=result+"</div>";
+
+
+                           result=result+"<div style='float:left;width:8%;'>";
+                           var call = "editcomment("+msg.comments[i].id+","+post_id+","+msg.comments[i].body+");";
+                           call = call.replace(/'/g, '"');   
+                           call = call.replace(/""/g, '"');
+                           result=result+"<a href='#'";
+                           result=result+" onclick='"+call+"'";
+                           result=result+" style='color:blue;'>Edit</a>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<a href='#' style='color:red;' onclick='deletecomment("+msg.comments[i].id+","+post_id+");'>Delete</a>";
+                           result=result+"</div>";
+
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                       }
+
+                       $('.panel-posts').html(result);
+                            
+              });
+
+    return false;
+
+
+}
+
+function postcomments(post_id) {
+    $('#commentform').hide();
+    $('.panel-posts').html('<a href="#" style="color:red;" onclick="restoreposts('+post_id+');">Back</a>');
+
+              $.ajax({
+                     method: "GET",
+                     url: "http://divorcesus.com/getcomments?post_id="+post_id,
+                     data: {}
+              }).done(function( msg ) {
+                           var result = '<a href="#" style="color:red;" onclick="restoreposts('+post_id+');">Back</a><br/><br/>';
+                           result=result+"<div style='width:99%;'>";
+
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+'ID';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:12%;'>";
+                           result=result+'Avatar';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+'User';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:48%;'>";
+                           result=result+'Comment';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:8%;'>";
+                           result=result+'Edit';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Delete';
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                    
+
+                       for(var i=0;i<msg.comments.length;i++) {
+                           result=result+"<div style='width:99%;min-height:70px;'>";
+
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+msg.comments[i].id;
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:12%;'>";
+                           result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar-small' />";
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+msg.comments[i].username;
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:48%;'>";
+                           result=result+msg.comments[i].body;
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:8%;'>";
+                           var call = "editcomment("+msg.comments[i].id+","+post_id+",\'"+msg.comments[i].body+"\');";
+                           call = call.replace(/'/g, '"');
+                           call = call.replace(/""/g, '"');
+                           
+                           result=result+"<a href='#'";
+                           result=result+" onclick='"+call+"'";
+                           result=result+" style='color:blue;'>Edit</a>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<a href='#' style='color:red;' onclick='deletecomment("+msg.comments[i].id+","+post_id+");'>Delete</a>";
+                           result=result+"</div>";
+
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                       }
+
+                       $('.panel-posts').html(result);
+              });
+
+    return false;
+}
+
+
+function restoreposts(post_id) {
+              $('#commentform').hide();
+              $.ajax({
+                     method: "POST",
+                     url: "http://divorcesus.com/getposts",
+                     data: {}
+              }).done(function( msg ) {
+                       var result = '';
+
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:2%;'>&nbsp;</div>";
+
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+'ID';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:45%;'>";
+                           result=result+'Title';
+                           result=result+"</div>";
+/*
+                           result=result+"<div style='float:left;width:30%;'>";
+                           result=result+'Link';
+                           result=result+"</div>";
+*/
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+'Edit';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+'Delete';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+'Comments';
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+
+                       for(var i=0;i<msg.length;i++) {
+                           result=result+"<div style='width:96%;'>";
+                           result=result+"<div style='float:left;width:2%;'>&nbsp;</div>";
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+msg[i].id;
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:45%;'>";
+                           result=result+msg[i].title;
+                           result=result+"</div>";
+/*  
+                           result=result+"<div style='float:left;width:30%;'>";
+                           result=result+msg[i].link;
+                           result=result+"</div>";
+*/
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+"<a href='#' onclick='editpost("+msg[i].id+");'  style='color:blue;'>Edit</a>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+"<a href='#' style='color:red;' onclick='deletepost("+msg[i].id+");'>Delete</a>";
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+"<a href='#' style='color:red;' onclick='postcomments("+msg[i].id+");'>Comments</a>";
+                           result=result+"</div>";
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                       }
+
+
+                       $('.panel-posts').html(result);
+              });
+    return false;
+}
+
 function deletepost(post_id) {
               $.ajax({
                      method: "POST",
@@ -397,58 +726,213 @@ function deletepost(post_id) {
                        var result = '';
 
                            result=result+"<div style='width:96%;margin-top:2%;border-bottom:1px dotted;'>";
-                           result=result+"<div style='float:left;width:5%;'>&nbsp;</div>";
+                           result=result+"<div style='float:left;width:2%;'>&nbsp;</div>";
 
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:5%;'>";
                            result=result+'ID';
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:30%;'>";
+                           result=result+"<div style='float:left;width:45%;'>";
                            result=result+'Title';
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:30%;'>";
-                           result=result+'Link';
-                           result=result+"</div>";
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:15%;'>";
                            result=result+'Edit';
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:15%;'>";
                            result=result+'Delete';
                            result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+'Comments';
+                           result=result+"</div>";
+
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
 
                        for(var i=0;i<msg.length;i++) {
+
                            result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:5%;'>&nbsp;</div>";
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:2%;'>&nbsp;</div>";
+
+                           result=result+"<div style='float:left;width:5%;'>";
                            result=result+msg[i].id;
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:30%;'>";
+   
+                           result=result+"<div style='float:left;width:45%;'>";
                            result=result+msg[i].title;
                            result=result+"</div>";
-                           result=result+"<div style='float:left;width:30%;'>";
-                           result=result+msg[i].link;
-                           result=result+"</div>";
 
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:15%;'>";
                            result=result+"<a href='#' onclick='editpost("+msg[i].id+");'  style='color:blue;'>Edit</a>";
                            result=result+"</div>";
 
 
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:15%;'>";
                            result=result+"<a href='#' style='color:red;' onclick='deletepost("+msg[i].id+");'>Delete</a>";
+                           result=result+"</div>";
+                            
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+"<a href='#' style='color:red;' onclick='postcomments("+msg[i].id+");'>Comments</a>";
                            result=result+"</div>";
 
 
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
                        }
-
-
-                       $('#panel-posts').html(result);
+                       $('.panel-posts').html(result);
               });
 
 }
+
+new Vue ({
+        el: '#private_message', 
+
+        data: {
+          message_id:'',
+          receiver_id:'',
+          message_title:'',
+          message_body:''  
+        },
+
+        methods: {
+
+          edit: function (msg) {
+
+          },
+
+          send_message: function (msg) {
+
+
+               $.ajax({
+                     method: "POST",
+                     url: "http://divorcesus.com/sendmessage/",
+                     data: { title: $('#message_title').val(),
+                             message_id: $('#message_id').val(),
+                             receiver_id:$('#receiver_id').val(), 
+                             body:tinyMCE.activeEditor.getContent()}
+              }).done(function( msg ) {
+                   alert(msg);
+              });  
+          }
+
+        },
+        validators: {
+          nonempty: { // `nonempty` custom validator local registration
+              message: function (field) {
+                return 'invalid "' + field + '" must be non-empty at least 10 characters long'
+              },
+              check: function (str) {
+                   return !(!str || 10 > str.length);
+              }
+          },
+          numeric: { // `numeric` custom validator local registration
+            message: 'invalid numeric value',
+            check: function (val) {
+              return /^[-+]?[0-9]+$/.test(val)
+            }
+          },
+          url: { // `url` custom validator local registration
+            message: function (field) {
+              return 'invalid "' + field + '" url format field'
+            },
+            check: function (val) {
+              return /^(http\:\/\/|https\:\/\/)(.{4,})$/.test(val)
+            }
+          }
+        }
+
+});
+
+
+new Vue ({
+          el: '#commentform',
+          data: {
+              comments_post_id:'',
+              comments_comment_id:'',
+          },
+          methods: {
+              edit: function(msg) {
+
+                      $.ajax({
+                             method: "POST",
+                             url: "http://divorcesus.com/savecomment/",
+                             data: {"comment_id":$('#comments_comment_id').val(),"post_id":$('#comments_post_id').val(),"body":tinyMCE.activeEditor.getContent()}
+                      }).done(function( msg ) {
+                           alert("WE ARE BACK");
+                           var result = '<a href="#" style="color:red;" onclick="restoreposts('+post_id+');">Back</a><br/><br/>';
+                           result=result+"<div style='width:99%;'>";
+
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+'ID';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:12%;'>";
+                           result=result+'Avatar';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+'User';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:48%;'>";
+                           result=result+'Comment';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:8%;'>";
+                           result=result+'Edit';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Delete';
+                           result=result+"</div>";
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                       for(var i=0;i<msg.comments.length;i++) {
+                           result=result+"<div style='width:99%;min-height:70px;'>";
+
+                           result=result+"<div style='float:left;width:5%;'>";
+                           result=result+msg.comments[i].id;
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:12%;'>";
+                           result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar-small' />";
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+msg.comments[i].username;
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:48%;'>";
+                           result=result+msg.comments[i].body;
+                           result=result+"</div>";
+
+                           result=result+"<div style='float:left;width:8%;'>";
+                           var call = "editcomment("+msg.comments[i].id+","+post_id+","+msg.comments[i].body+");";
+                           call = call.replace(/'/g, '"');
+
+
+                           result=result+"<a href='#'";
+                           result=result+" onclick='"+call+"'";
+                           result=result+" style='color:blue;'>Edit</a>";
+                           alert(result);
+                           result=result+"</div>";
+
+
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<a href='#' style='color:red;' onclick='deletecomment("+msg.comments[i].id+","+post_id+");'>Delete</a>";
+                           result=result+"</div>";
+
+
+
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+                       }
+
+                       $('.panel-posts').html(result);
+                });          
+
+              }
+          },
+          validators: {
+          }
+         });
+
 new Vue({
         el: '#appform',
         data: {
@@ -474,9 +958,9 @@ new Vue({
                        var result = '';
 
                            result=result+"<div style='width:96%;margin-top:2%;border-bottom:1px dotted;'>";
-                           result=result+"<div style='float:left;width:5%;'>&nbsp;</div>";
+                           result=result+"<div style='float:left;width:2%;'>&nbsp;</div>";
 
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:5%;'>";
                            result=result+'ID';
                            result=result+"</div>";
                            result=result+"<div style='float:left;width:30%;'>";
@@ -491,13 +975,16 @@ new Vue({
                            result=result+"<div style='float:left;width:10%;'>";
                            result=result+'Delete';
                            result=result+"</div>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Comments';
+                           result=result+"</div>";
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
 
                        for(var i=0;i<msg.length;i++) {
                            result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:5%;'>&nbsp;</div>";
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:2%;'>&nbsp;</div>";
+                           result=result+"<div style='float:left;width:5%;'>";
                            result=result+msg[i].id;
                            result=result+"</div>";
                            result=result+"<div style='float:left;width:30%;'>";
@@ -517,17 +1004,23 @@ new Vue({
                            result=result+"</div>";
 
 
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<a href='#' style='color:red;' onclick='postcomments("+msg[i].id+");'>Comments</a>";
+                           result=result+"</div>";
+
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
                        }
 
 
-                       $('#panel-posts').html(result);
+                       $('.panel-posts').html(result);
               });
 
 
           },
           submitblog: function(){
+           //   $('.newpost').hide();
+
               $.ajax({
                      method: "POST",
                      url: "http://divorcesus.com/postblog",
@@ -536,9 +1029,9 @@ new Vue({
                        var result = '';
 
                            result=result+"<div style='width:96%;margin-top:2%;border-bottom:1px dotted;'>";
-                           result=result+"<div style='float:left;width:5%;'>&nbsp;</div>";
+                           result=result+"<div style='float:left;width:2%;'>&nbsp;</div>";
 
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:5%;'>";
                            result=result+'ID';
                            result=result+"</div>";
                            result=result+"<div style='float:left;width:30%;'>";
@@ -553,13 +1046,16 @@ new Vue({
                            result=result+"<div style='float:left;width:10%;'>";
                            result=result+'Delete';
                            result=result+"</div>";
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+'Comments';
+                           result=result+"</div>";
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
                        
                        for(var i=0;i<msg.length;i++) {
                            result=result+"<div style='width:96%;'>";
-                           result=result+"<div style='float:left;width:5%;'>&nbsp;</div>";
-                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<div style='float:left;width:2%;'>&nbsp;</div>";
+                           result=result+"<div style='float:left;width:5%;'>";
                            result=result+msg[i].id;
                            result=result+"</div>";
                            result=result+"<div style='float:left;width:30%;'>";
@@ -578,13 +1074,23 @@ new Vue({
                            result=result+"<a href='#' style='color:red;' onclick='deletepost("+msg[i].id+");'>Delete</a>";
                            result=result+"</div>";
 
+                           result=result+"<div style='float:left;width:10%;'>";
+                           result=result+"<a href='#' style='color:red;' onclick='postcomments("+msg[i].id+");'>Comments</a>";
+                           result=result+"</div>";
+
 
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
                        }
  
+                       $('.newpost .panel-all-your-posts').css('display','block');
+                       $('#appform').css('display','none');
+                       $('#commentform').css('display','none');
+                       //$('.card').show();
 
-                       $('#panel-posts').html(result);
+
+                       $('.panel-posts').html(result);
+
               });
 
 

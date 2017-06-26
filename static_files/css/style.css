@@ -1341,3 +1341,278 @@ footer {
   text-align:center;
   display:block;
 }
+
+/* Slider Styles */
+.background-fade .et_pb_slide.et_pb_bg_layout_dark:after {
+   position: absolute;
+   content: '';
+   top: 0;
+   right: 0;
+   left: 0;
+   bottom: 0;
+   animation: customFadeToDark 3s ease-out 1s 1 both;
+   -webkit-animation: customFadeToDark 3s ease-out 1s 1 both;
+}
+
+@keyframes customFadeToDark {
+0% {
+   background-color: transparent;
+}
+100% {
+   background-color:rgba(0,0,0,.5);
+}
+}
+-webkit-@keyframes customFadeToDark {
+0% {
+   background-color: transparent;
+}
+100% {
+   background-color:rgba(0,0,0,.5);
+}
+}
+
+.background-fade .et_pb_slide.et_pb_bg_layout_light:after {
+   position: absolute;
+   content: '';
+   top: 0;
+   right: 0;
+   left: 0;
+   bottom: 0;
+   animation: customFadeToLight 3s ease-out 1s 1 both;
+   -webkit-animation: customFadeToLight 3s ease-out 1s 1 both;
+}
+
+@keyframes customFadeToLight {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color:rgba(255,255,255,.7);
+  }
+}
+-webkit-@keyframes customFadeToLight {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color:rgba(255,255,255,.7);
+  }
+}
+
+.tweetbutton {
+  inherit: none;
+  height: 25px;
+  width: 90px;
+  padding-top:-2px;
+  display: inline-block;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  /* gradient background -- thanks http://ie.microsoft.com/testdrive/graphics/cssgradientbackgroundmaker/ */
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -ms-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -moz-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -o-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -webkit-gradient(linear, left top, left bottom, color-stop(0, #FEFEFE), color-stop(1, #DFDFDF));
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -webkit-linear-gradient(top, #FEFEFE 0%, #DFDFDF 100%);
+  border: 1px solid #cccccc;
+  padding-left: 22px;
+  padding-right: 4px;
+  padding-top: 2px;
+
+  font-weight: bold;
+  font-size: 0.7em;
+  font-family: Arial;
+
+  color: #333333;
+  text-decoration: none;
+}
+.tweetbutton:hover {
+  background: url('https://si0.twimg.com/images/dev/cms/intents/bird/bird_blue/bird_16_blue.png') no-repeat 2px 1px, -ms-linear-gradient(top, #f7f7f7 0%, #d9d9d9 100%);
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -moz-linear-gradient(top, #f7f7f7 0%, #d9d9d9 100%);
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -o-linear-gradient(top, #f7f7f7 0%, #d9d9d9 100%);
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -webkit-gradient(linear, left top, left bottom, color-stop(0, #f7f7f7), color-stop(1, #d9d9d9));
+  background: url('http://divorcesus.com/media/images/bird_16_blue.png') no-repeat 2px 1px, -webkit-linear-gradient(top, #f7f7f7 0%, #d9d9d9 100%);
+}
+
+.facebook-share {
+    background-color: #3b5998;
+    border-radius: 3px;
+    height: 20px;
+    width: 66px;
+    color: white;
+    padding: 0 0 1px 4px;
+    font-family: "Lucida Grande", "Tahoma", "Helvetica", "Roboto";
+    font-size: 18px;
+}
+.btnz {
+    display: block;
+    float: left;
+    width:84px;
+    padding: 1px 5px;
+    border:none;
+    border-radius:3px;
+    background-color: #ececec;
+    text-decoration: none;
+    font-size: 18px;
+    color: #FFF;
+}
+.btnz:hover {
+    color: #efefef;
+}
+.facebook {
+    background-color: #3b5998;
+}
+.gplus {
+    background-color: #dd4b39;
+}
+.twitter {
+    background-color: #55acee;
+}
+.stumbleupon {
+    background-color: #eb4924;
+}
+.pinterest {
+    background-color: #cc2127;
+}
+.linkedin {
+    background-color: #0077b5;
+}
+.buffer {
+    background-color: #323b43;
+}
+
+/*==================  RD Parallax    ======================*/
+.parallax {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  padding-top: 0px;
+  padding-bottom: 150px; }
+  @media (max-width: 767px) {
+     max-height:540px;
+    .parallax {
+      padding-top: 70px;
+      padding-bottom: 80px; } }
+  .parallax h2, .parallax h3, .parallax h4, .parallax h5, .parallax h6 {
+    color: #fff;
+    text-align: center; }
+  .parallax_image, .parallax_pattern {
+    max-height:540px;
+    overflow:hidden;
+    padding-top:3%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0%;
+    background-position: center center;
+    will-change: transform; }
+  .parallax_image {
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    padding-bottom:0px;
+    background-size: cover; }
+  .parallax_pattern {
+    background-repeat: repeat; }
+  .parallax_cnt {
+    position: relative;
+    text-align: center; }
+
+.text-area,
+pre {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  border: 0;
+}
+.expandingArea {
+  position: relative;
+  border: 1px solid #888;
+  background: #fff;
+}
+
+.expandingArea > textarea,
+.expandingArea > pre {
+  padding: 5px;
+  background: transparent;
+  font: 400 13px/16px helvetica, arial, sans-serif;
+  /* Make the text soft-wrap */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.expandingArea > textarea {
+  /* The border-box box model is used to allow
+   * padding whilst still keeping the overall width
+   * at exactly that of the containing element.
+   */
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  /* This height is used when JS is disabled */
+  height: 100px;
+}
+.expandingArea.active > textarea {
+  /* Hide any scrollbars */
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  /* Remove WebKit user-resize widget */
+  resize: none;
+}
+.expandingArea > pre {
+  display: none;
+}
+.expandingArea.active > pre {
+  display: block;
+  /* Hide the text; just using it for sizing */
+  visibility: hidden;
+}
+
+
+.slide-item {
+  position: absolute;
+  top: 20px; left: 20px;
+  width: 300px; height: 100px;
+  opacity:.50;-moz-opacity:.80;
+  filter:alpha(opacity=80);
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+  border-radius:4px;
+  font-size:1.8em;
+  text-align:center;
+  padding-top:2%;
+  color:#ffffff;
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: #151515; !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/"
+   text-shadow: 1px 1px #fe4902,
+                2px 2px #fe4902,
+                3px 3px #fe4902;
+   -webkit-transition: all 0.12s ease-out;
+   -moz-transition:    all 0.12s ease-out;
+   -ms-transition:     all 0.12s ease-out;
+   -o-transition:      all 0.12s ease-out;
+}
+
+.avatar-small {
+    height: 40px;
+    width: : 40px;
+    float: left;
+    margin-right: 1em;
+    position: relative;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.avatar-wrapper {
+    float:left;
+    min-width:60px;
+}

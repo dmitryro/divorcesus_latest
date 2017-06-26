@@ -24,7 +24,7 @@
              <div style="float:left;margin-top:2.5%;">
                 <img src="{% user_meta user_id 3 %}" class="avatar" />
              </div>
-             <div style="float:left;color:#ffffff;font-weight:bold;margin-top:2.5%;padding-top:1.3em;padding-bottom:1.3em;">
+             <div class="user-meta">
               {% user_meta user_id 1 %}
             &nbsp;
             {% user_meta user_id 2 %}
@@ -55,7 +55,7 @@
   </a>
 <div id="navigation">
     
-    <a class="navigation-head" href="#" onclick="openmenu('home');swap('sectionOneLinks');collapse('sectionTwoLinks');collapse('sectionThreeLinks');collapse('sectionFourLinks');collapse('sectionFiveLinks');return false;">
+    <a class="navigation-head" href="#" onclick="openmenu('home');swap('sectionOneLinks');collapse('sectionSixLinks');collapse('sectionTwoLinks');collapse('sectionThreeLinks');collapse('sectionFourLinks');collapse('sectionFiveLinks');return false;">
            <div style="width:100%;">
 
               <div style="width:20%;float:left;padding-top:15px;"><img src="/media/images/home.png" height="20" width="20" /></div>
@@ -72,7 +72,7 @@
     </ul>
 
 
-    <a class="navigation-head" href="#" onclick="swap('sectionTwoLinks');collapse('sectionOneLinks');collapse('sectionThreeLinks');collapse('sectionFourLinks');collapse('sectionFiveLinks');return false;">
+    <a class="navigation-head" href="#" onclick="swap('sectionTwoLinks');collapse('sectionOneLinks');collapse('sectionSixLinks');collapse('sectionThreeLinks');collapse('sectionFourLinks');collapse('sectionFiveLinks');return false;">
            <div style="width:100%;">
 
               <div style="width:20%;float:left;padding-top:15px;"><img src="/media/images/mastercard.png" height="20" width="20" /></div>
@@ -88,7 +88,7 @@
     </ul>
 
 
-    <a class="navigation-head"  href="#" onclick="swap('sectionThreeLinks');collapse('sectionOneLinks');collapse('sectionTwoLinks');collapse('sectionFourLinks');collapse('sectionFiveLinks');return false;">
+    <a class="navigation-head"  href="#" onclick="swap('sectionThreeLinks');collapse('sectionOneLinks');collapse('sectionSixLinks');collapse('sectionTwoLinks');collapse('sectionFourLinks');collapse('sectionFiveLinks');return false;">
            <div style="width:100%;">
               <div style="width:20%;float:left;padding-top:15px;"><img src="/media/images/cases.png" height="20" width="20" /></div>
               <div style="width:60%;float:left;margin-top:-20px;">&nbsp;&nbsp;<h3 class="menu-section-title">Cases</h3></div>
@@ -102,7 +102,7 @@
     </ul>
 
 
-    <a class="navigation-head"  href="#" onclick="swap('sectionFourLinks');collapse('sectionOneLinks');collapse('sectionThreeLinks');collapse('sectionTwoLinks');collapse('sectionFiveLinks');return false;">
+    <a class="navigation-head"  href="#" onclick="swap('sectionFourLinks');collapse('sectionOneLinks');collapse('sectionSixLinks');collapse('sectionThreeLinks');collapse('sectionTwoLinks');collapse('sectionFiveLinks');return false;">
            <div style="width:100%;">
               <div style="width:20%;float:left;padding-top:15px;"><img src="/media/images/post.png" height="20" width="20" /></div>
               <div style="width:60%;float:left;margin-top:-20px;">&nbsp;&nbsp;<h3 class="menu-section-title">Posts</h3></div>
@@ -117,22 +117,42 @@
     </ul>
 
 
-    <a class="navigation-head"  href="#" onclick="swap('sectionFiveLinks');collapse('sectionOneLinks');collapse('sectionThreeLinks');collapse('sectionFourLinks');collapse('sectionTwoLinks');return false;">
+    <a class="navigation-head"  href="#" onclick="swap('sectionFiveLinks');collapse('sectionSixLinks');collapse('sectionOneLinks');collapse('sectionThreeLinks');collapse('sectionFourLinks');collapse('sectionTwoLinks');return false;">
 
            <div style="width:100%;">
 
               <div style="width:20%;float:left;padding-top:15px;"><img src="/media/images/notify.png" height="20" width="20" /></div>
-              <div style="width:60%;float:left;margin-top:-20px;">&nbsp;&nbsp;<h3 class="menu-section-title">Notifications</h3></div>
+              <div style="width:60%;float:left;margin-top:-20px;">&nbsp;&nbsp;<h3 class="menu-section-title">Messages</h3></div>
               <div class="clear"></div>
            </div>
 
     </a>
     <ul class="menu-section-list" id="sectionFiveLinks" style="display: none;">
-      <li><a href="#" onclick="openmenu('onandoff');">Turn ON/OFF</a></li>
-      <li><a href="#" onclick="openmenu('personal');">Personal Notifications</a></li>
-      <li><a href="#" onclick="openmenu('incoming');">Respond Incoming</a></li>
-      <li><a href="#" onclick="openmenu('notify');">Notify</a></li>
+      <li><a href="#" onclick="openmenu('onandoff');">Settings</a></li>
+      <li><a href="#" onclick="openmenu('personal');">Outgoing</a></li>
+      <li><a href="#" onclick="openmenu('incoming');">Incoming</a></li>
+      <li><a href="#" onclick="openmenu('notify');">Send a Message</a></li>
     </ul>
+
+    <a class="navigation-head"  href="#" onclick="swap('sectionSixLinks');collapse('sectionOneLinks');collapse('sectionThreeLinks');collapse('sectionFourLinks');collapse('sectionTwoLinks');collapse('sectionFiveLinks');return false;">
+
+           <div style="width:100%;">
+
+              <div style="width:20%;float:left;padding-top:15px;"><img src="/media/images/notify.png" height="20" width="20" /></div>
+              <div style="width:60%;float:left;margin-top:-20px;">&nbsp;&nbsp;<h3 class="menu-section-title">Events</h3></div>
+              <div class="clear"></div>
+           </div>
+
+    </a>
+
+    <ul class="menu-section-list" id="sectionSixLinks" style="display: none;">
+      <li><a href="#" onclick="openmenu('schedule');">Schedule Event</a></li>
+      <li><a href="#" onclick="openmenu('comingevents');">Coming Events</a></li>
+      <li><a href="#" onclick="openmenu('editevent');">Edit Event</a></li>
+      <li><a href="#" onclick="openmenu('archive');">Archive</a></li>
+    </ul>
+
+
 </div>
 </nav>
 
@@ -142,14 +162,14 @@
  </div>
  <div class="bar-spacer">&nbsp;&nbsp;
  </div>
- <div class="signout-wrapper" style="min-width:170px;">
+ <div class="signout-wrapper">
 
-          <div style="float:left;width:30px;margin-right:-150px;margin-left:-150px;margin-top:-1.3em;">
+          <div class="incoming-notifications">
                  <img src="/media/images/on_color_large.png" height="50" width="50" alt="Incoming Notifications" />
           </div>
 
 
-           <div style="float:left;width:30px;margin-right:15px;margin-left:-80px;margin-top:-1.3em;" alt="Private Messages">
+           <div class="private-messages" alt="Private Messages">
                  <img src="/media/images/big_icon_network.png" height="50" width="50" />
            </div>
            <div style="float:left;width:60px;">
@@ -244,16 +264,67 @@
         <div class="col-md-9 well admin-content" id="similarcases">
             Similar Cases
         </div>
+
         <div class="col-md-9 well admin-content" id="allposts">
-            All Posts
+
+               <div style="float:left;width:100%;" class="panel-all-posts">
+                     <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>All your posts</h4>
+                             </div>
+                             <div class="panel-posts">
+
+
+
+                             </div>
+                             <div id="commentform" style="display:none;">
+                                 <form class="form" novalidate>
+                                     <input type="hidden" name="comments_post_id" id="comments_post_id" value="" />
+                                     <input type="hidden" name="comments_comment_id" id="comments_comment_id" value="" />
+                                     <p class="text">
+                                                <textarea name="commentbody" id="edit_comment_body" width="20"  /></textarea>
+                                     </p>
+                                     <p class="submit">
+                                        <input type="button" v-on:click="edit" value="Save" id='post' />
+                                     </p>
+
+                                 </form>
+                             </div>
+                     </div>
+               </div>
+               <div class"clear"></div>
+
+               <div style="float:left;width:100%;" class="panel-edit-post" style="display:none;">
+
+
+               </div>
+               <div class"clear"></div>
+
         </div>
-        <div class="col-md-9 well admin-content" id="newpost">
+
+        <div class="col-md-9 well admin-content newpost" id="newpost">
+
+               <div style="float:left;width:100%;" class="panel-all-your-posts" style="display:none;">
+                     <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>All your posts</h4>
+                             </div>
+                              
+                             <div class="panel-posts">
+
+
+
+                             </div>
+                     </div>
+               </div>
+               <div class"clear"></div>
+
 
            <div id="appform">
 
             <div style="float:left;width:45%;">
            	<div class="form-header">
-                                   <h4>New post</h4>
+                                   <h4>New Post</h4>
                  </div>
 
                <validator name="validation1">
@@ -297,41 +368,105 @@
 	         	<p class="submit">
 		         	<input type="button" v-on:click="submitblog" value="Post" id='post' v-if="$validation1.valid" />
 	            	</p>
-                          </p>
+                        
            	</form>
                </validator>
                </div>
               </div>
 
+<!--
                <div style="float:left;width:10%;">&nbsp;</div>
                <div style="float:left;width:40%;">
-                     <div class="card card-3" style="min-height:700px;width:90%;">
+                     <div class="card card-3 panel-right">
                              <div class="panel-header">                   
                                    <h4>All your posts</h4>
                              </div>
-                             <div class="panel-posts" id="panel-posts">
+                             <div class="panel-posts">
+
+
+
                              </div>
                      </div>
                </div>
                <div class"clear"></div>
+-->
         </div>
        </div>
 
+
         <div class="col-md-9 well admin-content" id="editpost">
-            Edit Post
-        </div>
-        <div class="col-md-9 well admin-content" id="incoming">
-            Incoming Messages
+
+                <div class="form-header">
+                                   <h4>Edit Post</h4>
+                 </div>
+
+
+
+
+               <div class"clear"></div>
+   
+
         </div>
         <div class="col-md-9 well admin-content" id="notify">
-            Notify us
+           <div id="private_message">
+              <div style="float:left;width:45%;">
+                 <div class="form-header">
+                    <h4>Send us a message</h4>
+                 </div>
+
+                 <validator name="validation_messages">
+                   <div class="errors">
+                       <validator-errors :validation="$validation_messages"></validator-errors>
+                   </div>
+                 <form class="form" novalidate>
+                        <input type="hidden" name="post_id" id="post_id" value="" />
+                        <p class="name">
+                                <input type="text" id="message_title" name="message_title" v-validate:message_title=['nonempty'] />
+                                <label for="message_title">Title</label>
+                        </p>
+                        <p>  
+                             
+                             <select id="receiver_id">
+                                <option value="14">{% member_meta 4 1 %}</option>
+                                <option value="15">{% member_meta 5 1 %}</option>
+                                <option value="16">{% member_meta 6 1 %}</option>
+                             </select>
+                             <label for="receiver_id">Send it to</label>
+
+                        </p>
+                        <p class="text">
+                                <textarea name="message_body" id="message_body" width="40"  /></textarea>
+                        </p>
+                        
+                        <p class="submit">
+                                <input type="button" v-on:click="send_message" value="Send" id='send_message' v-if="$validation_messages.valid"/>
+                        </p>
+
+                 </form>
+                </validator>
+             </div>
+           </div>
         </div>
         <div class="col-md-9 well admin-content" id="onandoff">
             Turn notifications on and off
         </div>
 
         <div class="col-md-9 well admin-content" id="personal">
-            Personal Notifications
+               <div style="float:left;width:100%;" class="panel-all-your-posts" style="display:block;">
+                     <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Outgoing Messages</h4>
+                             </div>
+
+                             <div class="panel-outgoing-messages">
+
+
+
+                             </div>
+                     </div>
+               </div>
+               <div class"clear"></div>
+
         </div>
 
 

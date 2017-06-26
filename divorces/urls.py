@@ -37,6 +37,7 @@ from custom.signup.views import SendEmailView
 from custom.signup.views import logout_view
 from custom.blog.views import AddPostView
 from custom.blog.views import AddCommentView
+from custom.blog.views import SaveCommentView
 from custom.blog.views import GetPostsView
 from custom.blog.views import DeletePostView
 from custom.blog.views import ReadPostView
@@ -47,7 +48,14 @@ from custom.blog.views import CommentViewSet
 from custom.blog.views import GetCommentsView
 from custom.blog.views import DeleteCommentView
 from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
+from custom.messaging.views import SendMessageView
+from custom.messaging.views import DeleteMessageView
+from custom.messaging.views import UpdateMessageView
+from custom.messaging.views import NotificationTypeViewSet
+from custom.messaging.views import NotificationViewSet
+from custom.messaging.views import MessageViewSet
 from custom.payments.views import SendConfirmationEmailView
+import custom
 router = routers.DefaultRouter()
 
 
@@ -56,26 +64,32 @@ admin.autodiscover()
 #router.register(r'bushwick',BushwickArtistViewSet)
 router.register(r'posts',PostViewSet)
 router.register(r'comments',CommentViewSet)
+router.register(r'notificationtypes',NotificationTypeViewSet)
+router.register(r'notifications',NotificationViewSet)
+router.register(r'messages',MessageViewSet)
 
 urlpatterns = [
 #    url(r'^', include(router.urls)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^chatbot/', include('custom.chatbot.urls')),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')), 
+    url(r'^api-auth/', include('rest_framework.urls', 
+                       namespace='rest_framework')), 
     url(r'^django-rq/', include('django_rq.urls')),
     url(r'^accounts_api/', include('registration_api.urls')),
-    url(r'^api/',include('rest_framework.urls', namespace='rest_framework')),
-    url(r'api/accounts/', include('rest_framework.urls', namespace='rest_framework')), 
-    url(r'^$','custom.gui.views.home'),
-    url(r'^dashboard/$', 'custom.gui.views.dashboard'),
-    url(r'^accounts/login/?next=/signout/$','custom.gui.views.home'),
-    url(r'^accounts/login/$','custom.gui.views.home'),
-    url(r'^login/linkedin/$','custom.gui.views.home'),
-    url(r'^login/linkedin/','custom.gui.views.home'),
+    url(r'^api/', include('rest_framework.urls', 
+                  namespace='rest_framework')),
+    url(r'api/accounts/', include('rest_framework.urls', 
+                          namespace='rest_framework')), 
+    url(r'^$',custom.gui.views.home),
+    url(r'^dashboard/$', custom.gui.views.dashboard),
+    url(r'^accounts/login/?next=/signout/$',custom.gui.views.home),
+    url(r'^accounts/login/$',custom.gui.views.home),
+    url(r'^login/linkedin/$',custom.gui.views.home),
+    url(r'^login/linkedin/',custom.gui.views.home),
     url(r'^sendmail/$',SendEmailView.as_view()),
-    url(r'^toast/$', 'custom.gui.views.toast'),
-    url(r'^signout/$', 'custom.gui.views.logout'),
+    url(r'^toast/$', custom.gui.views.toast),
+    url(r'^signout/$', custom.gui.views.logout),
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^froala_editor/', include('froala_editor.urls')),
@@ -91,24 +105,28 @@ urlpatterns = [
     url(r'^search/', include('haystack.urls')),
     url(r'^confirm/',SendConfirmationEmailView.as_view()),
     url(r'^deletecomment/',DeleteCommentView.as_view()),
+    url(r'^savecomment/$',SaveCommentView.as_view()),
+    url(r'^sendmessage/$',SendMessageView.as_view()),
+    url(r'^updatemessage/',UpdateMessageView.as_view()),
+    url(r'^deletemessage/',DeleteMessageView.as_view()),
 #    url(r'^divorce/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
     url(r'^search/$', GlobalSearchList.as_view(), name="search"),
     url(r'^searchresults/$',GetSearchResultsView.as_view(),name="searchresults"),
-    url(r'^services/(?P<service>[^/]+)/$', 'custom.gui.views.services'),
-    url(r'^blog/$','custom.gui.views.post'),
-    url(r'^blog/(?P<page>[^/]+)/$','custom.gui.views.posts'),
-    url(r'^blog/','custom.gui.views.post'),
-    url(r'^about/','custom.gui.views.about'),
-    url(r'^aboutus/','custom.gui.views.about'),
-    url(r'^qualify/','custom.gui.views.check_qualify'),
-    url(r'^contacts/$', 'custom.gui.views.contact'),
-    url(r'^contact/$', 'custom.gui.views.contact'),
-    url(r'^payments/$', 'custom.gui.views.payment'),
-    url(r'^payment/$', 'custom.gui.views.payment'),
-    url(r'^pricing/$', 'custom.gui.views.pricing'),
-    url(r'^prices/$', 'custom.gui.views.pricing'),  
-    url(r'^ask/$', 'custom.gui.views.ask'),
+    url(r'^services/(?P<service>[^/]+)/$', custom.gui.views.services),
+    url(r'^blog/$',custom.gui.views.post),
+    url(r'^blog/(?P<page>[^/]+)/$',custom.gui.views.posts),
+    url(r'^blog/',custom.gui.views.post),
+    url(r'^about/',custom.gui.views.about),
+    url(r'^aboutus/',custom.gui.views.about),
+    url(r'^qualify/',custom.gui.views.check_qualify),
+    url(r'^contacts/$', custom.gui.views.contact),
+    url(r'^contact/$', custom.gui.views.contact),
+    url(r'^payments/$', custom.gui.views.payment),
+    url(r'^payment/$', custom.gui.views.payment),
+    url(r'^pricing/$', custom.gui.views.pricing),
+    url(r'^prices/$', custom.gui.views.pricing),  
+    url(r'^ask/$', custom.gui.views.ask),
     url(r'^api/$',include('rest_framework.urls', namespace='rest_framework')),
  #   url(r'^accounts_api/', include('registration_api.urls')),
     url(r'^api/', include(router.urls)),

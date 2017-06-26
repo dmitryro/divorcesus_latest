@@ -30,10 +30,16 @@ from forms import AdvantageModelForm
 ########################################
 
 class ProfileAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {'fields': ['username','email',
+    fieldsets = ((None, {'fields': ['username',
+                                    'email', 
+                                    'user',
                                     'is_cleared',
-                                    'is_facebook_signup_used','is_google_signup_used','is_linkedin_signup_used','is_username_customized',
-                                    'is_twitter_signup_used','is_new',
+                                    'is_facebook_signup_used',
+                                    'is_google_signup_used',
+                                    'is_linkedin_signup_used',
+                                    'is_username_customized',
+                                    'is_twitter_signup_used',
+                                    'is_new',
                                     'first_name','last_name',
                                     'phone','address',
                                     'profile_image_path']}),)
@@ -42,6 +48,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
     list_editable = ('username','user','email','first_name','last_name','is_new','phone',)
     search_fields = ('username', 'first_name', 'last_name','email','phone',)
+
     class Meta:
          verbose_name = 'User Profile'
          verbose_name_plural = 'User Profiles'

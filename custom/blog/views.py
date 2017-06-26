@@ -80,6 +80,40 @@ class GetCommentsView(Endpoint):
             return {'message':'error','error':str(R)}
 
 
+class SaveCommentView(Endpoint):
+
+    @csrf_exempt
+    def post(self, request):
+        post_id =  request.data['post_id']
+        comment_id = request.data['comment_id']
+        body = request.data['body']
+          
+        comment = Comment.objects.get(id=int(comment_id))
+        comment.body = body
+        comment.save()
+
+        comments = Comment.objects.filter(post_id=int(post_id))
+        serializer = CommentSerializer(comments,many=True)
+            
+        return {"comments":serializer.data}
+
+    @csrf_exempt
+    def get(self, request):
+        post_id =  request.params.get('post_id','')
+        comment_id = request.params.get('comment_id','')
+        body = request.params.get('body','')
+
+        comment = Comment.objects.get(id=int(comment_id))
+        comment.body = body
+        comment.save()
+
+        comments = Comment.objects.filter(post_id=int(post_id))
+        serializer = CommentSerializer(comments,many=True)
+
+        return {"comments":serializer.data}
+
+
+        
 #########################################
 ## Add comment to a post                  ##
 ## Extends: restless Endpoint             ##
@@ -179,7 +213,50 @@ class AddCommentView(Endpoint):
         except Exception, R:
             return {'message':'error','error':str(R)}
                   
-  
+ 
+############################################
+## Add comment to a post                  ##
+## Extends: restless Endpoint             ##
+## METHOD:  GET, POST                     ##
+## Type:    Endpoint View (JSON)          ##
+############################################
+
+class DeleteCommentView(Endpoint):
+
+    @csrf_exempt
+    def get(self, request):
+
+        user = request.user
+        comment_id = request.params.get('comment_id','')
+        post_id = request.params.get('post_id','')
+
+        try:
+            comment = Comment.objects.get(id=int(comment_id))
+            comment.delete()
+
+            comments = Comment.objects.filter(post_id=int(post_id))
+            serializer = CommentSerializer(comments,many=True)
+            return {"comments":serializer.data}
+
+        except Exception, R:
+            return {'message':'error','error':str(R)}
+ 
+
+    @csrf_exempt
+    def post(self, request):
+        comment_id = request.data['comment_id']
+        post_id = request.data['post_id']
+
+        try:
+            comment = Comment.objects.get(id=int(comment_id))
+            comment.delete()
+
+            comments = Comment.objects.filter(post_id=int(post_id))
+            serializer = CommentSerializer(comments,many=True)
+            return {"comments":serializer.data}
+
+        except Exception, R:
+            return {'message':'error','error':str(R)}
 
 ############################################
 ## Add comment to a post                  ##

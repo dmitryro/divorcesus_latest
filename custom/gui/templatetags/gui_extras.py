@@ -52,10 +52,13 @@ def cleanup_html(string):
         _cleanup_elements(elem)
         html_string = html.tostring(elem)
         lines = []
+
         for line in html_string.splitlines():
             line = line.rstrip()
             if line != '': lines.append(line)
+
         return '\n'.join(lines)
+
     except etree.XMLSyntaxError:
         return string
 
@@ -68,20 +71,29 @@ def user_meta(a, b,  *args, **kwargs):
     try:
         try:
             user = User.objects.get(id=int(a))
-            profile = Profile.objects.get(id=int(a))
+            profile = user.profile
         except Exception, R:
-            return ""
+            print R
 
         if (b==1):
             return user.first_name
+
         elif (b==2):
             return user.last_name
+
         elif (b==3):
+            
+            if not  profile.profile_image_path or len(profile.profile_image_path)==0:
+               return '/media/avatars/default.png'
+
             return profile.profile_image_path
+
         elif (b==4):
             return user.email 
+
         elif (b==5):
             return profile.phone
+
  
  
     except TypeError:

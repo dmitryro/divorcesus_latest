@@ -108,9 +108,6 @@ class GetSearchResultsView(Endpoint):
                     'q':query}
 
 
-
-
-
         except Exception,R:
 
             log = Logger(log=str(R))

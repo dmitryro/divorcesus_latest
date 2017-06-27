@@ -414,7 +414,12 @@ class GetAllPostsView(Endpoint):
         try:
 
             posts = Post.objects.all().order_by('-time_published')
-            
+      
+            for post in posts:
+               comments = Comment.objects.filter(post=post)
+               post.total_comments = len(comments)
+               post.save()
+      
             serializer = PostSerializer(posts,many=True)
             return serializer.data
 
@@ -430,6 +435,12 @@ class GetAllPostsView(Endpoint):
         try:
 
             posts = Post.objects.all().order_by('-time_published')
+
+            for post in posts:
+               comments = Comment.objects.filter(post=post)
+               post.total_comments = len(comments)
+               post.save()
+
             serializer = PostSerializer(posts,many=True)
             return serializer.data
 

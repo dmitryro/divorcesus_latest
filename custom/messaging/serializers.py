@@ -31,7 +31,7 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ('id', 'title', 'is_seen', 'is_answered', 
-                  'body', 'time_sent', 'sender', 'receiver')
+                  'body', 'time_sent', 'sender', 'receiver','receiver_name')
 
 
 

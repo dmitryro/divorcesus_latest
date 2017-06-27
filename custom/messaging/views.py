@@ -18,7 +18,58 @@ from models import Notification
 from models import NotificationType
 from custom.utils.models import Logger
 from django.contrib.auth.models import User
-# Create your views here.
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+
+class IncomingMessagesList(generics.ListAPIView):
+    serializer_class = MessageSerializer
+    permission_classes = (AllowAny,)
+    renderer_classes = (JSONRenderer, )
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the messages
+        that are outgoing for the given sender.
+        """
+        try:
+            receiver_id = self.kwargs['receiver_id']
+            receiver_id = int(receiver_id)
+            return Message.objects.filter(receiver_id=receiver_id)
+
+        except Exception, R:
+            receiver_id = self.request.user.id
+            return Message.objects.filter(receiver_id=receiver_id)
+
+
+ 
+
+
+class OutgoingMessagesList(generics.ListAPIView):
+    serializer_class = MessageSerializer
+    permission_classes = (AllowAny,)
+    renderer_classes = (JSONRenderer, )
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the messages
+        that are outgoing for the given sender.
+        """
+
+        try:
+            sender_id = self.kwargs['sender_id']
+            sender_id = int(sender_id)
+            return Message.objects.filter(sender_id=sender_id)
+
+#            return Message.objects.filter(sender_id=sender_id)
+        except Exception, R:
+            sender_id = self.request.user.id
+            return Message.objects.filter(sender_id=sender_id)
+
+      #      return Message.objects.filter(sender_id=sender_id)
+ 
 
 class NotificationTypeViewSet(viewsets.ModelViewSet):
     """
@@ -26,6 +77,7 @@ class NotificationTypeViewSet(viewsets.ModelViewSet):
     """
     serializer_class = NotificationTypeSerializer
     queryset = NotificationType.objects.all()
+
 
 class NotificationViewSet(viewsets.ModelViewSet):
     """
@@ -43,7 +95,6 @@ class MessageViewSet(viewsets.ModelViewSet):
     filter_class = MessageFilter
     queryset = Message.objects.all()
     
-
 class SendMessageView(Endpoint):
     @csrf_exempt
     def get(self, request):

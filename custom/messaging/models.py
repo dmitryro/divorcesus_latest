@@ -29,6 +29,9 @@ class Message(models.Model):
     def __unicode__(self):
         return unicode(self.title)
 
+    @property
+    def receiver_name(self):
+        return self.receiver.first_name+' '+self.receiver.last_name
 
 
 class NotificationType(models.Model):

@@ -76,10 +76,10 @@ def user_meta(a, b,  *args, **kwargs):
             print R
 
         if (b==1):
-            return user.first_name
+            return '' if user.first_name is None else user.first_name
 
         elif (b==2):
-            return user.last_name
+            return '' if user.last_name is None else user.last_name
 
         elif (b==3):
             

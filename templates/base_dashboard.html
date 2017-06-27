@@ -284,20 +284,67 @@ Vue.component('modal', {
           $('#commentform').hide();
           allWells.hide();
           $('#' + target).show();
-          if(target==='newpost' || target==='allposts') {
+
+          if (target==='outgoing') {
+
+               $.ajax({
+                     method: "GET",
+                     url: "http://divorcesus.com/outgoing/",
+                     data: { title: $('#message_title').val(),
+                             message_id: $('#message_id').val(),
+                             receiver_id:$('#receiver_id').val(),
+                             body:tinyMCE.activeEditor.getContent()}
+              }).done(function( msg ) {
+                           var result = '';
+                           for(var i=0; i<msg.length; i++) {
+                               result=result+"<div style='float:left;width:30%;'>";
+                               result=result+msg[i].receiver.first_name;
+                               result=result+' ';
+                               result=result+msg[i].receiver.last_name;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:10%;'>";
+                               result=result+msg[i].time_sent;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:29%;'>";
+                               result=result+msg[i].title;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:15%;'>";
+                               result=result+'Resend';
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:15%;'>";
+                               result=result+'Delete';
+                               result=result+"</div>";
+                               result=result+"<div class='clear'></div>";
+                               result=result+"</div>"
+
+
+                           }
+                           $('.panel-outgoing-messages').html(result);
+                           $('.personal').show();
+
+
+              });
+
+          }
+
+          else if(target==='newpost' || target==='allposts') {
                   
               if ( target==='newpost') {
                   $('.panel-all-your-posts').hide();
                   $('#allposts').hide();
                   $('#editpost').hide();
                   $('#appform').show();
+                  $('#commentform').hide();
                   resetpost();
                     
               } else if (target==='allposts') {
                   //$('.panel-all-your-posts').show();
+
                   $('#allposts').show();
                   $('#editpost').hide();
                   $('#appform').hide();
+                  $('#commentform').hide();
+
               } else if (target==='editpost') {
                   $('#editpost').show();
                   $('#appform').hide();
@@ -810,7 +857,52 @@ new Vue ({
                              receiver_id:$('#receiver_id').val(), 
                              body:tinyMCE.activeEditor.getContent()}
               }).done(function( msg ) {
-                   alert(msg);
+                           var result = '';
+                           result=result+"<div style='width:99%;'>";
+
+                           result=result+"<div style='float:left;width:20%;'>";
+                           result=result+'Sent To';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:20%;'>";
+                           result=result+'Time Sent';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:29%;'>";
+                           result=result+'Title';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+'Resend';
+                           result=result+"</div>";
+                           result=result+"<div style='float:left;width:15%;'>";
+                           result=result+'Delete';
+                           result=result+"</div>";
+                           result=result+"<div class='clear'></div>";
+                           result=result+"</div>"
+
+                           for(var i=0; i<msg.messages.length; i++) {
+                                
+                               result=result+"<div style='float:left;width:20%;'>";
+                               result=result+msg[i].reciever;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:20%;'>";
+                               result=result+msg[i].time_sent;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:29%;'>";
+                               result=result+msg[i].title;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:15%;'>";
+                               result=result+'Resend';
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:15%;'>";
+                               result=result+'Delete';
+                               result=result+"</div>";
+                               result=result+"<div class='clear'></div>";
+                               result=result+"</div>"
+
+
+                           }
+                           
+                           $('.panel-outgoing-messages').html(result);
+                           $('.personal').show();
               });  
           }
 
@@ -857,7 +949,9 @@ new Vue ({
                              url: "http://divorcesus.com/savecomment/",
                              data: {"comment_id":$('#comments_comment_id').val(),"post_id":$('#comments_post_id').val(),"body":tinyMCE.activeEditor.getContent()}
                       }).done(function( msg ) {
-                           alert("WE ARE BACK");
+
+                           $('#commentform').hide();
+                           var post_id = $('#comments_post_id').val();
                            var result = '<a href="#" style="color:red;" onclick="restoreposts('+post_id+');">Back</a><br/><br/>';
                            result=result+"<div style='width:99%;'>";
 
@@ -903,14 +997,14 @@ new Vue ({
                            result=result+"</div>";
 
                            result=result+"<div style='float:left;width:8%;'>";
-                           var call = "editcomment("+msg.comments[i].id+","+post_id+","+msg.comments[i].body+");";
+                           alert("WE ARE HERE FOUR"+post_id);
+                           var call = "editcomment("+msg.comments[i].id+","+post_id+",'"+msg.comments[i].body+"');";
                            call = call.replace(/'/g, '"');
 
 
                            result=result+"<a href='#'";
                            result=result+" onclick='"+call+"'";
                            result=result+" style='color:blue;'>Edit</a>";
-                           alert(result);
                            result=result+"</div>";
 
 
@@ -944,7 +1038,6 @@ new Vue({
         },
         methods: {
           edit: function (msg) {
-                 alert('tttt')
           },
           onReset: function () {
             this.$resetValidation()

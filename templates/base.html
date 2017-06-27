@@ -142,24 +142,17 @@ ga('send', 'pageview');
          {% endif %}
                    <div style="float:left;min-width:200px;">
                       {% if logout %}
-                                 <div class="avatar-container">
+                                 <div style="float:left;min-width:100px;margin-top:-3px;">
                                             <img src="{% user_meta user_id 3 %}" class="avatar" alt="divorcesus"/>
                                  </div>
                      {% endif %}
-
-                     {% if not user.is_authenticated %}      
-                                 <div class="avatar-container">
-                                 </div>         
-                      {% endif %}
-
-                      {% if user.is_authenticated %}  
-                                 <div class="creds-container">       
+                  
+                                 <div style="float:left;">       
                                        {% user_meta user_id 1 %}
                                             &nbsp;
                                        {% user_meta user_id 2 %}
                                        &nbsp;&nbsp;
                                  </div>
-                      {% endif %}
                                 <div class="clear"></div>
                     </div>
         <!-- app -->
@@ -5815,7 +5808,6 @@ Use this form to make a credit card payment. By using this form and accepting th
 </div>
 
 
-
 <div id="blog_block" class="service-block">
   <main id="container-blog">
    <section class="bg-img well-top">
@@ -5839,149 +5831,149 @@ Use this form to make a credit card payment. By using this form and accepting th
           </div>
           
           <div id="blog_posts">
-          <div class="container wow fadeInUp posts-all-container">
-          {% for post in posts %}
-                   <div style="width:100%;" class="post-single-wrapper">
-                           <div style='width:100%;'>
-                               <div style='float:left;width:10%;'>
-                                Title:
-                               </div>
-                               <div style='float:left;width:30%;font-weight:bold;'>
-                               {{ post.title }}
-                               </div>
-                               <div class='clear'></div>
-                           </div>
 
+                 <div class="container wow fadeInUp posts-all-container"> <!-- posts-all-container starts -->
+                          {% for post in posts %}
+                                 <div style="width:100%;" class="post-single-wrapper"> <!-- post single starts -->
+                                         <div style='width:100%;'> <!-- title starts -->
+                                                <div style='float:left;width:10%;'>
+                                                       Title:
+                                                </div>
+                                                <div style='float:left;width:30%;font-weight:bold;'>
+                                                       {{ post.title }}
+                                                </div>
+                                                <div class='clear'></div>
+                                         </div> <!-- title ends -->
 
-                           <div style='width:100%;'>
-                              <div style='float:left;width:10%;'>
-                               Link:
-                              </div>
-                              <div style='float:left;width:30%;font-weight:bold;'>";
-                                 <a href='{{ post.link }}'>{{ post.link }}</a>
-                              </div>
-                              <div class='clear'></div> 
-                           </div>
+                                         <div style='width:100%;'> <!-- link starts -->
+                                                <div style='float:left;width:10%;'>
+                                                              Link:
+                                                </div>
+                                                <div style='float:left;width:30%;font-weight:bold;'>";
+                                                         <a href='{{ post.link }}'>{{ post.link }}</a>
+                                                </div>
+                                                <div class='clear'></div> 
+                                         </div> <!-- link ends -->
 
-
-                          <div style='width:100%;'>
-                           <div style='float:left;width:10%;'>
-                           Posted by:
-                           </div>
-                           <div style='float:left;width:30%;font-weight:bold;'>
-                               {{ post.author.first_name }} {{ post.author.last_name }}
-                           </div>
-                           <div class='clear'></div>
-                           </div>
+                                         <div style='width:100%;'> <!-- postedby starts -->
+                                                <div style='float:left;width:10%;'>
+                                                      Posted by:
+                                                </div>
+                                                <div style='float:left;width:30%;font-weight:bold;'>
+                                                     {{ post.author.first_name }} {{ post.author.last_name }}
+                                                </div>
+                                                <div class='clear'></div>
+                                         </div>  <!-- postedby ends -->
                           
-                           <div style='width:100%;text-align:left;'>
-                               {{ post.body|safe }}
-                           </div>
-
-                           <div style='width:100%;padding-top:5px;'>
-                              <div class='comments-total'>
-
-                                   <button class="comments-link" id="comments-link-{{ post.id }}" onclick="handlePostId({{ post.id }});">Comments({{ post.total_comments }})</button>
-
-                              </div>
-
-                              <div class="share-icon">
-
-                                   <social-shares inline-template>
- 
-                                         <div class="facebook-share" style="height:24px;width:82px;">
-                                           <i class="fa fa-facebook-square" style="height:24px;width:82px;">
-
-                                              <a title="Share "
-                                                  @click="share('facebook')"
-                                                     style="height:24px;width:82px;">Share
-           
-                                              </a>
-                                           </i>
+                                         <div style='width:100%;text-align:left;'>
+                                                {{ post.body|safe }}
                                          </div>
-                                   </social-shares>
 
-                             </div>
+                                         <div style='width:100%;padding-top:5px;'> <!-- meta starts -->
+                                                <div class='comments-total'>
 
-                             <div class="share-icon">
-                                   <social-shares inline-template>
-                                         <a title="Tweet" class="tweetbutton" @click="share('twitter')">Tweet</a>
-                                   </social-shares>
-                             </div>
+                                                            <button class="comments-link" id="comments-link-{{ post.id }}" 
+                                                                    onclick="handlePostId({{ post.id }});">
+                                                                            Comments({{ post.total_comments }})
+                                                            </button>
 
-                             <div class="share-icon">
+                                                </div>
 
-                                   <social-shares inline-template>
-                                         <a class="btnz share gplus" @click="share('googleplus')"><i class="fa fa-google-plus"></i></a>
-                                   </social-shares>
+                                                <div class="share-icon">
 
-                             </div>
-                             <div class='clear'></div>  
-                           </div>
+                                                      <social-shares inline-template>
+ 
+                                                              <div class="facebook-share" style="height:24px;width:82px;">
+                                                                     <i class="fa fa-facebook-square" style="height:24px;width:82px;">
+
+                                                                            <a title="Share "
+                                                                                 @click="share('facebook')"
+                                                                                  style="height:24px;width:82px;">Share
+           
+                                                                            </a>
+                                                                     </i>
+                                                              </div>
+                                                      </social-shares>
+
+                                                </div>
+
+                                                <div class="share-icon">
+                                                      <social-shares inline-template>
+                                                              <a title="Tweet" class="tweetbutton" @click="share('twitter')">Tweet</a>
+                                                      </social-shares>
+                                                </div>
+
+                                                <div class="share-icon">
+
+                                                      <social-shares inline-template>
+                                                              <a class="btnz share gplus" @click="share('googleplus')"><i class="fa fa-google-plus"></i></a>
+                                                      </social-shares>
+
+                                                </div>
+                                                <div class='clear'></div>  
+                                         </div> <!-- meta ends -->
 <!--
                          </div>
                    </div>
 -->
-                </div>
-              {% endfor %}
+                                 </div><!-- post single ends -->
+                          {% endfor %}
 <!--
           </div>
 -->
 
-    <div id="comments-section" class="comments-section">
-        <div class="clear"></div>
-       <div id="comments-list"></div>
-       <div class="clear"></div>
+                                 <div id="comments-section" class="comments-section"> <!--comments section starts -->
+                                          <div class="clear"></div>
+                                          <div id="comments-list"></div>
+                                          <div class="clear"></div>
 
-       <div class="textform-wrapper">
-             <form class='mailform contact-form' method="post">
+                                          <div class="textform-wrapper">
+                                                <form class='mailform contact-form' method="post">
+                                                     {% csrf_token %}
+                                                     <input type="hidden" name="comments-open" id="comments-open" />
+                                                     <input type="hidden" name="post-id" id="post-id" value="{{ post.id }}" />    
 
-
-                  {% csrf_token %}
-                  <input type="hidden" name="comments-open" id="comments-open" />
-                  <input type="hidden" name="post-id" id="post-id" value="{{ post.id }}" />    
-                  <div class="clear"></div>
-                  <div style="float:top;padding-top:1.9em;">
-
-
-                  <label class="label_message">
-                      <textarea name="comment*" id="comment" rows="8" cols="60"  placeholder="Comment"
-                      v-model="comment"
-                      data-constraints="@NotEmpty"></textarea>
-                  </label>
+                                                     <div class="clear"></div>
+                                                     <div style="float:top;padding-top:1.9em;">
 
 
-                  </div>
+                                                          <label class="label_message">
+                                                                <textarea name="comment*" id="comment" rows="8" cols="60"  placeholder="Comment"
+                                                                      v-model="comment"
+                                                                      data-constraints="@NotEmpty"></textarea>
+                                                          </label>
+                                                     </div>
 
-                  <div style="float:top;padding-top:1.9em;">
-                     <button class="btn4" v-on:click="submitcomment"  id="submitcomment">Post</button>
-                  </div>
-                  <div class="clear"></div>
-             </form>
-       </div> <!-- textform-wrapper ends -->
+                                                     <div style="float:top;padding-top:1.9em;">
+                                                              <button class="btn4" onclick="submitcomment()"  id="submitcomment">Post</button>
+                                                     </div>
+                                                     <div class="clear"></div>
+                                                </form>
+                                          </div> <!-- textform-wrapper ends -->
 
-       <div style="float:left;width:1.5%;"> <!-- close icon area starts -->
-         <div style="float:top;height:20%;">
-             <img src="/media/images/close_icon.png" 
-                  height="15" 
-                  width="15" 
-                  alt="close comments" 
-                  style="margin-right:-2%;margin-top:-2%;"  
-                  onclick="close_comments();" />
-         </div>
-         <div style="float:top;height:80%;">&nbsp;</div>
+                                          <div style="float:left;width:1.5%;"> <!-- close icon area starts -->
+                                                <div style="float:top;height:20%;">
+                                                       <img src="/media/images/close_icon.png" 
+                                                            height="15" 
+                                                            width="15" 
+                                                            alt="close comments" 
+                                                            style="margin-right:-2%;margin-top:-2%;"  
+                                                            onclick="close_comments();" />
+                                                </div>
+                                                <div style="float:top;height:80%;">&nbsp;</div>
 
-       </div> <!-- close icon area ends -->
+                                          </div> <!-- close icon area ends -->
 
-       <div class="clear"></div>
-    </div> <!-- coments ends here -->
+                                          <div class="clear"></div>
+                                 </div> <!-- coments section ends here -->
 
-
- </div>
-
-      </div>
+                 </div> <!-- posts-all-container ends -->
 
 
+
+          </div>
+
+     </div>
     </section>
   </main>
 </div>
@@ -6527,14 +6519,14 @@ var vm3 = new Vue({
     },
 
     submitfour: function (event) {
-           alert('hi hi hi hi hi');
+          alert('hi hi hi hi hi');
     },
 
     successCallback: function(event) {
-           alert("SUCCESS");
+            alert("SUCCESS");
     },
     errorCallback: function(event) {
-           alert("ERROR");
+            alert("ERROR");
     },
     validConfirm: function(event) {
            alert("VALID");
@@ -6759,7 +6751,7 @@ new Vue({
 
 
 var bapp = new Vue({
-                el: '#blog_block',
+                el: '#blog-posts',
                 data:
                 {
                     url: undefined,
@@ -6769,19 +6761,9 @@ var bapp = new Vue({
                         message: undefined,
                     },
                 },
-                ready: function() {
-                },
-                created: function () {
-                },
-
                 methods:
                 {
- 
-                     handleComment: function(message) {
-                          alert('comment');
-                     },
-
-                     showAlert: function(message)
+                    showAlert: function(message)
                     {
                         this.$set('alert.isActive', true);
                         this.$set('alert.message', message);
@@ -6813,7 +6795,7 @@ var bapp = new Vue({
            
           var box = null;
 
-             $("#chat_with_us").bind('click',function(event, ui) {
+          $("#chat_with_us").bind('click',function(event, ui) {
               if(box) {
                   box.chatbox("option", "boxManager").toggleBox();
               }
@@ -6828,7 +6810,8 @@ var bapp = new Vue({
               }
           });
 
-           $('#submitcomment').bind('click',handlePost); 
+          $('#submitcomment').bind('click',handlePost); 
+          $('.comments-link').bind('click',handleComments);
 
           $(function(){ 
                   $(".ui-chatbox") 
@@ -8336,6 +8319,7 @@ container.className += "active";
 
   }
 
+
   function on_mobile_faq() {
       document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
@@ -8471,6 +8455,7 @@ container.className += "active";
 </script>
 
 <script src="/static/js/classie.js"></script>
+<script src="/static/js/script.js"></script>
 <div id="fb-root"></div>
 <div id="chat_div"  style="height:200;width:200;"></div>
 <div id="log"></div>
@@ -8506,12 +8491,6 @@ container.className += "active";
 
    function handlePostId(id) {
       $('#post-id').attr('value',id);
-
-      return false;
-   }
-
-   function loadPosts() {
-      alert('load all posts');
    }
 
    function handlePost() {
@@ -8643,6 +8622,7 @@ container.className += "active";
    }
 
 
+
    $(document).ready(function() {
 
 
@@ -8652,7 +8632,7 @@ container.className += "active";
           var service = $("#page-service").val();
           $('#comments-section').css('display','none');
    
-          $('.comments-link').bind('click',handleComments);
+          $('#comments').bind('click',handleComments);
 
 
           $('#next_four').bind('click',processPayment);

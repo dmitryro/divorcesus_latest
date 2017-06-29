@@ -1,3 +1,4 @@
+
 var counter = 0;
 var first_name = '';
 var fullname = '';
@@ -82,7 +83,6 @@ var qvm = new Vue({
     },
 
     submitfour: function (event) {
-       alert('hi');
     },
 
     successCallback: function(event) {
@@ -433,6 +433,7 @@ new Vue({
       email:'',
       phone:'',
       message:'',
+      name:'',
   },
   options: {
   },
@@ -454,10 +455,10 @@ new Vue({
                           
                            $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );       
                      }
-                    this.$set('email','');
-                    this.$set('phone','');
-                    this.$set('message','');
-                    this.$set('name','');
+                    this.email='';
+                    this.phone='';
+                    this.message='';
+                    this.name='';
                 });
      }
   }
@@ -1990,7 +1991,10 @@ container.className += "active";
 
                      //$('#comments').html('Comments('+msg.comments.length+')');
                      var post_id = $('#post-id').val();
-                     $('.comments-link-'+post_id).html('Comments('+msg.comments.length+')');
+
+                     if (msg.comments) {
+                         $('.comments-link-'+post_id).html('Comments('+msg.comments.length+')');
+                     }
 
                      for(var i=0;i<msg.length;i++) {
                            result=result+"<div style='width:96%;'>";
@@ -2489,6 +2493,56 @@ container.className += "active";
           if (service  == "contested-divorce") {
               on_mobile_contested();
           }
+
+
+var vm = new Vue({
+  el: '#stepone',
+
+  data: {
+    email:'',
+    phone:'',
+    fullname: '',
+  },
+
+  methods: {
+
+    submitone: function (event) {
+               this.$set('phone',$('#phone').val());
+               this.$set('email',$('#email').val());
+               this.$set('fullname',$('#fullname').val());               
+    },
+
+    submittwo: function (event) {
+
+    },
+
+    submitthree: function (event) {
+    },
+
+    submitfour: function (event) {
+        alert('hihihi');
+    },
+
+    successCallback: function(event) {
+            alert("SUCCESS");
+    },
+    errorCallback: function(event) {
+            alert("ERROR");
+    },
+    validConfirm: function(event) {
+           alert("VALID");
+    },
+    ready:function() {
+      this.$set('phone',$('#phone').val());
+      this.$set('email',$('#email').val());
+      this.$set('fullname',$('#fullname').val());
+    }
+
+    
+  }
+});
+
+
 });
 
 function search() {

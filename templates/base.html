@@ -5815,7 +5815,6 @@ Use this form to make a credit card payment. By using this form and accepting th
   </main>
 </div>
 
-
 <div id="blog_block" class="service-block">
   <main id="container-blog">
    <section class="bg-img well-top">
@@ -5828,156 +5827,158 @@ Use this form to make a credit card payment. By using this form and accepting th
       </div>
     </section>
     <section class="terms">
-      <div class="container">
-          <div id="blog-header">
+      <div class="container"> <!-- container starts -->
+          <div id="blog-header"> <!-- blog header starts -->
               <p>
                  <a onclick="on_mobile_home();return false;"  href="#">Home</a>&nbsp; >>&nbsp;
                  <span>Blog</span>
               </p>
 
 
-          </div>
+          </div> <!-- blog header ends -->
+
+              <div id="blog_posts">
+
+                     <div class="container wow fadeInUp posts-all-container"> <!-- posts-all-container starts -->
+                              {% for post in posts %}
+                                     <div style="width:100%;" id="post-single-{{ post.id }}" class="post-single-wrapper"> <!-- post single starts -->
+                                             <div style='width:100%;'> <!-- title starts -->
+                                                    <div style='float:left;width:10%;'>
+                                                           Title:
+                                                    </div>
+                                                    <div style='float:left;width:30%;font-weight:bold;'>
+                                                           {{ post.title }}
+                                                    </div>
+                                                    <div class='clear'></div>
+                                             </div> <!-- title ends -->
+
+                                             <div style='width:100%;'> <!-- link starts -->
+                                                    <div style='float:left;width:10%;'>
+                                                                  Link:
+                                                    </div>
+                                                    <div style='float:left;width:30%;font-weight:bold;'>";
+                                                             <a href='{{ post.link }}'>{{ post.link }}</a>
+                                                    </div>
+                                                    <div class='clear'></div> 
+                                             </div> <!-- link ends -->
+
+                                             <div style='width:100%;'> <!-- postedby starts -->
+                                                    <div style='float:left;width:10%;'>
+                                                          Posted by:
+                                                    </div>
+                                                    <div style='float:left;width:30%;font-weight:bold;'>
+                                                         {{ post.author.first_name }} {{ post.author.last_name }}
+                                                    </div>
+                                                    <div class='clear'></div>
+                                             </div>  <!-- postedby ends -->
+
+                                             <div style='width:100%;text-align:left;'>
+                                                    {{ post.body|safe }}
+                                             </div>
+
+                                             <div style='width:100%;padding-top:5px;'> <!-- meta starts -->
+                                                    <div class='comments-total'>
+
+                                                                <button class="comments-link" id="comments-link-{{ post.id }}" 
+                                                                        onclick="handlePostId({{ post.id }});">
+                                                                                Comments({{ post.total_comments }})
+                                                                </button>
+
+                                                    </div>
+
+                                                    <div class="share-icon">
+
+                                                          <social-shares inline-template>
+
+                                                                  <div class="facebook-share" style="height:24px;width:82px;">
+                                                                         <i class="fa fa-facebook-square" style="height:24px;width:82px;">
+
+                                                                                <a title="Share "
+                                                                                     @click="share('facebook')"
+                                                                                      style="height:24px;width:82px;">Share
+
+                                                                                </a>
+                                                                         </i>
+                                                                  </div>
+                                                          </social-shares>
+
+                                                    </div>
+
+                                                    <div class="share-icon">
+                                                          <social-shares inline-template>
+                                                                  <a title="Tweet" class="tweetbutton" @click="share('twitter')">Tweet</a>
+                                                          </social-shares>
+                                                    </div>
+
+                                                    <div class="share-icon">
+
+                                                          <social-shares inline-template>
+                                                                  <a class="btnz share gplus" @click="share('googleplus')"><i class="fa fa-google-plus"></i></a>
+                                                          </social-shares>
+
+                                                    </div>
+                                                    <div class='clear'></div>  
+                                             </div> <!-- meta ends -->
+                                     </div><!-- post single ends -->
+                              {% endfor %}
+
+                                     <div id="comments-section" class="comments-section"> <!--comments section starts -->
+                                              <div class="clear"></div>
+                                              <div id="comments-list"></div>
+                                              <div class="clear"></div>
+
+                                              <div class="textform-wrapper">
+                                                    <form class='mailform contact-form' method="post">
+                                                         {% csrf_token %}
+                                                         <input type="hidden" name="comments-open" id="comments-open" />
+                                                         <input type="hidden" name="post-id" id="post-id" value="{{ post.id }}" />    
+
+                                                         <div class="clear"></div>
+                                                         <div style="float:top;padding-top:1.9em;">
+
+
+                                                              <label class="label_message">
+                                                                    <textarea name="comment*" id="comment" rows="8" cols="60"  placeholder="Comment"
+                                                                          v-model="comment"
+                                                                          data-constraints="@NotEmpty"></textarea>
+                                                              </label>
+                                                         </div>
+
+                                                         <div style="float:top;padding-top:1.9em;">
+                                                                  <button class="btn4" onclick="submitcomment()"  id="submitcomment">Post</button>
+                                                         </div>
+                                                         <div class="clear"></div>
+                                                    </form>
+                                              </div> <!-- textform-wrapper ends -->
+
+                                              <div style="float:left;width:1.5%;"> <!-- close icon area starts -->
+                                                    <div style="float:top;height:20%;">
+                                                           <img src="/media/images/close_icon.png" 
+                                                                height="15" 
+                                                                width="15" 
+                                                                alt="close comments" 
+                                                                style="margin-right:-2%;margin-top:-2%;"  
+                                                                onclick="close_comments();" />
+                                                    </div>
+                                                    <div style="float:top;height:80%;">&nbsp;</div>
+
+                                              </div> <!-- close icon area ends -->
+
+                                              <div class="clear"></div>
+                                     </div> <!-- coments section ends here -->
+
+                     </div> <!-- posts-all-container ends -->
+
+
+
+              </div>
           
-          <div id="blog_posts">
+      </div> <!-- container ends -->
 
-                 <div class="container wow fadeInUp posts-all-container"> <!-- posts-all-container starts -->
-                          {% for post in posts %}
-                                 <div style="width:100%;" id="post-single-{{ post.id }}" class="post-single-wrapper"> <!-- post single starts -->
-                                         <div style='width:100%;'> <!-- title starts -->
-                                                <div style='float:left;width:10%;'>
-                                                       Title:
-                                                </div>
-                                                <div style='float:left;width:30%;font-weight:bold;'>
-                                                       {{ post.title }}
-                                                </div>
-                                                <div class='clear'></div>
-                                         </div> <!-- title ends -->
-
-                                         <div style='width:100%;'> <!-- link starts -->
-                                                <div style='float:left;width:10%;'>
-                                                              Link:
-                                                </div>
-                                                <div style='float:left;width:30%;font-weight:bold;'>";
-                                                         <a href='{{ post.link }}'>{{ post.link }}</a>
-                                                </div>
-                                                <div class='clear'></div> 
-                                         </div> <!-- link ends -->
-
-                                         <div style='width:100%;'> <!-- postedby starts -->
-                                                <div style='float:left;width:10%;'>
-                                                      Posted by:
-                                                </div>
-                                                <div style='float:left;width:30%;font-weight:bold;'>
-                                                     {{ post.author.first_name }} {{ post.author.last_name }}
-                                                </div>
-                                                <div class='clear'></div>
-                                         </div>  <!-- postedby ends -->
-                          
-                                         <div style='width:100%;text-align:left;'>
-                                                {{ post.body|safe }}
-                                         </div>
-
-                                         <div style='width:100%;padding-top:5px;'> <!-- meta starts -->
-                                                <div class='comments-total'>
-
-                                                            <button class="comments-link" id="comments-link-{{ post.id }}" 
-                                                                    onclick="handlePostId({{ post.id }});">
-                                                                            Comments({{ post.total_comments }})
-                                                            </button>
-
-                                                </div>
-
-                                                <div class="share-icon">
-
-                                                      <social-shares inline-template>
- 
-                                                              <div class="facebook-share" style="height:24px;width:82px;">
-                                                                     <i class="fa fa-facebook-square" style="height:24px;width:82px;">
-
-                                                                            <a title="Share "
-                                                                                 @click="share('facebook')"
-                                                                                  style="height:24px;width:82px;">Share
-           
-                                                                            </a>
-                                                                     </i>
-                                                              </div>
-                                                      </social-shares>
-
-                                                </div>
-
-                                                <div class="share-icon">
-                                                      <social-shares inline-template>
-                                                              <a title="Tweet" class="tweetbutton" @click="share('twitter')">Tweet</a>
-                                                      </social-shares>
-                                                </div>
-
-                                                <div class="share-icon">
-
-                                                      <social-shares inline-template>
-                                                              <a class="btnz share gplus" @click="share('googleplus')"><i class="fa fa-google-plus"></i></a>
-                                                      </social-shares>
-
-                                                </div>
-                                                <div class='clear'></div>  
-                                         </div> <!-- meta ends -->
-                                 </div><!-- post single ends -->
-                          {% endfor %}
-
-                                 <div id="comments-section" class="comments-section"> <!--comments section starts -->
-                                          <div class="clear"></div>
-                                          <div id="comments-list"></div>
-                                          <div class="clear"></div>
-
-                                          <div class="textform-wrapper">
-                                                <form class='mailform contact-form' method="post">
-                                                     {% csrf_token %}
-                                                     <input type="hidden" name="comments-open" id="comments-open" />
-                                                     <input type="hidden" name="post-id" id="post-id" value="{{ post.id }}" />    
-
-                                                     <div class="clear"></div>
-                                                     <div style="float:top;padding-top:1.9em;">
-
-
-                                                          <label class="label_message">
-                                                                <textarea name="comment*" id="comment" rows="8" cols="60"  placeholder="Comment"
-                                                                      v-model="comment"
-                                                                      data-constraints="@NotEmpty"></textarea>
-                                                          </label>
-                                                     </div>
-
-                                                     <div style="float:top;padding-top:1.9em;">
-                                                              <button class="btn4" onclick="submitcomment()"  id="submitcomment">Post</button>
-                                                     </div>
-                                                     <div class="clear"></div>
-                                                </form>
-                                          </div> <!-- textform-wrapper ends -->
-
-                                          <div style="float:left;width:1.5%;"> <!-- close icon area starts -->
-                                                <div style="float:top;height:20%;">
-                                                       <img src="/media/images/close_icon.png" 
-                                                            height="15" 
-                                                            width="15" 
-                                                            alt="close comments" 
-                                                            style="margin-right:-2%;margin-top:-2%;"  
-                                                            onclick="close_comments();" />
-                                                </div>
-                                                <div style="float:top;height:80%;">&nbsp;</div>
-
-                                          </div> <!-- close icon area ends -->
-
-                                          <div class="clear"></div>
-                                 </div> <!-- coments section ends here -->
-
-                 </div> <!-- posts-all-container ends -->
-
-
-
-          </div>
-
-     </div>
     </section>
   </main>
-</div>
+</div> <!-- blog_block ends -->
+
 
 
   <!--========================================================
@@ -8480,152 +8481,181 @@ container.className += "active";
 
    }
 
-   function close_comments() {
+       function close_comments() {
 
-      $('#comments-section').css('display','none');
-      $("#comments-open").attr('value','0');
+          $('#comments-section').css('display','none');
+          $('#comments-open').attr('value','0');
 
-      return false;
+          return false;
 
-   }
+       }
 
-   function handlePostId(id) {
-      $('#post-id').attr('value',id);
+       function open_comments() {
+          $('#comments-section').css('display','block');
+          $('#comments-open').attr('value','1');
 
-      return false;
-   }
+          return false;
+       }
+       function handlePostId(id) {
+
+
+          $("#comments-section").appendTo("#post-single-"+id);      
+
+          if ($('#post-id').val()==id) {
+
+              if ($('#comments-open').val()==1) {
+
+                  open_comments();
+
+              } else {
+
+                  close_comments();      
+
+              }
+
+              return false;
+          }
+
+          close_comments();
+
+          $('#post-id').attr('value',id);
+
+          return false;
+       }
+
 
    function loadPosts() {
       alert('load all posts');
    }
 
+      
    function handlePost() {
-              var post_id = $('#post-id').val();
-              var comment = $('#comment').val();
+                  var post_id = $('#post-id').val();
+                  var comment = $('#comment').val();
 
-              $.ajax({
-                     method: "GET",
-                     url: "http://divorcesus.com/addcomment?post_id="+post_id+"&body='"+comment+"'",
-                     data: {}
-              }).done(function( msg ) {
+                  $.ajax({
+                         method: "GET",
+                         url: "http://divorcesus.com/addcomment?post_id="+post_id+"&body='"+comment+"'",
+                         data: {}
+                  }).done(function( msg ) {
 
-                     //  alert("WE ARE BACK ONE"+msg.comments.length);
- 
-                       var result = '';
+                         //  alert("WE ARE BACK ONE"+msg.comments.length);
 
-                       //$('#comments').html('Comments('+msg.comments.length+')');
-                       var post_id = $('#post-id').val();
+                           var result = '';
 
-                       $('.comments-link-'+post_id).html('Comments('+msg.comments.length+')');
+                           //$('#comments').html('Comments('+msg.comments.length+')');
+                           var post_id = $('#post-id').val();
 
-                      // $('.comments-link').html('Comments('+msg.comments.length+')');
+                           $('.comments-link-'+post_id).html('Comments('+msg.comments.length+')');
 
-                       for(var i=0;i<msg.comments.length;i++) {
+                          // $('.comments-link').html('Comments('+msg.comments.length+')');
 
-                           if(i==0) {
-                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;margin-bottom:1.2em;'><h4><strong>Comments</strong></h4></div>";
+                           for(var i=0;i<msg.comments.length;i++) {
+
+                               if(i==0) {
+                                  result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;margin-bottom:1.2em;'><h4><strong>Comments</strong></h4></div>";
+                               }
+
+                               result=result+"<div class='comment-all-wrapper'>";
+
+                               result=result+"<div class='left-wrapper'>";
+
+                               result=result+"<div class='avatar-wrapper'>";
+                               result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar' />";
+                               result=result+"</div>";
+
+                               result=result+"<div class='username-wrapper'>";
+                               result=result+"<center>";                           
+                               result=result+msg.comments[i].username;
+                               result=result+"</center>";
+                               result=result+"</div>";
+                               result=result+"<div class='clear'></div>";
+
+                               result=result+"</div>";   
+                               result=result+"<div class='comment-wrapper'>";
+                               result=result+msg.comments[i].body;
+                               result=result+"</div>";
+                               result=result+"<div class='clear'></div>";
+                               result=result+"</div>";
+                               result=result+"<div class='clear'></div>";    
                            }
+                           $('#comments-list').html(result);
+                           return false;
 
-                           result=result+"<div class='comment-all-wrapper'>";
+                  }); 
 
-                           result=result+"<div class='left-wrapper'>";
+       }
 
-                           result=result+"<div class='avatar-wrapper'>";
-                           result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar' />";
-                           result=result+"</div>";
+       function handleComments() {
+          var commentsopen = eval($("#comments-open").val());
 
-                           result=result+"<div class='username-wrapper'>";
-                           result=result+"<center>";                           
-                           result=result+msg.comments[i].username;
-                           result=result+"</center>";
-                           result=result+"</div>";
-                           result=result+"<div class='clear'></div>";
+          var post_id = $('#post-id').val();
 
-                           result=result+"</div>";   
-                           result=result+"<div class='comment-wrapper'>";
-                           result=result+msg.comments[i].body;
-                           result=result+"</div>";
-                           result=result+"<div class='clear'></div>";
-                           result=result+"</div>";
-                           result=result+"<div class='clear'></div>";    
-                       }
-                       $('#comments-list').html(result);
-                       return false;
+          if  (commentsopen==undefined || commentsopen==0) {
 
-              }); 
-
-   }
-
-   function handleComments() {
-      var commentsopen = eval($("#comments-open").val());
-
-      var post_id = $('#post-id').val();
-
-      if  (commentsopen==undefined || commentsopen==0) {
-
-              $("#comments-open").attr('value','1');
-              $('#comments-section').css('display','block'); 
+                  $("#comments-open").attr('value','1');
+                  $('#comments-section').css('display','block'); 
 
 
-              $.ajax({
-                     method: "GET",
-                     url: "http://divorcesus.com/getcomments?post_id="+post_id,
-                     data: {}
-              }).done(function( msg ) {
+                  $.ajax({
+                         method: "GET",
+                         url: "http://divorcesus.com/getcomments?post_id="+post_id,
+                         data: {}
+                  }).done(function( msg ) {
 
 
-                       var post_id = $('#post-id').val();
-                       $('.comments-link-'+post_id).html('Comments('+msg.comments.length+')');
+                           var post_id = $('#post-id').val();
+                           $('.comments-link-'+post_id).html('Comments('+msg.comments.length+')');
 
-                       var result = '';
- 
-                       for(var i=0;i<msg.comments.length;i++) {
+                           var result = '';
 
-                           if(i==0) {
-                              result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;margin-bottom:1.2em;'><h4><strong>Comments</strong></h4></div>";
+                           for(var i=0;i<msg.comments.length;i++) {
+
+                               if(i==0) {
+                                  result=result+"<div style='width:96%;text-align:left;margin-top:1.2em;margin-bottom:1.2em;'><h4><strong>Comments</strong></h4></div>";
+                               }
+
+                               result=result+"<div class='comment-all-wrapper'>";
+
+                               result=result+"<div class='left-wrapper'>";
+
+                               result=result+"<div class='avatar-wrapper'>";
+                               result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar' />";
+                               result=result+"</div>";
+
+                               result=result+"<div class='username-wrapper'>";
+                               result=result+"<center>";
+                               result=result+msg.comments[i].username;
+                               result=result+"</center>";
+                               result=result+"</div>";
+                               result=result+"<div class='clear'></div>";
+
+                               result=result+"</div>";
+                               result=result+"<div class='comment-wrapper'>";
+                               result=result+msg.comments[i].body;
+                               result=result+"</div>";
+                               result=result+"<div class='clear'></div>";
+                               result=result+"</div>";
+                               result=result+"<div class='clear'></div>";
+
+
+
                            }
+                           $('#comments-list').html(result);
 
-                           result=result+"<div class='comment-all-wrapper'>";
-
-                           result=result+"<div class='left-wrapper'>";
-
-                           result=result+"<div class='avatar-wrapper'>";
-                           result=result+"<img src='"+msg.comments[i].avatar+"' class='avatar' />";
-                           result=result+"</div>";
-
-                           result=result+"<div class='username-wrapper'>";
-                           result=result+"<center>";
-                           result=result+msg.comments[i].username;
-                           result=result+"</center>";
-                           result=result+"</div>";
-                           result=result+"<div class='clear'></div>";
-
-                           result=result+"</div>";
-                           result=result+"<div class='comment-wrapper'>";
-                           result=result+msg.comments[i].body;
-                           result=result+"</div>";
-                           result=result+"<div class='clear'></div>";
-                           result=result+"</div>";
-                           result=result+"<div class='clear'></div>";
+                  });
 
 
+          }
 
-                       }
-                       $('#comments-list').html(result);
-
-              });
-
-
-      }
-
-      if  (commentsopen==1) {
-           $("#comments-open").attr('value','0');
-           $('#comments-section').css('display','none');
-      }
+          if  (commentsopen==1) {
+               $("#comments-open").attr('value','0');
+               $('#comments-section').css('display','none');
+          }
 
 
-      return false;     
-   }
+          return false;     
+       }
 
 
    $(document).ready(function() {

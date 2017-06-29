@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="no-js">
+ <!--<![endif]-->
 <head>
 {% load static %}
 {% load wysiwyg %}
@@ -16,7 +16,6 @@
 <!--[if IE 9]>    <html class="no-js ie9 ie" lang="pt_BR"> <![endif]-->
 <!--[if gt IE 9]><!--> 
 
-<html class="no-js" lang="en_EN"> <!--<![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>{% metaprop_meta 1 %}</title>
 <meta name="keywords" content="{% metaprop_meta 2 %}"/>
@@ -29,8 +28,9 @@
 <meta name="format-detection" content="telephone=no"/>
 <meta name="google-site-verification" content="GhGjmFZn7fIVTlSVbvgreQpXzAUSj-SueP-v9rUaJik" />
 <meta name="msvalidate.01" content="9B784791BC80D67E354DD7F1DDA6EAC9" />
-
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+<!--
+  <link rel="icon" href="media/icons/favicon.ico" type="image/x-icon">
+-->
   <link rel="stylesheet" href="/static/css/grid.css">
   <link rel="stylesheet" href="/static/css/mailform.css"/>
   <link rel="stylesheet" href="/static/css/search.css"/>
@@ -38,12 +38,13 @@
   <link rel="stylesheet" href="/static/css/jssor.css"/>
   <link rel="stylesheet" href="/static/css/jquery.ui.chatbox.css"/>
   <link rel="stylesheet" href="/static/js/jquery-ui.min.css"/>
+  <link rel="stylesheet" href="/static/css/google-map.css"/>
   <script src="/static/js/jquery.js"></script>
   <script src="/static/js/jssor.slider.min.js"></script>
   <script src="/static/js/jssor.slider.mini.js"></script>
   <script src="/static/js/jquery-migrate-1.2.1.js"></script>
 
-
+   
 
    <link rel="stylesheet" type="text/css" href="/static/css/wizard.css" />
    <link rel="stylesheet" href="/static/css/misc.css" />
@@ -58,7 +59,7 @@
    <script src="https://cdn.jsdelivr.net/vue.router/2.5.3/vue-router.min.js"></script>
    <script src="/static/js/vue.social-shares.js"></script>
  
-  <link type="text/css" href="http://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
+   <link type="text/css" href="http://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
 
    <script type="text/javascript" src="/static/js/jquery-ui.js"></script> 
    <link type="text/css" href="/static/js/jquery-ui.min.css" rel="stylesheet" />
@@ -80,7 +81,7 @@
   <![endif]-->
 
   <script src='/static/js/device.min.js'></script>
-   
+  
 <meta id="_token" value="{% csrf_token %}"> 
 <!-- Google Analytics -->
 <script>
@@ -134,35 +135,46 @@ ga('send', 'pageview');
 
           </div>
 
+
           <div class="btn-wr-header">
          <!-- app -->
            <!-- use the modal component, pass in the prop -->
 
-         {% if user.is_authenticated %}
-         {% endif %}
-                   <div style="float:left;min-width:200px;">
+                <div style="float:left;min-width:200px;"> <!-- meta starts -->
                       {% if logout %}
-                                 <div style="float:left;min-width:100px;margin-top:-3px;">
+                                 <div class="avatar-container">
                                             <img src="{% user_meta user_id 3 %}" class="avatar" alt="divorcesus"/>
                                  </div>
                      {% endif %}
-                  
-                                 <div style="float:left;">       
+
+                     {% if not user.is_authenticated %}
+                                 <div class="avatar-container">
+                                 </div>
+                      {% endif %}
+
+                      {% if user.is_authenticated %}
+                                 <div class="creds-container">
                                        {% user_meta user_id 1 %}
                                             &nbsp;
                                        {% user_meta user_id 2 %}
                                        &nbsp;&nbsp;
                                  </div>
+                      {% endif %}
                                 <div class="clear"></div>
-                    </div>
-        <!-- app -->
+                    </div> <!-- meta ends -->
+
+
+              <!-- app -->
                     <div id="app" style="float:left;min-with:200px;padding-top:10px;">
               <!-- use the modal component, pass in the prop -->
 
                                &nbsp;&nbsp;
                                       {% if logout %}
                                  &nbsp;&nbsp;   
-                               <a href="/signout"  class="btn2" id="show-modal" @click="showModal = false">Sign Out</a>&nbsp;&nbsp; <a href="/dashboard"  class="btn2" id="show-modal" @click="showModal = false">Dashboard</a> 
+                                            <a href="/signout" class="btn2" id="show-modal" @click="showModal = false">Sign Out</a>
+
+                                             &nbsp;&nbsp; 
+                                     
 
                                      {% elif not logout %}
                                           <a class="btn2" id="show-modal" @click="showModal = true">Sign In</a>
@@ -179,7 +191,10 @@ ga('send', 'pageview');
 
                     </div><!-- end app -->
                     <div class="clear"></div>
-               </div>
+
+
+
+
              </div>
     </section>
  <section style="margin-top:0px;">
@@ -281,31 +296,24 @@ ga('send', 'pageview');
           </ul>
         </nav>
 
-<div style="float: left;
-    margin-left:3%;
-    margin-top: 2%;
-    width:43%;
-    font-size:1.1em;
-    height:2%;color:#3b5998;text-align:right;">
-<strong><a href="tel:8664568654" style="text-decoration:none;">{% contact_meta 1 7 %}</a></strong>
+<div class="contact-phone">
+        <strong><a href="tel:8664568654" style="text-decoration:none;">{% contact_meta 1 7 %}</a></strong>
 </div>
-<div class="search-div" id="search-div" style="margin-top:-8%;">
 
-<form class="search">
-	<!-- We'll have a button that'll make the search input appear, a submit button and the input -->
-        {% csrf_token %} 
-	<!-- Alosi, a label for it so that we can style it however we want it-->
-	<input id="submit" value="" type="button">
+<div class="search-div" id="search-div">
+
+        <form class="search">
+	       <!-- We'll have a button that'll make the search input appear, a submit button and the input -->
+                {% csrf_token %} 
+           	<!-- Alosi, a label for it so that we can style it however we want it-->
+           	<input id="submit" value="" type="button">
           
-	<label for="submit" class="submit"></label>
+	        <label for="submit" class="submit"></label>
 	
-	<!-- trigger button and input -->
-	<a href="#" class="icon"></a>
-        <input type="search" name="q" id="search">
-
-
-
-</form>
+                     	<!-- trigger button and input -->
+            	<a href="#" class="icon"></a>
+                <input type="search" name="q" id="search">
+        </form>
 
 </div>
 
@@ -347,9 +355,9 @@ ga('send', 'pageview');
 
             <div data-p="112.50" style="display: none;" class="et_pb_slide">
                 <img data-u="image" src="http://divorcesus.com/media/{{ slide.slide }}" alt="divorcesus.com" />
-                  <div class="slide-item">
+                  <!--div class="slide-item">
                            {{ slide.title }} 
-                  </div>
+                  </div-->
                   <div class="slide-caption">
                         <strong>{{ slide.text }}</strong>
                         <br/> 
@@ -404,7 +412,7 @@ ga('send', 'pageview');
 -->         
 
 <!--
-            <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
+            <form class="search-form" action="search.php" method="GET" accept->
               <label class="search-form_label">
                 <input class="search-form_input" type="text" name="s" autocomplete="off" placeholder="Search Scripts"/>
                 <span class="search-form_liveout"></span>
@@ -1309,7 +1317,7 @@ ga('send', 'pageview');
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
 <!--
-            <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
+            <form class="search-form" action="search.php" method="GET" accept->
               <label class="search-form_label">
                 <input class="search-form_input" type="text" name="s" autocomplete="off" placeholder="Search Scripts"/>
                 <span class="search-form_liveout"></span>
@@ -1492,7 +1500,7 @@ ga('send', 'pageview');
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
 
 <!--
-            <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
+            <form class="search-form" action="search.php" method="GET" accept->
               <label class="search-form_label">
                 <input class="search-form_input" type="text" name="s" autocomplete="off" placeholder="Search Scripts"/>
                 <span class="search-form_liveout"></span>
@@ -1685,7 +1693,7 @@ ga('send', 'pageview');
         <div class="row">
           <div class="col-xs-12 col-sm-offset-2 col-sm-8">
 <!--
-            <form class="search-form" action="search.php" method="GET" accept-charset="utf-8">
+            <form class="search-form" action="search.php" method="GET" accept->
               <label class="search-form_label">
                 <input class="search-form_input" type="text" name="s" autocomplete="off" placeholder="Search Scripts"/>
                 <span class="search-form_liveout"></span>
@@ -3021,8 +3029,8 @@ ga('send', 'pageview');
     <section class="map">
       <div id="google-map" class="map_model"></div>
       <ul class="map_locations">
-            <li data-x="-73.9874068" data-y="40.643180">
-          <p> 76 Beaver st, 10th floor, New York, NY. <span>(212) 202 0342</span></p>
+            <li data-x="-73.9904321" data-y="40.7027023">
+          <p> 76 Beaver st, 10th floor, New York, NY. <span>+1 866 456 ­8654</span></p>
         </li>
       </ul>
     </section>
@@ -5834,7 +5842,7 @@ Use this form to make a credit card payment. By using this form and accepting th
 
                  <div class="container wow fadeInUp posts-all-container"> <!-- posts-all-container starts -->
                           {% for post in posts %}
-                                 <div style="width:100%;" class="post-single-wrapper"> <!-- post single starts -->
+                                 <div style="width:100%;" id="post-single-{{ post.id }}" class="post-single-wrapper"> <!-- post single starts -->
                                          <div style='width:100%;'> <!-- title starts -->
                                                 <div style='float:left;width:10%;'>
                                                        Title:
@@ -5912,15 +5920,8 @@ Use this form to make a credit card payment. By using this form and accepting th
                                                 </div>
                                                 <div class='clear'></div>  
                                          </div> <!-- meta ends -->
-<!--
-                         </div>
-                   </div>
--->
                                  </div><!-- post single ends -->
                           {% endfor %}
-<!--
-          </div>
--->
 
                                  <div id="comments-section" class="comments-section"> <!--comments section starts -->
                                           <div class="clear"></div>
@@ -5984,7 +5985,7 @@ Use this form to make a credit card payment. By using this form and accepting th
   =========================================================-->
   <footer>
     <div class="container">
-      <div class="brand">
+      <div class="brand brand-footer">
         <h1 class="brand_name">
           <a href="./">Grinberg & Segal</a>
         </h1>
@@ -6083,72 +6084,62 @@ Use this form to make a credit card payment. By using this form and accepting th
 <!-- template for the modal component -->
 <script type="x/template" id="modal-template-signin">
 
-  <div class="modal-mask" v-show="show" transition="modal">
-    <div class="modal-wrapper">
+  <div class="modal-mask" v-show="show" transition="modal"> <!-- modal mask opens -->
+     <div class="modal-wrapper"> <!-- modal wrapper opens -->
 
- <div class="modal-container">
+          <div class="modal-container"> <!-- modal container starts -->
 
-        <div class="modal-header">
-           <div id="modal-header" class="header-left">
-             <h3><strong>SIGN IN</strong></h3>
-           </div>
-           <div class="header-right">
-              <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
-           </div>
-           <div class="clear">
+               <div class="modal-header">
+                     <div id="modal-header" class="header-left">
+                     <h3><strong>SIGN IN</strong></h3>
+               </div>
+               <div class="header-right">
+                     <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
+               </div>
+               <div class="clear"></div>
 
-        </div>
+               <div class="modal-body"> <!-- modal body starts -->
+                     <slot name="body">
 
-        <div class="modal-body">
-          <slot name="body">
+                           <form novalidate>
 
-        <form novalidate>
+                                  <div class="form-login" id="form-login">
 
-              <div class="form-login" id="form-login">
+		                  	<div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                            <center>
+		                                  <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                            </center>
+                                        </div>
 
-			<div style="margin-top:15%;margin-bottom:15%;width:100%;">
-                            <center>
-		                <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                            </center>
-                        </div>
+                                        <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                            <center>   
+                                                  <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                            </center> 
+                                        </div>
 
-                        <div style="margin-top:15%;margin-bottom:15%;width:100%;">
-                            <center>   
-                                <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                            </center> 
-                        </div>
+                                        <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                            <center> 
+                                                  <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                            </center>
+                                        </div>
+                                        <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                            <center>
+                                                  <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                            </center>
+                                        </div>
 
-                        <div style="margin-top:15%;margin-bottom:15%;width:100%;">
-                            <center> 
-                                <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                            </center>
-                        </div>
-                        <div style="margin-top:15%;margin-bottom:15%;width:100%;">
-                            <center>
-                                <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                            </center>
-                        </div>
+                                  </div>
+                           </form>
 
+                     </slot>
+               </div> <!-- modal body ends -->
 
-
-
-
-
-
-        </div>
-        </form>
-
-          </slot>
-        </div>
-
-</div>
-
-
-
-    </div>
-
+          </div> <!-- modal container ends -->
+     </div> <!-- modal wrapper ends -->
+</div> <!-- modal mask ends -->
 </div>
 </script>
+
 
 <!-- template for the Modal component -->
 <script type="x/template" id="modal-template">
@@ -6519,14 +6510,14 @@ var vm3 = new Vue({
     },
 
     submitfour: function (event) {
-          alert('hi hi hi hi hi');
+           alert('hi hi hi hi hi');
     },
 
     successCallback: function(event) {
-            alert("SUCCESS");
+           alert("SUCCESS");
     },
     errorCallback: function(event) {
-            alert("ERROR");
+           alert("ERROR");
     },
     validConfirm: function(event) {
            alert("VALID");
@@ -6748,10 +6739,10 @@ new Vue({
 
 })
 
-
+/*
 
 var bapp = new Vue({
-                el: '#blog-posts',
+                el: '#blog_block',
                 data:
                 {
                     url: undefined,
@@ -6761,9 +6752,15 @@ var bapp = new Vue({
                         message: undefined,
                     },
                 },
+                ready: function() {
+                },
+                created: function () {
+                },
+
                 methods:
                 {
-                    showAlert: function(message)
+ 
+                     showAlert: function(message)
                     {
                         this.$set('alert.isActive', true);
                         this.$set('alert.message', message);
@@ -6783,7 +6780,7 @@ var bapp = new Vue({
                     },
                 },
 })
-
+*/
 </script>
 
 <script src="/static/js/jssor.slider.mini.js"></script>
@@ -6795,7 +6792,7 @@ var bapp = new Vue({
            
           var box = null;
 
-          $("#chat_with_us").bind('click',function(event, ui) {
+             $("#chat_with_us").bind('click',function(event, ui) {
               if(box) {
                   box.chatbox("option", "boxManager").toggleBox();
               }
@@ -6810,8 +6807,7 @@ var bapp = new Vue({
               }
           });
 
-          $('#submitcomment').bind('click',handlePost); 
-          $('.comments-link').bind('click',handleComments);
+           $('#submitcomment').bind('click',handlePost); 
 
           $(function(){ 
                   $(".ui-chatbox") 
@@ -8319,7 +8315,6 @@ container.className += "active";
 
   }
 
-
   function on_mobile_faq() {
       document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
@@ -8454,8 +8449,13 @@ container.className += "active";
   }
 </script>
 
-<script src="/static/js/classie.js"></script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQUZ7TmbVcH7MhLkf92WC2mxAiYDvslps"
+        async defer></script>
 <script src="/static/js/script.js"></script>
+
+<script src="/static/js/classie.js"></script>
 <div id="fb-root"></div>
 <div id="chat_div"  style="height:200;width:200;"></div>
 <div id="log"></div>
@@ -8491,6 +8491,12 @@ container.className += "active";
 
    function handlePostId(id) {
       $('#post-id').attr('value',id);
+
+      return false;
+   }
+
+   function loadPosts() {
+      alert('load all posts');
    }
 
    function handlePost() {
@@ -8622,7 +8628,6 @@ container.className += "active";
    }
 
 
-
    $(document).ready(function() {
 
 
@@ -8632,7 +8637,7 @@ container.className += "active";
           var service = $("#page-service").val();
           $('#comments-section').css('display','none');
    
-          $('#comments').bind('click',handleComments);
+          $('.comments-link').bind('click',handleComments);
 
 
           $('#next_four').bind('click',processPayment);
@@ -8873,5 +8878,6 @@ function search() {
     return false;
 }
 </script>
+
 </body>
 </html>

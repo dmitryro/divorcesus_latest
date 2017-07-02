@@ -39,12 +39,15 @@
           <link rel="stylesheet" href="/static/css/jquery.ui.chatbox.css"/>
           <link rel="stylesheet" href="/static/js/jquery-ui.min.css"/>
           <link rel="stylesheet" href="/static/css/google-map.css"/>
+          <!-- Include jQuery Mobile stylesheets -->
+          <!-- Include the jQuery library -->
           <script src="/static/js/jquery.js"></script>
+          <!-- Include the jQuery Mobile library -->
+<!--
           <script src="/static/js/jssor.slider.min.js"></script>
           <script src="/static/js/jssor.slider.mini.js"></script>
           <script src="/static/js/jquery-migrate-1.2.1.js"></script>
-
-
+-->
 
            <link rel="stylesheet" type="text/css" href="/static/css/wizard.css" />
            <link rel="stylesheet" href="/static/css/misc.css" />
@@ -53,9 +56,9 @@
            <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
            <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.js"></script>
         <!-- for the future use -->
-        <!--
+<!--
            <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>   
-        -->
+-->
            <script src="https://cdn.jsdelivr.net/vue.router/2.5.3/vue-router.min.js"></script>
            <script src="/static/js/vue.social-shares.js"></script>
 
@@ -94,6 +97,18 @@
         ga('send', 'pageview');
         </script>
         <!-- End Google Analytics -->
+        <script src="/static/js/jssor.slider.mini.js"></script>
+        <script src="/static/js/jssor.slider.min.js"></script>
+        <script src="/static/js/script.js"></script>
+        <script src="/static/js/classie.js"></script>
+        <script src="/static/js/js_apps.js"></script>
+        <script src="/static/js/jquery_apps.js"></script>
+        <script src="/static/js/vue_apps.js"></script>
+
+
+
+
+        </script>
         </head>
         <body>
         <form method="post">
@@ -116,7 +131,7 @@
              fjs.parentNode.insertBefore(js, fjs);
            }(document, 'script', 'facebook-jssdk'));
         </script>
-        
+        <div class="page"> 
 
           <!--========================================================
                                     HEADER
@@ -140,7 +155,7 @@
                  <!-- app -->
                    <!-- use the modal component, pass in the prop -->
 
-                        <div style="float:left;min-width:200px;"> <!-- meta starts -->
+                        <div class="user-meta-wrapper"> <!-- meta starts -->
                               {% if logout %}
                                          <div class="avatar-container">
                                                     <img src="{% user_meta user_id 3 %}" class="avatar" alt="divorcesus"/>
@@ -3027,7 +3042,7 @@
                 </div>        
               </div>
             </section>
-            <section class="map">
+            <section class="map" style="display:none;">
               <div id="google-map" class="map_model"></div>
               <ul class="map_locations">
                     <li data-x="-73.9904321" data-y="40.7027023">
@@ -3317,33 +3332,31 @@
                     {% if logout %}
 
 
-        <!-- toast element -->
-           <div class="container wow fadeInUp">
-           <div id="paymentwizard">
-
-                <h3><span>Make a </span> Payment</h3>
-
-
+           <!-- toast element -->
+           <div id="paymentwizard-container"class="container wow fadeInUp">
+                      <div id="paymentwizard">
+ 
+                             <h3><span>Make a </span> Payment</h3>
 
 
 
+                                       <ul class='nav nav-wizard' id="wizard">
 
-        <ul class='nav nav-wizard' id="wizard">
+                                                   <li><a id="progress_stepone" href='#' data-toggle="tab">Step 1 - Name and Email</a></li>
 
-          <li><a id="progress_stepone" href='#' data-toggle="tab">Step 1 - Name and Email</a></li>
+                                                   <li><a id="progress_steptwo" href='#' data-toggle="tab">Step 2 - Payment Info</a></li>
 
-          <li><a id="progress_steptwo" href='#' data-toggle="tab">Step 2 - Payment Info</a></li>
+                                                   <li><a id="progress_stepthree" href='#' data-toggle="tab">Step 3 - Billing Address</a></li>
 
-           <li><a id="progress_stepthree" href='#' data-toggle="tab">Step 3 - Billing Address</a></li>
+                                                   <li><a id="progress_stepfour" href='#' data-toggle="tab">Step 4 - Review and Conirm</a></li>
 
-          <li><a id="progress_stepfour" href='#' data-toggle="tab">Step 4 - Review and Conirm</a></li>
+                                                   <li><a id="progress_stepfive">Step 5 - Process Payment</a></li>
 
-          <li><a id="progress_stepfive">Step 5 - Process Payment</a></li>
-
-        </ul>
-        <br/><br/>
-        </div>
-
+                                       </ul>
+                                        <br/><br/>
+                      </div>
+         
+         <!-- stepone -->
         <div id="stepone">
 
                 <p>
@@ -5845,30 +5858,30 @@
                                       {% for post in posts %}
                                              <div style="width:100%;" id="post-single-{{ post.id }}" class="post-single-wrapper"> <!-- post single starts -->
                                                      <div style='width:100%;'> <!-- title starts -->
-                                                            <div style='float:left;width:10%;'>
+                                                            <div class="blog-item-left">
                                                                    Title:
                                                             </div>
-                                                            <div style='float:left;width:30%;font-weight:bold;'>
+                                                            <div class="blog-item-right">
                                                                    {{ post.title }}
                                                             </div>
                                                             <div class='clear'></div>
                                                      </div> <!-- title ends -->
 
                                                      <div style='width:100%;'> <!-- link starts -->
-                                                            <div style='float:left;width:10%;'>
+                                                            <div class="blog-item-left">
                                                                           Link:
                                                             </div>
-                                                            <div style='float:left;width:30%;font-weight:bold;'>";
+                                                            <div class="blog-item-right">;
                                                                      <a href='{{ post.link }}'>{{ post.link }}</a>
                                                             </div>
                                                             <div class='clear'></div> 
                                                      </div> <!-- link ends -->
 
                                                      <div style='width:100%;'> <!-- postedby starts -->
-                                                            <div style='float:left;width:10%;'>
+                                                            <div class="blog-item-left">
                                                                   Posted by:
                                                             </div>
-                                                            <div style='float:left;width:30%;font-weight:bold;'>
+                                                            <div class="blog-item-right">
                                                                  {{ post.author.first_name }} {{ post.author.last_name }}
                                                             </div>
                                                             <div class='clear'></div>
@@ -6004,12 +6017,12 @@
                 <div class="col-md-2 col-sm-6 col-xs-6">
                   <h4>About</h4>
                   <ul class="list">
-                      <li><a href="#">Our Team</a></li>
+                      <li><a onclick="on_mobile_about();return false;" href="#">Our Team</a></li>
                       <li><a href="#">Why Us</a></li>
-                      <li><a href="#">Conse ctetur adipisicing</a></li>
-                      <li><a href="#">Elit sed do eiusmod</a></li>
-                      <li><a href="#">Tempor</a></li>
-                      <li><a href="#">Incididunt ut labore</a></li>
+                      <li><a onclick="on_mobile_services();return false;" href="#">Services</a></li>
+                      <li><a onclick="on_mobile_pricing();return false;" href="#">Pricing</a></li>
+                      <li><a onclick="on_mobile_blog();return false;" href="#">Blog</a></li>
+                      <li><a onclick="on_mobile_contact();return false;" href="#">Contact Us</a></li>
                   </ul>
                 </div>
 
@@ -6035,17 +6048,21 @@
                       <li><a href="#">Ut enim ad mini</a></li>
                   </ul>
                 </div>
-                <div class="col-md-4  col-sm-6 col-xs-6 cl pt">
+                     
+                <div id="newsletter" class="col-md-4  col-sm-6 col-xs-6 cl pt">
                   <h4>Email Newsletters</h4>
-                  <form class='mailform subscribe-form' method="post" action="bat/rd-mailform.php"> 
+                  <form id="newsletter-form" class='mailform subscribe-form'> 
                     <input type="hidden" name="form-type" value="contact"/> 
                     <fieldset> 
                       <label> 
                           <input type="text" 
-                          name="email" 
-                          placeholder="Enter your E-mail" 
-                          data-constraints="@Email @NotEmpty"/> 
-                      </label> 
+                                 name="email" 
+                                 id="newsletter-email"
+                                 v-model="email"
+                                 placeholder="Enter your E-mail" 
+                                 data-constraints="@Email @NotEmpty"/> 
+                      </label>
+                      <span class="mfValidation show error" id="newsletter-success" style="display:none;">Thanks for subscribing with us!</span>
                       <div class="mfControls"> 
                         <button class="fa fa-angle-right" type="submit"></button> 
                       </div> 
@@ -6069,11 +6086,11 @@
             <hr/>
             <div class="container">
               <center><p class="copy" style="padding-top:2%;">Grinberg & Segal Â© <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p></center>
-              <section style="margin-left:70%;margin-top:-6.5%;padding-top:1%;padding-bottom:1%;">
-                               <div class="social-popout" style="float:left;"><img src="/media/images/googleplus-32circle.png" /></div>
-                               <div class="social-popout" style="float:left;"><img src="/media/images/facebook-32circle.png" /></div>
-                               <div class="social-popout" style="float:left;"><img src="/media/images/twitter-32circle.png" /></div>
-                               <div class="social-popout" style="float:left;"><img src="/media/images/linkedin-32circle.png" /></div> 
+              <section style="width:290px;margin-top:-3.5%;padding-top:1%;padding-bottom:1%;margin-left:14%;margin-right:14%;">
+                               <div class="social-popout" style="float:left;width:10%;"><img src="/media/images/googleplus-32circle.png" /></div>
+                               <div class="social-popout" style="float:left;width:10%;"><img src="/media/images/facebook-32circle.png" /></div>
+                               <div class="social-popout" style="float:left;width:10%;"><img src="/media/images/twitter-32circle.png" /></div>
+                               <div class="social-popout" style="float:left;width:10%;"><img src="/media/images/linkedin-32circle.png" /></div> 
                                <div class="clear"></div>
               </section>
             </div>
@@ -6082,11 +6099,12 @@
 
 
         </div>
-        
+       
+        </div> <!-- page ends--> 
 
         <!-- template for the modal component -->
         <script type="x/template" id="modal-template-signin">
-
+           
           <div class="modal-mask" v-show="show" transition="modal"> <!-- modal mask opens -->
              <div class="modal-wrapper"> <!-- modal wrapper opens -->
 
@@ -6179,6 +6197,7 @@
             </modal>
         </script>
         <!-- template for the NewCommentModal component -->
+<!--
         <script type="x/template" id="new-comment-modal-template">
             <modal :show.sync="show" :on-close="close">
                 <div class="modal-header">
@@ -6199,18 +6218,16 @@
                 </div>
             </modal>
         </script>
-
-
-
-
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQUZ7TmbVcH7MhLkf92WC2mxAiYDvslps"
-                async defer></script>
-        <script src="/static/js/script.js"></script>
-
-        <script src="/static/js/classie.js"></script>
+-->
         <div id="fb-root"></div>
         <div id="chat_div"  style="height:200;width:200;"></div>
         <div id="log"></div>
-        <script src="/static/js/app.js"></script>
+        <div id="app"></div>
+        <div id="stepone"></div>
+        <div id="steptwo"></div>
+        <div id="stepthree"></div>
+        <div id="stepfour"></div>
+        <div id="stepfive"></div>
+        <script src="/static/js/vue_apps.js"></script>
         </body>
         </html>

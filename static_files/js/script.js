@@ -149,7 +149,7 @@ include('/static/js/jquery.easing.1.3.js');
 (function ($) {
     var o = document.getElementById("google-map");
     if (o) {
-        include('//maps.google.com/maps/api/js?sensor=false');
+ //       include('//maps.google.com/maps/api/js?key=AIzaSyBQUZ7TmbVcH7MhLkf92WC2mxAiYDvslps');
         include('/static/js/jquery.rd-google-map.js');
 
         $(document).ready(function () {
@@ -411,10 +411,6 @@ include('/static/js/jquery.easing.1.3.js');
 
 /* Search.js
  ========================================================*/
-;
-(function ($) {
-    include('/static/js/TMSearch.js');
-})(jQuery);
 
 /* Orientation tablet fix
  ========================================================*/

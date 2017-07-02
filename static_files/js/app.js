@@ -540,7 +540,7 @@ new Vue({
 })
 
 
-   $(document).ready(function() {
+   jQuery(document).ready(function() {
            
           var box = null;
 
@@ -560,6 +560,12 @@ new Vue({
           });
 
            $('#submitcomment').bind('click',handlePost); 
+
+           $('.rd-mobilepanel_title').html("Grinberg & Segal Family Law");
+
+           $('.rd-mobilemenu_ul a').click(function(e) {
+                 $(".rd-mobilepanel_toggle").click();
+           });
 
           $(function(){ 
                   $(".ui-chatbox") 
@@ -624,6 +630,7 @@ new Vue({
             };
 
             var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
+
 
             //responsive code begin
             //you can remove responsive code if you don't want the slider scales while window resizing

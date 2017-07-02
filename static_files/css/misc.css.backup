@@ -235,3 +235,92 @@ img.avatar {
 @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
 .fa-fw {width: 2em;}
 
+/* Some initial styling */
+
+.search-div {
+  float:right;
+  width:23%;
+  margin-top:-5%;
+  margin-right:-3%;
+}
+
+.search-div * {
+	box-sizing: border-box;
+}
+
+
+.search-div form {
+	width: 200px;
+	height: 40px;
+	margin: 100px auto 0;
+	position: relative;
+}
+
+/* Ok, HTML markup is complete */
+/* submit button will also be the same but with a different color. We'll style the label and the submit input */
+/* a faky 3D look */
+
+.search-div #submit {
+	display: none;	
+}
+
+.search-div form .icon,.search-div form .submit {
+	width: 35px;
+	height: 35px;
+	background: #d75813;
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	box-shadow:
+		0px 5px #bc490a,
+		0px 8px 10px rgba(0, 0, 0, 0.5);
+}
+
+.search-div form .submit {
+	background: #009bff;
+	cursor: pointer;
+	box-shadow:
+		0px 5px #0276c1,
+		0px 8px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Now, we'll create a search (magnifying glass) icon using pseudo elements */
+.search-div form .icon:after, .search-div form .submit:after  {
+	content: '';
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	border: 2px solid white;
+	border-radius: 50%;
+	left: 10px;
+	top: 9px;
+}
+
+.search-div form .icon:before, .search-div form .submit:before {
+	content: '';
+	position: absolute;
+	height: 8px;
+	width: 2px;
+	background: white;
+	transform: rotate(-35deg);
+	top: 19px;
+	left: 21px;
+}
+
+/* Styling the input */
+.search-div form #search {
+	-webkit-appearance: none;
+	height: 35px;
+	width: 0;
+	position: absolute;
+	padding: 0;
+	opacity: 0;
+	border: none;
+	outline: none;
+	position: absolute;
+	right: 35px;
+	box-shadow:
+		0px 5px #bbb,
+		0px 8px 10px rgba(0, 0, 0, 0.5);
+}

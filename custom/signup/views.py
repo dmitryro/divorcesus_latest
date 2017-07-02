@@ -49,7 +49,7 @@ class SendEmailView(Endpoint):
     def post(self, request):
         try:  
 
-           email =  reuqest.data['email']
+           email =  request.data['email']
            log = Logger(log='WE ARE SENDING EMAIL'+str(email))
            log.save()
            return {'message':'success','s3_base_url':"blablabla"}
@@ -69,20 +69,35 @@ class SubscribeView(Endpoint):
         try:
            email = request.params.get('email','')
 
-           log = Logger(log='WE ARE SENDING EMAIL - GET'+" "+email)
-           log.save()
-           return {'message':'success','s3_base_url':"blablabla"}
+           try:
+               contact = Contact.objects.get(email=email)
+           except Exception, R:
+               contact = Contact.objects.create(email=email)
+
+           return {'message' : 'success', 'email' : email}
+
         except Exception, R:
+
            return {'message':'error','data':'we failed reading s3 base url'}
+
 
     def post(self, request): # Post requests handler
         try:
 
-           email =  reuqest.data['email']
-           log = Logger(log='WE ARE SENDING EMAIL - POST '+str(email))
+           email =  request.data['email']
+
+           contact = Contact.objects.filter(email=email)
+           log = Logger(log="SO FAR FOUND EMAILS"+str(len(contact)))
            log.save()
-           return {'message':'success','s3_base_url':"blablabla"}
+ 
+           if len(contact)<1:
+               contact = Contact.objects.create(email=email)
+               
+
+           return {'message':'success','email':email}
+
         except Exception, R:
+
            return {'message':'error','data':'we failed reading s3 base url'}
 
 

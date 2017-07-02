@@ -34,6 +34,7 @@ from custom.gui.views import GlobalSearchList
 from custom.gui.views import DashboardLogoutView
 from custom.gui.views import GetSearchResultsView
 from custom.signup.views import SendEmailView
+from custom.signup.views import SubscribeView
 from custom.signup.views import logout_view
 from custom.blog.views import AddPostView
 from custom.blog.views import AddCommentView
@@ -54,6 +55,8 @@ from custom.messaging.views import UpdateMessageView
 from custom.messaging.views import NotificationTypeViewSet
 from custom.messaging.views import NotificationViewSet
 from custom.messaging.views import MessageViewSet
+from custom.messaging.views import OutgoingMessagesList
+from custom.messaging.views import IncomingMessagesList
 from custom.payments.views import SendConfirmationEmailView
 import custom
 router = routers.DefaultRouter()
@@ -101,6 +104,7 @@ urlpatterns = [
     url(r'^getallposts',GetAllPostsView.as_view()),
     url(r'^readpost',ReadPostView.as_view()),
     url(r'^savepost',SavePostView.as_view()),
+    url(r'^subscribe/$',SubscribeView.as_view()),
     url(r'^addcomment',AddCommentView.as_view()),
     url(r'^search/', include('haystack.urls')),
     url(r'^confirm/',SendConfirmationEmailView.as_view()),
@@ -109,6 +113,10 @@ urlpatterns = [
     url(r'^sendmessage/$',SendMessageView.as_view()),
     url(r'^updatemessage/',UpdateMessageView.as_view()),
     url(r'^deletemessage/',DeleteMessageView.as_view()),
+    url(r'^outgoing/(?P<sender_id>.+)/$',OutgoingMessagesList.as_view()),
+    url(r'^outgoing/$',OutgoingMessagesList.as_view()),
+    url(r'^incoming/(?P<receiver_id>.+)/$',IncomingMessagesList.as_view()),
+    url(r'^incoming/$',IncomingMessagesList.as_view()),
 #    url(r'^divorce/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
     url(r'^search/$', GlobalSearchList.as_view(), name="search"),

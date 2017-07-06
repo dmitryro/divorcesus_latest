@@ -119,6 +119,7 @@ urlpatterns = [
     url(r'^incoming/$',IncomingMessagesList.as_view()),
 #    url(r'^divorce/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
+#    url(r'^chat/', include('chatrooms.urls')),
     url(r'^search/$', GlobalSearchList.as_view(), name="search"),
     url(r'^searchresults/$',GetSearchResultsView.as_view(),name="searchresults"),
     url(r'^services/(?P<service>[^/]+)/$', custom.gui.views.services),

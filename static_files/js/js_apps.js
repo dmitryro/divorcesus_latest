@@ -803,22 +803,28 @@
 
   function on_mobile_qualify(state) {
       if  (state==1) {
-             jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
-             jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
-             jQuery("#qualify-state").html("<h4><strong>New York</strong></h4>");
+      //       jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+      //       jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+       //      jQuery("#qualify-state").html("<h4><strong>New York</strong></h4>");
+             jQuery('input[id="state"][value="New York"]').prop("checked",true);
              jQuery("#state-selected").attr("value","New York");
       }
       else 
       if  (state==2) {
-             jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
-             jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
-             jQuery("#qualify-state").html("<h4><strong>New Jersey</strong></h4>");
+   //          jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+   //          jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+    //         jQuery("#qualify-state").html("<h4><strong>New Jersey</strong></h4>");
+             jQuery('input[id="state"][value="New Jersey"]').prop("checked",true);
              jQuery("#state-selected").attr("value","New Jersey");      
       }
       else
       if  (state==0) {
              jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
              jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
+             jQuery("#qualify_progress_stepone").click();
+             jQuery('input[id="state"][value="New York"]').prop("checked",true);
+             jQuery("#state-selected").attr("value","New York");
+                           
       }
 
 
@@ -844,8 +850,13 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='block';  
-      $("#qualify-wizard :nth-child(1)").attr('class','active');
+      $("#qualify-stepone").attr('class','active');
       $("#qualify-steptwo").attr("style","display:none;");
+      $("#qualify-stepthree").attr("style","display:none;");
+      $("#qualify-stepfour").attr("style","display:none;");
+      $("#qualify-stepfive").attr("style","display:none;");
+      $("#qualify-stepsix").attr("style","display:none;");
+      $("#qualify-stepseven").attr("style","display:none;");
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -910,6 +921,31 @@
 
      return false;
   }
+
+   function processPaymentQualify() {
+      $.ajax({
+            type: "POST",
+            url: "http://divorcesus.com/confirm/",
+            data: '{"email":"'+$("#step_six_email").val()+
+                  '","first":"'+$("#step_six_first").val()+
+                  '","last":"'+$("#step_six_last").val()+
+                  '","fullname":"'+$("#step_six_first").val()+' '+$("#step_six_last").val()+
+                  '","cardtype":"'+$("#step_six_cardtype").val()+
+                  '","cardnumber":"'+$("#step_six_cardnumber").val()+'","address1":"'+$("#step_six_address1").val()+'","address2":"'+
+                                 $("step_six_#address2").val()+'","city":"'+$("#step_six_city").val()+'","phone":"'+$("#step_six_phone").val()+'","state":"'+
+                                 $("#step_six_state").val()+'","zip":"'+$("#step_six_zip").val()+'","month":"'+$("#step_six_month").val()+'","year":"'+$("#step_six_year").val()+'"}',
+
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(data) {
+            },
+            error: function(data){
+              alert("failure"+data);
+           }
+      });
+
+   }
+
 
    function processPayment() {
       $.ajax({
@@ -989,7 +1025,6 @@
                          data: {}
                   }).done(function( msg ) {
 
-                         //  alert("WE ARE BACK ONE"+msg.comments.length);
 
                            var result = '';
 

@@ -7,6 +7,7 @@ from datetime import time
 from datetime import tzinfo
 
 
+from django.core.exceptions import ObjectDoesNotExist
 # Email imports
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -35,20 +36,25 @@ from signals import payment_send_confirmation_email
 
 @receiver(payment_send_confirmation_email,sender=User)
 def payment_send_confirmation_email_handler(sender,**kwargs):
-    try:
-       contact = kwargs['contact']
-       payment = kwargs['payment']
+     try:
+        contact = kwargs['contact']
+        payment = kwargs['payment']
 
-       task = TaskLog.objects.get(user_id=contact.id,job='sending_payment_email')
-    except Exception, R:
-       task = TaskLog.objects.create(user_id=contact.id,job='sending_payment_email',is_complete=False)
-       contact = kwargs['contact']
-       payment = kwargs['payment']
-       process_payment_confirmation_email(payment)
+        task = TaskLog.objects.get(user_id=contact.id,job='sending_payment_email')
+     except Exception, R:
+        task = TaskLog.objects.create(user_id=contact.id,job='sending_payment_email',is_complete=False)
+        contact = kwargs['contact']
+        log = Logger(log="WE ARE IN SIGNAL AND ARE TRYING TO SEND IT ")
+        log.save()
+        payment = kwargs['payment']
+        process_payment_confirmation_email(payment)
 
 def process_payment_confirmation_email(payment):
 
     try:
+        log = Logger(log="WE ARE TRYING TO SEND IT ")
+        log.save()
+
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
@@ -66,6 +72,7 @@ def process_payment_confirmation_email(payment):
             f = codecs.open(path, 'r')
 
             m = f.read()
+            mess = m
             mess = string.replace(m, '[fullname]',payment.fullname)
             mess = string.replace(mess, '[message]', "Your payment has been processed")
             mess = string.replace(mess, '[address1]',payment.address1)
@@ -82,7 +89,7 @@ def process_payment_confirmation_email(payment):
         #    mess = string.replace(mess,'[link]',link)
 
         except Exception, R:
-            log = Logger(log=str(R))
+            log = Logger(log="WE FAILED LOUDLY "+str(R))
             log.save()
         message = mess
 

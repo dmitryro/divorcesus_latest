@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.conf import settings
 
+from django.core.exceptions import ObjectDoesNotExist
 from restless.views import Endpoint
 from custom.users.models import Contact
 from custom.utils.models import Logger
@@ -37,10 +38,14 @@ class SendConfirmationEmailView(Endpoint):
            name = request.params.get('name','')
            if not name or len(name) < 1:
               return {'message':'error','exception':'name is a mandatory'}
-           
+          
+ 
            try:
                contact = Contact.objects.get(email=email)
            except Exception, R:
+               log = Logger(log='WE FAILED TO READ IT '+str(R))
+               log.save()
+
                contact = Contact.objects.create(name=name,email=email,message=message,phone=phone)
 
            payment_send_confirmation_email.send(sender=User,contact=contact,payment=None)
@@ -56,14 +61,22 @@ class SendConfirmationEmailView(Endpoint):
     def post(self, request):
         try:
            email = request.data['email']
+
+           log = Logger(log='WE ARE SENDING EMAIL IN POST '+email)
+           log.save()
+
  
            if not email or len(email) < 1:
               return {'message':'email is a mandatory'}
 
            fullname = request.data['fullname']
 
+           
            if not fullname or len(fullname) < 1:
-              return {'message':'fullname is a mandatory'}
+              full_name = request.data['first']+' '+request.data['last']
+
+              if not fullname or len(fullname) < 1:
+                  return {'message':'fullname is a mandatory'}
 
 
            cardtype = request.data['cardtype']
@@ -86,8 +99,21 @@ class SendConfirmationEmailView(Endpoint):
            except Exception, R:
                contact = Contact.objects.create(name=fullname,email=email)
 
-           payment = Payment.objects.create(email=email,fullname=fullname,phone=phone,cardtype=cardtype,cardnumber=cardnumber,address1=address1,address2=address2,city=city,state=state,zipcode=zipcode,month=month,year=year)
-           
+           try:
+               payment = Payment.objects.create(email=email,
+                                                fullname=fullname,
+                                                phone=phone,
+                                                cardtype=cardtype,
+                                                cardnumber=cardnumber,
+                                                address1=address1,
+                                                address2=address2,
+                                                city=city,
+                                                state=state,
+                                                zipcode=zipcode,
+                                                month=month,
+                                                year=year)
+           except Exception, R:
+               payment = None
 
            payment_send_confirmation_email.send(sender=User,contact=contact,payment=payment)
            log = Logger(log='WE ARE SENDING EMAIL IN POST '+email)

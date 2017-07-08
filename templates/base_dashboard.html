@@ -319,9 +319,20 @@ Vue.component('modal', {
                $('#commentform').hide();
                $("#incoming").hide();
           }
+          else if (target==='paymenthistory') {
+               $('#paymenthistory').show();
+               $('.panel-all-your-posts').hide();
+               $('#allposts').hide();
+               $('#editpost').hide();
+               $('#appform').hide();
+               $('#chat').hide();
+               $('#commentform').hide();
+               $("#incoming").hide();
+          }
           else if (target==='notify') {
                $('#mceu_13').removeClass("mce-tinymce mce-container mce-panel");
                $('#send-us-message').html('<textarea id="message_body" class="inner-textarea"></textarea>');
+               $('#paymenthistory').hide();
           }
           else if (target==='incoming') {
                $("#incoming").show();
@@ -333,7 +344,7 @@ Vue.component('modal', {
                $('#commentform').hide();               
                $('.panel-incoming-messages').show();
                $('.panel-current-incoming-message').hide();
-
+               $('#paymenthistory').hide();
 
                $.ajax({
                      method: "GET",
@@ -389,6 +400,7 @@ Vue.component('modal', {
           else if (target==='outgoing') {
                $("#chat").hide();
                $("#incoming").hide();
+               $('#paymenthistory').hide();
 
                $.ajax({
                      method: "GET",
@@ -431,7 +443,8 @@ Vue.component('modal', {
           }
 
           else if(target==='newpost' || target==='allposts') {
-                  
+              $('#paymenthistory').hide();
+    
               if ( target==='newpost') {
                   $('.panel-all-your-posts').hide();
                   $("#incoming").hide(); 
@@ -731,7 +744,10 @@ function editcomment(comment_id,post_id,comment_body) {
    $('#commentform').show();
    $('#mceu_13').css('width','90%');
    $('#mceu_13').css('margin-left','5%');
-   tinyMCE.activeEditor.setContent(comment_body);
+   $('#mceu_13').removeClass("mce-tinymce mce-container mce-panel");
+//   tinyMCE.activeEditor.setContent(comment_body);
+   $('#edit_comment_wrapper').html('<textarea name="commentbody" id="edit_comment_body" width="20"  /></textarea>');
+   $("#edit_comment_body").attr('value',comment_body);
 }
 
 function deletecomment(comment_id,post_id) {
@@ -1158,7 +1174,7 @@ new Vue ({
                       $.ajax({
                              method: "POST",
                              url: "http://divorcesus.com/savecomment/",
-                             data: {"comment_id":$('#comments_comment_id').val(),"post_id":$('#comments_post_id').val(),"body":tinyMCE.activeEditor.getContent()}
+                             data: {"comment_id":$('#comments_comment_id').val(),"post_id":$('#comments_post_id').val(),"body":$('#edit_comment_body').val()}
                       }).done(function( msg ) {
 
                            $('#commentform').hide();

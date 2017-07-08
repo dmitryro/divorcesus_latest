@@ -96,7 +96,7 @@
            </div>
     </a>
     <ul class="menu-section-list" id="sectionTwoLinks" style="display: none;">
-        <li><a href="#" onclick="openmenu('payments');">Payment History</a></li>
+        <li><a href="#" onclick="openmenu('paymenthistory');">Payment History</a></li>
         <li><a href="#" onclick="openmenu('paymentmethods');">Add Payment Method</a></li>
         <li><a href="#" onclick="openmenu('dispute');">Dispute Transaction</a></li>
         <li><a href="#" onclick="openmenu('billingaddresses');">Billing Addresses</a></li>
@@ -278,6 +278,20 @@
             Similar Cases
         </div>
 
+        <div class="col-md-9 well admin-content" id="paymenthistory">
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Payment History</h4>
+                             </div>
+                             <div class="panel-payments">
+
+
+
+                             </div>
+              </div>
+        </div>
+
+
         <div class="col-md-9 well admin-content" id="chat">
               <div class="card card-3 panel-right">
                              <div class="panel-header">
@@ -354,9 +368,9 @@
                                  <form class="form" novalidate>
                                      <input type="hidden" name="comments_post_id" id="comments_post_id" value="" />
                                      <input type="hidden" name="comments_comment_id" id="comments_comment_id" value="" />
-                                     <p class="text">
+                                     <div id="edit_comment_wrapper">
                                                 <textarea name="commentbody" id="edit_comment_body" width="20"  /></textarea>
-                                     </p>
+                                     </div>
                                      <p class="submit">
                                         <input type="button" v-on:click="edit" value="Save" id='post' />
                                      </p>

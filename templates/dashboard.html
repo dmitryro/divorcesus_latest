@@ -5,6 +5,21 @@
 {% load static %}
 {% load gui_extras %}
 {% block content %}
+ <div style="position:fixed;margin-left:80%;z-index:99999;">
+       <div class="incoming-wrapper">
+                 <img src="/media/images/on_color_large.png"
+                      height="50" width="50" alt="Incoming Notifications" />
+       </div>
+       <div class="messages-wrapper">
+                 <img src="/media/images/big_icon_network.png" height="50" width="50" />
+       </div>
+       <div class="signout-wrapper">
+             {% if logout %}
+                <a href="/signout"  class="btn2 dashboard-logout" id="show-modal" @click="showModal = false">Sign Out</a>
+             {% endif %}
+       </div>
+ </div>
+<div class="clear"></div>
 <nav id="menu" class="menu">
   <a href="https://github.com/mango/slideout" target="_blank">
     <header class="menu-header">
@@ -132,6 +147,7 @@
       <li><a href="#" onclick="openmenu('outgoing');">Outgoing</a></li>
       <li><a href="#" onclick="openmenu('incoming');">Incoming</a></li>
       <li><a href="#" onclick="openmenu('notify');">Send a Message</a></li>
+      <li><a href="#" onclick="openmenu('chat');">Chat</a></li>
     </ul>
 
     <a class="navigation-head"  href="#" onclick="swap('sectionSixLinks');collapse('sectionOneLinks');collapse('sectionThreeLinks');collapse('sectionFourLinks');collapse('sectionTwoLinks');collapse('sectionFiveLinks');return false;">
@@ -162,26 +178,23 @@
  </div>
  <div class="bar-spacer">&nbsp;&nbsp;
  </div>
- <div class="signout-wrapper">
-
-          <div class="incoming-notifications">
-                 <img src="/media/images/on_color_large.png" height="50" width="50" alt="Incoming Notifications" />
-          </div>
-
-
-           <div class="private-messages" alt="Private Messages">
+<!--
+ <div style="position:fixed;margin-left:80%;">
+       <div class="incoming-wrapper">
+                 <img src="/media/images/on_color_large.png" 
+                      height="50" width="50" alt="Incoming Notifications" />
+       </div>
+       <div class="messages-wrapper">
                  <img src="/media/images/big_icon_network.png" height="50" width="50" />
-           </div>
-           <div style="float:left;width:60px;">
+       </div>
+       <div class="signout-wrapper">
              {% if logout %}
-                <a href="/signout"  class="btn2" style="color:#ffffff;font-weight:bold;text-decoration:none;margin-top:-0.3em;position:fixed;" id="show-modal" @click="showModal = false">Sign Out</a>
-
-            {% endif %}
-          </div>
-          <div class="clear"></div>
+                <a href="/signout"  class="btn2 dashboard-logout" id="show-modal" @click="showModal = false">Sign Out</a>
+             {% endif %}
+       </div>
  </div>
  <div class="clear"></div>
-
+-->
 
 
 </header>
@@ -263,6 +276,66 @@
         </div>
         <div class="col-md-9 well admin-content" id="similarcases">
             Similar Cases
+        </div>
+
+        <div class="col-md-9 well admin-content" id="chat">
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Chat</h4>
+                             </div>
+                             <div class="panel-chat">
+
+
+
+                             </div>
+              </div>
+        </div>
+
+        <div class="col-md-9 well admin-content" id="incoming">
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Incoming</h4>
+                             </div>
+                             <div class="panel-incoming-messages">
+
+
+
+                             </div>
+                             <div class="panel-current-incoming-message" style="padding-left:1.2em;">
+                                <div id="messages_back">
+                                    <a style="color:red;" href="#" onclick="openmenu('incoming');">Back</a><br/><br/>
+                                </div>
+                                <input type="hidden" name="message_reply_id" id="message_reply_id" value=""/>
+                                <input type="hidden" name="message_sender_id" id="message_sender_id" value="" />
+                                <div id="message_sender"></div>
+                                <div id="message_date_sent"></div>
+                                <div id="message_reply_title_div">
+                                      <input type="text" name="message_reply_title" id="message_reply_title" value="" />
+                                </div>
+                                <div id="message_reply_body"></div>
+                                <div class="respond-back">
+                                      <textarea name="response" width="20" height="3" id="response-text" class="text-area-inner"></textarea>
+                                </div>
+                                     
+                                <p class="submit">
+                                      <input type="button" value="Respond" id='respond_back' />
+                                </p>
+
+                             </div>
+              </div>
+        </div>
+
+        <div class="col-md-9 well admin-content" id="outgoing">
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Outgoing</h4>
+                             </div>
+                             <div class="panel-outgoing-messages">
+
+
+
+                             </div>
+              </div>
         </div>
 
         <div class="col-md-9 well admin-content" id="allposts">
@@ -435,9 +508,9 @@
                              <label for="receiver_id">Send it to</label>
 
                         </p>
-                        <p class="text">
+                        <div id="send-us-message">
                                 <textarea name="message_body" id="message_body" width="40"  /></textarea>
-                        </p>
+                        </div>
                         
                         <p class="submit">
                                 <input type="button" v-on:click="send_message" value="Send" id='send_message' v-if="$validation_messages.valid"/>
@@ -451,26 +524,6 @@
         <div class="col-md-9 well admin-content" id="onandoff">
             Turn notifications on and off
         </div>
-
-        <div class="col-md-9 well admin-content" id="outgoing">
-               <div style="float:left;width:100%;" class="panel-all-your-posts" style="display:block;">
-                     <div class="card card-3 panel-right">
-                             <div class="panel-header">
-                                   <h4>Outgoing Messages</h4>
-                             </div>
-
-                             <div class="panel-outgoing-messages">
-
-
-
-                             </div>
-                     </div>
-               </div>
-               <div class"clear"></div>
-
-        </div>
-
-
     </div>
 
   </section>

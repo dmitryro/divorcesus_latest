@@ -79,6 +79,23 @@
     border-radius: 50%;
 }
 
+.inner-textarea {
+    display: block;
+    width: 76%;
+    margin: 0;
+    -webkit-appearance: none;
+    outline: none;
+    font-family: "Raleway", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    padding: 13px 25px;
+    line-height: 20px;
+    color: #777777;
+    background: #f3f3f3;
+    border: 2px solid #d0cece;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
         </style>
 
     </head>
@@ -260,6 +277,15 @@ Vue.component('modal', {
 
 
     $(document).ready(function(){
+            $('#respond_back').click(function(e) {
+                sendmessage();
+                openmenu('incoming');
+            });
+
+            $('#send_message').click(function(e) {
+                openmenu('outgoing');
+            });
+
             tinymce.init({
                 height: '240px',
                 width: '640px',
@@ -284,8 +310,85 @@ Vue.component('modal', {
           $('#commentform').hide();
           allWells.hide();
           $('#' + target).show();
+ 
+          if (target==='chat') {
+               $('.panel-all-your-posts').hide();
+               $('#allposts').hide();
+               $('#editpost').hide();
+               $('#appform').hide();
+               $('#commentform').hide();
+               $("#incoming").hide();
+          }
+          else if (target==='notify') {
+               $('#mceu_13').removeClass("mce-tinymce mce-container mce-panel");
+               $('#send-us-message').html('<textarea id="message_body" class="inner-textarea"></textarea>');
+          }
+          else if (target==='incoming') {
+               $("#incoming").show();
+               $("#chat").hide();
+               $('.panel-all-your-posts').hide();
+               $('#allposts').hide();
+               $('#editpost').hide();
+               $('#appform').hide();
+               $('#commentform').hide();               
+               $('.panel-incoming-messages').show();
+               $('.panel-current-incoming-message').hide();
 
-          if (target==='outgoing') {
+
+               $.ajax({
+                     method: "GET",
+                     url: "http://divorcesus.com/incoming/",
+                     data: {}
+               }).done(function( msg ) {
+                           var result = '';
+                           for(var i=0; i<msg.length; i++) {
+                               result=result+"<div style='float:left;width:30%;'>";
+                               result=result+msg[i].sender.first_name;
+                               result=result+' ';
+                               result=result+msg[i].sender.last_name;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:10%;'>";
+                               result=result+msg[i].time_sent;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:29%;'>";
+                               result=result+msg[i].title;
+                               result=result+"</div>";
+
+
+                               result=result+"<div style='float:left;width:15%;'>";
+
+                               if (!msg[i].is_seen) {
+
+                                  result=result+"<a href='#' id='msg-"+msg[i].id+"' onclick='readmessage("+msg[i].id+");'  style='color:blue;font-weight:bold;'>Read</a>";
+                               } else {
+                                  result=result+"<a href='#' id='msg-"+msg[i].id+"' onclick='readmessage("+msg[i].id+");'  style='color:blue;'>Read</a>";
+                               }
+
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:15%;'>";
+                               result=result+"<a href='#' style='color:red;' onclick='deletemessage("+msg[i].id+",2);'>Delete</a>";
+                               result=result+"</div>";
+                               result=result+"<div class='clear'></div>";
+                               result=result+"</div>"
+
+                               if (!msg[i].is_seen) {
+                                    $('#msg-'+msg[i].id).css('color','green');
+                                    $('#msg-'+msg[i].id).css('font-weight','bold');
+                       
+                               //   $('#msg-'+msg[i].id).pulse({opacity: 0.8}, {duration : 100, pulses : 5});
+                               }
+
+                           }
+                           $('.panel-incoming-messages').html(result);
+
+
+              });
+
+ 
+          }
+          else if (target==='outgoing') {
+               $("#chat").hide();
+               $("#incoming").hide();
 
                $.ajax({
                      method: "GET",
@@ -312,7 +415,7 @@ Vue.component('modal', {
                                result=result+'Resend';
                                result=result+"</div>";
                                result=result+"<div style='float:left;width:15%;'>";
-                               result=result+'Delete';
+                               result=result+"<a href='#' style='color:red;' onclick='deletemessage("+msg[i].id+",1);'>Delete</a>";
                                result=result+"</div>";
                                result=result+"<div class='clear'></div>";
                                result=result+"</div>"
@@ -321,7 +424,7 @@ Vue.component('modal', {
                            }
                            $('.panel-outgoing-messages').html(result);
                            $('.personal').show();
-
+                               
 
               });
 
@@ -331,6 +434,8 @@ Vue.component('modal', {
                   
               if ( target==='newpost') {
                   $('.panel-all-your-posts').hide();
+                  $("#incoming").hide(); 
+                  $('#chat').hide();
                   $('#allposts').hide();
                   $('#editpost').hide();
                   $('#appform').show();
@@ -339,13 +444,16 @@ Vue.component('modal', {
                     
               } else if (target==='allposts') {
                   //$('.panel-all-your-posts').show();
-
+                  $('#chat').hide();
+                  $("#incoming").hide();
                   $('#allposts').show();
                   $('#editpost').hide();
                   $('#appform').hide();
                   $('#commentform').hide();
 
               } else if (target==='editpost') {
+                  $('#chat').hide();
+                  $("#incoming").hide();
                   $('#editpost').show();
                   $('#appform').hide();
                   $('#allposts').hide();
@@ -483,6 +591,108 @@ function resetpost() {
       $('#posttitle').attr('value',''); 
       return false;
 }
+
+function sendmessage() {
+    alert($('#message_reply_title').val());
+    alert($('#message_reply_id').val());
+    alert($('#message_sender_id').val());
+    alert($('#response-text').val());
+    $.ajax({
+        method: "POST",
+        url: "http://divorcesus.com/sendmessage/",
+        data: { title: $('#message_reply_title').val(),
+                message_id: $('#message_reply_id').val(),
+                receiver_id:$('#message_sender_id').val(),
+                body:$('#response-text').val()}
+    }).done(function( msg ) {
+                alert(msg);
+    });
+
+    return false;
+}
+
+function readmessage(id) {
+   $.ajax({
+       method: "POST",
+       url: "http://divorcesus.com/readmessage",
+       data: { message_id:id}
+   }).done(function( msg ) {
+      
+      $('#mceu_13').removeClass("mce-tinymce mce-container mce-panel");
+      $('.respond-back').html('<textarea id="response-text" class="inner-textarea"></textarea>');
+      $('.panel-incoming-messages').hide();
+      $('.panel-current-incoming-message').show();
+      $('#message_reply_id').attr('value',msg.id);
+      $('#message_reply_title').attr('value',msg.title);
+      $('#message_reply_body').html(msg.body);
+      $('#message_sender').html(msg.sender.username);
+      $('#message_date_sent').html(msg.time_sent);
+      $('#message_sender_id').attr('value',msg.sender.id);
+   });
+   return false;
+}
+
+function deletemessage(id,mode) {
+              $.ajax({
+                     method: "POST",
+                     url: "http://divorcesus.com/deletemessage/",
+                     data: {message_id:id,mode:mode}
+              }).done(function( msg ) {
+
+                           var result = '';
+
+                           var res = msg.messages;
+
+                           for(var i=0; i<res.length; i++) {
+                               result=result+"<div style='float:left;width:30%;'>";
+                               result=result+res[i].receiver.first_name;
+                               result=result+' ';
+                               result=result+res[i].receiver.last_name;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:10%;'>";
+                               result=result+res[i].time_sent;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:29%;'>";
+                               result=result+res[i].title;
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:15%;'>";
+                               
+                               if (mode===1) {
+                                    result=result+"Resend";
+                               } else {                               
+                                    if (!res[i].is_seen) {
+
+                                          result=result+"<a href='#' id='msg-"+res[i].id+"' onclick='readmessage("+res[i].id+");'  style='color:blue;font-weight:bold;'>Read</a>";
+                                    } else {
+                                          result=result+"<a href='#' id='msg-"+res[i].id+"' onclick='readmessage("+res[i].id+");'  style='color:blue;'>Read</a>";
+                                    }
+                               }
+                               result=result+"</div>";
+                               result=result+"<div style='float:left;width:15%;'>";
+                               if (mode===1) {
+                                   result=result+"<a href='#' style='color:red;' onclick='deletemessage("+res[i].id+",1);'>Delete</a>";
+                               } else {
+                                   result=result+"<a href='#' style='color:red;' onclick='deletemessage("+res[i].id+",2);'>Delete</a>";
+                               }
+                               result=result+"</div>";
+                               result=result+"<div class='clear'></div>";
+                               result=result+"</div>"
+
+
+                           }
+                           if (mode===1) {
+                                $('.panel-outgoing-messages').html(result);
+                                $('.personal').show();
+                           } else {
+                                $('.panel-incoming-messages').html(result);
+                           }
+
+
+              });
+
+   return false;
+}
+
 function editpost(id) {
    $.ajax({
                      method: "POST",
@@ -853,9 +1063,8 @@ new Vue ({
                      method: "POST",
                      url: "http://divorcesus.com/sendmessage/",
                      data: { title: $('#message_title').val(),
-                             message_id: $('#message_id').val(),
                              receiver_id:$('#receiver_id').val(), 
-                             body:tinyMCE.activeEditor.getContent()}
+                             body:$('#message_body').val()}
               }).done(function( msg ) {
                            var result = '';
                            result=result+"<div style='width:99%;'>";
@@ -878,22 +1087,24 @@ new Vue ({
                            result=result+"<div class='clear'></div>";
                            result=result+"</div>"
 
-                           for(var i=0; i<msg.messages.length; i++) {
-                                
+                           var res = msg.messages;
+                               
+                           for(var i = 0; i < res.length; i++) {
+                            
                                result=result+"<div style='float:left;width:20%;'>";
-                               result=result+msg[i].reciever;
+                               result=result+res[i].reciever;
                                result=result+"</div>";
                                result=result+"<div style='float:left;width:20%;'>";
-                               result=result+msg[i].time_sent;
+                               result=result+res[i].time_sent;
                                result=result+"</div>";
                                result=result+"<div style='float:left;width:29%;'>";
-                               result=result+msg[i].title;
+                               result=result+res[i].title;
                                result=result+"</div>";
                                result=result+"<div style='float:left;width:15%;'>";
                                result=result+'Resend';
                                result=result+"</div>";
                                result=result+"<div style='float:left;width:15%;'>";
-                               result=result+'Delete';
+                               result=result+"<a href='#' style='color:red;' onclick='deletemessage("+res[i].id+",1);'>Delete</a>";
                                result=result+"</div>";
                                result=result+"<div class='clear'></div>";
                                result=result+"</div>"
@@ -902,7 +1113,7 @@ new Vue ({
                            }
                            
                            $('.panel-outgoing-messages').html(result);
-                           $('.personal').show();
+                           openmenu('outgoing');
               });  
           }
 

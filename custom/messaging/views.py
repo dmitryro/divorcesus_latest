@@ -37,10 +37,16 @@ class IncomingMessagesList(generics.ListAPIView):
         try:
             receiver_id = self.kwargs['receiver_id']
             receiver_id = int(receiver_id)
+            log = Logger(log='RECEIVER ID A IS %d'%receiver_id)
+            log.save()
+
             return Message.objects.filter(receiver_id=receiver_id)
 
         except Exception, R:
             receiver_id = self.request.user.id
+            log = Logger(log='RECEIVER ID B IS %d'%receiver_id)
+            log.save()
+
             return Message.objects.filter(receiver_id=receiver_id)
 
 
@@ -140,9 +146,16 @@ class SendMessageView(Endpoint):
 
         title = request.data['title']
         body = request.data['body']
-  
+
+        log = Logger(log='MESSAGE TITLE %s'%title)
+        log.save()
+        log = Logger(log='MESSAGE BODY %s'%body)  
+        log.save() 
+
         try:
             receiver_id = int(request.data['receiver_id'])
+            log = Logger(log='MESSAGE RECEIVER ID %s'%receiver_id)
+            log.save()
         except Exception, R:
             return {"message":"error"+str(R)}
 
@@ -176,18 +189,55 @@ class SendMessageView(Endpoint):
         except Exception, R:
             log = Logger(log=str(R))
             log.save()
-
+            return {'messages':''}
+ 
         return {'messages':serializer.data}
 
 
 class DeleteMessageView(Endpoint):
     @csrf_exempt
     def get(self, request):
-        return {'message':'error','exception':'email is a mandatory'}
+        try:
+            message_id = int(request.params.get('message_id',''))
+            mode = int(request.params.get('mode',''))
+            message = Message.objects.get(id=message_id)
+            message.delete()
+            messages_list = Message.objects.filter(sender_id=request.user.id)
+
+            if mode==1:
+                messages_list = Message.objects.filter(sender_id=request.user.id)
+            else:
+                messages_list = Message.objects.filter(receiver_id=request.user.id)
+
+            serializer = MessageSerializer(messages_list, many=True)
+            return {'messages':serializer.data}
+
+        except Exception, R:
+            log = Logger(log="SOMETHING BAD HAS HAPPENED "+str(R))
+            log.save()
+            return {'messages':'error','exception':'message id is a mandatory'}
+
 
     @csrf_exempt
     def post(self, request):
-        return {'message':'error','exception':'email is a mandatory'}
+        try:
+            message_id = int(request.data['message_id'])
+            mode = int(request.data['mode'])
+            message = Message.objects.get(id=message_id)
+            message.delete()
+
+            if mode==1:
+                messages_list = Message.objects.filter(sender_id=request.user.id)
+            else:
+                messages_list = Message.objects.filter(receiver_id=request.user.id)
+
+            serializer = MessageSerializer(messages_list, many=True)
+            return {'messages':serializer.data}
+
+        except Exception, R:
+            log = Logger(log="SOMETHING BAD HAS HAPPENED "+str(R))
+            log.save()
+            return {'messages':'error','exception':'message id is a mandatory'}
 
 
 class UpdateMessageView(Endpoint):
@@ -199,6 +249,49 @@ class UpdateMessageView(Endpoint):
     def post(self, request):
         return {'message':'error','exception':'email is a mandatory'}
 
+
+class ReadMessageView(Endpoint):
+
+    @csrf_exempt
+    def get(self, request):
+        user = request.user
+        message_id = request.params.get("message_id","")
+
+        try:
+            message = Post.objects.get(id=int(message_id))
+
+            message.is_seen = True
+            message.save()
+
+            serializer = MessageSerializer(message,many=False)
+            return serializer.data
+
+        except Exception,R:
+            log = Logger(log=str(R))
+            log.save()
+            return {'message':'error  '+str(R)}
+
+
+
+    @csrf_exempt
+    def post(self, request):
+        user = request.user
+        message_id = request.data["message_id"]
+
+
+        try:
+            message = Message.objects.get(id=int(message_id))
+
+            message.is_seen = True
+            message.save()
+
+            serializer = MessageSerializer(message,many=False)
+            return serializer.data
+
+        except Exception,R:
+            log = Logger(log=str(R))
+            log.save()
+            return {'message':'error  '+str(R)}
 
 
 

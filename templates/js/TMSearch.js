@@ -9,7 +9,7 @@
             out: '#search-results',
             scope: 1,
 
-            handler: 'bat/SearchHandler.php'
+            handler: ''
         }
 
         var options = $.extend({}, defaults, o);

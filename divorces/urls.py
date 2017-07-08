@@ -50,13 +50,14 @@ from custom.blog.views import GetCommentsView
 from custom.blog.views import DeleteCommentView
 from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
 from custom.messaging.views import SendMessageView
-from custom.messaging.views import DeleteMessageView
 from custom.messaging.views import UpdateMessageView
 from custom.messaging.views import NotificationTypeViewSet
 from custom.messaging.views import NotificationViewSet
 from custom.messaging.views import MessageViewSet
 from custom.messaging.views import OutgoingMessagesList
 from custom.messaging.views import IncomingMessagesList
+from custom.messaging.views import ReadMessageView
+from custom.messaging.views import DeleteMessageView
 from custom.payments.views import SendConfirmationEmailView
 import custom
 router = routers.DefaultRouter()
@@ -103,6 +104,7 @@ urlpatterns = [
     url(r'^getcomments/$',GetCommentsView.as_view()),
     url(r'^getallposts',GetAllPostsView.as_view()),
     url(r'^readpost',ReadPostView.as_view()),
+    url(r'^readmessage',ReadMessageView.as_view()),
     url(r'^savepost',SavePostView.as_view()),
     url(r'^subscribe/$',SubscribeView.as_view()),
     url(r'^addcomment',AddCommentView.as_view()),

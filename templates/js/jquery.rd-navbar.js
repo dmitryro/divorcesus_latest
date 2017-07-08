@@ -255,6 +255,8 @@
             new RDMobileMenu(o[0]).init();
         }
     };
+    window.RDMobilemenu = RDMobileMenu;
+
 })(jQuery);
 
 $(document).ready(function () {

@@ -140,10 +140,6 @@ input:focus, textarea:focus {
    margin-top:-1.0em;
 }
 
-.signout-wrapper { 
-   min-width:170px;
-   margin-top:10px;
-}
 
 .mce-container, .mce-container *, .mce-widget, .mce-widget *, .mce-reset {
     margin: 0;

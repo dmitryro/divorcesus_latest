@@ -10,7 +10,7 @@
 
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 9999;
   top: 0;
   left: -0.6%;
   width: 100%;
@@ -24,6 +24,7 @@
 /*  display: table-cell; */
   vertical-align: middle;
   margin-top:8.0em;
+  z-index: 99999;
 }
 
 
@@ -38,7 +39,8 @@
 }
 
 .modal-container * {
-    box-sizing: border-box;
+   box-sizing: border-box;
+   z-index: 99999;
 }
 
 .modal-container {
@@ -53,7 +55,7 @@
   transition: all .3s ease;
   cursor: pointer;
   overflow-y: auto;
-  z-index: 3;
+  z-index: 9999;
   font-family:'Lato', 'HelveticaNeueLT Pro 67 MdCn', 'Helvetica', 'Arial', 'sans-serif';
   font-size: 14px;
   background-color: #f6f6f6;

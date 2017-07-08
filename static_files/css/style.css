@@ -89,7 +89,7 @@
                       Main Styles
 =========================================================*/
 body {
-  color: #777777;
+  color: #333333;
   font: 500 13px/25px 'latolight';
   -webkit-text-size-adjust: none;
   background: #1c1c1c; }
@@ -251,23 +251,27 @@ h6 + * {
                         Components
 =========================================================*/
 /*==================     Brand     ======================*/
+
 .brand {
   display: inline-block;
   position: relative;
   margin-top: 4px;
   margin-bottom: 7px; 
 }
-
 .brand-footer {
-  margin-left:29%;
+  display: inline-block;
+  position: relative;
+  margin-top: 26px;
+  margin-left: 29%;
+  margin-right: 29%;
+  width: 42%;
 }  
 
 .brand_name {
   font-family:'BaskervilleSerial';
   position: relative;
-  padding-left:02px;
-  margin-bottom:5px;
-  padding-right: 42px; 
+  font-size:30px;
+  text-align:center;
 }
 
 .brand_name:before {
@@ -278,28 +282,16 @@ h6 + * {
 }
 
 .brand_slogan {
-    padding-top: 2.5%;
-    margin-top: 10%;
-    display: block;
-    position: absolute;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 13px;
-    bottom: 0px;
-    padding-top: 25px;
-    left: -20px;
+    padding-top: 1.5%;
     width: 100%;
     text-align: center;
+    color:#888888;
 }
 
 @media (max-width: 767px) {
    .brand_slogan {
-        margin-top:2.5%;
-        padding-top:25px;
-        padding-top:2.5%;     
-        top:15px;
-        bottom: -15px;
-        left: 160px; 
+        padding-top: 1.5%;
+        text-align: center;
     } 
 }
 
@@ -545,6 +537,14 @@ h6 + * {
     background: #4884f2; }
   .icon2.fa-compass {
     background: #d24f4f; }
+
+  .icon2.service-package-nj {
+    background-image:url("/media/images/nj-packages.png");   
+  }
+  .icon2.service-package-ny {
+    background-image:url("/media/images/ny-packages.png");
+  }
+
 
 .icon3 {
   display: inline-block;
@@ -1216,7 +1216,9 @@ main {
 
 .text1 {
   font-size: 11px;
-  line-height: 20px; }
+  line-height: 20px; 
+  color: #888888;
+}
 
 .text-left {
   text-align: left; }

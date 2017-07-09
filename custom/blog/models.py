@@ -46,6 +46,10 @@ class Post(models.Model):
     total_comments = models.IntegerField(default=0,blank=True,null=True)
 
     @property
+    def teaser(self):
+        return self.body[0:600]
+
+    @property
     def author_name(self):
         if not self.author:
            return 'some author'

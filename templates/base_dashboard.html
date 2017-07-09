@@ -281,6 +281,11 @@ Vue.component('modal', {
                 sendmessage();
                 openmenu('incoming');
             });
+            
+            $('#saveeditedpost').click(function(e) {
+                saveEditedPost();
+                openmenu('allposts');
+            });
 
             $('#send_message').click(function(e) {
                 openmenu('outgoing');
@@ -305,7 +310,26 @@ Vue.component('modal', {
             });
     });
     
-    
+    function saveEditedPost() {
+       var post_id = $('#post_id').val();
+       var body = $("#edit_post_body").val();
+       var category_id = $("#edit_category_id").val();
+       var link = $("#edit_link").val();
+
+       alert($('#edit_post_title').val());       
+       alert($('#edit_category_id').val());
+
+       $.ajax({
+                     
+           method: "POST",
+           url: "http://divorcesus.com/savepost",
+           data: { title: $('#edit_post_title').val(),post_id: $('#post_id').val(),category_id:$('#edit_category_id').val(), body:body, link:link}
+              }).done(function( msg ) {
+            openmenu('allposts');
+        });
+
+    }
+ 
     function openmenu(target) {
           $('#commentform').hide();
           allWells.hide();
@@ -521,7 +545,7 @@ Vue.component('modal', {
                            result=result+"</div>";
 */
                            result=result+"<div style='float:left;width:15%;'>";
-                           result=result+"<a href='#' onclick='editpost("+msg[i].id+");'  style='color:blue;'>Edit</a>";
+                           result=result+"<a href='#' onclick='editpost("+msg[i].id+");return false;'  style='color:blue;'>Edit</a>";
                            result=result+"</div>";
 
 
@@ -713,14 +737,19 @@ function editpost(id) {
                      data: { post_id:id}
    }).done(function( msg ) {
       $('#post_id').attr('value',msg.id);
-      $('#posttitle').attr('value',msg.title);
-      $('#category_id').attr('value',msg.category.id);
-      $('#link').attr('value',msg.link);
+      $('#edit_post_title').attr('value',msg.title);
+      $('#edit_category_id').attr('value',msg.category.id);
+      $('#edit_link').attr('value',msg.link);
       $('.errors').html('');
+      $('#mceu_13').removeClass("mce-tinymce mce-container mce-panel");
+      $('#edit_post_wrapper').html('<textarea name=edit_post_body" id="edit_post_body" width="20"  /></textarea>');
+       
+      $('#edit_post_body').html(msg.body);
       tinyMCE.activeEditor.setContent(msg.body); 
       $('#postbody').attr('value',msg.body); 
       $('#edit_post').attr('style','display:block;');
-    //  $('post-editing-conianer').attr('style','display:block;');
+
+      //tinyMCE.activeEditor.setContent("BBB");
       $('#editpost').show();
       $('#allposts').hide();
    });
@@ -748,6 +777,8 @@ function editcomment(comment_id,post_id,comment_body) {
 //   tinyMCE.activeEditor.setContent(comment_body);
    $('#edit_comment_wrapper').html('<textarea name="commentbody" id="edit_comment_body" width="20"  /></textarea>');
    $("#edit_comment_body").attr('value',comment_body);
+   tinyMCE.activeEditor.setContent("AAA");
+   return false;
 }
 
 function deletecomment(comment_id,post_id) {

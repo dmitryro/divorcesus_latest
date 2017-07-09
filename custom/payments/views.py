@@ -11,8 +11,37 @@ from custom.users.models import Contact
 from custom.utils.models import Logger
 from custom.payments.models import Payment
 from django.contrib.auth import logout
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
 from signals import payment_send_confirmation_email
 from callbacks import  payment_send_confirmation_email_handler
+from serializers import PaymentSerializer
+
+class PaymentsList(generics.ListAPIView):
+    serializer_class = PaymentSerializer
+    permission_classes = (AllowAny,)
+    renderer_classes = (JSONRenderer, )
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the messages
+        that are outgoing for the given sender.
+        """
+        try:
+            user_id = self.kwargs['user_id']
+            user_id = int(user_id)
+
+            return Payment.objects.filter(user_id=user_id)
+
+        except Exception, R:
+            user_id = self.request.user.id
+
+            return Payment.objects.filter(user_id=user_id)
+
+
 
 ####################################
 ## Subscribe News Letter Endpoint ##
@@ -101,6 +130,7 @@ class SendConfirmationEmailView(Endpoint):
 
            try:
                payment = Payment.objects.create(email=email,
+                                                user=request.user,
                                                 fullname=fullname,
                                                 phone=phone,
                                                 cardtype=cardtype,

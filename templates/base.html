@@ -113,6 +113,23 @@
            .gmap_canvas {
            }
         </style>
+        <script>
+              function readmore(id) {
+                  var body = $('#full-'+id).val();
+                  $('#fulltext-'+id).html(body);
+
+                  $('body').click(function() {
+                        var teaser = $('#teaser-'+id).val();
+                        teaser += '<a href="#" onclick="readmore('+id+');">&nbsp;Read more...</a>';
+                        $('#fulltext-'+id).html(teaser);
+                  });
+
+                  $('#fulltext-'+id).click(function(event){
+                         event.stopPropagation();
+                  });
+                  return false;
+              }
+        </script>
         </head>
         <body>
         <form method="post">
@@ -6392,8 +6409,11 @@
                                                             <div class='clear'></div>
                                                      </div>  <!-- postedby ends -->
 
-                                                     <div style='width:100%;text-align:left;'>
-                                                            {{ post.body|safe }}
+                                                     <input type="hidden" id="full-{{ post.id }}" value="{{ post.body }}" />
+                                                     <input type="hidden" id="teaser-{{ post.id }}" value="{{ post.teaser }}" />
+
+                                                     <div style='width:100%;text-align:left;' id="fulltext-{{ post.id }}">
+                                                            {{ post.teaser|safe }}<a href="#" onclick="readmore('{{ post.id }}');">&nbsp;Read more...</a>
                                                      </div>
 
                                                      <div style='width:100%;padding-top:5px;'> <!-- meta starts -->

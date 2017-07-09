@@ -363,6 +363,7 @@
 
 
 
+
                              </div>
                              <div id="commentform" style="display:none;">
                                  <form class="form" novalidate>
@@ -483,15 +484,44 @@
 
         <div class="col-md-9 well admin-content" id="editpost">
 
-                <div class="form-header">
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
                                    <h4>Edit Post</h4>
-                 </div>
+                             </div>
+                             <div class="panel-editpost">
+                                <a href="#" style="color:red;" onclick="openmenu('allposts');">Back</a>
+
+                                <p class="name">
+                                     <input type="text" id="edit_post_title" name="edit_post_title" />
+                                     <label for="title">Title</label>
+                                </p>
 
 
+                                <select name="edit_category_id" id="edit_category_id" class="category">
+                                  {% for category in categories %}
+                                       <option value="{{ category.id }}">{{ category.name }}</option>
+                                  {% endfor %}
+                                </select>
+                                <label for="email">Category</label>
+                        
+                                  <p class="link">
+                                       <input type="text" name="edit_link" id="edit_link"  />
+                                       <label for="link">Link</label>
+                                   </p>
 
 
-               <div class"clear"></div>
-   
+                                     <div id="edit_post_wrapper">
+                                                <textarea name="postbody" id="edit_post_body" width="20"  /></textarea>
+                                     </div>
+                                     <p class="submit">
+                                        <input type="button" value="Save" id='saveeditedpost' />
+                                     </p>
+                                 
+
+                             </div>
+              </div>
+  
+ 
 
         </div>
 
@@ -541,7 +571,7 @@
     </div>
 
   </section>
-
+  <input type="hidden" id="user_id" name="user_id" value="{{ user.id }}"/>
   <footer class="panel-footer">
 <!--    
 <p>with <span class="heart">❤</span> by <a href="https://getmango.com/en" target="_blank">Mango</a></p>

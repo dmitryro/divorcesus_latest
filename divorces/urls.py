@@ -59,6 +59,11 @@ from custom.messaging.views import IncomingMessagesList
 from custom.messaging.views import ReadMessageView
 from custom.messaging.views import DeleteMessageView
 from custom.payments.views import SendConfirmationEmailView
+from custom.payments.views import PaymentsList
+from custom.services.views import ServiceViewSet
+from custom.services.views import PackageViewSet
+from custom.services.views import ServiceList
+from custom.services.views import PackageList
 import custom
 router = routers.DefaultRouter()
 
@@ -71,6 +76,8 @@ router.register(r'comments',CommentViewSet)
 router.register(r'notificationtypes',NotificationTypeViewSet)
 router.register(r'notifications',NotificationViewSet)
 router.register(r'messages',MessageViewSet)
+router.register(r'services',ServiceViewSet)
+router.register(r'packages',PackageViewSet)
 
 urlpatterns = [
 #    url(r'^', include(router.urls)),
@@ -118,8 +125,11 @@ urlpatterns = [
     url(r'^outgoing/(?P<sender_id>.+)/$',OutgoingMessagesList.as_view()),
     url(r'^outgoing/$',OutgoingMessagesList.as_view()),
     url(r'^incoming/(?P<receiver_id>.+)/$',IncomingMessagesList.as_view()),
+    url(r'^pastpayments/(?P<user_id>.+)/$',PaymentsList.as_view()),
+    url(r'^packagelist/$', PackageList.as_view()),
+    url(r'^servicelist/$', ServiceList.as_view()),
     url(r'^incoming/$',IncomingMessagesList.as_view()),
-#    url(r'^divorce/$', 'custom.gui.views.divorce'),
+#    url(r'^divorse/$', 'custom.gui.views.divorce'),
 #    url(r'^pricing/$', 'custom.gui.views.pricing'),
 #    url(r'^chat/', include('chatrooms.urls')),
     url(r'^search/$', GlobalSearchList.as_view(), name="search"),

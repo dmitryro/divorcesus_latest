@@ -316,8 +316,6 @@ Vue.component('modal', {
        var category_id = $("#edit_category_id").val();
        var link = $("#edit_link").val();
 
-       alert($('#edit_post_title').val());       
-       alert($('#edit_category_id').val());
 
        $.ajax({
                      
@@ -345,6 +343,30 @@ Vue.component('modal', {
           }
           else if (target==='paymenthistory') {
                $('#paymenthistory').show();
+
+                         
+               $.ajax({
+                       method: "POST",
+                       url: "http://divorcesus.com/pastpayments/",
+                       data: { user_id: $('#user_id').val()}
+               }).done(function( msg ) {
+                       alert(msg.payments.length);
+
+                       let result = '';
+
+                       for(var i = 0; i < msg.payments.length; i++) {
+                           result += '<div style="float:left;width:40%;">';
+                           result += msg.payments[i].payment_processing_number;
+                           result += '</div>';
+                           result += '<div style="clear:both;"></div>';
+                       }
+
+                       $('.panel-payments').html(result);
+
+               });
+               
+               $('.panel-payments').html('list here');
+
                $('.panel-all-your-posts').hide();
                $('#allposts').hide();
                $('#editpost').hide();

@@ -1,11 +1,20 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
 from restless.views import Endpoint
 from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+
+from signals import message_read
 from signals import message_sent
 from signals import message_deleted
 from signals import message_updated
 from callbacks import message_deleted_handler
+from callbacks import message_read_handler
 from callbacks import message_sent_handler
 from callbacks import message_updated_handler
 from serializers import MessageSerializer
@@ -17,12 +26,9 @@ from models import Message
 from models import Notification
 from models import NotificationType
 from custom.utils.models import Logger
-from django.contrib.auth.models import User
-from rest_framework import generics
-from rest_framework.permissions import AllowAny
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.renderers import JSONRenderer
-from rest_framework.response import Response
+
+import logging
+logger = logging.getLogger(__name__)
 
 class IncomingMessagesList(generics.ListAPIView):
     serializer_class = MessageSerializer
@@ -111,12 +117,7 @@ class SendMessageView(Endpoint):
         try:
 
            receiver = User.objects.get(id=receiver_id)
-           log = Logger(log='BYPASSED ONE')
-           log.save()
-
            sender = request.user
-           log = Logger(log='BYPASSED TWO')
-           log.save()
 
            #return {"receiver":receiver.id,"sender":sender.id}
 
@@ -135,6 +136,12 @@ class SendMessageView(Endpoint):
             messages_list = Message.objects.filter(sender_id=sender.id)
 
             serializer = MessageSerializer(messages_list, many=True)
+
+            message_sent.send(sender = sender,
+                              receiver = receiver,
+                              message = message,
+                              kwargs = None)
+
         except Exception, R:
             log = Logger(log=str(R))
             log.save()
@@ -146,11 +153,6 @@ class SendMessageView(Endpoint):
 
         title = request.data['title']
         body = request.data['body']
-
-        log = Logger(log='MESSAGE TITLE %s'%title)
-        log.save()
-        log = Logger(log='MESSAGE BODY %s'%body)  
-        log.save() 
 
         try:
             receiver_id = int(request.data['receiver_id'])
@@ -178,19 +180,25 @@ class SendMessageView(Endpoint):
 
 
         try:
-            message = Message.objects.create(title=title,
-                                             body=body,
-                                             sender=sender,
-                                             receiver=receiver)
+            message = Message.objects.create(title = title,
+                                             body = body,
+                                             sender = sender,
+                                             receiver = receiver)
 
             messages_list = Message.objects.filter(sender_id=sender.id)
 
             serializer = MessageSerializer(messages_list, many=True)
+
+            message_sent.send(sender = sender,
+                              receiver = receiver,
+                              message = message,
+                              kwargs = None)
+
         except Exception, R:
             log = Logger(log=str(R))
             log.save()
             return {'messages':''}
- 
+
         return {'messages':serializer.data}
 
 
@@ -264,6 +272,12 @@ class ReadMessageView(Endpoint):
             message.save()
 
             serializer = MessageSerializer(message,many=False)
+
+            message_read.send(sender = message.sender,
+                              receiver = user,
+                              message = message,
+                              kwargs = None)
+
             return serializer.data
 
         except Exception,R:
@@ -285,7 +299,14 @@ class ReadMessageView(Endpoint):
             message.is_seen = True
             message.save()
 
+
+            message_read.send(sender = message.sender,
+                              receiver = user,
+                              message = message,
+                              kwargs = None)
+
             serializer = MessageSerializer(message,many=False)
+
             return serializer.data
 
         except Exception,R:
@@ -295,7 +316,7 @@ class ReadMessageView(Endpoint):
 
 
 
-
+message_read.connect(message_read_handler)
 message_sent.connect(message_sent_handler)
 message_deleted.connect(message_deleted_handler)
 message_updated.connect(message_updated_handler)

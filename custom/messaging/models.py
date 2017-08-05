@@ -47,11 +47,16 @@ class Notification(models.Model):
     is_received = models.NullBooleanField(default=False,
                                           blank=True,
                                           null=True)
+
     is_sent = models.NullBooleanField(default=False,
                                       blank=True,
                                       null=True)
+
+    message =  models.ForeignKey(Message, blank=True, null=True)
+
     notification_type = models.ForeignKey(NotificationType,
                                           blank=True, null=True)
+
     user = models.ForeignKey(User, blank=True, null=True)
     time_sent = models.DateTimeField(auto_now_add=True)
 

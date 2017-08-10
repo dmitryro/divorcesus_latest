@@ -60,6 +60,7 @@ from custom.messaging.views import ReadMessageView
 from custom.messaging.views import DeleteMessageView
 from custom.payments.views import SendConfirmationEmailView
 from custom.payments.views import PaymentsList
+from custom.payments.views import PastPaymentsList
 from custom.services.views import ServiceViewSet
 from custom.services.views import PackageViewSet
 from custom.services.views import ServiceList
@@ -87,7 +88,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', 
                        namespace='rest_framework')), 
     url(r'^django-rq/', include('django_rq.urls')),
-    url(r'^accounts_api/', include('registration_api.urls')),
+  #  url(r'^accounts_api/', include('registration_api.urls')),
     url(r'^api/', include('rest_framework.urls', 
                   namespace='rest_framework')),
     url(r'api/accounts/', include('rest_framework.urls', 
@@ -103,7 +104,7 @@ urlpatterns = [
     url(r'^signout/$', custom.gui.views.logout),
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-    url(r'^froala_editor/', include('froala_editor.urls')),
+   # url(r'^froala_editor/', include('froala_editor.urls')),
     url(r'^redactor/', include('redactor.urls')),
     url(r'^postblog',AddPostView.as_view()),
     url(r'^deleteblog',DeletePostView.as_view()),
@@ -126,6 +127,7 @@ urlpatterns = [
     url(r'^outgoing/$',OutgoingMessagesList.as_view()),
     url(r'^incoming/(?P<receiver_id>.+)/$',IncomingMessagesList.as_view()),
     url(r'^pastpayments/(?P<user_id>.+)/$',PaymentsList.as_view()),
+    url(r'^pastpayments/', PastPaymentsList.as_view()),
     url(r'^packagelist/$', PackageList.as_view()),
     url(r'^servicelist/$', ServiceList.as_view()),
     url(r'^incoming/$',IncomingMessagesList.as_view()),
@@ -149,7 +151,7 @@ urlpatterns = [
     url(r'^prices/$', custom.gui.views.pricing),  
     url(r'^ask/$', custom.gui.views.ask),
     url(r'^api/$',include('rest_framework.urls', namespace='rest_framework')),
- #   url(r'^accounts_api/', include('registration_api.urls')),
+    url(r'^accounts_api/', include('registration_api.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^rss/$', RssSiteNewsFeed()),
     url(r'^atom/$', AtomSiteNewsFeed()),

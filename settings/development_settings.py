@@ -40,11 +40,11 @@ sys.setrecursionlimit(20000)
 SECRET_KEY = 'mdbtl108v8i0)_q&f$@3j3gie^_^r!xj%-fp-lr@uq)zl0boe%'
 APPEND_SLASH = True
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 BASE_URL = 'http://divorcesus.com'
 PROFILE_IMAGE_PATH='http://divorcesus.com/static/images/user_no_avatar.png'
 
-ALLOWED_HOSTS = ['www.googleapis.com','https://www.googleapis.com']
+ALLOWED_HOSTS = ['divorcesus.com','www.divorcesus.com','127.0.0.1','localhost','www.googleapis.com','https://www.googleapis.com']
 
 SCOPES = ['https://www.googleapis.com/plus/v1/people/me',
           'https://www.googleapis.com/auth/plus.me',
@@ -81,7 +81,6 @@ INSTALLED_APPS = [
     'djangobower',
     'django_extensions',
     'django_filters',
-    'django_mobile',
     'django_push',
     'django_rq_dashboard',
     'django_rq_jobs',
@@ -103,7 +102,6 @@ INSTALLED_APPS = [
     'django_wysiwyg',
     'django_social_share',
     'ckeditor',
-    'djng',
     'social',
     'social.apps.django_app.default',
     'pyres',
@@ -134,8 +132,13 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'haystack',
+    'channels',
+    #'chatrooms',
+    #'chat_engine',
+    #'polymorphic',
     'oauth2_provider',
     'custom.blog',
+    'custom.messaging',
     'custom.feed',
     'custom.users',
     'custom.metaprop',
@@ -157,6 +160,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
@@ -183,20 +187,13 @@ TEMPLATES = [
                 'django.template.loaders.app_directories.Loader',
                 'django_jinja.loaders.FileSystemLoader',
                 'django_jinja.loaders.AppLoader',
-                'django_mobile.loader.Loader',
-                ('django_mobile.loader.CachedLoader', (
-                       'django_mobile.loader.Loader',
-                       'django.template.loaders.filesystem.Loader',
-                       'django.template.loaders.app_directories.Loader',
-                )),
             ],
+
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
                 'django.core.context_processors.debug',
                 'django.core.context_processors.i18n',
                 'django.core.context_processors.media',
@@ -288,6 +285,7 @@ USE_TZ = True
 
 REST_SESSION_LOGIN = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_FILE_PATH = '/tmp/email-messages'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
@@ -305,10 +303,9 @@ ACTIVATION_HOST = ''
 MEDIA_ROOT = './media/'
 MEDIA_URL = '/media/'
 
-COMPRESS_OFFLINE = True
 # See the django-compressor docs at http://django_compressor.readthedocs.org/en/latest/settings/
-COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = True
+COMPRESS_ENABLED = False
+COMPRESS_OFFLINE = False
 STATICFILES_DIRS = (
   './static_files',
 )
@@ -317,7 +314,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder',
+   # 'djangobower.finders.BowerFinder',
     'pipeline.finders.PipelineFinder',
 ]
 
@@ -341,7 +338,11 @@ DEFAULT_AUTHENTICATION = (
 )
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+#    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.TokenAuthentication',
        'rest_framework.authentication.BasicAuthentication',
@@ -364,10 +365,6 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.MultiPartRenderer',
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.TemplateHTMLRenderer'
-    ),
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
     ),
 }
 
@@ -472,12 +469,26 @@ SESSION_CACHE_ALIAS = "default"
 RQ_SHOW_ADMIN_LINK = True
 
 # Add a logger for rq_scheduler in order to display when jobs are queueud
+LOGGING_CONFIG = None
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
         'simple': {
             'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
         },
     },
     'handlers': {
@@ -486,13 +497,29 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'email_backend': 'django.core.mail.backends.filebased.EmailBackend',
+            'include_html': True,
+        },
     },
 
     'loggers': {
-        'django.request': {
+        'django': {
             'handlers': ['console'],
-            'level': 'DEBUG',
             'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'custom': {
+            'handlers': ['console','mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
         },
         'rq_scheduler': {
             'handlers': ['console'],
@@ -502,6 +529,8 @@ LOGGING = {
     },
 }
 
+import logging.config
+logging.config.dictConfig(LOGGING)
 
 REST_SESSION_LOGIN = False
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -617,7 +646,7 @@ BOWER_INSTALLED_APPS = (
    'polymer',
    'webcomponentsjs',
    'gritcode-components',
-   'uglify-js',
+#   'uglify-js',
 )
 ########## COMPRESSION CONFIGURATION
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
@@ -626,55 +655,56 @@ PIPELINE_COMPILERS = (
     'pipeline.compilers.less.LessCompiler',
 )
 # CSS Files.
-PIPELINE_CSS = {
+#PIPELINE_CSS = {
     # Project libraries.
-    'libraries': {
-        'source_filenames': (   
-            'bower_components/gritcode-components/dist/gritcode-components.css',
-        ),
+#    'libraries': {
+#        'source_filenames': (   
+#            'bower_components/gritcode-components/dist/gritcode-components.css',
+#        ),
         # Compress passed libraries and have
         # the output in`css/libs.min.css`.
-        'output_filename': 'css/gritcode.libs.min.css',
-    }
+#        'output_filename': 'css/gritcode.libs.min.css',
+#    }
     # ...
-}
+#}
 # JavaScript files.
-PIPELINE_JS = {
+#PIPELINE_JS = {
     # Project JavaScript libraries.
-    'libraries': {
-        'source_filenames': (
-            'bower_components/gritcode-components/dist/gritcode-components-bundle.min.js',
-        ),
+#    'libraries': {
+#        'source_filenames': (
+#            'bower_components/gritcode-components/dist/gritcode-components-bundle.min.js',
+#        ),
         # Compress all passed files into `js/libs.min.js`.
-        'output_filename': 'js/gritcode.libs.min.js',
-    }
+#        'output_filename': 'js/gritcode.libs.min.js',
+#    }
     # ...
-}
+#}
 PIPELINE = {
-    'PIPELINE_ENABLED': True,
-    'STYLESHEETS': {
-        'colors': {
-            'source_filenames': (
-              'bower_components/gritcode-components/dist/gritcode-components.css',
-            ),
-            'output_filename': 'css/gritcode.css',
-            'extra_context': {
-                'media': 'screen,projection',
-            },
-        },
-    },
-    'JAVASCRIPT': {
-        'stats': {
-            'source_filenames': (
-              'bower_components/gritcode-components/dist/gritcode-components-bundle.min.js',
-            ),
-            'output_filename': 'js/gritcode.js',
-        }
-    }
+    'PIPELINE_ENABLED': False,
+#    'STYLESHEETS': {
+#        'colors': {
+#            'source_filenames': (
+#              'bower_components/gritcode-components/dist/gritcode-components.css',
+#            ),
+#            'output_filename': 'css/gritcode.css',
+#            'extra_context': {
+#                'media': 'screen,projection',
+#            },
+#       },
+#    },
+#    'JAVASCRIPT': {
+#        'stats': {
+#            'source_filenames': (
+#              'bower_components/gritcode-components/dist/gritcode-components-bundle.min.js',
+#            ),
+#            'output_filename': 'js/gritcode.js',
+#        }
+#    }
 }
 
-PIPELINE_YUGLIFY_BINARY = '/usr/local/bin/yuglify'
-PIPELINE['JS_COMPRESSOR'] = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
+#PIPELINE_YUGLIFY_BINARY = '/usr/local/bin/yuglify'
+#PIPELINE['JS_COMPRESSOR'] = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
+#PIPELINE['CSS_COMPRESSOR'] = 'pipeline.compressors.cssmin.CSSMinCompressor'
 #USER_LASTSEEN_TIMEOUT = 300
 SOCIAL_AUTH_LOGIN_URL = '/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
@@ -771,5 +801,19 @@ FROALA_EDITOR_PLUGINS = ('align', 'char_counter', 'code_beautifier' ,'code_view'
 REDACTOR_OPTIONS = {'lang': 'en'}
 REDACTOR_UPLOAD = 'uploads/'
 REDACTOR_OPTIONS = {'lang': 'en', 'plugins': ['table']}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'ROUTING': 'django_channels.routing.channel_routing',
+        'CONFIG': {
+            'hosts': [('redis', 6379), ],
+        },
+    },
+}
+
+ADMINS = (
+  ('Dmitry', 'dmitryro@gmail.com')
+)
 
 #ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value

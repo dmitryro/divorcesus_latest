@@ -266,7 +266,7 @@ class ReadMessageView(Endpoint):
         message_id = request.params.get("message_id","")
 
         try:
-            message = Post.objects.get(id=int(message_id))
+            message = Message.objects.get(id=int(message_id))
 
             message.is_seen = True
             message.save()

@@ -117,10 +117,13 @@ def aboutus_meta(a, b,  *args, **kwargs):
 
         if (b==1):
             return aboutus.title
+
         elif (b==2):
             return aboutus.subtitle
+
         elif (b==3):
             return aboutus.body 
+
         elif (b==4):
             return aboutus.avatar
 

@@ -1,4 +1,5 @@
 # Django Imports
+import sys
 import django.contrib.auth as auth
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
@@ -23,6 +24,8 @@ from serializers import CategorySerializer
 from serializers import PostSerializer
 from serializers import CommentSerializer
 
+import logging
+logger = logging.getLogger(__name__)
 
 class PostViewSet(viewsets.ModelViewSet):
     """
@@ -61,9 +64,15 @@ class GetCommentsView(Endpoint):
             return {"comments":serializer.data}
 
         except Exception,R:
-            return {'message':'error','error':str(R)}
-  
+            logger.error('Internal Server Error: %s', request.path,
+                exc_info=sys.exc_info(),
+                extra={
+                    'status_code': 500,
+                    'request': request
+                }
+            )
 
+            return {'message':'error','error':str(R)}
 
     @csrf_exempt
     def post(self, request):
@@ -77,6 +86,14 @@ class GetCommentsView(Endpoint):
             return {"comments":serializer.data}
 
         except Exception,R:
+            logger.error('Internal Server Error: %s', request.path,
+                exc_info=sys.exc_info(),
+                extra={
+                    'status_code': 500,
+                    'request': request
+                }
+            )
+
             return {'message':'error','error':str(R)}
 
 
@@ -584,6 +601,14 @@ class ReadPostView(Endpoint):
         except Exception,R:
             log = Logger(log=str(R))
             log.save()
+            logger.error('Internal Server Error: %s', request.path,
+                exc_info=sys.exc_info(),
+                extra={
+                    'status_code': 500,
+                    'request': request
+                }
+            )
+
             return {'message':'error  '+str(R)}
 
 
@@ -602,5 +627,13 @@ class ReadPostView(Endpoint):
         except Exception,R:
             log = Logger(log=str(R))
             log.save()
+            logger.error('Internal Server Error: %s', request.path,
+                exc_info=sys.exc_info(),
+                extra={
+                    'status_code': 500,
+                    'request': request
+                }
+            )
+
             return {'message':'error  '+str(R)}
 

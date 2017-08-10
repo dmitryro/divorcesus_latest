@@ -54,5 +54,6 @@ class PaymentSerializer(serializers.ModelSerializer):
         fields = ('id','email','first_name','last_name','fullname',
                   'address1','address2','city','state','cardtype',
                   'cardtype','cardnumber','month','year','zipcode',
+                  'payment_processing_number',
                   'phone','message','user','transaction')
 

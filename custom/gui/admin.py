@@ -128,7 +128,7 @@ class ContactInfoAdmin(admin.ModelAdmin):
     form = ContactInfoForm
     fieldsets = ((None, {'fields': ['header','address1','address2','city','state','zipcode','tollfree','phone','fax','email','statement']}),)
     list_display = ('id','header','address1','address2','city','state','zipcode','tollfree','phone','fax','email','statement')
-    list_editable = ('id','header','address1','address2','city','state','zipcode','tollfree','phone','fax','email','statement')
+    list_editable = ('header','address1','address2','city','state','zipcode','tollfree','phone','fax','email','statement')
 
     class Meta:
          verbose_name = 'Contact Info'

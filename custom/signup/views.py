@@ -17,6 +17,7 @@ from callbacks import  user_send_email_handler
 ####################################
 
 class SendEmailView(Endpoint):
+
     @csrf_exempt
     def get(self, request):
         try:

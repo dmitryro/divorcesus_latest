@@ -19,6 +19,8 @@ from rest_framework.response import Response
 from signals import payment_send_confirmation_email
 from callbacks import  payment_send_confirmation_email_handler
 from serializers import PaymentSerializer
+from utils import randomDigits
+from utils import getPaymentProcessing
 
 class PaymentsList(generics.ListAPIView):
     serializer_class = PaymentSerializer
@@ -42,6 +44,24 @@ class PaymentsList(generics.ListAPIView):
             return Payment.objects.filter(user_id=user_id)
 
 
+class PastPaymentsList(Endpoint):
+    @csrf_exempt
+    def post(self, request):
+        try:
+            user_id = request.user.id
+            payments = Payment.objects.filter(user_id=user_id)
+
+            for payment in payments:
+               if payment.payment_processing_number==None:
+                  payment.payment_processing_number = getPaymentProcessing()
+                  payment.save()
+
+            serializer = PaymentSerializer(payments,many=True)      
+            return {"payments":serializer.data}      
+        except Exception, R:
+            log = Logger(log='A DISASTER HAS HAPPENED '+str(R))
+            log.save()
+            return {"payments":str(R)}
 
 ####################################
 ## Subscribe News Letter Endpoint ##
@@ -129,7 +149,10 @@ class SendConfirmationEmailView(Endpoint):
                contact = Contact.objects.create(name=fullname,email=email)
 
            try:
+               ppn = getPaymentProcessing() 
+ 
                payment = Payment.objects.create(email=email,
+                                                payment_processing_number=ppn,
                                                 user=request.user,
                                                 fullname=fullname,
                                                 phone=phone,
@@ -153,7 +176,6 @@ class SendConfirmationEmailView(Endpoint):
            log = Logger(log='WE HAD AN ERROR '+str(R))
            log.save()
            return {'message':str(R)}
-
 
 
 payment_send_confirmation_email.connect(payment_send_confirmation_email_handler)

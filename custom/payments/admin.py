@@ -18,7 +18,21 @@ from models import CustomerProfile
 
 class CustomerProfileAdmin(admin.ModelAdmin):
 
-    fieldsets = ((None, {'fields': ['customer_id','token','ssn','city','address','first_name','last_name','email','phone','customer_cards','profile','transactions','orders','stats']}),)
+    fieldsets = ((None, {'fields': ['customer_id',
+                                    'token',
+                                    'ssn',
+                                    'city',
+                                    'address',
+                                    'first_name',
+                                    'last_name',
+                                    'email',
+                                    'phone',
+                                    'customer_cards',
+                                    'profile',
+                                    'transactions',
+                                    'orders',
+                                    'stats',
+                                    'payment_processing_number',]}),)
     #list_display = ('id','header','address1','address2','city','state','zipcode','tollfree','phone','fax','email','statement')
     #list_editable = ('id','','address1','address2','city','state','zipcode','tollfree','phone','fax','email','statement')
 

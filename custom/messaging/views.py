@@ -110,21 +110,23 @@ class MessageViewSet(viewsets.ModelViewSet):
 class SendMessageView(Endpoint):
     @csrf_exempt
     def get(self, request):
-        title = request.params.get('title','')
-        body = request.params.get('body','')
-        receiver_id = int(request.params.get('receiver_id'))
+        
 
         try:
+
+           title = request.params.get('title','')
+           body = request.params.get('body','')
+           receiver_id = int(unicode(request.params.get('receiver_id')))            
 
            receiver = User.objects.get(id=receiver_id)
            sender = request.user
 
            #return {"receiver":receiver.id,"sender":sender.id}
 
-        except Exception, R:
-           log = Logger(log="WE FAILED LOUDLY"+str(r))
+        except Exception as e:
+           log = Logger(log="WE FAILED LOUDLY"+str(e))
            log.save()
-           return {"message":"error"+str(R)}
+           return {"message":"error"+str(e)}
 
 
         try:
@@ -149,17 +151,28 @@ class SendMessageView(Endpoint):
         return {'messages':serializer.data}
 
     @csrf_exempt
-    def post(self, request):
-
-        title = request.data['title']
-        body = request.data['body']
+    def post(self, request, *args, **kwargs):
 
         try:
-            receiver_id = int(request.data['receiver_id'])
+
+            log = Logger(log='We will try to send %s'%str(request.data))
+            log.save()
+            title = request.data.get('title','default title')
+            body = request.data.get('body', 'default body')
+            try:
+                sender_id = int(unicode(request.data.get('sender_id')))
+                sender = User.objects.get(id=sender_id)
+            except Exception as e:
+                sender = request.user
+
+            receiver_id = int(unicode(request.data.get('receiver_id')))
             log = Logger(log='MESSAGE RECEIVER ID %s'%receiver_id)
             log.save()
-        except Exception, R:
-            return {"message":"error"+str(R)}
+        except Exception as e:
+            log = Logger(log='So far we failed sending message %s'%str(e))
+            log.save()
+
+            return {"message":"error"+str(e)}
 
         try:
 
@@ -167,17 +180,13 @@ class SendMessageView(Endpoint):
            log = Logger(log='BYPASSED ONE')
            log.save()
 
-           sender = request.user
-           log = Logger(log='BYPASSED TWO')
-           log.save()
 
            #return {"receiver":receiver.id,"sender":sender.id}
 
-        except Exception, R:
-           log = Logger(log="WE FAILED LOUDLY"+str(r))
+        except Exception as e:
+           log = Logger(log="WE FAILED LOUDLY TO READ THE RECEIVER "+str(e))
            log.save()
-           return {"message":"error"+str(R)}
-
+           return {'messages':[]}
 
         try:
             message = Message.objects.create(title = title,
@@ -194,11 +203,12 @@ class SendMessageView(Endpoint):
                               message = message,
                               kwargs = None)
 
-        except Exception, R:
-            log = Logger(log=str(R))
+        except Exception as e:
+            log = Logger(log="We were unable to send message - "+str(e))
             log.save()
-            return {'messages':''}
-
+            return {'messages':[]}
+        
+       
         return {'messages':serializer.data}
 
 
@@ -206,8 +216,12 @@ class DeleteMessageView(Endpoint):
     @csrf_exempt
     def get(self, request):
         try:
-            message_id = int(request.params.get('message_id',''))
-            mode = int(request.params.get('mode',''))
+            message_id = int(unicode(request.params.get('message_id',0))) 
+            log = Logger(log="MESSAGE ID IN GET IS %d"%message_id)
+            log.save()
+
+
+            mode = int(unicode(request.params.get('mode',0)))
             message = Message.objects.get(id=message_id)
             message.delete()
             messages_list = Message.objects.filter(sender_id=request.user.id)
@@ -220,8 +234,8 @@ class DeleteMessageView(Endpoint):
             serializer = MessageSerializer(messages_list, many=True)
             return {'messages':serializer.data}
 
-        except Exception, R:
-            log = Logger(log="SOMETHING BAD HAS HAPPENED "+str(R))
+        except Exception as e:
+            log = Logger(log="SOMETHING BAD HAS HAPPENED IN DELETE GET %s - %s"%(e,request.params))
             log.save()
             return {'messages':'error','exception':'message id is a mandatory'}
 
@@ -229,8 +243,17 @@ class DeleteMessageView(Endpoint):
     @csrf_exempt
     def post(self, request):
         try:
-            message_id = int(request.data['message_id'])
-            mode = int(request.data['mode'])
+            message_id = int(unicode(request.data['message_id']))
+
+
+            log = Logger(log="MESSAGE ID IN POST IS %d"%message_id)
+            log.save()
+
+            mode = int(unicode(request.data.get('mode',0)))
+            log = Logger(log="MODE IN POST IS %d"%mode)
+            log.save()
+
+
             message = Message.objects.get(id=message_id)
             message.delete()
 
@@ -242,9 +265,10 @@ class DeleteMessageView(Endpoint):
             serializer = MessageSerializer(messages_list, many=True)
             return {'messages':serializer.data}
 
-        except Exception, R:
-            log = Logger(log="SOMETHING BAD HAS HAPPENED "+str(R))
+        except Exception as e:
+            log = Logger(log="SOMETHING BAD HAS HAPPENED IN DELETE POST %s %d"%(e,message_id))
             log.save()
+
             return {'messages':'error','exception':'message id is a mandatory'}
 
 
@@ -263,15 +287,20 @@ class ReadMessageView(Endpoint):
     @csrf_exempt
     def get(self, request):
         user = request.user
-        message_id = request.params.get("message_id","")
+        message_id = int(unicode(request.params.get('message_id',0)))
+
+
+        log = Logger(log="MESSAGE ID IS %d"%m_id)
+        log.save()
+
 
         try:
-            message = Message.objects.get(id=int(message_id))
+            message = Message.objects.get(id=message_id)
 
             message.is_seen = True
             message.save()
 
-            serializer = MessageSerializer(message,many=False)
+            serializer = MessageSerializer(message, many=False)
 
             message_read.send(sender = message.sender,
                               receiver = user,
@@ -290,11 +319,15 @@ class ReadMessageView(Endpoint):
     @csrf_exempt
     def post(self, request):
         user = request.user
-        message_id = request.data["message_id"]
+        message_id = int(unicode(request.data.get('message_id',0)))
+        m_id = int(message_id)
 
+        log = Logger(log="MESSAGE ID IN POST IS %d"%m_id)
+        log.save()
+          
 
         try:
-            message = Message.objects.get(id=int(message_id))
+            message = Message.objects.get(id=m_id)
 
             message.is_seen = True
             message.save()

@@ -1,6 +1,7 @@
 from __future__ import absolute_import  # Python 2 only
 from jinja2 import Environment
 import itertools
+import logging
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout as log_out
@@ -161,10 +162,10 @@ def dashboard(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-
-        except Exception, R:
-
-           log = Logger(log='WE GOT SOME ERROR'+str(R))
+           logging.info("Loading dashboard")
+        except Exception as e:
+           logging.error("Error loading dashboard {0}".format(e))
+           log = Logger(log='WE GOT SOME ERROR'+str(e))
            log.save()
            user_id = -1
            username = ''
@@ -191,7 +192,7 @@ def dashboard(request):
                                                'qualifying':qquestions,
                                                'milestones':milestones,
                                                'advantage_links':advantage_links,
-                                               'profile_image':profile_image_path})
+                                               'profile_image':""})# profile_image_path})
 
     
     

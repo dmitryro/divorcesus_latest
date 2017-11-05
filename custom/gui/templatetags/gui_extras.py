@@ -20,7 +20,9 @@ from custom.users.models import AdvantageLink
 from custom.gui.models import Logo
 from custom.gui.models import ContactInfo
 from custom.gui.models import Service
-
+from custom.messaging.models import Message
+from custom.blog.models import Post
+from custom.blog.models import Comment
 
 register = template.Library()
 
@@ -61,6 +63,46 @@ def cleanup_html(string):
 
     except etree.XMLSyntaxError:
         return string
+
+
+"""
+ Get the dashboard meta
+"""
+@register.simple_tag
+def dashboard_meta(a, b,  *args, **kwargs):
+    try:
+       user = User.objects.get(id=int(a))
+    except Exception as e:
+       return 'invalid user'
+
+    if b==1:
+        try:
+           messages = Message.objects.filter(receiver_id=user.id)
+           return len(messages)
+        except Exception as e:
+           return 0
+
+    elif b==2:
+       try:
+          messages = Message.objects.filter(sender_id=user.id)
+          return len(messages)
+       except Exception as e:
+          return 0
+
+    elif b==3:
+       try:
+          posts = Post.objects.filter(author_id=user.id)
+          return len(posts)
+       except Exception as e:
+          return 0
+
+    elif b==4:
+       try:
+          comments = Comment.objects.filter(author_id=user.id)
+          return len(comments)
+       except Exception as e:
+          return 0
+
 
 """
  Get the logo meta

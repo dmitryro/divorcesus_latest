@@ -40,7 +40,7 @@ sys.setrecursionlimit(20000)
 SECRET_KEY = 'mdbtl108v8i0)_q&f$@3j3gie^_^r!xj%-fp-lr@uq)zl0boe%'
 APPEND_SLASH = True
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 BASE_URL = 'http://divorcesus.com'
 PROFILE_IMAGE_PATH='http://divorcesus.com/static/images/user_no_avatar.png'
 
@@ -133,6 +133,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'haystack',
     'channels',
+    'social_core',
+    'social_django',
+    'social_django.migrations',
     #'chatrooms',
     #'chat_engine',
     #'polymorphic',
@@ -190,15 +193,9 @@ TEMPLATES = [
             ],
 
             'context_processors': [
-                'django.template.context_processors.debug',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
-                'django.core.context_processors.debug',
-                'django.core.context_processors.i18n',
-                'django.core.context_processors.media',
-                'django.core.context_processors.static',
-                'django.core.context_processors.tz',
                 'social.apps.django_app.context_processors.backends',
                 'social.apps.django_app.context_processors.login_redirect',
             ],
@@ -257,16 +254,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.open_id.OpenIdAuth',
-    'social.backends.google.GoogleOpenId',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.google.GoogleOAuth',
-    'social.backends.twitter.TwitterOAuth',
-    'social.backends.yahoo.YahooOpenId',
-    'social.backends.facebook.FacebookOAuth2',
-    'social.backends.facebook.FacebookAppOAuth2',
-    'social.backends.twitter.TwitterOAuth',
-    'social.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.facebook.FacebookAppOAuth2',
     "allauth.account.auth_backends.AuthenticationBackend",
     'social.backends.instagram.InstagramOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -817,3 +811,4 @@ ADMINS = (
 )
 
 #ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value
+

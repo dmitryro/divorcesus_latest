@@ -1,7 +1,7 @@
 """divorces URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.9/topics/http/urls/
+    https://docs.djangoproject.com/en/1.11/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -13,10 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf.urls import include, url
 from django.contrib import admin
-from django.conf.urls import *
-from django.conf.urls.static import static
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.views.generic import RedirectView
 from django.views.generic import TemplateView
@@ -80,17 +78,20 @@ router.register(r'messages',MessageViewSet)
 router.register(r'services',ServiceViewSet)
 router.register(r'packages',PackageViewSet)
 
+
 urlpatterns = [
-#    url(r'^', include(router.urls)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^grappelli/', include('grappelli.urls')),
+
+
     url(r'^chatbot/', include('custom.chatbot.urls')),
     url(r'^api-auth/', include('rest_framework.urls', 
                        namespace='rest_framework')), 
     url(r'^django-rq/', include('django_rq.urls')),
-  #  url(r'^accounts_api/', include('registration_api.urls')),
     url(r'^api/', include('rest_framework.urls', 
                   namespace='rest_framework')),
+
+
     url(r'api/accounts/', include('rest_framework.urls', 
                           namespace='rest_framework')), 
     url(r'^$',custom.gui.views.home),
@@ -120,9 +121,42 @@ urlpatterns = [
     url(r'^confirm/',SendConfirmationEmailView.as_view()),
     url(r'^deletecomment/',DeleteCommentView.as_view()),
     url(r'^savecomment/$',SaveCommentView.as_view()),
-    url(r'^sendmessage/$',SendMessageView.as_view()),
+    url(r'^sendmessage/',SendMessageView.as_view()),
     url(r'^updatemessage/',UpdateMessageView.as_view()),
     url(r'^deletemessage/',DeleteMessageView.as_view()),
+    url(r'^outgoing/(?P<sender_id>.+)/$',OutgoingMessagesList.as_view()),
+    url(r'^outgoing/$',OutgoingMessagesList.as_view()),
+    url(r'^incoming/(?P<receiver_id>.+)/$',IncomingMessagesList.as_view()),
+    url(r'^pastpayments/(?P<user_id>.+)/$',PaymentsList.as_view()),
+    url(r'^pastpayments/', PastPaymentsList.as_view()),
+    url(r'^packagelist/$', PackageList.as_view()),
+    url(r'^servicelist/$', ServiceList.as_view()),
+    url(r'^incoming/$',IncomingMessagesList.as_view()),
+
+
+    url(r'^accounts/login/?next=/signout/$',custom.gui.views.home),
+    url(r'^accounts/login/$',custom.gui.views.home),
+    url(r'^login/linkedin/$',custom.gui.views.home),
+    url(r'^login/linkedin/',custom.gui.views.home),
+    url(r'^sendmail/$',SendEmailView.as_view()),
+    url(r'^toast/$', custom.gui.views.toast),
+    url(r'^signout/$', custom.gui.views.logout),
+    url(r'^tinymce/', include('tinymce.urls')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+   # url(r'^froala_editor/', include('froala_editor.urls')),
+    url(r'^redactor/', include('redactor.urls')),
+    url(r'^postblog',AddPostView.as_view()),
+    url(r'^deleteblog',DeletePostView.as_view()),
+    url(r'^getposts',GetPostsView.as_view()),
+    url(r'^getcomments/$',GetCommentsView.as_view()),
+    url(r'^getallposts',GetAllPostsView.as_view()),
+    url(r'^readpost',ReadPostView.as_view()),
+    url(r'^readmessage',ReadMessageView.as_view()),
+    url(r'^savepost',SavePostView.as_view()),
+    url(r'^subscribe/$',SubscribeView.as_view()),
+    url(r'^addcomment',AddCommentView.as_view()),
+    url(r'^search/', include('haystack.urls')),
+    url(r'^confirm/',SendConfirmationEmailView.as_view()),
     url(r'^outgoing/(?P<sender_id>.+)/$',OutgoingMessagesList.as_view()),
     url(r'^outgoing/$',OutgoingMessagesList.as_view()),
     url(r'^incoming/(?P<receiver_id>.+)/$',IncomingMessagesList.as_view()),
@@ -140,22 +174,33 @@ urlpatterns = [
     url(r'^blog/$',custom.gui.views.post),
     url(r'^blog/(?P<page>[^/]+)/$',custom.gui.views.posts),
     url(r'^blog/',custom.gui.views.post),
+
+
     url(r'^about/',custom.gui.views.about),
     url(r'^aboutus/',custom.gui.views.about),
     url(r'^qualify/',custom.gui.views.check_qualify),
-    url(r'^contacts/$', custom.gui.views.contact),
-    url(r'^contact/$', custom.gui.views.contact),
-    url(r'^payments/$', custom.gui.views.payment),
-    url(r'^payment/$', custom.gui.views.payment),
-    url(r'^pricing/$', custom.gui.views.pricing),
-    url(r'^prices/$', custom.gui.views.pricing),  
-    url(r'^ask/$', custom.gui.views.ask),
+    url(r'^contacts/', custom.gui.views.contact),
+    url(r'^contact/', custom.gui.views.contact),
+    url(r'^payments/', custom.gui.views.payment),
+    url(r'^payment/', custom.gui.views.payment),
+    url(r'^pricing/', custom.gui.views.pricing),
+    url(r'^prices/', custom.gui.views.pricing),  
+    url(r'^ask/', custom.gui.views.ask),
     url(r'^api/$',include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^accounts_api/', include('registration_api.urls')),
+#    url(r'^accounts_api/', include('registration_api.urls')),
     url(r'^api/', include(router.urls)),
-    url(r'^rss/$', RssSiteNewsFeed()),
-    url(r'^atom/$', AtomSiteNewsFeed()),
+    url(r'^rss/', RssSiteNewsFeed()),
+    url(r'^atom/', AtomSiteNewsFeed()),
+
+    url(r'^$',custom.gui.views.home),
+    url(r'^dashboard/$', custom.gui.views.dashboard),
     url('', include('social.apps.django_app.urls', namespace='social')),
+    url(r'^deletecomment/',DeleteCommentView.as_view()),
+    url(r'^savecomment/$',SaveCommentView.as_view()),
+    url(r'^sendmessage/$',SendMessageView.as_view()),
+    url(r'^updatemessage/',UpdateMessageView.as_view()),
+    url(r'^deletemessage/',DeleteMessageView.as_view()),
+
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

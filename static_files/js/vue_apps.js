@@ -865,6 +865,20 @@ var vm5 = new Vue({
   }
 })
 
+new Vue({
+  el: '#dashboard_panel',
+  data: {
+      total_incoming: 1,
+      total_outgoing: 3,
+      total_group: 0,
+  },
+  options: {
+
+  },
+  methods: {
+   
+  }
+})
 
 // start app
 new Vue({

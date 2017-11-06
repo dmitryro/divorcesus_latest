@@ -103,6 +103,13 @@ def dashboard_meta(a, b,  *args, **kwargs):
        except Exception as e:
           return 0
 
+    elif b==5:
+       try:
+          messages = Message.objects.filter(receiver_id=user.id, is_seen=False)
+          return len(messages)
+       except Exception as e:
+          return 0
+
 
 """
  Get the logo meta

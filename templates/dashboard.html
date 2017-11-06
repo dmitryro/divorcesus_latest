@@ -9,6 +9,17 @@
        <div class="incoming-wrapper">
                  <img src="/media/images/on_color_large.png"
                       height="50" width="50" alt="Incoming Notifications" />
+
+                 {% if total_unseen > 0 %}
+                     <div class="notification">
+                        <ul>
+                           <li class="notification-container">
+                                <span class="notification-counter">{{ total_unseen }}</span>
+                           </li>
+                        </ul>
+                     </div>
+                 {% endif %}
+
        </div>
        <div class="messages-wrapper">
                  <img src="/media/images/big_icon_network.png" height="50" width="50" />

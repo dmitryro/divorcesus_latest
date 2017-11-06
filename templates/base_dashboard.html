@@ -97,6 +97,52 @@
     -moz-border-radius: 0;
     border-radius: 0;
 }
+
+.notification-container {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    top: 15px;
+    left: 15px;
+    
+    i {
+        color: #fff;
+    }
+}
+
+.notification-counter {   
+    position: absolute;
+    top: -50px;
+    left: 3px;
+    
+    background-color: rgba(212, 19, 13, 1);
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 3px;
+    font: 14px Verdana;
+}
+
+
+
+
+.notification ul {
+    margin-top:-50px;
+    position:absolute;
+    width: 100%;
+    height: 50px;
+}
+
+.notification ul, .notification li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.fake-notification {
+    font: 10px Arial;
+    margin-top: 50px;
+}
+
         </style>
 
     </head>
@@ -276,8 +322,34 @@ Vue.component('modal', {
     var allWells = $('.admin-content');
     var allWellsExceptFirst = $('.admin-content:not(:first)');
 
-
+    
     $(document).ready(function(){
+         $(".notification-counter").css('display','block');   
+         $('.notification-counter').each(function() {
+                 var elem = $(this);
+                 setInterval(function(){ 
+
+                      if (elem.css('background-color') == 'rgb(212, 19, 13, 1)') {
+                           elem.css('background-color', 'white'); //I'm changing the background color, you may hide and show the div as well.
+                      } else {
+                           elem.css('background-color', 'rgb(212, 19, 13, 1)');
+                      }
+ 
+
+                 }, 1000);
+            });
+/*            
+$('.notification-counter').each(function() {
+                 var elem = $(this);
+                 setInterval(function() {
+                      if (elem.css('background-color') == 'rgba(212, 19, 13, 1)') {
+                           elem.css('background-color', 'rgba(255, 255, 255, 255)'); //I'm changing the background color, you may hide and show the div as well.
+                      } else {
+                           elem.css('background-color', 'rgba(212, 19, 13, 1)');
+                      }
+             }, 1000);
+*/
+
             $('#respond_back').click(function(e) {
                 sendmessage();
                 openmenu('incoming');
@@ -667,7 +739,14 @@ function readmessage(id) {
        url: "http://divorcesus.com/readmessage",
        data: { message_id:id}
    }).done(function( msg ) {
-      
+      if (msg.total_unseen > 0) {
+           $(".notification-counter").css('display','block');
+           $(".notification-counter").html(msg.total_unseen);
+      } else {
+           $(".notification-counter").css('display','none');
+      }
+
+      msg = msg.messages;
       $('#mceu_13').removeClass("mce-tinymce mce-container mce-panel");
       $('.respond-back').html('<textarea id="response-text" class="inner-textarea"></textarea>');
       $('.panel-incoming-messages').hide();

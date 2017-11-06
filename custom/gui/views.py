@@ -21,6 +21,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views.generic.base import View
+
 from custom.utils.models import Logger
 from custom.users.models import MileStone
 from custom.users.models import Advantage
@@ -32,8 +33,11 @@ from custom.gui.models import QualifyQuestion
 from custom.gui.models import QualifyQuestionnaire
 from custom.blog.models import Category
 from custom.blog.models import Post
+from custom.messaging.models import Message
+
 from rest_framework import generics
 from restless.views import Endpoint
+
 from custom.gui.serializers import GlobalSearchSerializer
 from custom.gui.serializers import ServiceSerializer
 from custom.blog.serializers import CategorySerializer
@@ -195,13 +199,24 @@ def dashboard(request):
                                                'profile_image':""})# profile_image_path})
 
     
-    
+    try:
+        messages = Message.objects.filter(receiver_id=user_id, is_seen=False) 
+        total_unseen = len(messages)
+        log = Logger(log='total unseen is %d'%total_unseen)
+        log.save()
+    except Exception as e:
+        total_unseen = 0
+        log = Logger(log='Failed on total unseen  %s'%str(e))
+        log.save()
+
+
     return render(request, 'dashboard.html',{'logout':logout,
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'total_unseen': total_unseen,
                                            'qualifying':qquestions,
                                            'posts':posts,
                                            'categories':categories,

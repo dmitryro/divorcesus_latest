@@ -290,29 +290,27 @@ class ReadMessageView(Endpoint):
         message_id = int(unicode(request.params.get('message_id',0)))
 
 
-        log = Logger(log="MESSAGE ID IS %d"%m_id)
-        log.save()
-
-
         try:
             message = Message.objects.get(id=message_id)
+          
 
             message.is_seen = True
             message.save()
+            messages = Message.objects.filter(receiver=user, is_seen=False)
+            total_unseen = len(messages)
 
             serializer = MessageSerializer(message, many=False)
-
             message_read.send(sender = message.sender,
                               receiver = user,
                               message = message,
                               kwargs = None)
 
-            return serializer.data
+            return {"messages":serializer.data, "total_unseen": total_unseen}
 
         except Exception,R:
             log = Logger(log=str(R))
             log.save()
-            return {'message':'error  '+str(R)}
+            return {'messages':{'message':'error  '+str(R)}}
 
 
 
@@ -322,9 +320,6 @@ class ReadMessageView(Endpoint):
         message_id = int(unicode(request.data.get('message_id',0)))
         m_id = int(message_id)
 
-        log = Logger(log="MESSAGE ID IN POST IS %d"%m_id)
-        log.save()
-          
 
         try:
             message = Message.objects.get(id=m_id)
@@ -333,6 +328,9 @@ class ReadMessageView(Endpoint):
             message.save()
 
 
+            messages = Message.objects.filter(receiver=user, is_seen=False)
+            total_unseen = len(messages)
+
             message_read.send(sender = message.sender,
                               receiver = user,
                               message = message,
@@ -340,12 +338,12 @@ class ReadMessageView(Endpoint):
 
             serializer = MessageSerializer(message,many=False)
 
-            return serializer.data
+            return {"messages":serializer.data, "total_unseen": total_unseen}
 
         except Exception,R:
             log = Logger(log=str(R))
             log.save()
-            return {'message':'error  '+str(R)}
+            return {'messages':{'message':'error  '+str(R)}}
 
 
 

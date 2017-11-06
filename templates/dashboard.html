@@ -6,9 +6,9 @@
 {% load gui_extras %}
 {% block content %}
  <div style="position:fixed;margin-left:80%;z-index:99999;">
-       <div class="incoming-wrapper">
+       <div class="incoming-wrapper" style="margin-left:10px;margin-top:10px;">
                  <img src="/media/images/on_color_large.png"
-                      height="50" width="50" alt="Incoming Notifications" />
+                      height="30" width="30" alt="Incoming Notifications" />
 
                  {% if total_unseen > 0 %}
                      <div class="notification">
@@ -21,13 +21,15 @@
                  {% endif %}
 
        </div>
-       <div class="messages-wrapper">
-                 <img src="/media/images/big_icon_network.png" height="50" width="50" />
+       <div class="messages-wrapper" style="margin-left:10px;margin-top:10px;">
+                 <img src="/media/images/big_icon_network.png" height="30" width="30"/>
        </div>
-       <div class="signout-wrapper">
+       <div class="signout-wrapper" style="margin-left:15px;margin-top:17px;">
              {% if logout %}
-                <a href="/signout"  class="btn2 dashboard-logout" id="show-modal" @click="showModal = false">Sign Out</a>
-             {% endif %}
+                <a href="/signout"  class="btn2 dashboard-logout" id="show-modal" @click="showModal = false">
+                    <img src="/media/images/exit.png" height="30" width="30"/>
+                </a>
+         {% endif %}
        </div>
  </div>
 <div class="clear"></div>

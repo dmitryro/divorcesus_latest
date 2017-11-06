@@ -38,7 +38,6 @@
   -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-validator/2.1.6/vue-validator.js"></script>
-
         <script src="/static/js/jquery.js"></script>
         <script src="/static/js/jquery-migrate-1.2.1.js"></script>
         <script src="/static/js/tinymce/tinymce.min.js" type="text/javascript"></script>
@@ -112,8 +111,8 @@
 
 .notification-counter {   
     position: absolute;
-    top: -50px;
-    left: 3px;
+    top: -44px;
+    left: -7.5px;
     
     background-color: rgba(212, 19, 13, 1);
     color: #fff;
@@ -143,14 +142,52 @@
     margin-top: 50px;
 }
 
+.flash {
+  -moz-animation: flash 1s ease-out;
+  -moz-animation-iteration-count: 1;
+
+  -webkit-animation: flash 1s ease-out;
+  -webkit-animation-iteration-count: 1;
+
+  -ms-animation: flash 1s ease-out;
+  -ms-animation-iteration-count: 1;
+}
+
+@keyframes flash {
+    0% { background-color: transparent; }
+    50% { background-color: #fbf8b2; }
+    100% { background-color: transparent; }
+}
+
+@-webkit-keyframes flash {
+    0% { background-color: transparent; }
+    50% { background-color: #fbf8b2; }
+    100% { background-color: transparent; }
+}
+
+@-moz-keyframes flash {
+    0% { background-color: transparent; }
+    50% { background-color: #fbf8b2; }
+    100% { background-color: transparent; }
+}
+
+@-ms-keyframes flash {
+    0% { background-color: transparent; }
+    50% { background-color: #fbf8b2; }
+    100% { background-color: transparent; }
+}
+
         </style>
 
     </head>
 
     <body>
+    
     {% block content %}{% endblock content %}
 
-
+    <form id="notifications" action="" method="POST">
+       <input type="hidden" id="total_unseen" value="{{ total_unseen }}" />
+    </form>
 
 <!-- template for the modal component -->
 <script type="x/template" id="modal-template-signin">
@@ -216,7 +253,7 @@
 </div>
 </script>
 <script>
-
+var interval;
 var counter = 0;
 var first_name = '';
 var fullname = '';
@@ -322,33 +359,34 @@ Vue.component('modal', {
     var allWells = $('.admin-content');
     var allWellsExceptFirst = $('.admin-content:not(:first)');
 
-    
+    function blink() {
+        $(".notification-counter").fadeTo(100, 0.1).fadeTo(100, 1.0);
+    }
+
+    function unblink() {
+        $(".notification-counter").fadeTo(100, 0.0).fadeTo(100, 0.0);
+    }
+
+    function stopInterval(interval){
+      clearInterval(interval); 
+      return false;
+    }
+
+
     $(document).ready(function(){
-         $(".notification-counter").css('display','block');   
-         $('.notification-counter').each(function() {
-                 var elem = $(this);
-                 setInterval(function(){ 
+            var total = $("#total_unseen").val();
+            
+            interval = setInterval(function(){blink()}, 1000);
+            if (total==0) {
+                stopInterval(interval)
+            }
+            $(".notification-counter").css('display','block');   
+            
+           //$(".notification-counter").addClass("flash");
+          //  setInterval(function(){blink()}, 1000);
 
-                      if (elem.css('background-color') == 'rgb(212, 19, 13, 1)') {
-                           elem.css('background-color', 'white'); //I'm changing the background color, you may hide and show the div as well.
-                      } else {
-                           elem.css('background-color', 'rgb(212, 19, 13, 1)');
-                      }
- 
-
-                 }, 1000);
-            });
-/*            
-$('.notification-counter').each(function() {
-                 var elem = $(this);
-                 setInterval(function() {
-                      if (elem.css('background-color') == 'rgba(212, 19, 13, 1)') {
-                           elem.css('background-color', 'rgba(255, 255, 255, 255)'); //I'm changing the background color, you may hide and show the div as well.
-                      } else {
-                           elem.css('background-color', 'rgba(212, 19, 13, 1)');
-                      }
-             }, 1000);
-*/
+      //      $('.notification-counter').css({opacity: 0});
+      //      $('.notification-counter').animate({opacity: 1}, 700 );
 
             $('#respond_back').click(function(e) {
                 sendmessage();
@@ -733,19 +771,24 @@ function sendmessage() {
     return false;
 }
 
+
 function readmessage(id) {
    $.ajax({
        method: "POST",
        url: "http://divorcesus.com/readmessage",
        data: { message_id:id}
    }).done(function( msg ) {
-      if (msg.total_unseen > 0) {
-           $(".notification-counter").css('display','block');
-           $(".notification-counter").html(msg.total_unseen);
-      } else {
-           $(".notification-counter").css('display','none');
-      }
+      $("#total_unseen").attr("value", msg.total_unseen);
+      $(".notification-counter").html(msg.total_unseen);
 
+      var total = msg.total_unseen;
+
+      interval = setInterval(function(){blink()}, 1000);
+      
+      if (total==0) {
+                setInterval(function(){unblink()}, 1000);
+                $(".notification-counter").css("display", "none");
+      }
       msg = msg.messages;
       $('#mceu_13').removeClass("mce-tinymce mce-container mce-panel");
       $('.respond-back').html('<textarea id="response-text" class="inner-textarea"></textarea>');

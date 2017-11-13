@@ -28,6 +28,7 @@ from rest_framework import generics
 from rest_framework import viewsets, routers
 from rest_framework.authtoken import views as drf_views
 
+from custom.gui.views import confirm_account_view
 from custom.gui.views import GlobalSearchList
 from custom.gui.views import DashboardLogoutView
 from custom.gui.views import GetSearchResultsView
@@ -47,6 +48,8 @@ from custom.blog.views import CommentViewSet
 from custom.blog.views import GetCommentsView
 from custom.blog.views import DeleteCommentView
 from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
+from custom.messaging.views import outgoing_messages_view
+from custom.messaging.views import incoming_messages_view
 from custom.messaging.views import SendMessageView
 from custom.messaging.views import UpdateMessageView
 from custom.messaging.views import NotificationTypeViewSet
@@ -124,9 +127,8 @@ urlpatterns = [
     url(r'^sendmessage/',SendMessageView.as_view()),
     url(r'^updatemessage/',UpdateMessageView.as_view()),
     url(r'^deletemessage/',DeleteMessageView.as_view()),
-    url(r'^outgoing/(?P<sender_id>.+)/$',OutgoingMessagesList.as_view()),
-    url(r'^outgoing/$',OutgoingMessagesList.as_view()),
-    url(r'^incoming/(?P<receiver_id>.+)/$',IncomingMessagesList.as_view()),
+    url(r'^outgoing/$', outgoing_messages_view),
+    url(r'^incoming/$', incoming_messages_view),
     url(r'^pastpayments/(?P<user_id>.+)/$',PaymentsList.as_view()),
     url(r'^pastpayments/', PastPaymentsList.as_view()),
     url(r'^packagelist/$', PackageList.as_view()),
@@ -138,7 +140,6 @@ urlpatterns = [
     url(r'^accounts/login/$',custom.gui.views.home),
     url(r'^login/linkedin/$',custom.gui.views.home),
     url(r'^login/linkedin/',custom.gui.views.home),
-    url(r'^sendmail/$',SendEmailView.as_view()),
     url(r'^toast/$', custom.gui.views.toast),
     url(r'^signout/$', custom.gui.views.logout),
     url(r'^tinymce/', include('tinymce.urls')),
@@ -178,6 +179,8 @@ urlpatterns = [
 
     url(r'^about/',custom.gui.views.about),
     url(r'^aboutus/',custom.gui.views.about),
+    url(r'^activate/',custom.signup.views.activate),
+    url(r'^confirm/',custom.signup.views.confirm),
     url(r'^qualify/',custom.gui.views.check_qualify),
     url(r'^contacts/', custom.gui.views.contact),
     url(r'^contact/', custom.gui.views.contact),
@@ -191,7 +194,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^rss/', RssSiteNewsFeed()),
     url(r'^atom/', AtomSiteNewsFeed()),
-
+    url(r'^confirmaccount/',confirm_account_view),
     url(r'^$',custom.gui.views.home),
     url(r'^dashboard/$', custom.gui.views.dashboard),
     url('', include('social.apps.django_app.urls', namespace='social')),

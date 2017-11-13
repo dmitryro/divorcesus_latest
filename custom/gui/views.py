@@ -36,6 +36,8 @@ from custom.gui.models import QualifyQuestionnaire
 from custom.blog.models import Category
 from custom.blog.models import Post
 from custom.messaging.models import Message
+from custom.messaging.signals import message_sent
+from custom.messaging.callbacks import message_sent_handler
 
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
@@ -60,12 +62,8 @@ def confirm_account_view(request):
      A view that confirms the user
     """
     try:
-       log = Logger(log="WE HAVE HIT THE ENDPOINT {}".format(request.body)) 
-       log.save()
  #      data = json.loads(request.body).encode('utf-8')
        data = JSONParser().parse(request)
-       log = Logger(log="WE HAVE HIT THE ENDPOINT {}".format(request.body))
-       log.save()
        log = Logger(log='DATA WAS {}'.format(data))
        log.save()
        
@@ -119,6 +117,9 @@ def confirm_account_view(request):
            log.save()
            return Response(content)
 
+       attorney = User.objects.get(id=14)
+
+
        user = User.objects.get(id=int(user_id))
        user.first_name = first
        user.last_name = last
@@ -131,6 +132,22 @@ def confirm_account_view(request):
        user.profile.username = username
        user.profile.save()
        user.save()
+
+       message_title = 'Welecome to Grinberg and Segal'
+       message_body = 'Dear {} {}! We are glad to see you here!'.format(user.first_name, 
+                                                                        user.last_name)
+
+       message = Message.objects.create(title=message_title,
+                                        body=message_body,
+                                        sender=attorney,
+                                        receiver=user)
+
+       message_sent.send(sender = attorney,
+                         receiver = user,
+                         message = message,
+                         kwargs = None)
+
+
     except Exception as e:
        first = ''
        last = ''
@@ -1023,4 +1040,7 @@ class DashboardLogoutView(DashboardLogoutViewMixin, TemplateView):
         if request.user.is_authenticated():
                logout(request)
         return render(request, 'index-0.html',{ 'FB_APP_ID' : settings.SOCIAL_AUTH_FACEBOOK_KEY,'logout':False })
+
+
+message_sent.connect(message_sent_handler)
  

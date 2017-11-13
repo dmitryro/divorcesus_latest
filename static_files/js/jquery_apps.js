@@ -40,7 +40,7 @@
             document.getElementById('faq_block').style.display='none';
             jQuery("#search_block").css('display', 'none');
             jQuery("#qualify_block").css('display', 'none');
-
+            jQuery("#confirm-info").click(confirm_info);
 
         var jssor_1_SlideshowTransitions = [
               {$Duration:1200,x:0.2,y:-0.1,$Delay:20,$Cols:8,$Rows:4,$Clip:15,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$Jease$.$InWave,$Top:$Jease$.$InWave,$Clip:$Jease$.$OutQuad},$Outside:true,$Round:{$Left:1.3,$Top:2.5}},

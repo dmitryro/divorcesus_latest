@@ -34,6 +34,7 @@ class ProfileAdmin(admin.ModelAdmin):
                                     'email', 
                                     'user',
                                     'is_cleared',
+                                    'is_activated',
                                     'is_facebook_signup_used',
                                     'is_google_signup_used',
                                     'is_linkedin_signup_used',

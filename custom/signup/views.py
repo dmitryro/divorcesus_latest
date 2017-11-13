@@ -102,9 +102,16 @@ class SubscribeView(Endpoint):
            return {'message':'error','data':'we failed reading s3 base url'}
 
 
+def activate(request):
+    return render(request, 'activate.html',{})
+    
+def confirm(request):
+    return render(request, 'confirm.html',{})
+ 
 
 def logout_view(request):
     logout(request)
+
 
 user_send_email.connect(user_send_email_handler)
 # Create your views here.

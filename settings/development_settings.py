@@ -134,8 +134,8 @@ INSTALLED_APPS = [
     'haystack',
     'channels',
     'social_core',
-    'social_django',
-    'social_django.migrations',
+    #'social_django',
+    #'social_django.migrations',
     #'chatrooms',
     #'chat_engine',
     #'polymorphic',
@@ -261,6 +261,8 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.facebook.FacebookAppOAuth2',
+    'social_core.backends.linkedin.LinkedinOAuth',
+    'social_core.backends.linkedin.LinkedinOAuth2',
     "allauth.account.auth_backends.AuthenticationBackend",
     'social.backends.instagram.InstagramOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -339,8 +341,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.TokenAuthentication',
-       'rest_framework.authentication.BasicAuthentication',
-       'rest_framework.authentication.SessionAuthentication',
+#       'rest_framework.authentication.BasicAuthentication',
+#       'rest_framework.authentication.SessionAuthentication',
      ),
     'DEFAULT_PARSER_CLASSES': (
 
@@ -349,8 +351,9 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
+      #  'rest_framework.permissions.AllowAny',
     ),
-    'PAGINATE_BY': 1000,
+    'PAGINATE_BY': 10,
 
     'DEFAULT_MODEL_SERIALIZER_CLASS':
         'rest_framework.serializers.ModelSerializer',
@@ -383,19 +386,19 @@ RQ_QUEUES = {
 }
 
 SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',   # gets info, Ex. 'name', 'email', etc
-    'social.pipeline.social_auth.social_uid',       # gets the uid from the site
-    'social.pipeline.social_auth.auth_allowed',     # checks to see if the social is allowed by us. if not will throw a AuthForbidden error
-    'social.pipeline.social_auth.social_user',      # checks if the social account is associated in the site
+    'social_core.pipeline.social_auth.social_details',   # gets info, Ex. 'name', 'email', etc
+    'social_core.pipeline.social_auth.social_uid',       # gets the uid from the site
+    'social_core.pipeline.social_auth.auth_allowed',     # checks to see if the social is allowed by us. if not will throw a AuthForbidden error
+    'social_core.pipeline.social_auth.social_user',      # checks if the social account is associated in the site
                                                     # and if it is, it returns the user
-    'social.pipeline.user.get_username',            # creates a username for the person
+    'social_core.pipeline.user.get_username',            # creates a username for the person
                                                     # this is needed to create a unique username if found in DB
     'custom.signup.pipeline.check_duplicate',       # custom method to check for user on other accounts
-    'social.pipeline.user.create_user',             # creates a user account if 'user' does not exist yet otherwise returns 'is_new = False'
-    'social.pipeline.social_auth.associate_user',   # create the record that associated the social account with this user
+    'social_core.pipeline.user.create_user',             # creates a user account if 'user' does not exist yet otherwise returns 'is_new = False'
+    'social_core.pipeline.social_auth.associate_user',   # create the record that associated the social account with this user
                                                     # if for some reason 'social' does not exist but 'user' does
-    'social.pipeline.social_auth.load_extra_data',  # Populate the extra_data field in the social record
-    'social.pipeline.user.user_details',            # Update the user record with any changed info from the auth service.
+    'social_core.pipeline.social_auth.load_extra_data',  # Populate the extra_data field in the social record
+    'social_core.pipeline.user.user_details',            # Update the user record with any changed info from the auth service.
                                                     # not sure if we need this but unsure of something that changes data without us knowing
     #'custom.signup.pipeline.save_profile_picture',  # custom method to save profile picture
     'custom.signup.pipeline.consolidate_profiles',   # custom method to delete profile which shouldnt ever occur again
@@ -407,16 +410,16 @@ SOCIAL_AUTH_DISCONNECT_PIPELINE = (
     # Verifies that the social association can be disconnected from the current
     # user (ensure that the user login mechanism is not compromised by this
     # disconnection).
-    'social.pipeline.disconnect.allowed_to_disconnect',
+    'social_core.pipeline.disconnect.allowed_to_disconnect',
 
     # Collects the social associations to disconnect.
-    'social.pipeline.disconnect.get_entries',
+    'social_core.pipeline.disconnect.get_entries',
 
     # Revoke any access_token when possible.
-    'social.pipeline.disconnect.revoke_tokens',
+    'social_core.pipeline.disconnect.revoke_tokens',
 
     # Removes the social associations.
-    'social.pipeline.disconnect.disconnect'
+    'social_core.pipeline.disconnect.disconnect'
 )
 
 FIELDS_STORED_IN_SESSION = ['key']
@@ -445,6 +448,38 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {
     'access_type': 'offline',
     'approval_prompt': 'auto'
 }
+# Add email to requested authorizations.
+SOCIAL_AUTH_LINKEDIN_SCOPE = ['r_basicprofile', 'r_emailaddress',]
+# Add the fields so they will be requested from linkedin.
+SOCIAL_AUTH_LINKEDIN_FIELD_SELECTORS = ['email-address', 'headline', 'industry']
+# Arrange to add the fields to UserSocialAuth.extra_data
+SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
+                                   ('firstName', 'first_name'),
+                                   ('lastName', 'last_name'),
+                                   ('emailAddress', 'email_address'),
+                                   ('headline', 'headline'),
+                                   ('industry', 'industry'),
+                                   ('picture-url', 'picture_url'),
+                                   ('pictureUrl', 'pictureUrls')]
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_basicprofile', 'r_emailaddress', 'rw_company_admin', 'w_share', 'r_emailaddress',]
+SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = ['public-profile-url', 
+                                               'email-address', 
+                                               'headline', 
+                                               'summary', 
+                                               'positions', 
+                                               'educations',
+                                               'industry']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA      = [
+    ('id', 'id'),
+    ('first-name', 'first_name'),
+    ('last-name', 'last_name'),
+    ('email-address', 'email_address'),
+    ('headline', 'headline'),
+    ('picture-url', 'picture_url'),
+    ('pictureUrl', 'pictureUrls'),
+    ('industry', 'industry')
+]
+FIELD_SELECTORS = ['email-address',]
 #SOCIAL_AUTH_SESSION_EXPIRATION = False
 #SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 BROKER_BACKEND                  = "redis"

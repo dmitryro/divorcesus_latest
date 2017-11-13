@@ -1002,7 +1002,6 @@ new Vue({
   },
   methods: {
     open: function(which, e) {
-        alert("OPENMODAL");
       // Prevents clicking the link from doing anything
         e.preventDefault();
         modal.active = which;
@@ -1020,6 +1019,48 @@ new Vue({
   }
 
 });
+
+// register modal component
+Vue.component('modal', {
+  template: '#final-modal-template',
+  props: {
+    show: {
+      type: Boolean,
+      required: true,
+      twoWay: true    
+    }
+  }
+})
+
+// start app
+new Vue({
+  el: '#final-app',
+  data: {
+    showModal: true,
+    active: null,
+    new_user: {
+       email: '',
+       first: '',
+       last: '',
+       phone: '',
+       username: ''
+    }
+  },
+  methods: {
+    open: function(which, e) {
+      // Prevents clicking the link from doing anything
+        modal.active = which;
+    },
+    close: function (e) {
+         
+    }, 
+    confirmInfo: function(e) {
+         e.preventDefault();
+         console.log('Confirming it ...');
+    }
+  }
+
+})
 
 jQuery(document).ready(function() {
     vm.$el = document.getElementById('stepone');

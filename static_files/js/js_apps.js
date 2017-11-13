@@ -976,6 +976,14 @@
 
        }
 
+       function close_confirmation() {
+
+          $('#confirmation-modal').css('display','none');
+          return false;
+
+       }
+
+
        function open_comments() {
           $('#comments-section').css('display','block');
           $('#comments-open').attr('value','1');
@@ -1312,3 +1320,58 @@ function isMobile() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
+function confirm_info() {
+ var arr = {first: document.getElementById('first').value, 
+            last: document.getElementById('last').value, 
+            username: document.getElementById('username').value, 
+            user_id: document.getElementById('user-id').value, 
+            email: document.getElementById('email').value, 
+            phone: document.getElementById('phone').value};
+  $.ajax(
+
+            {
+                url: "http://divorcesus.com/confirmaccount/",
+                type: "POST",
+                crossDomain: true,
+                data: JSON.stringify(arr),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(msg) {
+                      var email_errors = false;
+                      var username_initial = 0;
+                      var phone_initial = 0;
+                      var email_final = 0;
+                      var username_final = 0;
+                      
+                      if (msg.error) {
+                         if(msg.error.email) { 
+                             $( "div.email-error.error" ).fadeIn( 300 ).delay( 500 ).fadeOut( 400 );
+                             email_final = email_final + 1200;
+                         }                       
+
+                         if(msg.error.username) {
+                             username_initial = email_final;
+                             $( "div.username-error.error" ).delay(username_initial).fadeIn( 300 ).delay( 500 ).fadeOut(400);
+                             username_final = username_final + username_initial + 1200
+                         }
+
+                         if(msg.error.phone) {
+                             phone_initial = username_final + email_final;
+                             $( "div.phone-error.error" ).delay(phone_initial).fadeIn( 300 ).delay( 500 ).fadeOut( 400 );
+                         }
+
+
+                     }
+                     else {
+                         $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
+                         setTimeout(function() {
+                                $('#final-app').fadeOut('slow');
+                         }, 2500);
+                         $("div.creds-container").html(msg.first+' '+msg.last);
+                     }
+
+                }
+            }
+        );
+
+}

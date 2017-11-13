@@ -143,6 +143,9 @@ def user_meta(a, b,  *args, **kwargs):
         elif (b==5):
             return profile.phone
 
+        elif (b==6):
+            return profile.username
+
  
  
     except TypeError:

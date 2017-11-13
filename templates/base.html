@@ -199,6 +199,119 @@
                                                {% user_meta user_id 2 %}
                                                &nbsp;&nbsp;
                                          </div>
+
+                              {% endif %}
+                              {% if user.is_authenticated and not user.profile.is_activated %}
+                                   <form  method="POST" action="">
+                                      {% csrf_token %}
+                                   <!-- template for the modal component -->
+                                   <script type="x/template" id="final-modal-template">
+                                       <div class="modal-mask" v-show="show" transition="modal">
+                                           <div class="modal-wrapper">
+                                               <div class="modal-container" style="min-width: 25.5em;">
+                                                     <div class="modal-header">
+                                                         <div id="modal-header" class="header-left">
+                                                             <h3><strong>Confirm your info</strong></h3>
+                                                         </div>
+                                                         <div class="header-right">
+                                                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
+                                                         </div>
+                                                         <div class="clear"></div>
+                                                         <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
+                                                             <div style="margin-top:-15px;">Nifty!</div>
+                                                         </div>          
+
+                                                         <div class="alert-box email-error error" style="color:red;margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden; display:none;">
+                                                             <div style="margin-top:-15px;">This email address is already used!</div>
+                                                         </div>
+
+                                                         <div class="alert-box phone-error error" style="color:red;margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;display:none;">
+                                                             <div style="margin-top:-15px;">This phone number is already used!</div>
+                                                         </div>
+ 
+                                                         <div class="alert-box username-error error" style="color:red;margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;display:none;">
+                                                             <div style="margin-top:-15px;">This username is already used!</div>
+                                                         </div>
+
+ 
+                                                     </div>
+                                                     <div class="modal-body">
+                                                         <slot name="body">
+
+                                                                <input type="hidden" name="user-id" id="user-id" value="{{ user_id }}" /> 
+                                                                <div style="float:left;padding-left:6%;width:26%;">
+                                                                 First: 
+                                                                </div>
+                                                                <div style="float:left;padding-left:6%;width:68%;">
+                                                                  <input type="text" id="fist"
+                                                                   placeholder="First*" name="first" size="7" value="{% user_meta user_id 1 %}" />
+                                                                </div>
+                                                                <div class="clear"></div>
+
+                                                                <div style="float:left;padding-left:6%;width:26%;">
+                                                                  Last: 
+                                                                </div>
+                                                                <div style="float:left;padding-left:6%;width:68%;">
+                                                                 <input type="text" name="last" id="last" placeholder="Last*"  size="7" value="{% user_meta user_id 2 %}" />
+                                                                </div>
+                                                                <div class="clear"></div>                                                                
+
+                                                                <div style="float:left;padding-left:6%;width:26%;">
+                                                                  Username:   
+                                                                </div>
+                                                                <div style="float:left;padding-left:6%;width:68%;">
+                                                                  <input type="text" name="username"  id="username"  placeholder="Username*" size="7" value="{% user_meta user_id 6 %}" />
+                                                                </div>
+                                                                <div class="clear"></div>
+
+                                                                <div style="float:left;padding-left:6%;width:26%;">
+                                                                  Email
+                                                                </div>
+                                                            
+                                                                <div style="float:left;width:68%;padding-left:6%;">
+                                                                  <input type="text" name="email" id="email" placeholder="Email*" size="7" value="{% user_meta user_id 4 %}" />
+                                                                </div>
+                                                                <div class="clear"></div>
+                                                                
+                                                                <div style="float:left;padding-left:6%;width:26%;"> 
+                                                                 Phone:   
+                                                                </div>
+                                                                <div style="float:left;width:68%;padding-left:6%;">
+                                                                  <input type="text" name="phone"  id="phone" placeholder="Phone*" size="7" value="" />
+                                                                </div>
+                                                                <div class="clear"></div>
+                                                                <div style="float:left;padding-left:6%;width:56%;">
+                                                                 &nbsp;
+                                                                </div>
+                                                                <div style="float:left;width:38%;padding-left:6%;">
+                                                                <button class="btn2" id="confirm-info">Confirm</button>
+                                                                </div>
+                                                                <div class="clear"></div>
+
+
+                                                         </slot>
+                                                     </div>
+                                                     <div class="modal-footer">
+                                                         <slot name="footer">
+                                                                 &nbsp;<br/>
+                                                         </slot>
+                                                     </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   </form>
+                                   <!-- app -->
+                                   <div id="final-app">
+                                   <!-- use the modal component, pass in the prop -->
+                                            <modal :show.sync="showModal">
+                                             <!--
+                                                 you can use custom content here to overwrite
+                                                 default content
+                                             -->
+                                            </modal>
+                                   </div>
+
                               {% endif %}
                                         <div class="clear"></div>
                             </div> <!-- meta ends -->
@@ -6679,8 +6792,13 @@
                                                 </div>
                                                 <div style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>
+                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2' %}?next={{ request.path }}">
+                                                            Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                          </a>
+<!--
                                                           <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                                    </center>
+-->    
+                                                </center>
                                                 </div>
 
                                           </div>

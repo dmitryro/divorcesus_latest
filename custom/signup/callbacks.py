@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.signals import request_finished
 from django.core.cache import cache
+from django.db.models import Q,Min,Max
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.http import HttpResponse, HttpResponseRedirect
@@ -88,9 +89,6 @@ def user_send_email_handler(sender,contact,**kwargs):
 @run_async
 def process_user_email(contact):
 
-    log = Logger(log='WE ARE IN SIGNAL AND WILL SEND AN EMAIL TO'+contact.email)
-    log.save()
-
     try:
         timeNow = datetime.now()
 
@@ -173,7 +171,7 @@ def facebook_profile_handler(sender, instance, is_new, email, facebook_id, reque
         task.is_complete=True
         task.save()()
         
-    except Exception,R:
+    except Exception as e:
         task = TaskLog.objects.create(user_id=instance.id,
                                       username=instance.username,
                                       job='facebook_profile_created',
@@ -194,47 +192,29 @@ def facebook_profile(sender, instance, is_new, email, facebook_id, request):
 
 
 
-
-
-
 @receiver(twitter_strategy_used, sender=User)
-def twitter_profile_handler(sender, instance, backend, is_new, email,profile_picture, **kwargs):
-    lg = Logger(log='twitter')
-    lg.save()
-    user = instance
-    if user.id==1:
-        user.first_name='Grinberg'
-        user.last_name='Segal'
-        user.save()
-
-
-
+def twitter_profile_handler(sender, instance, is_new, email, profile_picture, **kwargs):
     try:
-        p = Profile.objects.get(id=instance.id)
-        p.profile_image_path=profile_picture
-        p.is_instagram_signup_used=1
-        p.save()
-    except ObjectDoesNotExist:
-        pass
+        task = TaskLog.objects.get(user_id=instance.id,
+                                   job='twitter_profile_created')
 
-    try:
-        member = Profile.objects.get(id=instance.id)
-        member.profile_image_path=profile_picture
-        member.save()
-        try:
-            stats = ProfileStats.objects.get(profile=member)
-        except ObjectDoesNotExist:
-            stats = ProfileStats(profile=member)
-            stats.save()
+        task.is_complete=True
+        task.save()
+    except Exception,R:
+        task = TaskLog.objects.create(user_id=instance.id,
+                                      username=instance.username,
+                                      job='twitter_profile_created',
+                                      is_complete=False)
+        task.save()
+        twitter_profile(sender, instance, is_new, email, profile_picture)
 
-    except ObjectDoesNotExist:
-        member = Profile(id=int(user.id),
-                         user=user,
-                         username=instance.username.encode('utf8'),
-                         username_lower=str(instance.username.encode('utf8')).lower(),
-                         profile_image_path=settings.DEFAULT_PROFILE_IMAGE)
-             #   user.profile.activation_key=activation
-        user.profile.save()
+
+def twitter_profile(sender, instance, is_new, email, profile_picture, **kwargs):
+
+    profile = Profile.objects.get(id=instance.id)
+
+    if is_new:
+        new_account_created(instance=instance)
 
 
 
@@ -245,7 +225,7 @@ def twitter_profile_handler(sender, instance, backend, is_new, email,profile_pic
 ###################################################
 
 @receiver(googleplus_strategy_used, sender=User)
-def googleplus_profile_handler(sender, instance, is_new, email,profile_picture, **kwargs):
+def googleplus_profile_handler(sender, instance, is_new, email, profile_picture, **kwargs):
     try:
         task = TaskLog.objects.get(user_id=instance.id,job='google_profile_created')
         task = TaskLog.objects.get(user_id=instance.id,
@@ -271,7 +251,6 @@ def google_profile(sender, instance, is_new, email, profile_picture):
     profile = Profile.objects.get(id=instance.id)
 
     new_account_created(instance=instance)
-
 
 
  
@@ -309,8 +288,6 @@ def create_profile(sender, instance, created, **kwargs):
 def create_user_profile(instance): 
 
 
-    log = Logger(log='LET US TRY CREATING A NEW PROFILE')
-    log.save()
     user = instance
     mess = 'Activate Accout.'
 
@@ -326,50 +303,85 @@ def create_user_profile(instance):
         activate = False
        
     except ObjectDoesNotExist:
-        log = Logger(log='IN CREATE PROFILE - PROFILE DOES NOT EXIST')
-        log.save()
-        instance.username=str(instance.id)
-        instance.save() 
-        instance.username=str(instance.id)
-        password = instance.password
-        instance.set_password(password)
-        instance.save()
+        try:
+            log = Logger(log='IN CREATING PROFILE - PROFILE DOES NOT EXIST')
+            log.save()
+            instance.username=str(instance.id)
+            instance.save() 
+            instance.username=str(instance.id)
+            password = instance.password
+            instance.set_password(password)
+            instance.save()
 
-        profile = Profile.objects.create(id=int(instance.id),
-                                                first_name = instance.first_name,
-                                                last_name = instance.last_name,
-                                                email = instance.email,
-                                                user=instance,
-                                                is_new=1,
-                                                city='',
-                                                country='',
-                                                profile_signature_path=signature,
-                                                profile_image_path=settings.PROFILE_IMAGE_PATH,
-                                                username=instance.username.lower())
+            profile = Profile.objects.create(id=int(instance.id),
+                                             first_name=instance.first_name,
+                                             last_name=instance.last_name,
+                                             email=instance.email,
+                                             user=instance,
+                                             is_new=1,
+                                             profile_image_path=settings.PROFILE_IMAGE_PATH,
+                                             username=instance.username.lower())
  
 
-        profile.save()
-
-
-        
-        try:
-             os.system("curl https://artrevolution.com/goresize?user_id="+str(instance.id))
-        except Exception, R:
-             log = Logger(log='WE GOT FUCKED IN CREATE PROFILE'+str(R))
-             log.save()
-
-
-
-    if profile.is_artist:
-        if not profile.profile_flag:
-            profile.profile_flag=True
             profile.save()
+            log = Logger(log='WE RE TRYING TO SEND BEFORE')
+            log.save()
 
-    if summary.is_artist:
-        if not summary.profile_flag:
-            summary.profile_flag=True
-            summary.save()
+            new_account_created(instance=instance)
+            log = Logger(log='WE RE TRYING TO SEND')
+            log.save()
+        except Exception as e:
+            log = Logger(log='WE FAILED TO CREATE NEW PROFILE %s'%str(e))
+            log.save()
 
+@run_async
+def send_activation_link(contact):
+    log = Logging(log='WILL SEND ACTIVATION')
+    log.save()
+
+    mess = 'Please activate your account.'    
+    try:
+        timeNow = datetime.now()
+
+        profile = ProfileMetaProp.objects.get(pk=1)
+        FROM = '<strong>Grinberg & Segal'
+        USER = profile.user_name
+        PASSWORD = profile.password
+        PORT = profile.smtp_port
+        SERVER = profile.smtp_server
+        TO = profile.email
+        SUBJECT = 'New message from a customer'
+        try:
+            path = "templates/new_message.html"
+
+            f = codecs.open(path, 'r')
+
+            m = f.read()
+            mess = string.replace(m, '[name]',contact.name)
+            mess = string.replace(mess, '[message]', contact.message)
+            mess = string.replace(mess, '[phone]',contact.phone)
+            mess = string.replace(mess,'[email]',contact.email)
+        #    mess = string.replace(mess,'[link]',link)
+
+        except Exception as R:
+            log = Logger(log='WE FAILED SENDING ACTIVATION %s'%str(R))
+            log.save()
+
+        message = mess
+
+        HTML_BODY  = MIMEText(message, 'html','utf-8')
+        MESSAGE.attach(HTML_BODY)
+        msg = MESSAGE.as_string()
+        server = smtplib.SMTP(SERVER+':'+PORT)
+        server.ehlo()
+        server.starttls()
+        server.login(USER,PASSWORD)
+        server.sendmail(FROM, TO, msg)
+        server.quit()
+
+    except Exception as R:
+        log = Logger(log='WE FAILED SENDING ACTIVATION %s'%str(R))
+        log.save()
 
 
 
@@ -396,7 +408,7 @@ def send_welcome(instance):
 
         try:
            email = instance.email
-        except Exception, R:
+        except Exception as R:
            email = ''
 
         f = codecs.open("templates/welcome_inline.html", 'r')
@@ -411,7 +423,7 @@ def send_welcome(instance):
        # mess = string.replace(mess,'[link]','')
 
        # message = mess.escape(string_to_escape, quote=True)
-        SUBJECT = 'Welcome to the Revolution!'
+        SUBJECT = 'Welcome to Grinberg and Segal!'
 
         message = mess
 
@@ -529,7 +541,7 @@ def resend_activation_handler(sender, instance, **kwargs):
     except Exception,R:
         task = TaskLog.objects.create(user_id=instance.id,username=instance.username,job='activation',is_complete=False)
         task.save()
-        send_activation(instance,ignore=True)
+        send_activation_link(instance,ignore=True)
 
 @receiver(facebook_strategy_fails, sender=User)
 def facebook_strategy_fails_handler(sender, instance, request, **kwargs):
@@ -539,17 +551,16 @@ def facebook_strategy_fails_handler(sender, instance, request, **kwargs):
 def new_account_created(instance):
 
     try:    
-
         profile = ProfileMetaProp.objects.get(pk=1)
-        new_account_notify(instance,profile.to_email)
-        new_account_notify(instance,profile.to_email_secondary)
-        new_account_notify(instance,profile.to_email_third) 
+        new_account_notify(instance, profile.to_email)
+        #new_account_notify(instance, profile.to_email_secondary)
+        #new_account_notify(instance, profile.to_email_third) 
+        send_activation_link(instance, ignore=True)
     except ObjectDoesNotExist:
         pass
 
 
-@run_async
-def new_account_notify(instance,email):
+def new_account_notify(instance, email):
 
     try:
 
@@ -572,7 +583,7 @@ def new_account_notify(instance,email):
         today = len(usrs)
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = 'Art Revolution <info@artrevolution.com>'
+        FROM = 'Grinberg and Segal <info@divorcesus.com>'
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -666,6 +677,7 @@ def new_account_notify(instance,email):
     except Exception, R:
         log = Logger(log='SOME SHIT PREVENTED US FROM SENDING '+str(R))
         log.save()
+
 
 @receiver(user_password_reset, sender=User)
 def reset_password(sender, instance, request, email, password, **kwargs):

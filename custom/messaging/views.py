@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from restless.views import Endpoint
+
+from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view, renderer_classes, permission_classes
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
@@ -30,6 +33,44 @@ from custom.utils.models import Logger
 import logging
 logger = logging.getLogger(__name__)
 
+@api_view(['POST'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def outgoing_messages_view(request):
+    """
+     A view that returns outgoing messages
+    """
+    try:
+       data = JSONParser().parse(request)
+       user_id = data['sender_id'].encode('utf-8')
+       messages_list = Message.objects.filter(sender_id=user_id)
+       serializer = MessageSerializer(messages_list, many=True)
+    except Exception as e:
+       return Response({})
+    return Response(serializer.data)    
+    
+
+@api_view(['POST'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def incoming_messages_view(request):
+    """
+     A view that returns incoming messages
+    """
+    try:
+       data = JSONParser().parse(request)
+       user_id = data['receiver_id'].encode('utf-8')
+       messages_list = Message.objects.filter(receiver_id=user_id)
+       serializer = MessageSerializer(messages_list, many=True)
+       log = Logger(log='WE SEND BACK {}'.format(len(messages_list)))
+       log.save()
+    except Exception as e:
+       log = Logger(log='WE FUCKED IT UP {}'.format(str(e)))
+       log.save()
+       return Response({})
+    return Response(serializer.data)
+
+
 class IncomingMessagesList(generics.ListAPIView):
     serializer_class = MessageSerializer
     permission_classes = (AllowAny,)
@@ -43,21 +84,12 @@ class IncomingMessagesList(generics.ListAPIView):
         try:
             receiver_id = self.kwargs['receiver_id']
             receiver_id = int(receiver_id)
-            log = Logger(log='RECEIVER ID A IS %d'%receiver_id)
-            log.save()
 
             return Message.objects.filter(receiver_id=receiver_id)
 
         except Exception, R:
             receiver_id = self.request.user.id
-            log = Logger(log='RECEIVER ID B IS %d'%receiver_id)
-            log.save()
-
             return Message.objects.filter(receiver_id=receiver_id)
-
-
- 
-
 
 class OutgoingMessagesList(generics.ListAPIView):
     serializer_class = MessageSerializer

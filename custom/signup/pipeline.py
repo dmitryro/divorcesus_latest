@@ -3,6 +3,7 @@
 
 import urllib2
 import json
+import logging
 from simplejson import loads
 import urllib
 from datetime import date
@@ -37,7 +38,6 @@ from django_facebook.utils import get_user_model, mass_get_or_create, \
 import logging
 
 from StringIO import StringIO
-import PIL
 from PIL import Image
 import urllib2
 import random
@@ -47,11 +47,13 @@ import re
 import sys
 
 from custom.users.models import Profile
+from custom.utils.models import Logger
 from signals import facebook_strategy_used
 from signals import googleplus_strategy_used
 from signals import twitter_strategy_used
 from signals import linkedin_strategy_used
 
+from callbacks import twitter_profile_handler
 from callbacks import facebook_profile_handler
 from callbacks import googleplus_profile_handler
 
@@ -121,14 +123,25 @@ def check_duplicate(backend, details, user, response, is_new=False,*args,**kwarg
 
 @partial
 def consolidate_profiles(backend, details, user, response, is_new=False,*args,**kwargs):
+    if user.email:
+        min_id = User.objects.filter(email=user.email).aggregate(id=Min('id'))
+        usr_id=min_id['id']
+        usr = User.objects.get(id=usr_id)
+    else:
+        usr = user
 
-    min_id = User.objects.filter(email=user.email).aggregate(id=Min('id'))
-    usr_id=min_id['id']
-    usr = User.objects.get(id=usr_id)
-    
-
-    if backend.name == 'linkedin':
+    if backend.name == 'linkedin-oauth2':
         skip_user = False
+
+        image_small = response.get('pictureUrl', None)
+        image_large = response.get('pictureUrls', {})
+
+        log = Logger(log='WE ARE USING LINKED IN {} {}'.format(image_small, image_large))
+        log.save()
+        log = Logger(log='WE ARE USING LINKED IM {}'.format(str(response)))
+        log.save()
+
+
 
         try:
             try:
@@ -138,7 +151,8 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
                  usr = User.objects.get(id=usr_id)
 
             except ObjectDoesNotExist:
-                 min_id = User.objects.filter(username=user.username).aggregate(id=Min('id'))
+                 email = response.get('emailAddress')
+                 min_id = User.objects.filter(email=email).aggregate(id=Min('id'))
                  usr_id=int(min_id['id'])
                  is_new=False
                  usr = User.objects.get(id=usr_id)
@@ -187,76 +201,66 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
 
 
     elif backend.name == 'twitter':
-        skip_user = False
-
+        profile_image_path = response.get('profile_image_url', '').replace('_normal', '')
         try:
-            try:
-                 min_id = User.objects.filter(email=user.email).aggregate(id=Min('id'))
-                 usr_id=int(min_id['id'])
-                 is_new=False
-                 usr = User.objects.get(id=usr_id)
-
-            except ObjectDoesNotExist:
-                 min_id = User.objects.filter(username=user.username).aggregate(id=Min('id'))
-                 usr_id=int(min_id['id'])
-                 is_new=False
-                 usr = User.objects.get(id=usr_id)
-            except Exception,R:
-                 usr = user
-
-            if usr.id < user.id:
-                is_new = False
-                try:
-                    user.profilesummary.delete()
-                except Exception, R:
-                    pass
-                try:
-                    user.profile.delete()
-                except Exception, R:
-                    pass
-                try:
-                    user.delete()
-                except Exception, R:
-                     pass
-
-                return {'user':usr}
-            else:
-                is_new = True
-                usr = user
-
-
+            profile = Profile.objects.get(profile_image_path=profile_image_path)
+            usr = profile.user
         except ObjectDoesNotExist:
+            profile = Profile.objects.create(id=user.id,
+                                             username=user.username,
+                                             is_new=True,
+                                             email=user.email,
+                                             is_twitter_signup_used=True,
+                                             first_name=user.first_name,
+                                             last_name=user.last_name,
+                                             user=user)
+            is_new = True
             usr = user
-            skip_user = False
-        except Exception, R:
-            usr = user
-            skip_user = False
-
-        try:
-             profile=Profile.objects.get(id=usr.id)
-        except ObjectDoesNotExist:
-             profile = Profile.objects.create(id=usr.id,username=usr.username,is_new=True,email=usr.email,first_name=usr.first_name,last_name=usr.last_name,user=usr)
-
-
 
         if profile.is_user_avatar==False:            
 
             avatar_url = response.get('profile_image_url', '').replace('_normal', '')
             profile.profile_image_path=avatar_url
+            profile.is_twitter_avatar=True
             profile.save()
+                
+            if avatar_url:
+                profile_picture = avatar_url
+            else:
+                profile_picture = settings.PROFILE_IMAGE_PATH
+        else:
+            profile_picture = profile.profile_image_path
+            
+        try:
+            email = usr.email
+            twitter_strategy_used.send(sender=usr, 
+                                       instance=usr,
+                                       is_new=is_new,
+                                       email=email,
+                                       profile_picture=profile_picture,
+                                       kwargs=None)
+        except Exception as e:
+            log = Logger(log='SOMETHING WHENT WRONG IN TWITTER %s'%str(e))
+            log.save()
+
+        return {'user':usr}
+
 
 
     elif backend.name == 'google-oauth2':
+        email = user.email
+        log = Logger(log='WE ARE IN GOOGLE - user {} {} {}'.format(user.first_name, user.last_name, user.email))
+        log.save()
 
         skip_user = False
-
+        
         try:
             try:
                  min_id = User.objects.filter(email=user.email).aggregate(id=Min('id'))
                  usr_id=int(min_id['id'])
                  is_new=False
                  usr = User.objects.get(id=usr_id)
-
+             
             except ObjectDoesNotExist:
                  min_id = User.objects.filter(username=user.username).aggregate(id=Min('id'))
                  usr_id=int(min_id['id'])
@@ -366,16 +370,20 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
         else:
                      is_new = False
 
+        usr.email = email
+        usr.save()
+
         googleplus_strategy_used.send(sender=usr, instance = usr,
-                                            is_new=is_new, email=usr.email,
+                                            is_new=is_new, email=email,
                                             profile_picture=profile_picture, kwargs=None)
-
-
         return {'user': usr}
 
 
 
     elif backend.name == 'facebook':
+        email = user.email
+        log = Logger(log='WE ARE IN FACEBOOK - user {} {} {}'.format(user.first_name, user.last_name, user.email))
+        log.save()
 
         skip_user = False
 
@@ -462,10 +470,13 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
                      is_new = False
 
 
+        usr.email = email
+        usr.save()
+
         facebook_strategy_used.send(sender=usr, instance = usr,
                                           new_id=user.id,
                                           is_new=is_new,
-                                          email=usr.email,
+                                          email=email,
                                           facebook_id=response['id'],
                                           request=request,
                                           kwargs=None)
@@ -473,5 +484,7 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
 
 
 
+
+twitter_strategy_used.connect(twitter_profile_handler)
 googleplus_strategy_used.connect(googleplus_profile_handler)
 facebook_strategy_used.connect(facebook_profile_handler)

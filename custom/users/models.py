@@ -134,6 +134,7 @@ class Profile(models.Model):
     phone = models.CharField(max_length=250, blank=True, null=True,default='')
     address = models.ForeignKey(Address, blank=True, null=True)
     is_new = models.NullBooleanField(default=True, blank=True, null=True)
+    is_activated = models.NullBooleanField(default=False, blank=True, null=True)
     is_avatar_processed = models.BooleanField(default=False, blank=True)
     is_avatar_transfered = models.BooleanField(default=False, blank=True)
     is_signature_customized = models.BooleanField(default=False, blank=True)

@@ -1,5 +1,6 @@
 from __future__ import absolute_import  # Python 2 only
 from jinja2 import Environment
+import json
 import itertools
 import logging
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -26,6 +27,7 @@ from custom.utils.models import Logger
 from custom.users.models import MileStone
 from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
+from custom.users.models import Profile
 from custom.gui.models import Slide
 from custom.gui.models import Service
 from custom.gui.models import FAQ
@@ -35,12 +37,135 @@ from custom.blog.models import Category
 from custom.blog.models import Post
 from custom.messaging.models import Message
 
+from rest_framework.parsers import JSONParser
+from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, renderer_classes, permission_classes
 from rest_framework import generics
 from restless.views import Endpoint
 
 from custom.gui.serializers import GlobalSearchSerializer
 from custom.gui.serializers import ServiceSerializer
 from custom.blog.serializers import CategorySerializer
+
+
+@api_view(['POST','GET'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+#@ensure_csrf_cookie
+def confirm_account_view(request):
+    """
+     A view that confirms the user
+    """
+    try:
+       log = Logger(log="WE HAVE HIT THE ENDPOINT {}".format(request.body)) 
+       log.save()
+ #      data = json.loads(request.body).encode('utf-8')
+       data = JSONParser().parse(request)
+       log = Logger(log="WE HAVE HIT THE ENDPOINT {}".format(request.body))
+       log.save()
+       log = Logger(log='DATA WAS {}'.format(data))
+       log.save()
+       
+       user_id = data['user_id'].encode('utf-8')
+       username = data['username'].encode('utf-8')
+       first = data['first'].encode('utf-8')
+       last = data['last'].encode('utf-8')
+       phone = data['phone'].encode('utf-8')
+       email = data['email'].encode('utf-8')
+
+       if email:
+           users_email = User.objects.filter(~Q(id = int(user_id)), email=email)
+       else:
+           users_email = []
+
+       if phone:
+           users_phone = Profile.objects.filter(~Q(id = int(user_id)), phone=phone)       
+       else:
+           users_phone = []
+
+       if username:
+           users_username = Profile.objects.filter(~Q(id = int(user_id)), username=username)
+       else:
+           users_username = []
+
+       content = None
+
+       if len(users_email) > 0:
+           content = {'user_activated': False,
+                      'error': {'email':'already used'}}
+
+       if len(users_phone) > 0:
+           if not content:
+               content = {}
+               content['user_activated'] = False
+           if content.get('error') == None:
+               content['error'] = {}
+           content['error']['phone']='already used'
+
+       if len(users_username) > 0:
+           if not content:
+               content = {}
+               content['user_activated'] = False
+           if content.get('error') == None:
+               content['error'] = {}
+           content['error']['username']='already used'
+            
+
+       if content and len(content) > 0 :
+           log = Logger(log="WE GOT ERRORS {}".format(content))
+           log.save()
+           return Response(content)
+
+       user = User.objects.get(id=int(user_id))
+       user.first_name = first
+       user.last_name = last
+       user.profile.first_name = first
+       user.profile.last_name = last
+       user.profile.email = email
+       user.email = email
+       user.profile.phone = phone
+       user.username = username
+       user.profile.username = username
+       user.profile.save()
+       user.save()
+    except Exception as e:
+       first = ''
+       last = ''
+       phone = ''
+       email = ''
+       username = ''
+       user_id = ''
+       content = {'user_activated': False, 
+                 'error': str(e), 
+                 'last': '',
+                 'first':''}
+
+              
+       log = Logger(log='FAILED TO CONFIRM {}'.format(e))
+       log.save()
+    
+    content = {'user_activated': True, 
+               'first': first, 
+               'last': last, 
+               'phone': phone, 
+               'email': email,
+               'username': username,
+               'user_id': user_id}
+    user = User.objects.get(id=user_id)
+    user.profile.email = email
+    user.email = email
+    user.profile.is_activated = True
+    user.profile.phone = phone
+    user.username = username
+    user.profile.username = username
+    user.profile.save()
+    user.save()
+
+    return Response(content)
+
 
 ############################################
 ## Add a New Post view                    ##
@@ -177,6 +302,19 @@ def dashboard(request):
            last_name = ''
            profile_image_path = ''
 
+        if not request.user.profile.is_activated:
+            return render(request, 'index-0.html',{'logout':logout,
+                                                   'user_id':user_id,
+                                                   'first':first_name,
+                                                   'last':last_name,
+                                                   'slides':slides,
+                                                   'faqs':faqs,
+                                                   'posts':posts,
+                                                   'qualifying':qquestions,
+                                                   'milestones':milestones,
+                                                   'advantage_links':advantage_links,
+                                                   'profile_image':""})# profile_image_path})
+
     else:
 
         user_id = -1
@@ -185,6 +323,7 @@ def dashboard(request):
         first_name = ''
         last_name = ''
         profile_image_path = ''
+        
 
         return render(request, 'index-0.html',{'logout':logout,
                                                'user_id':user_id,
@@ -883,8 +1022,5 @@ class DashboardLogoutView(DashboardLogoutViewMixin, TemplateView):
         threshold=180
         if request.user.is_authenticated():
                logout(request)
-        #  user = request.user
-
-
         return render(request, 'index-0.html',{ 'FB_APP_ID' : settings.SOCIAL_AUTH_FACEBOOK_KEY,'logout':False })
  

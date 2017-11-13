@@ -5,8 +5,8 @@ from models import Service
 
 class ServiceAdmin(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ['title','fees','price','is_available','avatar']}),)
-    list_display = ('title','fees','price','avatar')
-    list_editable = ('title','fees','price')
+#    list_display = ('title','fees','price','avatar')
+#    list_editable = ('title','fees','price')
     
     class Meta:
          verbose_name = 'Service'
@@ -16,8 +16,8 @@ class ServiceAdmin(admin.ModelAdmin):
 
 class PackageAdmin(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ['title','fees','price','is_available','services']}),)
-    list_display = ('title','fees','price',)
-    list_editable = ('title','fees','price')
+ #   list_display = ('title','fees','price',)
+ #   list_editable = ('title','fees','price')
 
     class Meta:
          verbose_name = 'Service Package'

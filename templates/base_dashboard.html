@@ -498,11 +498,17 @@ Vue.component('modal', {
                $('.panel-current-incoming-message').hide();
                $('#paymenthistory').hide();
 
+               var arr = {receiver_id: document.getElementById('user_id').value};
+
                $.ajax({
-                     method: "GET",
                      url: "http://divorcesus.com/incoming/",
-                     data: {}
-               }).done(function( msg ) {
+                     type: "POST",
+                     crossDomain: true,
+                     data: JSON.stringify(arr),
+                     dataType: 'json',
+                     contentType: 'application/json; charset=utf-8',
+                     method: "POST"
+              }).done(function( msg ) {
                            var result = '';
                            for(var i=0; i<msg.length; i++) {
                                result=result+"<div style='float:left;width:30%;'>";
@@ -554,20 +560,25 @@ Vue.component('modal', {
                $("#incoming").hide();
                $('#paymenthistory').hide();
 
+               var arr = {sender_id: document.getElementById('user_id').value};
+
                $.ajax({
-                     method: "GET",
                      url: "http://divorcesus.com/outgoing/",
-                     data: { title: $('#message_title').val(),
-                             message_id: $('#message_id').val(),
-                             receiver_id:$('#receiver_id').val(),
-                             body:tinyMCE.activeEditor.getContent()}
+                     type: "POST",
+                     crossDomain: true,
+                     data: JSON.stringify(arr),
+                     dataType: 'json',
+                     contentType: 'application/json; charset=utf-8',
+                     method: "POST"
               }).done(function( msg ) {
+
                            var result = '';
                            for(var i=0; i<msg.length; i++) {
-                               result=result+"<div style='float:left;width:30%;'>";
-                               result=result+msg[i].receiver.first_name;
-                               result=result+' ';
-                               result=result+msg[i].receiver.last_name;
+                                
+                           result=result+"<div style='float:left;width:30%;'>";
+                               result=result+msg[i].receiver.username;
+                               //result=result+' ';
+                              // result=result+msg[i].receiver.last_name;
                                result=result+"</div>";
                                result=result+"<div style='float:left;width:10%;'>";
                                result=result+msg[i].time_sent;
@@ -1270,7 +1281,7 @@ new Vue ({
                            result=result+"</div>"
 
                            var res = msg.messages;
-                               
+                            
                            for(var i = 0; i < res.length; i++) {
                             
                                result=result+"<div style='float:left;width:20%;'>";

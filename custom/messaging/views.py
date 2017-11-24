@@ -141,8 +141,6 @@ def incoming_messages_view(request):
        user_id = data['receiver_id'].encode('utf-8')
        messages_list = Message.objects.filter(receiver_id=user_id)
        serializer = MessageSerializer(messages_list, many=True)
-       log = Logger(log='WE SEND BACK {}'.format(str(serializer.data)))
-       log.save()
     except Exception as e:
        log = Logger(log='WE FUCKED IT UP {}'.format(str(e)))
        log.save()

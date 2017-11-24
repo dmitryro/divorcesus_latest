@@ -1,3 +1,5 @@
+
+
     function makeExpandingArea(container) {
         var area = container.querySelector('textarea');
         var span = container.querySelector('span');
@@ -1320,8 +1322,29 @@ function isMobile() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
+function resend() {
+
+      var arr = {user_id: document.getElementById('user-id').value};
+
+      $.ajax({
+                url: "http://divorcesus.com/resendactivation/",
+                type: "POST",
+                crossDomain: true,
+                data: JSON.stringify(arr),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(msg) {
+                    $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
+                         setTimeout(function() {
+                                $('#activation-required-app').fadeOut('slow');
+                     }, 2500);
+
+                }
+            });
+  
+}
 function confirm_info() {
- var arr = {first: document.getElementById('first').value, 
+  var arr = {first: document.getElementById('first').value, 
             last: document.getElementById('last').value, 
             username: document.getElementById('username').value, 
             user_id: document.getElementById('user-id').value, 
@@ -1375,3 +1398,4 @@ function confirm_info() {
         );
 
 }
+

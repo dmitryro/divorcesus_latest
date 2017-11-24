@@ -4,18 +4,31 @@
     }
 
     jQuery(document).ready(function(){
-
-        var box = null;
-
-        $(function(){
+              
+           var box = null;
+           
+           $(function(){
                   $(".ui-chatbox")
                         .draggable()
                         .resizable();
 
            });
 
-            var counter = 1;
 
+            var activate = eval($("#show_activation").val());
+            var link_expired = eval($("#link_expired").val());
+
+            if (activate==1) {
+                         setTimeout(function() {
+                                $('#activation-app').fadeOut('slow');
+                         }, 2500);
+            }
+
+            if (link_expired==1) {
+                alert("this link has expired");
+            }
+
+            var counter = 1;
             $("#counter").attr("value",1);
             $("#wizard :nth-child(1)").attr('class','active');
             $("#stepone").css("display","block");
@@ -24,6 +37,9 @@
             $("#stepfour").css("display","none");
             $("#stepfive").css("display","none");
 
+            $("#resend").bind("click", function() {
+                  resend();
+            });
             document.getElementById('property_block').style.display='none';
             document.getElementById('protection_block').style.display='none';
             document.getElementById('agreements_block').style.display='none';
@@ -1060,6 +1076,8 @@
 
                });
           });
+
+
 
 
     }); // ready ends

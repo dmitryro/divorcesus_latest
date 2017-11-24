@@ -38,6 +38,8 @@ from custom.blog.models import Post
 from custom.messaging.models import Message
 from custom.messaging.signals import message_sent
 from custom.messaging.callbacks import message_sent_handler
+from custom.signup.callbacks import resend_activation_handler
+from custom.signup.signals import user_resend_activation
 
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
@@ -51,6 +53,33 @@ from restless.views import Endpoint
 from custom.gui.serializers import GlobalSearchSerializer
 from custom.gui.serializers import ServiceSerializer
 from custom.blog.serializers import CategorySerializer
+
+@api_view(['POST', 'GET'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def resend_activation_view(request):
+    """
+     A view that returns incoming messages
+    """
+    try:
+       data = JSONParser().parse(request)
+       user_id = data['user_id'].encode('utf-8')
+       if user_id:
+           user = User.objects.get(id=int(user_id))
+       else:
+           user = request.user
+       user_resend_activation.send(sender = user,
+                                   instance = user,
+                                   kwargs = None)
+
+       log = Logger(log='WE VE RESENT THE ACTIVATION')
+       log.save()
+    except Exception as e:
+       log = Logger(log='WE FAILED TO RESEND THE ACTIVATION {}'.format(e))
+       log.save()
+       return Response({'resent':False})
+
+    return Response({'resent':True})
 
 
 @api_view(['POST','GET'])
@@ -91,13 +120,26 @@ def confirm_account_view(request):
 
        content = None
 
+       if not phone:
+           content = {'user_activated': False,
+                      'user_confirmed': False,
+                      'error': {'phone':'phone empty'}}
+
+       if not email:
+           content = {'user_activated': False,
+                      'user_confirmed': False,
+                      'error': {'email':'email empty'}}
+
+ 
        if len(users_email) > 0:
            content = {'user_activated': False,
+                      'user_confirmed': False,
                       'error': {'email':'already used'}}
 
        if len(users_phone) > 0:
            if not content:
                content = {}
+               content['user_confirmed'] = False
                content['user_activated'] = False
            if content.get('error') == None:
                content['error'] = {}
@@ -106,6 +148,7 @@ def confirm_account_view(request):
        if len(users_username) > 0:
            if not content:
                content = {}
+               content['user_confirmed'] = False
                content['user_activated'] = False
            if content.get('error') == None:
                content['error'] = {}
@@ -117,10 +160,12 @@ def confirm_account_view(request):
            log.save()
            return Response(content)
 
-       attorney = User.objects.get(id=14)
 
 
        user = User.objects.get(id=int(user_id))
+       user.is_active = True
+       user.profile.is_confirmed = True
+       user.profile.is_activated = False
        user.first_name = first
        user.last_name = last
        user.profile.first_name = first
@@ -133,20 +178,9 @@ def confirm_account_view(request):
        user.profile.save()
        user.save()
 
-       message_title = 'Welecome to Grinberg and Segal'
-       message_body = 'Dear {} {}! We are glad to see you here!'.format(user.first_name, 
-                                                                        user.last_name)
-
-       message = Message.objects.create(title=message_title,
-                                        body=message_body,
-                                        sender=attorney,
-                                        receiver=user)
-
-       message_sent.send(sender = attorney,
-                         receiver = user,
-                         message = message,
-                         kwargs = None)
-
+       user_resend_activation.send(sender = user, 
+                                   instance = user,
+                                   kwargs = None)
 
     except Exception as e:
        first = ''
@@ -164,22 +198,29 @@ def confirm_account_view(request):
        log = Logger(log='FAILED TO CONFIRM {}'.format(e))
        log.save()
     
-    content = {'user_activated': True, 
+    content = {'user_activated': False,
+               'user_confirmed': True, 
                'first': first, 
                'last': last, 
                'phone': phone, 
                'email': email,
                'username': username,
                'user_id': user_id}
+
     user = User.objects.get(id=user_id)
     user.profile.email = email
     user.email = email
-    user.profile.is_activated = True
     user.profile.phone = phone
     user.username = username
     user.profile.username = username
     user.profile.save()
     user.save()
+
+    try:
+        log_out(request)
+    except Exception as e:
+        log = Logger(log='FAILED TO LOG OUT {}'.format(e))
+        log.save()
 
     return Response(content)
 
@@ -384,6 +425,9 @@ def dashboard(request):
 
 @ensure_csrf_cookie
 def home(request):
+    log = Logger(log='TEST IT WE ARE ENTERING')
+    log.save()
+
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -1042,5 +1086,6 @@ class DashboardLogoutView(DashboardLogoutViewMixin, TemplateView):
         return render(request, 'index-0.html',{ 'FB_APP_ID' : settings.SOCIAL_AUTH_FACEBOOK_KEY,'logout':False })
 
 
+user_resend_activation.connect(resend_activation_handler)
 message_sent.connect(message_sent_handler)
  

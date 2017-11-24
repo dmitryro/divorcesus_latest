@@ -28,5 +28,5 @@ class ContactSerializer(serializers.ModelSerializer):
 class TeamMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeamMember
-        fields = ('id','user','username','first_name','last_name','title','bio','avatar')
+        fields = ('id', 'user', 'username', 'first_name', 'last_name', 'title', 'bio', 'avatar')
 

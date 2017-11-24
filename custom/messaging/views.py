@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+from django_filters.rest_framework import DjangoFilterBackend
 from restless.views import Endpoint
 
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view, renderer_classes, permission_classes
+from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
@@ -16,22 +20,97 @@ from signals import message_read
 from signals import message_sent
 from signals import message_deleted
 from signals import message_updated
+from signals import message_duplicate_to_email
 from callbacks import message_deleted_handler
 from callbacks import message_read_handler
 from callbacks import message_sent_handler
 from callbacks import message_updated_handler
+from callbacks import message_duplicate_to_email_handler
 from serializers import MessageSerializer
+from serializers import MessagingSettingsSerializer
 from serializers import NotificationSerializer
 from serializers import NotificationTypeSerializer
+from serializers import UserSerializer
 from filters import MessageFilter
 from filters import NotificationFilter
+from filters import UserFilter
 from models import Message
 from models import Notification
 from models import NotificationType
+from models import MessagingSettings
 from custom.utils.models import Logger
 
 import logging
 logger = logging.getLogger(__name__)
+
+class MessagingSettingsList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = MessagingSettingsSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('duplicate_private',)
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('username', 'email')    
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing user instances.
+    """
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    filter_class = UserFilter
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id', 'username', 'email')
+
+class MessagingSettingsViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing messaging settings instances.
+    """
+    serializer_class = MessagingSettingsSerializer
+    queryset = MessagingSettings.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id', 'duplicate_private',)
+
+
+@api_view(['POST', 'GET'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def msg_duplication_view(request):
+    """
+    A view to activate or deactivate private message duplication
+    """
+    data = JSONParser().parse(request)
+    user_id = data['user_id']
+    toggle = data['toggle']
+
+    if request.user.is_authenticated():
+        user = request.user
+    else:
+        try:
+            user = User.objects.get(id=int(user_id))
+        except Exception as e:
+            return Response({'resilt':'error'})
+  
+    try:
+        user_id = int(user_id)
+        messages_settings = MessagingSettings.objects.get(user=user)
+        messages_settings.duplicate_private = bool(toggle)
+        messages_settings.save()
+        serializer = MessagingSettingsSerializer(messages_settings, many=False)
+    except ObjectDoesNotExist:
+        messages_settings = MessagingSettings.objects.create(user=user, 
+                                                             duplicate_private=bool(toggle))
+        serializer = MessagingSettingsSerializer(messages_settings, many=False)
+    log = Logger(log='WE ARE RETURNING {}'.format(str(serializer.data)))
+    log.save()
+
+    return Response(serializer.data)
+
 
 @api_view(['POST'])
 @renderer_classes((JSONRenderer,))
@@ -50,7 +129,7 @@ def outgoing_messages_view(request):
     return Response(serializer.data)    
     
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 @renderer_classes((JSONRenderer,))
 @permission_classes([AllowAny,])
 def incoming_messages_view(request):
@@ -62,12 +141,12 @@ def incoming_messages_view(request):
        user_id = data['receiver_id'].encode('utf-8')
        messages_list = Message.objects.filter(receiver_id=user_id)
        serializer = MessageSerializer(messages_list, many=True)
-       log = Logger(log='WE SEND BACK {}'.format(len(messages_list)))
+       log = Logger(log='WE SEND BACK {}'.format(str(serializer.data)))
        log.save()
     except Exception as e:
        log = Logger(log='WE FUCKED IT UP {}'.format(str(e)))
        log.save()
-       return Response({})
+       return {}
     return Response(serializer.data)
 
 
@@ -176,6 +255,13 @@ class SendMessageView(Endpoint):
                               message = message,
                               kwargs = None)
 
+            if receiver.messagingsettings:
+                if receiver.messagingsettings.duplicate_private:
+                    message_duplicate_to_email.send(sender = sender,
+                                                    receiver = receiver,
+                                                    message = message,
+                                                    kwargs = None)
+
         except Exception, R:
             log = Logger(log=str(R))
             log.save()
@@ -234,7 +320,14 @@ class SendMessageView(Endpoint):
                               receiver = receiver,
                               message = message,
                               kwargs = None)
-
+            if receiver.messagingsettings:
+                if receiver.messagingsettings.duplicate_private:
+                    message_duplicate_to_email.send(sender = sender,
+                                                    receiver = receiver,
+                                                    message = message,
+                                                    kwargs = None)
+        
+            
         except Exception as e:
             log = Logger(log="We were unable to send message - "+str(e))
             log.save()
@@ -379,6 +472,7 @@ class ReadMessageView(Endpoint):
 
 
 
+message_duplicate_to_email.connect(message_duplicate_to_email_handler)
 message_read.connect(message_read_handler)
 message_sent.connect(message_sent_handler)
 message_deleted.connect(message_deleted_handler)

@@ -7,7 +7,7 @@ from signals import message_read
 from signals import message_sent
 from signals import message_deleted
 from signals import message_updated
-
+from signals import message_duplicate_to_email
 from custom.utils.models import Logger
 
 @receiver(message_deleted,sender=User)
@@ -44,3 +44,8 @@ def message_read_handler(sender, receiver, message, **kwargs):
         log = Logger(log = 'WE ARE IN SIGNAL READ MESSAGE AND WE HAVE FAILED '+str(R))
         log.save()
 
+
+@receiver(message_duplicate_to_email, sender=User)
+def message_duplicate_to_email_handler(sender, receiver, message, **kwargs):
+    log = Logger(log="WE WANT TO DUPLICATE IT")
+    log.save()

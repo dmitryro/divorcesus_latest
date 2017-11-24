@@ -25,7 +25,7 @@
                  <img src="/media/images/big_icon_network.png" height="30" width="30"/>
        </div>
        <div class="signout-wrapper" style="margin-left:15px;margin-top:17px;">
-             {% if logout %}
+         {% if logout %}
                 <a href="/signout"  class="btn2 dashboard-logout" id="show-modal" @click="showModal = false">
                     <img src="/media/images/exit.png" height="30" width="30"/>
                 </a>
@@ -39,7 +39,7 @@
       <span class="menu-header-title">
 
 
- <!-- app -->
+        <!-- app -->
            <!-- use the modal component, pass in the prop -->
 
          {% if user.is_authenticated %}
@@ -225,6 +225,46 @@
   &nbsp;
   </div>
 
+                              {% if user.is_authenticated and is_activated %}
+                                   <form  method="POST" action="">
+                                      {% csrf_token %}
+                                   <!-- template for the modal component -->
+                                   <script type="x/template" id="modal-activation-template">
+                                       <div class="modal-mask" v-show="show" transition="modal">
+                                           <div class="modal-wrapper">
+                                               <div class="modal-container" style="min-width: 25.5em;">
+                                                     <div class="modal-header">
+                                                         <div id="modal-header" class="header-left">
+                                                             <h3><strong>Your account has been confirmed!</strong></h3>
+                                                         </div>
+                                                         <div class="modal-body">
+                                                             <slot name="body">
+                                                                  You can now start using your account.
+                                                             </slot>
+                                                         </div>
+                                                         <div class="modal-footer">
+                                                             <slot name="footer">
+                                                                 &nbsp;<br/>
+                                                             </slot>
+                                                         </div>
+                                                     </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </script>
+                                   </form>
+                                  <!-- activation-app -->
+                                   <div id="activation-app">
+                                   <!-- use the modal component, pass in the prop -->
+                                            <modal :show.sync="showModal">
+                                             <!--
+                                                 you can use custom content here to overwrite
+                                                 default content
+                                             -->
+                                            </modal>
+                                   </div>
+                                  {% endif %}
+
 <div class="container" id="dashboard_panel">
     <div class="row">
 
@@ -254,7 +294,7 @@
                            <div class="header">Payments</div>
                            <div class="content">
                                 <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Payment Methogs (0)</div>
+                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Payment Methods (0)</div>
                                 <div class="clear"></div>
                                 <div class="content-icon"></div>
                                 <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Past Transactions (0)</div>
@@ -296,13 +336,13 @@
                            <div class="header">Posts</div>
                            <div class="content">
                                 <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;">Posts You Published ({% dashboard_meta user_id 3 %})</div>
+                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;color:#959699;"><a href="#"  onclick="openmenu('allposts');" style="color:#959699;">All Posts ({% dashboard_meta user_id 3 %})</a></div>
                                 <div class="clear"></div>
                                 <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;">Comments You Made({% dashboard_meta user_id 4 %})</div>
+                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;">Comments({% dashboard_meta user_id 4 %})</div>
                                 <div class="clear"></div>
                                 <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;">Posts You Commented (0)</div>
+                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;">Subscriptions (0)</div>
                                 <div class="clear"></div>
                            </div>
                   </div>
@@ -313,7 +353,16 @@
 
         </div>
         <div class="col-md-9 well admin-content" id="profile">
-            Profile
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Personal Profile</h4>
+                             </div>
+                             <div class="panel-payments">
+
+
+
+                             </div>
+              </div>
         </div>
         <div class="col-md-9 well admin-content" id="preferences">
               <div class="card card-3 panel-right">
@@ -328,13 +377,41 @@
               </div>
         </div>
         <div class="col-md-9 well admin-content" id="addresses">
-            Addresses
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Manage Your Addresses</h4>
+                             </div>
+                             <div class="panel-payments">
+
+
+
+                             </div>
+              </div>
         </div>
         <div class="col-md-9 well admin-content" id="contacts">
-            Contacts
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Personal Contacts</h4>
+                             </div>
+                             <div class="panel-payments">
+
+
+
+                             </div>
+              </div>
+
         </div>
         <div class="col-md-9 well admin-content" id="payments">
-            Payments
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Payments</h4>
+                             </div>
+                             <div class="panel-payments">
+
+
+
+                             </div>
+              </div>
         </div>
         <div class="col-md-9 well admin-content" id="paymentmethods">
 
@@ -367,13 +444,41 @@
               </div>
         </div>
         <div class="col-md-9 well admin-content" id="requestinfo">
-            Request Info
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Request Information</h4>
+                             </div>
+                             <div class="panel-payments">
+
+
+
+                             </div>
+              </div>
         </div>
         <div class="col-md-9 well admin-content" id="checkstatus">
-            Check Status
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Case Status</h4>
+                             </div>
+                             <div class="panel-inner">
+
+
+
+                             </div>
+              </div>        
+
         </div>
         <div class="col-md-9 well admin-content" id="similarcases">
-            Similar Cases
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Similar Cases</h4>
+                             </div>
+                             <div class="panel-inner">
+
+
+
+                             </div>
+              </div>
         </div>
 
         <div class="col-md-9 well admin-content" id="paymenthistory">
@@ -408,7 +513,7 @@
                              <div class="panel-header">
                                    <h4>Incoming</h4>
                              </div>
-                             <div class="panel-incoming-messages">
+                             <div class="panel-incoming-messages panel-inner">
 
 
 
@@ -442,7 +547,7 @@
                              <div class="panel-header">
                                    <h4>Outgoing</h4>
                              </div>
-                             <div class="panel-outgoing-messages">
+                             <div class="panel-outgoing-messages panel-inner">
 
 
 
@@ -508,10 +613,17 @@
 
            <div id="appform">
 
-            <div style="float:left;width:45%;">
+            <div style="float:left;width:100%;">
+
+              <div class="card card-3 panel-right" style="width:80%;padding-left:2.2em;">
+
+
+
+
            	<div class="form-header">
                                    <h4>New Post</h4>
                  </div>
+                  <div class="panel-payments">
 
                <validator name="validation1">
                 <div class="errors">
@@ -557,6 +669,8 @@
                         
            	</form>
                </validator>
+                </div>
+                </div>
                </div>
               </div>
 
@@ -634,22 +748,38 @@
                    <div class="errors">
                        <validator-errors :validation="$validation_messages"></validator-errors>
                    </div>
-                 <form class="form" novalidate>
+                   <form class="form" novalidate>
+                        <div>
+                            <label for="message_title">Title</label>
+                        </div>
+                        <div>
                         <input type="hidden" name="post_id" id="post_id" value="" />
                         <p class="name">
                                 <input type="text" id="message_title" name="message_title" v-validate:message_title=['nonempty'] />
-                                <label for="message_title">Title</label>
                         </p>
-                        <p>  
-                             
+                        </div>                        
+                        <div style="float:left;">
+
+                        <p> 
+                             <div>
+                                  <label for="receiver_id">Send it to</label>
+                             </div>
+                             <div> 
                              <select id="receiver_id">
                                 <option value="14">{% member_meta 4 1 %}</option>
                                 <option value="15">{% member_meta 5 1 %}</option>
                                 <option value="16">{% member_meta 6 1 %}</option>
+                                <option value="17">All Customers</option>
+                                <option value="18">All Staff</option>
+                                <option value="19">Specific Customer</option>
                              </select>
-                             <label for="receiver_id">Send it to</label>
-
+                             </div>
                         </p>
+                        </div>
+                        <div id="send-to-customer" class="send-to-customer" style="float:left;display:none;">
+                                <input type="text" style="height:0.8em;margin-top:1.4em;margin-left:1.0em"  name="target-customer" id="target-customer" value="" size="6" />
+                        </div>
+                        <div class="clear"></div>
                         <div id="send-us-message">
                                 <textarea name="message_body" id="message_body" width="40"  /></textarea>
                         </div>
@@ -664,7 +794,34 @@
            </div>
         </div>
         <div class="col-md-9 well admin-content" id="onandoff">
-            Turn notifications on and off
+              <div class="card card-3 panel-right">
+                             <div class="panel-header">
+                                   <h4>Turn notifications on and off</h4>
+                             </div>
+                             <div class="panel-inner">
+           
+              <div>
+                <h5>Duplicate private messages to email</h5>
+                <label class="switch"><input type="checkbox" id="duplicate_to_email" value=""><div class="slider round"><!--ADDED HTML --><span class="on">ON</span><span class="off">OFF</span><!--END--></div></label>
+<!--
+                <label for="normal-toggle-button">
+                  <input class="toggleable-button" id="email-private-toggle-button" name="email-private-toggle-button" type="checkbox" />
+                </label>
+-->
+              </div>
+
+
+              <div>
+                <h5>Notify about group events</h5>
+                <label class="switch"><input type="checkbox" id="togBtn"><div class="slider round"><!--ADDED HTML --><span class="on">ON</span><span class="off">OFF</span><!--END--></div></label>
+
+
+              </div>
+
+
+                             </div>
+              </div>
+
         </div>
     </div>
 

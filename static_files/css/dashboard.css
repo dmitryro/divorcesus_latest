@@ -227,3 +227,140 @@ input:focus, textarea:focus {
     width:65%;
     margin-right:10%;
 }
+
+.panel-inner {
+    padding:1.8em 1.2em 1.8em 1.2em;
+}
+
+.flash {
+  -moz-animation: flash 1s ease-out;
+  -moz-animation-iteration-count: 1;
+
+  -webkit-animation: flash 1s ease-out;
+  -webkit-animation-iteration-count: 1;
+
+  -ms-animation: flash 1s ease-out;
+  -ms-animation-iteration-count: 1;
+}
+
+@keyframes flash {
+    0% { background-color: transparent; }
+    50% { background-color: #fbf8b2; }
+    100% { background-color: transparent; }
+}
+
+@-webkit-keyframes flash {
+    0% { background-color: transparent; }
+    50% { background-color: #fbf8b2; }
+    100% { background-color: transparent; }
+}
+
+@-moz-keyframes flash {
+    0% { background-color: transparent; }
+    50% { background-color: #fbf8b2; }
+    100% { background-color: transparent; }
+}
+
+@-ms-keyframes flash {
+    0% { background-color: transparent; }
+    50% { background-color: #fbf8b2; }
+    100% { background-color: transparent; }
+}
+
+.notification-counter {
+    position: absolute;
+    top: -44px;
+    left: -7.5px;
+
+    background-color: rgba(212, 19, 13, 1);
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 3px;
+    font: 14px Verdana;
+}
+
+
+
+
+.notification ul {
+    margin-top:-50px;
+    position:absolute;
+    width: 100%;
+    height: 50px;
+}
+
+.notification ul, .notification li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.fake-notification {
+    font: 10px Arial;
+    margin-top: 50px;
+}
+
+.avatar-small {
+    height: 40px;
+    width: : 40px;
+    float: left;
+    margin-right: 1em;
+    position: relative;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.inner-textarea {
+    display: block;
+    width: 76%;
+    margin: 0;
+    -webkit-appearance: none;
+    outline: none;
+    font-family: "Raleway", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    padding: 13px 25px;
+    line-height: 20px;
+    color: #777777;
+    background: #f3f3f3;
+    border: 2px solid #d0cece;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.notification-container {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    top: 15px;
+    left: 15px;
+
+    i {
+        color: #fff;
+    }
+}
+
+.errors { color: red; }
+
+
+.header-cont {
+    width:100%;
+    position:fixed;
+    top:0px;
+}
+.header {
+    height:50px;
+    background:#F0F0F0;
+    border:1px solid #CCC;
+    width:100%;
+    margin:0px auto;
+}
+.content {
+    width:100%;
+    background: #F0F0F0;
+    border: 1px solid #CCC;
+    height: 2000px;
+    margin: 0px auto;
+}
+

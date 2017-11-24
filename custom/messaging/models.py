@@ -65,3 +65,13 @@ class Notification(models.Model):
         verbose_name_plural = 'Notifications'
 
 
+class MessagingSettings(models.Model):
+    user = models.OneToOneField(User, blank=True, null=True) 
+    duplicate_private = models.NullBooleanField(default=False,
+                                                blank=True,
+                                                null=True)
+
+    class Meta:
+        verbose_name = 'Messaging Settings'
+        verbose_name_plural = 'Messaging Settings'
+ 

@@ -187,7 +187,14 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
         try:
              profile=Profile.objects.get(id=usr.id)
         except ObjectDoesNotExist:
-             profile = Profile.objects.create(id=usr.id,username=usr.username,is_new=True,email=usr.email,first_name=usr.first_name,last_name=usr.last_name,user=usr)
+             profile = Profile.objects.create(id=usr.id,
+                                              username=usr.username,
+                                              is_new=True,
+                                              email=usr.email,
+                                              first_name=usr.first_name,
+                                              last_name=usr.last_name,
+                                              is_linkedin_signup_used=True,
+                                              user=usr)
 
         if profile.is_user_avatar==False:
             avatar_url = response.get('pictureUrls', {}).get('values', [None])[0]
@@ -300,7 +307,15 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
         try:
              profile=Profile.objects.get(id=usr.id)
         except ObjectDoesNotExist:
-             profile = Profile.objects.create(id=usr.id,username=usr.username,is_new=True,email=usr.email,first_name=usr.first_name,last_name=usr.last_name,user=usr)
+             profile = Profile.objects.create(id=usr.id,
+                                              username=usr.username,
+                                              is_new=True,
+                                              email=usr.email,
+                                              first_name=usr.first_name,
+                                              last_name=usr.last_name,
+                                              is_google_signup_used=True,
+                                              user=usr)
+
 
 
         if profile.is_user_avatar==False:
@@ -388,6 +403,7 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
         skip_user = False
 
         try:
+
             try:
                  min_id = User.objects.filter(email=user.email).aggregate(id=Min('id'))
                  usr_id=int(min_id['id'])
@@ -421,7 +437,6 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
             else:
                 usr = user
 
-
         except ObjectDoesNotExist:
             usr = user
             skip_user = False
@@ -433,7 +448,14 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
              profile=Profile.objects.get(id=usr.id)
         except ObjectDoesNotExist:
              is_new=True
-             profile = Profile.objects.create(id=usr.id,username=usr.username,is_new=True,email=usr.email,first_name=usr.first_name,last_name=usr.last_name,user=usr)
+             profile = Profile.objects.create(id=usr.id,
+                                              username=usr.username,
+                                              is_new=True,
+                                              email=usr.email,
+                                              first_name=usr.first_name,
+                                              last_name=usr.last_name,
+                                              is_facebook_signup_used=True,
+                                              user=usr)
 
 
 

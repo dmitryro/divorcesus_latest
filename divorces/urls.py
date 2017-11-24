@@ -28,6 +28,7 @@ from rest_framework import generics
 from rest_framework import viewsets, routers
 from rest_framework.authtoken import views as drf_views
 
+from custom.gui.views import resend_activation_view
 from custom.gui.views import confirm_account_view
 from custom.gui.views import GlobalSearchList
 from custom.gui.views import DashboardLogoutView
@@ -50,15 +51,20 @@ from custom.blog.views import DeleteCommentView
 from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
 from custom.messaging.views import outgoing_messages_view
 from custom.messaging.views import incoming_messages_view
+from custom.messaging.views import msg_duplication_view
 from custom.messaging.views import SendMessageView
 from custom.messaging.views import UpdateMessageView
 from custom.messaging.views import NotificationTypeViewSet
 from custom.messaging.views import NotificationViewSet
 from custom.messaging.views import MessageViewSet
+from custom.messaging.views import MessagingSettingsList
+from custom.messaging.views import MessagingSettingsViewSet
 from custom.messaging.views import OutgoingMessagesList
 from custom.messaging.views import IncomingMessagesList
 from custom.messaging.views import ReadMessageView
 from custom.messaging.views import DeleteMessageView
+from custom.messaging.views import UserViewSet
+from custom.messaging.views import UserList
 from custom.payments.views import SendConfirmationEmailView
 from custom.payments.views import PaymentsList
 from custom.payments.views import PastPaymentsList
@@ -73,13 +79,15 @@ router = routers.DefaultRouter()
 
 admin.autodiscover()
 #router.register(r'bushwick',BushwickArtistViewSet)
-router.register(r'posts',PostViewSet)
-router.register(r'comments',CommentViewSet)
-router.register(r'notificationtypes',NotificationTypeViewSet)
-router.register(r'notifications',NotificationViewSet)
-router.register(r'messages',MessageViewSet)
-router.register(r'services',ServiceViewSet)
-router.register(r'packages',PackageViewSet)
+router.register(r'msgsettings', MessagingSettingsViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'posts', PostViewSet)
+router.register(r'comments', CommentViewSet)
+router.register(r'notificationtypes', NotificationTypeViewSet)
+router.register(r'notifications', NotificationViewSet)
+router.register(r'messages', MessageViewSet)
+router.register(r'services', ServiceViewSet)
+router.register(r'packages', PackageViewSet)
 
 
 urlpatterns = [
@@ -94,10 +102,10 @@ urlpatterns = [
     url(r'^api/', include('rest_framework.urls', 
                   namespace='rest_framework')),
 
-
     url(r'api/accounts/', include('rest_framework.urls', 
                           namespace='rest_framework')), 
     url(r'^$',custom.gui.views.home),
+    url(r'^userlist/(?P<username>.+)/$', UserList.as_view()),
     url(r'^dashboard/$', custom.gui.views.dashboard),
     url(r'^accounts/login/?next=/signout/$',custom.gui.views.home),
     url(r'^accounts/login/$',custom.gui.views.home),
@@ -129,7 +137,9 @@ urlpatterns = [
     url(r'^deletemessage/',DeleteMessageView.as_view()),
     url(r'^outgoing/$', outgoing_messages_view),
     url(r'^incoming/$', incoming_messages_view),
-    url(r'^pastpayments/(?P<user_id>.+)/$',PaymentsList.as_view()),
+    url(r'^duplication/$', msg_duplication_view),
+    url(r'^pastpayments/(?P<user_id>.+)/$', PaymentsList.as_view()),
+    url(r'^msgsettings/(?P<user_id>.+)/$', MessagingSettingsList.as_view()),
     url(r'^pastpayments/', PastPaymentsList.as_view()),
     url(r'^packagelist/$', PackageList.as_view()),
     url(r'^servicelist/$', ServiceList.as_view()),
@@ -179,8 +189,9 @@ urlpatterns = [
 
     url(r'^about/',custom.gui.views.about),
     url(r'^aboutus/',custom.gui.views.about),
-    url(r'^activate/',custom.signup.views.activate),
+    url(r'^activate/(?P<activation_key>\w+)/',custom.signup.views.activate),
     url(r'^confirm/',custom.signup.views.confirm),
+    url(r'^resendactivation/', resend_activation_view),
     url(r'^qualify/',custom.gui.views.check_qualify),
     url(r'^contacts/', custom.gui.views.contact),
     url(r'^contact/', custom.gui.views.contact),
@@ -190,7 +201,6 @@ urlpatterns = [
     url(r'^prices/', custom.gui.views.pricing),  
     url(r'^ask/', custom.gui.views.ask),
     url(r'^api/$',include('rest_framework.urls', namespace='rest_framework')),
-#    url(r'^accounts_api/', include('registration_api.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^rss/', RssSiteNewsFeed()),
     url(r'^atom/', AtomSiteNewsFeed()),

@@ -1032,7 +1032,7 @@ Vue.component('modal', {
   }
 })
 
-// start app
+// modal to display user details
 new Vue({
   el: '#final-app',
   data: {
@@ -1061,6 +1061,47 @@ new Vue({
   }
 
 })
+
+// register modal component
+Vue.component('modal', {
+  template: '#activation-modal-template',
+  props: {
+    show: {
+      type: Boolean,
+      required: true,
+      twoWay: true    
+    }
+  }
+})
+
+// start app
+new Vue({
+  el: '#activation-app',
+  data: {
+    showModal: true
+  }
+})
+
+// register modal component
+Vue.component('modal', {
+  template: '#activation-required-modal-template',
+  props: {
+    show: {
+      type: Boolean,
+      required: true,
+      twoWay: true
+    }
+  }
+})
+
+// start app
+new Vue({
+  el: '#activation-required-app',
+  data: {
+    showModal: true
+  }
+})
+
 
 jQuery(document).ready(function() {
     vm.$el = document.getElementById('stepone');

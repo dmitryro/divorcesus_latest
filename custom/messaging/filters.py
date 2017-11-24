@@ -1,7 +1,20 @@
+from django.contrib.auth.models import User
 import rest_framework_filters as filters
 
 from models import Notification
 from models import Message
+
+
+class UserFilter(filters.FilterSet):
+    email = filters.CharFilter(name='email')
+    username = filters.CharFilter(name='username')
+    first_name = filters.CharFilter(name='first_name')
+    last_name = filters.CharFilter(name='last_name')
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'email',]
+
 
 class MessageFilter(filters.FilterSet):
 #    is_seen = filters.CharFilter(name='is_seen')

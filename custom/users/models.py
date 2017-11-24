@@ -134,11 +134,14 @@ class Profile(models.Model):
     phone = models.CharField(max_length=250, blank=True, null=True,default='')
     address = models.ForeignKey(Address, blank=True, null=True)
     is_new = models.NullBooleanField(default=True, blank=True, null=True)
+    activation_sent = models.NullBooleanField(default=False, blank=True, null=True)
     is_activated = models.NullBooleanField(default=False, blank=True, null=True)
     is_avatar_processed = models.BooleanField(default=False, blank=True)
     is_avatar_transfered = models.BooleanField(default=False, blank=True)
     is_signature_customized = models.BooleanField(default=False, blank=True)
+    is_notification_sent = models.NullBooleanField(default=False, blank=True, null=True)
     is_online = models.BooleanField(default=False, blank=True)
+    is_confirmed = models.NullBooleanField(default=False, blank=True, null=True)
     is_cleared = models.BooleanField(default=False, blank=True)
     is_facebook_signup_used = models.BooleanField(default=False, blank=True)
     is_google_signup_used = models.BooleanField(default=False, blank=True)
@@ -149,6 +152,7 @@ class Profile(models.Model):
     is_google_avatar = models.BooleanField(default=False, blank=True)
     is_facebook_avatar = models.BooleanField(default=False, blank=True)        
     is_twitter_avatar = models.BooleanField(default=False, blank=True)
+    activation_key =  models.CharField(max_length=250, blank=True, null=True,default='')
 
     class Meta:
         verbose_name = 'Profile'

@@ -10,8 +10,10 @@ from django.dispatch import receiver
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.files.storage import default_storage as storage
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout as log_out
 from rest_framework.decorators import api_view, permission_classes
 
+from registration_api import utils
 # Datetime related imports
 from datetime import datetime
 from datetime import date
@@ -75,6 +77,7 @@ from signals import default_strategy_fails
 from signals import facebook_strategy_fails 
 from signals import facebook_strategy_succeeds 
 from signals import new_mailchimp_subscriber 
+
 
 
 
@@ -185,9 +188,9 @@ def facebook_profile(sender, instance, is_new, email, facebook_id, request):
     
     profile = Profile.objects.get(id=instance.id)
 
-    if not profile.is_facebook_signup_used:
+    if profile.is_facebook_signup_used and not profile.is_notification_sent:
         new_account_created(instance=instance)
-        profile.is_facebook_signup_used=True
+        profile.is_notification_sent = True
         profile.save()
 
 
@@ -211,9 +214,11 @@ def twitter_profile_handler(sender, instance, is_new, email, profile_picture, **
 
 def twitter_profile(sender, instance, is_new, email, profile_picture, **kwargs):
 
-    profile = Profile.objects.get(id=instance.id)
+    profile = instance.profile
 
-    if is_new:
+    if not profile.is_notification_sent:
+        profile.is_notification_sent = True
+        profile.save()
         new_account_created(instance=instance)
 
 
@@ -226,19 +231,10 @@ def twitter_profile(sender, instance, is_new, email, profile_picture, **kwargs):
 
 @receiver(googleplus_strategy_used, sender=User)
 def googleplus_profile_handler(sender, instance, is_new, email, profile_picture, **kwargs):
-    try:
-        task = TaskLog.objects.get(user_id=instance.id,job='google_profile_created')
-        task = TaskLog.objects.get(user_id=instance.id,
-                                   job='google_profile_created')
-        task.is_complete=True
-        task.save()
-
-    except Exception,R:
-        task = TaskLog.objects.create(user_id=instance.id,
-                                      username=instance.username,
-                                      job='google_profile_created',
-                                      is_complete=False)
-        task.save()
+    if not instance.profile.is_notification_sent:
+        profile = instance.profile
+        profile.is_notification_sent = True
+        profile.save()
         google_profile(sender, instance, is_new, email, profile_picture)
 
 
@@ -281,7 +277,7 @@ def create_profile(sender, instance, created, **kwargs):
                                       job='new_profile_notification',
                                       is_complete=False)
         task.save()
-        create_user_profile(instance)  
+    #    create_user_profile(instance)  
 
                  
 @run_async
@@ -335,12 +331,21 @@ def create_user_profile(instance):
             log.save()
 
 @run_async
-def send_activation_link(contact):
-    log = Logging(log='WILL SEND ACTIVATION')
+def send_activation_link(instance):
+    log = Logger(log='WILL SEND ACTIVATION')
     log.save()
+
 
     mess = 'Please activate your account.'    
     try:
+        activation_key = utils.create_activation_key(instance)
+        link = settings.BASE_URL+'/activate/%s'%activation_key
+        log = Logger(log='USER ACTIVATION KEY IS {}'.format(activation_key))
+        log.save()
+        user_profile = instance.profile
+        user_profile.activation_key = activation_key
+        user_profile.save()
+
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
@@ -349,24 +354,32 @@ def send_activation_link(contact):
         PASSWORD = profile.password
         PORT = profile.smtp_port
         SERVER = profile.smtp_server
-        TO = profile.email
-        SUBJECT = 'New message from a customer'
-        try:
-            path = "templates/new_message.html"
+        TO = instance.profile.email
+        SUBJECT = 'Activate your account'
+          
+        MESSAGE = MIMEMultipart('alternative')
+        MESSAGE['subject'] = SUBJECT
+        MESSAGE['To'] = TO
+        MESSAGE['From'] = FROM
+        MESSAGE.preamble = """
+                Your mail reader does not support the report format.
+                Please visit us <a href="http://www.divorcesus.com">online</a>!"""
+ 
+        path = "templates/activate_inline.html"
 
-            f = codecs.open(path, 'r')
+        f = codecs.open(path, 'r')
 
-            m = f.read()
-            mess = string.replace(m, '[name]',contact.name)
-            mess = string.replace(mess, '[message]', contact.message)
-            mess = string.replace(mess, '[phone]',contact.phone)
-            mess = string.replace(mess,'[email]',contact.email)
-        #    mess = string.replace(mess,'[link]',link)
+        m = f.read()
+        mess = string.replace(m, '[First Name]', instance.first_name+' '+instance.last_name)
+        mess = string.replace(mess, '[message]', 'Account Activation')
+        mess = string.replace(mess, '[phone]', instance.profile.phone)
+        mess = string.replace(mess,'email_address@email.com', instance.profile.email)
+        mess = string.replace(mess,'[link]', link)
 
-        except Exception as R:
-            log = Logger(log='WE FAILED SENDING ACTIVATION %s'%str(R))
-            log.save()
+        log = Logger(log='WE ARE PREPARING ACTIVATION')
+        log.save()
 
+        
         message = mess
 
         HTML_BODY  = MIMEText(message, 'html','utf-8')
@@ -375,10 +388,14 @@ def send_activation_link(contact):
         server = smtplib.SMTP(SERVER+':'+PORT)
         server.ehlo()
         server.starttls()
-        server.login(USER,PASSWORD)
+        server.login(USER, PASSWORD)
         server.sendmail(FROM, TO, msg)
         server.quit()
-
+        instance.profile.activation_key = activation_key
+        instance.profile.save()
+        instance.save()
+        log = Logger(log="LET US SEND IT {}".format(activation_key))
+        log.save()
     except Exception as R:
         log = Logger(log='WE FAILED SENDING ACTIVATION %s'%str(R))
         log.save()
@@ -393,12 +410,12 @@ def send_activation_link(contact):
 @run_async
 def send_welcome(instance):
 
-    mess = 'Welcome to Art Revolution.'
+    mess = 'Welcome to Gringerg & Segal.'
 
     try:
     #    global_link = settings.BASE_URL+'/signin'
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = '<strong>Art Revolution'
+        FROM = '<strong>Gringerg & Segal'
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -467,7 +484,7 @@ def send_welcome(instance):
 @receiver(user_needs_recovery, sender=User)
 def recover_profile(sender, instance, request, email,**kwargs):
     user = User.objects.get(email=email)
-    mess = 'Welcome to Art Revolution.'
+    mess = 'Welcome to Gringerg & Segal.'
 
     try:
         member = Profile.objects.get(id=int(user.id))
@@ -531,17 +548,24 @@ def recover_profile(sender, instance, request, email,**kwargs):
     except ObjectDoesNotExist:
         pass
 
+
 @receiver(user_resend_activation, sender=User)
 def resend_activation_handler(sender, instance, **kwargs):
-    try:
-        task = TaskLog.objects.get(user_id=instance.id,job='activation')   
-        task.is_complete=True
-        task.delete()
+    log = Logger(log='WE MUST ACTIVATE THE ACCOUNT')
+    log.save()
+
+    send_activation_link(instance)
+
+    #try:
+    #    task = TaskLog.objects.get(user_id=instance.id,job='activation')   
+    #    task.is_complete=True
+    #    task.delete()
         #task.delete()
-    except Exception,R:
-        task = TaskLog.objects.create(user_id=instance.id,username=instance.username,job='activation',is_complete=False)
-        task.save()
-        send_activation_link(instance,ignore=True)
+    #except Exception,R:
+    #    task = TaskLog.objects.create(user_id=instance.id,username=instance.username,job='activation',is_complete=False)
+    #    task.save()
+    #    send_activation_link(instance,ignore=True)
+
 
 @receiver(facebook_strategy_fails, sender=User)
 def facebook_strategy_fails_handler(sender, instance, request, **kwargs):
@@ -565,7 +589,7 @@ def new_account_notify(instance, email):
     try:
 
 
-        log = Logger(log='WILL TRY TO NOTIFY')
+        log = Logger(log='WILL TRY TO NOTIFY ABOUT NEW ACCOUNT')
         log.save()
         max_id= User.objects.all().aggregate(id=Max('id'))
         user = User.objects.get(id=max_id['id'])
@@ -600,24 +624,21 @@ def new_account_notify(instance, email):
         else:
            last_name = instance.profile.last_name
 
-        if user.profile.is_facebook_signup_used:
+        if instance.profile.is_facebook_signup_used:
            strategy='Facebook'
-           try:
-                fb  = FacebookProfile.objects.get(id=instance.id)
-                facebook_id = fb.facebook_id
-           except ObjectDoesNotExist:
-                facebook_id = None
-
-        elif user.profile.is_google_signup_used:
+           facebook_id = instance.profile.username
+        elif instance.profile.is_google_signup_used:
            strategy='Google'
-           try:
-                gp  = GooglePlusProfile.objects.get(id=instance.id)
-                google_id = gp.google_id
-           except ObjectDoesNotExist:
-                google_id = None
-
+           google_id = instance.profile.username
+        elif instance.profile.is_linkedin_signup_used:
+           strategy='Linkedin'
+        elif instance.profile.is_twitter_signup_used:
+           strategy='Twitter'
         else:
            strategy = 'Regular Signup'
+
+        log = Logger(log='SIGNUP USED IS {}'.format(strategy))
+        log.save()
 
         time = str(instance.date_joined.time())
         time = time[0:-7]
@@ -727,6 +748,7 @@ def reset_password(sender, instance, request, email, password, **kwargs):
         pass
     except ObjectDoesNotExist:
         pass
+    log_out(instance)
 
 @receiver(new_user_resend_notification,sender=User)
 def new_user_resend_notification_handler(sender,instance,**kwargs):

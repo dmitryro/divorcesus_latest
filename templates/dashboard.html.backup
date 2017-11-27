@@ -110,7 +110,7 @@
     </a>
     <ul class="menu-section-list" id="sectionTwoLinks" style="display: none;">
         <li><a href="#" onclick="openmenu('paymenthistory');">Payment History</a></li>
-        <li><a href="#" onclick="openmenu('paymentmethods');">Payment Methods</a></li>
+        <li><a href="#" onclick="openmenu('paymentmethods');">Add Payment Method</a></li>
         <li><a href="#" onclick="openmenu('dispute');">Dispute Transaction</a></li>
         <li><a href="#" onclick="openmenu('billingaddresses');">Billing Addresses</a></li>
     </ul>
@@ -417,52 +417,10 @@
 
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                <div style="float:left; width:80%;text-align:center;padding-left:3.2em;">
-                                    <h4>Payment Methods</h4>
-                                </div>
-                                <div style="float:left; width:8%;padding-top:1.2em;">
-                                   <a href="#" style="color:#959699;text-decoration:underlined;" id="add-payment-method">Add</a>
-                                </div>
-                                <div class="clear"></div>
+                                   <h4>Payment Methods</h4>
                              </div>
-                             <div id="payment-methods" class="panel-payments">
+                             <div class="panel-payments">
 
-
-
-                             </div>
-                             <div id="add-payment-method-body" class="panel-payments" style="display:none;">
-                                    <!--
-                                      <iframe src="/static/add-payment-method.html" scrolling="no"></iframe>
-                                     -->
-
-<div class="container" style="width:60%;margin-left:15%;">
-     <h4>
-      Add Payment Method
-    </h4>
-    <form id="payment-method-form" novalidate autocomplete="on" method="POST">
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="cc-number" class="control-label">Card number formatting <small class="text-muted">[<span class="cc-brand"></span>]</small>
-            </label>
-            <input id="cc-number" type="tel" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
-        </div>
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="cc-exp" class="control-label">Card expiry formatting</label>
-            <input id="cc-exp" type="tel" class="input-lg form-control cc-exp" autocomplete="cc-exp" placeholder="•• / ••" required>
-        </div>
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="cc-cvc" class="control-label">Card CVC formatting</label>
-            <input id="cc-cvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="•••" required>
-        </div>
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="numeric" class="control-label">Name On Card (Full Name)</label>
-            <input id="numeric" type="tel" class="input-lg form-control" data-numeric>
-        </div>
-        <button type="submit" class="button button2">Submit</button>
-
-         <h2 class="validation"></h2>
-
-    </form>
-</div>
 
 
                              </div>
@@ -473,90 +431,14 @@
         <div class="col-md-9 well admin-content" id="dispute">
             Dispute
         </div>
-
-
-
         <div class="col-md-9 well admin-content" id="billingaddresses">
-
-
-
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                <div style="float:left; width:80%;text-align:center;padding-left:3.2em;">
-                                    <h4>Billing Addresses</h4>
-                                </div>
-                                <div style="float:left; width:8%;padding-top:1.2em;">
-                                   <a href="#" style="color:#959699;text-decoration:underlined;" id="add-billing-address">Add</a>
-                                </div>
-                                <div class="clear"></div>
+                                   <h4>Billing Addresses</h4>
                              </div>
-                             <div id="add-billing-address-body" class="panel-payments">
-
-<div class="container" style="width:60%;margin-left:15%;">
-     <h4>
-      Add Billing Address
-    </h4>
-    <form id="billing-address-form" novalidate autocomplete="on" method="POST">
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="address-name" class="control-label">Name or Company
-            </label>
-            <input id="address-name" type="name" class="input-lg form-control"  placeholder="Name or Company" required required="required">
-        </div> 
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="address-1" class="control-label">Address 1
-            </label>
-            <input id="address-1" type="name" class="input-lg form-control"  placeholder="Address 1" required>
-        </div>
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="address-2" class="control-label">Address 2
-            </label>
-            <input id="address-2" type="name" class="input-lg form-control"  placeholder="Address 2">
-        </div>
-
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="city" class="control-label">City
-            </label>
-            <input id="city" type="name" class="input-lg form-control"  placeholder="City" required required="required">
-        </div>
+                             <div class="panel-payments">
 
 
-        <div style="float:left;width:49%;">
-                             <label for="state-province" class="control-label">State or Province
-                             </label>
-
-
-                             <select id="state-province" class="styled-select slate" style="width:90%;" required="required">
-                                <option value="1">Alabama</option>
-                                <option value="2">Alaska</option>
-                                <option value="3">Alberta</option>
-                                <option value="4">Arkanzas</option>
-                                <option value="5">British Columbia</option>
-                                <option value="6">California</option>
-                             </select>
-
-        </div>
-        <div style="float:left;width:49%;">
-            <div class="form-group" style="margin-bottom:1.5em;">
-                <label for="zip-postal" class="control-label">Zip or Postal 
-                </label>
-                <input id="zip-postal" type="zip-postal" class="input-lg form-control"  placeholder="Zip or Postal" style="width:90%;"  required required="required">
-            </div>                
-        </div>
-        <div class="clear"></div>
-
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="country" class="control-label">Country
-            </label>
-            <input id="country" type="name" class="input-lg form-control"  placeholder="Country" required required="required">
-        </div>
-
-
-        <button type="submit" class="button button2">Submit</button>
-
-         <h2 class="validation"></h2>
-
-    </form>
-</div>
 
                              </div>
               </div>
@@ -627,7 +509,7 @@
         </div>
 
         <div class="col-md-9 well admin-content" id="incoming">
-              <div class="card card-3 panel-right" style="min-width:370px;">
+              <div class="card card-3 panel-right">
                              <div class="panel-header">
                                    <h4>Incoming</h4>
                              </div>
@@ -637,22 +519,24 @@
 
                              </div>
                              <div class="panel-current-incoming-message form-content">
-                                <div id="messages_back"  style="margin-left:1.0em;">
+                                <div id="messages_back">
                                     <a style="color:red;" href="#" onclick="openmenu('incoming');">Back</a><br/><br/>
                                 </div>
                                 <input type="hidden" name="message_reply_id" id="message_reply_id" value=""/>
                                 <input type="hidden" name="message_sender_id" id="message_sender_id" value="" />
-                                <div id="message_sender" style="margin-left:1.0em;"></div>
-                                <div id="message_date_sent" style="margin-left:1.0em;"></div>
+                                <div id="message_sender"></div>
+                                <div id="message_date_sent"></div>
                                 <div id="message_reply_title_div">
-                                      <input type="text" name="message_reply_title" id="message_reply_title" class="input-lg form-control" style="width:80%;margin-top:2.4em;margin-left:1.0em;" value="" />
+                                      <input type="text" name="message_reply_title" id="message_reply_title" value="" />
                                 </div>
-                                <div id="message_reply_body" style="margin-bottom:0em;margin-top:1.2em;margin-left:1.0em;"></div>
-                                <div class="respond-back" style="margin-top:1.2em;margin-left:1.0em;">
-                                      <textarea name="response" width="20" height="5" id="response-text" class="inner-textarea form-control" style="margin-bottom:1.2em;margin-top:2.4em;margin-left:1.0em;" rows="8"></textarea>
+                                <div id="message_reply_body"></div>
+                                <div class="respond-back">
+                                      <textarea name="response" width="20" height="3" id="response-text" class="text-area-inner"></textarea>
                                 </div>
                                      
-                                      <input type="button" value="Respond" class="button button2" id='respond_back'  style="padding-top:0.2em;padding-left:-1.2em;margin-top:1.2em;margin-bottom:1.2em;margin-left:1.0em;padding-top:0.8em;" />
+                                <p class="submit">
+                                      <input type="button" value="Respond" id='respond_back' />
+                                </p>
 
                              </div>
               </div>
@@ -752,17 +636,17 @@
 		            	<input type="text" id="posttitle" name="posttitle" v-validate:posttitle=['nonempty'] />
              			<label for="title">Title</label>
         		</p>
-	 
-                        <label for="email">Category</label>	
+		
 	         	<p class="category">
 <!--
 		         	<input type="text" name="category" id="category" placeholder="category" />
 -->
-                                <select name="category_id" id="category_id" class="styled-select slate category" v-validate:category_id=['numeric']>
+                                <select name="category_id" id="category_id" class="category" v-validate:category_id=['numeric']>
                                   {% for category in categories %}
                                        <option value="{{ category.id }}">{{ category.name }}</option>
                                   {% endfor %}
                                 </select>
+	           		<label for="email">Category</label>
 	        	</p>
 		
 	          	<p class="link">
@@ -820,22 +704,21 @@
                                 <a href="#" style="color:red;" onclick="openmenu('allposts');">Back</a>
 
                                 <p class="name">
-                                     <label for="edit_post_title" class="control-label">Title</label>
-                                     <input type="text" id="edit_post_title" name="edit_post_title" class="input-lg form-control" style="width:40%;" />
+                                     <input type="text" id="edit_post_title" name="edit_post_title" />
+                                     <label for="title">Title</label>
                                 </p>
-                               <div>
-                                <label for="edit_category_id" class="control-label">Category</label>
-                               </div>
-                               <div>
-                                <select name="edit_category_id" id="edit_category_id" class="styled-select slate  category">
+
+
+                                <select name="edit_category_id" id="edit_category_id" class="category">
                                   {% for category in categories %}
                                        <option value="{{ category.id }}">{{ category.name }}</option>
                                   {% endfor %}
                                 </select>
-                                </div>
+                                <label for="email">Category</label>
+                        
                                   <p class="link">
-                                       <label for="edit_link" class="control-label">Link</label>
-                                       <input type="text" name="edit_link" id="edit_link"  class="input-lg form-control" style="width:40%;" />
+                                       <input type="text" name="edit_link" id="edit_link"  />
+                                       <label for="link">Link</label>
                                    </p>
 
 
@@ -843,7 +726,7 @@
                                                 <textarea name="postbody" id="edit_post_body" width="20"  /></textarea>
                                      </div>
                                      <p class="submit">
-                                        <input type="button" value="Save" class="button button2" style="padding-top:0.2em;padding-left:-1.2em;margin-top:1.2em;margin-bottom:1.2em;padding-top:0.8em;" id='saveeditedpost' />
+                                        <input type="button" value="Save" id='saveeditedpost' />
                                      </p>
                                  
 
@@ -856,16 +739,10 @@
 
         <div class="col-md-9 well admin-content" id="notify">
            <div id="private_message">
-              <div style="float:left;width:45%;min-height:600px;min-width:350px;margin-bottom:10px;">
-
-
-              <div class="card card-3 panel-right" style="min-width:370px;">
-                             <div class="panel-header">
-                                   <h4>Send Private Message</h4>
-                             </div>
-                             <div class="panel-editpost form-content" style="padding-bottom:1.3em;padding-right:1.3em;min-width:350px;">
-
-
+              <div style="float:left;width:45%;">
+                 <div class="form-header">
+                    <h4>Send us a message</h4>
+                 </div>
 
                  <validator name="validation_messages">
                    <div class="errors">
@@ -878,7 +755,7 @@
                         <div>
                         <input type="hidden" name="post_id" id="post_id" value="" />
                         <p class="name">
-                                <input type="text" id="message_title" name="message_title" class="input-lg form-control" style="width:94%;" v-validate:message_title=['nonempty'] />
+                                <input type="text" id="message_title" name="message_title" v-validate:message_title=['nonempty'] />
                         </p>
                         </div>                        
                         <div style="float:left;">
@@ -887,10 +764,8 @@
                              <div>
                                   <label for="receiver_id">Send it to</label>
                              </div>
-                             <div>
-
- 
-                             <select id="receiver_id" class="styled-select slate">
+                             <div> 
+                             <select id="receiver_id">
                                 <option value="14">{% member_meta 4 1 %}</option>
                                 <option value="15">{% member_meta 5 1 %}</option>
                                 <option value="16">{% member_meta 6 1 %}</option>
@@ -902,20 +777,19 @@
                         </p>
                         </div>
                         <div id="send-to-customer" class="send-to-customer" style="float:left;display:none;">
-                                <input type="text" style="margin-top:2.4em;margin-left:1.0em;width:140%;"  name="target-customer" id="target-customer" value="" size="6" class="input-lg form-control" />
+                                <input type="text" style="height:0.8em;margin-top:1.4em;margin-left:1.0em"  name="target-customer" id="target-customer" value="" size="6" />
                         </div>
                         <div class="clear"></div>
                         <div id="send-us-message">
-                                <textarea class="form-control" name="message_body" id="message_body" rows="3"/></textarea>
+                                <textarea name="message_body" id="message_body" width="40"  /></textarea>
                         </div>
                         
-                        <input type="button" class="button button2" style="padding-top:1.2em;"  v-on:click="send_message" value="Send" id='send_message' v-if="$validation_messages.valid"/>
+                        <p class="submit">
+                                <input type="button" v-on:click="send_message" value="Send" id='send_message' v-if="$validation_messages.valid"/>
+                        </p>
+
                  </form>
                 </validator>
-
-               </div>
-              </div>
-
              </div>
            </div>
         </div>

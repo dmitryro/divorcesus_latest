@@ -175,8 +175,10 @@
                                <li><a onclick="on_mobile_faq();return false;">FAQ</a></li>
                                <li><a href="#">Ask A Question </a></li>
                                <li><a href="#">Online Consultation </a></li>
+<!--
                                <li><a href="#" id="chat_with_us">Chat with US</a></li>
-                          </ul>
+-->    
+                      </ul>
 
                   </div>
 
@@ -188,11 +190,11 @@
                         <div class="user-meta-wrapper"> <!-- meta starts -->
                               {% if logout %}
                                          <div class="avatar-container">
-                                                    <img src="{% user_meta user_id 3 %}" class="avatar" alt="divorcesus"/>
+                                                    <img src="{% user_meta user.id 3 %}" class="avatar" alt="divorcesus"/>
                                          </div>
-                             {% endif %}
+                               {% endif %}
 
-                             {% if not user.is_authenticated %}
+                               {% if not user.is_authenticated %}
                                           <a style="text-decoration:none;" href="http://divorcesus.com/dashboard">
                                          <div class="avatar-container">
                                          </div>
@@ -202,11 +204,11 @@
                               {% if user.is_authenticated %}
                                          <div class="creds-container">
                                             <a style="text-decoration:none;" href="http://divorcesus.com/dashboard">
-                                               {% user_meta user_id 1 %}
+                                               {% user_meta user.id 1 %}
                                             </a>
                                              <a style="text-decoration:none;" href="http://divorcesus.com/dashboard">
                                                     &nbsp;
-                                               {% user_meta user_id 2 %}
+                                               {% user_meta user.id 2 %}
                                                &nbsp;&nbsp;
                                              </a>
                                          </div>

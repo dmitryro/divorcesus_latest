@@ -72,6 +72,8 @@ from custom.services.views import ServiceViewSet
 from custom.services.views import PackageViewSet
 from custom.services.views import ServiceList
 from custom.services.views import PackageList
+from custom.users.views import StateProvinceList
+from custom.users.views import StateProvinceViewSet
 import custom
 router = routers.DefaultRouter()
 
@@ -79,6 +81,7 @@ router = routers.DefaultRouter()
 
 admin.autodiscover()
 #router.register(r'bushwick',BushwickArtistViewSet)
+router.register(r'states', StateProvinceViewSet)
 router.register(r'msgsettings', MessagingSettingsViewSet)
 router.register(r'users', UserViewSet)
 router.register(r'posts', PostViewSet)
@@ -105,6 +108,7 @@ urlpatterns = [
     url(r'api/accounts/', include('rest_framework.urls', 
                           namespace='rest_framework')), 
     url(r'^$',custom.gui.views.home),
+    url(r'^states/(?P<abbreviation>.+)/$', StateProvinceList.as_view()),
     url(r'^userlist/(?P<username>.+)/$', UserList.as_view()),
     url(r'^dashboard/$', custom.gui.views.dashboard),
     url(r'^accounts/login/?next=/signout/$',custom.gui.views.home),

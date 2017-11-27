@@ -3,6 +3,15 @@ import rest_framework_filters as filters
 
 from models import Notification
 from models import Message
+from models import MessagingSettings
+
+
+class MessagingSettingsFilter(filters.FilterSet):
+    user_id = filters.CharFilter(name='user_id')
+    duplicate_private = filters.BooleanFilter(name='duplicate_private')
+    class Meta:
+        model = MessagingSettings
+        fields = ['id', 'duplicate_private', 'user_id']
 
 
 class UserFilter(filters.FilterSet):

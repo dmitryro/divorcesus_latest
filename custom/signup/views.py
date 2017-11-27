@@ -33,8 +33,9 @@ from custom.blog.models import Category
 from custom.blog.models import Post
 from custom.messaging.models import Message
 from custom.messaging.signals import message_sent
+from custom.messaging.signals import message_duplicate_to_email
 from custom.messaging.callbacks import message_sent_handler
-
+from custom.messaging.callbacks import message_duplicate_to_email_handler
 
 from signals import user_send_email
 from callbacks import  user_send_email_handler
@@ -209,6 +210,12 @@ def activate(request, activation_key):
                               message = message,
                               kwargs = None)
 
+            message_duplicate_to_email.send(sender = attorney,
+                                            receiver = usr,
+                                            message = message,
+                                            kwargs = None)
+
+
 
     
        # new_user_cleared.send(sender=usr, instance = usr, kwargs=None) 
@@ -259,5 +266,6 @@ def logout_view(request):
     logout(request)
 
 
+message_duplicate_to_email.connect(message_duplicate_to_email_handler)
 user_send_email.connect(user_send_email_handler)
 message_sent.connect(message_sent_handler)

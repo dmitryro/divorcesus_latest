@@ -31,6 +31,7 @@ from serializers import MessagingSettingsSerializer
 from serializers import NotificationSerializer
 from serializers import NotificationTypeSerializer
 from serializers import UserSerializer
+from filters import MessagingSettingsFilter
 from filters import MessageFilter
 from filters import NotificationFilter
 from filters import UserFilter
@@ -45,6 +46,7 @@ logger = logging.getLogger(__name__)
 
 class MessagingSettingsList(generics.ListAPIView):
     queryset = User.objects.all()
+    filter_class = MessagingSettingsFilter
     serializer_class = MessagingSettingsSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('duplicate_private',)
@@ -67,10 +69,12 @@ class UserViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('id', 'username', 'email')
 
+
 class MessagingSettingsViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing messaging settings instances.
     """
+    filter_class = MessagingSettingsFilter
     serializer_class = MessagingSettingsSerializer
     queryset = MessagingSettings.objects.all()
     filter_backends = (DjangoFilterBackend,)

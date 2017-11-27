@@ -37,7 +37,6 @@
         <script src="/static/js/tinymce/tinymce.min.js" type="text/javascript"></script>
         <script src="/static/js/tinymce/jquery.tinymce.min.js" type="text/javascript"></script>
         <script src="/static/js/vue_apps.js"></script>
-        <script src="/static/js/js_apps.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.12/slideout.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
         <style>
@@ -572,6 +571,12 @@ Vue.component('modal', {
       return false;
     }
 
+    function read_user_by_id(user_id) {
+        $.get( "http://divorcesus.com/users/"+user_id, function(data) {
+             var user_id = data.id;
+             $('#target-customer').val(data.username).change();
+        });
+    }
 
     function read_user() {
         var username = $('#target-customer').val();
@@ -680,6 +685,14 @@ Vue.component('modal', {
             allWells.hide();
             $('#home').show();
 
+            $("#receiver_id").on('change', function(){
+                 var user_id = $("#receiver_id").val();
+
+                 if (eval(user_id) < 17) {
+                            read_user_by_id(user_id); 
+                 }
+            });
+ 
             $('#receiver_id').click(function() {
                   var value = $('#receiver_id').val();
                   if (eval(value)==19) {
@@ -1144,6 +1157,7 @@ function toggle(tg) {
 }
 
 function sendmessage() {
+    alert('let us send');
     $.ajax({
         method: "POST",
         url: "http://divorcesus.com/sendmessage/",
@@ -1636,10 +1650,13 @@ new Vue ({
           },
 
           send_message: function (msg) {
-             
+               
               var username = document.getElementById('target-customer').value;
-              var receiver_id = document.getElementById("receiver_id").value;
-              var receiver_id = read_receiver(username);
+              if (username.length > 0) {
+                  var receiver_id = read_receiver(username);
+              } else {
+                  var receiver_id = document.getElementById("receiver_id").value;
+              }
 
               $.ajax({
                      method: "POST",

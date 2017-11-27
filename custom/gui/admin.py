@@ -135,12 +135,12 @@ class ContactInfoAdmin(admin.ModelAdmin):
          verbose_name_plural = 'Contact Info'
 
 
-admin.site.register(QualifyQuestionnaire,QualifyQuestionnaireAdmin)
-admin.site.register(QualifyQuestion,QualifyQuestionAdmin)
-admin.site.register(State,StateAdmin)
-admin.site.register(FAQ,FAQAdmin)
-admin.site.register(Service,ServiceAdmin)
-admin.site.register(ContactInfo,ContactInfoAdmin)
-admin.site.register(Logo,LogoAdmin)
-admin.site.register(LogoColor,LogoColorAdmin)
-admin.site.register(Slide,SlideAdmin)
+admin.site.register(QualifyQuestionnaire, QualifyQuestionnaireAdmin)
+admin.site.register(QualifyQuestion, QualifyQuestionAdmin)
+admin.site.register(State, StateAdmin)
+admin.site.register(FAQ, FAQAdmin)
+admin.site.register(Service, ServiceAdmin)
+admin.site.register(ContactInfo, ContactInfoAdmin)
+admin.site.register(Logo, LogoAdmin)
+admin.site.register(LogoColor, LogoColorAdmin)
+admin.site.register(Slide, SlideAdmin)

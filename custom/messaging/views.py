@@ -230,7 +230,6 @@ class SendMessageView(Endpoint):
            title = request.params.get('title','')
            body = request.params.get('body','')
            receiver_id = int(unicode(request.params.get('receiver_id')))            
-
            receiver = User.objects.get(id=receiver_id)
            sender = request.user
 

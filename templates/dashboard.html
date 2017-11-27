@@ -894,9 +894,11 @@
                                 <option value="14">{% member_meta 4 1 %}</option>
                                 <option value="15">{% member_meta 5 1 %}</option>
                                 <option value="16">{% member_meta 6 1 %}</option>
-                                <option value="17">All Customers</option>
-                                <option value="18">All Staff</option>
-                                <option value="19">Specific Customer</option>
+                                {% if user.is_staff %}
+                                      <option value="17">All Customers</option>
+                                      <option value="18">All Staff</option>
+                                      <option value="19">Specific Customer</option>
+                                {% endif %}
                              </select>
                              </div>
                         </p>

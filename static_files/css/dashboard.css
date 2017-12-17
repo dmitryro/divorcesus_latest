@@ -1,3 +1,4 @@
+
 h2 {
 	margin-bottom: 20px;
 	color: #474E69;
@@ -9,8 +10,8 @@ h2 {
 
 input, textarea {
 	padding: 10px;
+        width: 200px;
 	border: 1px solid #E5E5E5;
-	width: 200px;
 	color: #999999;
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
 	-moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;

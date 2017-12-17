@@ -31,6 +31,7 @@ body {
 }
 
 .slideout-panel {
+  font-family: Arial,Helvetica;
   padding-top:3.5em;
   position:relative;
   padding-bottom:0.3%;
@@ -137,6 +138,7 @@ button, input, optgroup, select, textarea {
 }
 
 .panel, .panel .slideout-panel {
+   font-family: Arial,Helvetica;
    background-color:#f7f7f9;
    color:#959699;
 }

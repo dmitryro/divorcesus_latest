@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 from custom.users.models import Profile
+from custom.users.models import StateProvince
 
 class State(models.Model):
     name = models.CharField(max_length=150,blank=True,null=True)
@@ -10,12 +11,23 @@ class State(models.Model):
 
 
 class Address(models.Model):
-    address1 = models.CharField(max_length=150,blank=True,null=True)
-    address2 = models.CharField(max_length=150,blank=True,null=True)
-    city  = models.CharField(max_length=150,blank=True,null=True)
-    state = models.ForeignKey(State,blank=True,null=True)
-    zipcode = models.CharField(max_length=150,blank=True,null=True)
- 
+    nickname = models.CharField(max_length=150, blank=True, null=True)
+    name_or_company = models.CharField(max_length=150, blank=True, null=True)
+    user = models.ForeignKey(User, blank=True, null=True)
+    address1 = models.CharField(max_length=150, blank=True, null=True)
+    address2 = models.CharField(max_length=150, blank=True, null=True)
+    city  = models.CharField(max_length=150, blank=True, null=True)
+    state_province = models.ForeignKey(StateProvince, related_name='state_province', blank=True, null=True)
+    zip_or_postal = models.CharField(max_length=20, blank=True, null=True)
+    country = models.CharField(max_length=150, blank=True, null=True)
+    is_default = models.NullBooleanField(default=False, blank=True, null=True)  
+    is_active = models.NullBooleanField(default=True,blank=True,null=True)  
+
+    class Meta:
+        verbose_name = 'Address'
+        verbose_name_plural = 'Addresses'
+
+
 class PaymentStatus(models.Model):
     """ Payment Status  Approved, Declined, on hold"""
     status = models.CharField(max_length=200,blank=True,null=True)

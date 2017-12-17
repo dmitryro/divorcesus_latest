@@ -68,6 +68,11 @@ from custom.messaging.views import UserList
 from custom.payments.views import SendConfirmationEmailView
 from custom.payments.views import PaymentsList
 from custom.payments.views import PastPaymentsList
+from custom.payments.views import AddressList
+from custom.payments.views import AddressViewSet
+from custom.payments.views import add_address_view
+from custom.payments.views import delete_address_view
+from custom.payments.views import read_addresses_view
 from custom.services.views import ServiceViewSet
 from custom.services.views import PackageViewSet
 from custom.services.views import ServiceList
@@ -75,6 +80,7 @@ from custom.services.views import PackageList
 from custom.users.views import StateProvinceList
 from custom.users.views import StateProvinceViewSet
 import custom
+
 router = routers.DefaultRouter()
 
 
@@ -91,6 +97,7 @@ router.register(r'notifications', NotificationViewSet)
 router.register(r'messages', MessageViewSet)
 router.register(r'services', ServiceViewSet)
 router.register(r'packages', PackageViewSet)
+router.register(r'addresses', AddressViewSet)
 
 
 urlpatterns = [
@@ -110,6 +117,8 @@ urlpatterns = [
     url(r'^$',custom.gui.views.home),
     url(r'^states/(?P<abbreviation>.+)/$', StateProvinceList.as_view()),
     url(r'^userlist/(?P<username>.+)/$', UserList.as_view()),
+    url(r'^addresseslist/(?P<username>.+)/$', AddressList.as_view()),
+    url(r'^addresseslist/(?P<nickname>.+)/$', AddressList.as_view()),
     url(r'^dashboard/$', custom.gui.views.dashboard),
     url(r'^accounts/login/?next=/signout/$',custom.gui.views.home),
     url(r'^accounts/login/$',custom.gui.views.home),
@@ -141,6 +150,9 @@ urlpatterns = [
     url(r'^deletemessage/',DeleteMessageView.as_view()),
     url(r'^outgoing/$', outgoing_messages_view),
     url(r'^incoming/$', incoming_messages_view),
+    url(r'^addbilling/$', add_address_view),
+    url(r'^deletebilling/$', delete_address_view),
+    url(r'^readbilling/$', read_addresses_view),
     url(r'^duplication/$', msg_duplication_view),
     url(r'^pastpayments/(?P<user_id>.+)/$', PaymentsList.as_view()),
     url(r'^msgsettings/(?P<user_id>.+)/$', MessagingSettingsList.as_view()),

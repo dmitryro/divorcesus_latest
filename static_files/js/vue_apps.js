@@ -1104,6 +1104,11 @@ new Vue({
 
 
 jQuery(document).ready(function() {
+    
+    jQuery('#add-billing-address').click(function(e) {
+           jQuery('#add-billing-address-body').css('display','block');
+    });
+
     vm.$el = document.getElementById('stepone');
     vm2.$el = document.getElementById('steptwo');
     vm3.$el = document.getElementById('stepthree');

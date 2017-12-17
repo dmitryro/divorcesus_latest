@@ -68,9 +68,7 @@
                   default content
                      -->
 
-              </modal>
-
-
+               </modal>
        </div>
        <div class="clear"></div>
 
@@ -417,7 +415,13 @@
 
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                <div style="float:left; width:80%;text-align:center;padding-left:3.2em;">
+                                     <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.2em;">
+                                         <div id="add-payment-method-back" style="display:none;">
+                                             <a href="#" style="color:red;" onclick="openmenu('paymentmethods');">Back</a>
+                                         </div>
+                                     </div>
+
+                                <div style="float:left; width:75%;text-align:center;padding-left:3.2em;">
                                     <h4>Payment Methods</h4>
                                 </div>
                                 <div style="float:left; width:8%;padding-top:1.2em;">
@@ -479,10 +483,126 @@
         <div class="col-md-9 well admin-content" id="billingaddresses">
 
 
-
+            
               <div class="card card-3 panel-right">
+                             <div id="edit-billing-address" class="panel-payments">
+                                 <div class="panel-header">
+                                     <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.4em;">
+                                         <a href="#" style="color:red;" onclick="openmenu('billingaddresses');">Back</a>
+                                     </div>
+                                     <div style="width:84%;float:left;">
+                                         <h4>Edit Billing Address</h4>
+                                     </div>
+                                     <div class="clear"></div>
+                                 </div>
+                                 <div id="edit-billing-addresses-inner" style="width:92%;padding-left:1%;">
+
+
+    
+    <validator name="validation3">
+    <div class="errors">
+           <validator-errors :validation="$validation3"></validator-errors>
+    </div>
+
+
+    <form id="edit-billing-address-form" novalidate autocomplete="on" method="POST">
+         <input id="edit-address-id" type="hidden"  v-model="address_id" />
+         <input id="edit-billing-address-form-submitted" type="hidden" />
+        <div class="form-group" style="margin-bottom:1.5em;">
+            <label for="edit-nickname" class="control-label">Address Nickname
+            </label>
+            <input id="edit-nickname" type="name" class="input-lg form-control"  placeholder="Address Nickname" v-model="nickname"  v-validate:address_1=['nonempty']>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1.5em;">
+            <label for="edit-name-or-company" class="control-label">Name or Company
+            </label>
+            <input id="edit-name-or-company" type="name" class="input-lg form-control"  placeholder="Name or Company" v-model="name_or_company"  v-validate:address_1=['nonempty']>
+        </div>
+        <div class="form-group" style="margin-bottom:1.5em;">
+            <label for="edit-address-1" class="control-label">Address 1
+            </label>
+            <input id="edit-address-1" type="name" class="input-lg form-control"  placeholder="Address 1" v-model="address_1"  v-validate:address_1=['nonempty']>
+        </div>
+        <div class="form-group" style="margin-bottom:1.5em;">
+            <label for="edit-address-2" class="control-label">Address 2
+            </label>
+            <input id="edit-address-2" type="name" class="input-lg form-control"  placeholder="Address 2">
+        </div>
+
+        <div class="form-group" style="margin-bottom:1.5em;">
+            <label for="edit-city" class="control-label">City
+            </label>
+            <input id="edit-city" type="name" class="input-lg form-control"  placeholder="City"  v-model="city" v-validate:city=['nonempty']>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1.5em;">
+                <div>
+                    <label for="edit-make-default-billing" class="control-label">Set As Your Default Payment Method
+                    </label>
+                </div>
+                <div style="margin-top:0.4em;">
+                <label class="switch">
+                       <input type="checkbox" value="" id="edit-make-default-billing" v-model="make_default">
+                                   <div class="slider round"><!--ADDED HTML --><span class="on">YES</span><span class="off">NO</span><!--END--></div>
+                </label>
+                </div>
+                <div class="clear"></div>
+        </div>
+
+
+        <div style="float:left;width:49%;">
+                             <label for="edit-state-province" class="control-label">State or Province
+                             </label>
+
+
+                             <select id="edit-state-province" class="styled-select slate" style="width:90%;" v-model="state">
+                                <option value="1">Alabama</option>
+                                <option value="2">Alaska</option>
+                                <option value="3">Alberta</option>
+                                <option value="4">Arkanzas</option>
+                                <option value="5">British Columbia</option>
+                                <option value="6">California</option>
+                             </select>
+
+        </div>
+        <div style="float:left;width:49%;">
+            <div class="form-group" style="margin-bottom:1.5em;">
+                <label for="edit-zip-postal" class="control-label">Zip or Postal
+                </label>
+                <input id="edit-zip-postal" type="zip-postal" class="input-lg form-control"  placeholder="Zip or Postal" style="width:90%;" v-model="zip_or_postal"  v-validate:zip_or_postal=['nonempty']>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="form-group" style="margin-bottom:1.5em;">
+            <label for="edit-country" class="control-label">Country
+            </label>
+            <input id="edit-country" type="name" class="input-lg form-control"  placeholder="Country" v-model="country"  v-validate:country=['nonempty']>
+        </div>
+
+
+        <button type="submit" class="button button2" v-on:click="submitbilling" v-if="$validation3.valid">Submit</button>
+
+
+    </form>
+   </validator>
+
+
+
+                                 </div>
+                                 <div class="clear"></div>
+                             </div>
+
+                       
+                          <div id="billing-addresses-panel">
                              <div class="panel-header">
-                                <div style="float:left; width:80%;text-align:center;padding-left:3.2em;">
+                                <div class="panel-editpost form-content" style="float:left;width:5%;padding-top:1.2em;">
+                                     <div style="display:none;" id="edit-billingaddress-back">
+                                         <a href="#" style="color:red;" onclick="openmenu('billingaddresses');">Back</a>
+                                     </div>
+                                </div>
+                                <div style="float:left; width:75%;text-align:center;padding-left:3.2em;">
                                     <h4>Billing Addresses</h4>
                                 </div>
                                 <div style="float:left; width:8%;padding-top:1.2em;">
@@ -490,22 +610,57 @@
                                 </div>
                                 <div class="clear"></div>
                              </div>
-                             <div id="add-billing-address-body" class="panel-payments">
 
-<div class="container" style="width:60%;margin-left:15%;">
-     <h4>
-      Add Billing Address
-    </h4>
+
+
+
+                             <div id="billing-addresses" class="panel-payments">
+                                 <div class="container" style="width:60%;margin-left:15%;">
+                                       <div>
+                                           <h4>
+                                              Your Billing Addresses
+                                           </h4>
+                                       </div>
+                                       <div id="billing-addresses-inner">
+                                               list here
+                                       </div>
+                                 </div>
+                             </div>
+                             <div id="add-billing-address-body">
+
+<div class="container" style="width:60%;margin-left:15%;float:left;">
+
+     <!-- start billingaddress -->
+     <div id="billingaddress">
+
+     <div style="float:left;width:88%;">
+                                     <h4>Add Billing Address</h4>
+     </div>
+     <div class="clear"></div>
+
+    <validator name="validation2">
+    <div class="errors">
+           <validator-errors :validation="$validation2"></validator-errors>
+    </div>
+
+
     <form id="billing-address-form" novalidate autocomplete="on" method="POST">
+
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="address-name" class="control-label">Name or Company
+            <label for="name_or_company" class="control-label">Name or Company
             </label>
-            <input id="address-name" type="name" class="input-lg form-control"  placeholder="Name or Company" required required="required">
+            <input id="name_or_company" type="name" class="input-lg form-control"  placeholder="Address Nickname" v-model="nickname"  v-validate:address_1=['nonempty']>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1.5em;">
+            <label for="name_or_company" class="control-label">Name or Company
+            </label>
+            <input id="name_or_company" type="name" class="input-lg form-control"  placeholder="Name or Company" v-model="name_or_company"  v-validate:address_1=['nonempty']>
         </div> 
         <div class="form-group" style="margin-bottom:1.5em;">
             <label for="address-1" class="control-label">Address 1
             </label>
-            <input id="address-1" type="name" class="input-lg form-control"  placeholder="Address 1" required>
+            <input id="address-1" type="name" class="input-lg form-control"  placeholder="Address 1" v-model="address_1"  v-validate:address_1=['nonempty']>
         </div>
         <div class="form-group" style="margin-bottom:1.5em;">
             <label for="address-2" class="control-label">Address 2
@@ -516,7 +671,21 @@
         <div class="form-group" style="margin-bottom:1.5em;">
             <label for="city" class="control-label">City
             </label>
-            <input id="city" type="name" class="input-lg form-control"  placeholder="City" required required="required">
+            <input id="city" type="name" class="input-lg form-control"  placeholder="City"  v-model="city" v-validate:city=['nonempty']>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1.5em;">
+                <div>
+                    <label for="add-make-default-billing" class="control-label">Set As Your Default Payment Method
+                    </label>
+                </div>
+                <div style="margin-top:0.4em;">
+                <label class="switch">
+                       <input type="checkbox" id="add-make-default-billing" value="" v-model="make_default">
+                                   <div class="slider round"><!--ADDED HTML --><span class="on">YES</span><span class="off">NO</span><!--END--></div>
+                </label>
+                </div>
+                <div class="clear"></div>
         </div>
 
 
@@ -525,7 +694,7 @@
                              </label>
 
 
-                             <select id="state-province" class="styled-select slate" style="width:90%;" required="required">
+                             <select id="state-province" class="styled-select slate" style="width:90%;" v-model="state">
                                 <option value="1">Alabama</option>
                                 <option value="2">Alaska</option>
                                 <option value="3">Alberta</option>
@@ -539,7 +708,7 @@
             <div class="form-group" style="margin-bottom:1.5em;">
                 <label for="zip-postal" class="control-label">Zip or Postal 
                 </label>
-                <input id="zip-postal" type="zip-postal" class="input-lg form-control"  placeholder="Zip or Postal" style="width:90%;"  required required="required">
+                <input id="zip-postal" type="zip-postal" class="input-lg form-control"  placeholder="Zip or Postal" style="width:90%;" v-model="zip_or_postal"  v-validate:zip_or_postal=['nonempty']>
             </div>                
         </div>
         <div class="clear"></div>
@@ -547,18 +716,26 @@
         <div class="form-group" style="margin-bottom:1.5em;">
             <label for="country" class="control-label">Country
             </label>
-            <input id="country" type="name" class="input-lg form-control"  placeholder="Country" required required="required">
+            <input id="country" type="name" class="input-lg form-control"  placeholder="Country" v-model="country"  v-validate:country=['nonempty']>
         </div>
 
 
-        <button type="submit" class="button button2">Submit</button>
+        <button type="submit" class="button button2" v-on:click="submitbilling" v-if="$validation2.valid">Submit</button>
 
-         <h2 class="validation"></h2>
 
     </form>
+    </validator>
+    </div> <!-- end billingaddress -->
+    <div class="clear"></div>
+
+</div>
+<div class="clear"></div>
+</div>
+<div class="clear"></div>
 </div>
 
                              </div>
+<div class="clear"></div>
               </div>
         </div>
         <div class="col-md-9 well admin-content" id="requestinfo">
@@ -628,18 +805,28 @@
 
         <div class="col-md-9 well admin-content" id="incoming">
               <div class="card card-3 panel-right" style="min-width:370px;">
-                             <div class="panel-header">
-                                   <h4>Incoming</h4>
-                             </div>
+
+                                 <div class="panel-header">
+                                     <div style="float:left;padding-top:1.2em;padding-left:1.2em;width:5%;">
+                                          <div id="incoming_messages_back" style="display:none;">
+                                              <a style="color:red;" href="#" onclick="openmenu('incoming');">Back</a><br/><br/>
+                                          </div>
+                                     </div>
+                                     <div style="float:left;padding-top:-0.4em;width:87%;">
+                                          <h4>Incoming Messages</h4>
+                                     </div>
+                                     <div style="float:left;padding-top:1.2em;width:5%;">&nbsp;
+                                     </div>
+                                     <div class="clear"></div>     
+                                 </div>
+
+
                              <div class="panel-incoming-messages panel-inner">
 
 
 
                              </div>
                              <div class="panel-current-incoming-message form-content">
-                                <div id="messages_back"  style="margin-left:1.0em;">
-                                    <a style="color:red;" href="#" onclick="openmenu('incoming');">Back</a><br/><br/>
-                                </div>
                                 <input type="hidden" name="message_reply_id" id="message_reply_id" value=""/>
                                 <input type="hidden" name="message_sender_id" id="message_sender_id" value="" />
                                 <div id="message_sender" style="margin-left:1.0em;"></div>
@@ -649,7 +836,8 @@
                                 </div>
                                 <div id="message_reply_body" style="margin-bottom:0em;margin-top:1.2em;margin-left:1.0em;"></div>
                                 <div class="respond-back" style="margin-top:1.2em;margin-left:1.0em;">
-                                      <textarea name="response" width="20" height="5" id="response-text" class="inner-textarea form-control" style="margin-bottom:1.2em;margin-top:2.4em;margin-left:1.0em;" rows="8"></textarea>
+                                      <textarea name="response" id="response-text" class="inner-textarea" style="overflow:hidden;margin-bottom:1.2em;" 
+rows="5"></textarea>
                                 </div>
                                      
                                       <input type="button" value="Respond" class="button button2" id='respond_back'  style="padding-top:0.2em;padding-left:-1.2em;margin-top:1.2em;margin-bottom:1.2em;margin-left:1.0em;padding-top:0.8em;" />

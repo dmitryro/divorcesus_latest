@@ -15,11 +15,27 @@ from models import TransactionStatus
 from models import TransactionType
 from models import Transaction
 from models import CustomerProfile
+from custom.users.models import StateProvince
+
+class StateProvinceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StateProvince
+        fields = ('id','name','abbreviation')
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id','username','first_name','last_name')
+
+class AddressSerializer(serializers.ModelSerializer):
+    state_province = StateProvinceSerializer(many=False, read_only=True)
+    user = UserSerializer(many=False, read_only=True)
+    class Meta:
+        model = Address
+        fields = ('id', 'name_or_company', 'address1',
+                  'address2', 'city', 'state_province', 'country',
+                  'zip_or_postal', 'user', 'is_default',
+                  'is_active', 'nickname',)
 
 class TransactionTypeSerializer(serializers.ModelSerializer):
     class Meta:

@@ -107,8 +107,8 @@ def message_duplicate_to_email_handler(sender, receiver, message, **kwargs):
         mess = string.replace(mess, '[sender]', sender.first_name+' '+sender.last_name)
         mess = string.replace(mess,'[title]', message.title)
         mess = string.replace(mess,'[body]', message.body)
-
-
+        mess = string.replace(mess, '[email_address]', receiver.email)
+       
         
         message = mess
 

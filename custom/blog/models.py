@@ -56,6 +56,9 @@ class Post(models.Model):
         else:
            return self.author.first_name+' '+self.author.last_name
 
+    def get_absolute_url(self):
+        return '/'+self.title+'-'+self.category+'/'
+
 #    @author.setter
 #    def author(self, value):
 #        self._author = value
@@ -96,6 +99,9 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return unicode(self.title)
+
+    def get_absolute_url(self):
+        return "/comments/%i/" % self.id
 
 
 # Create your models here.

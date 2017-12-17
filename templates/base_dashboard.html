@@ -725,6 +725,7 @@ Vue.component('modal', {
             $('#add-billing-address-body').css('display','none');
             $("#billing-addresses").hide();
             $("#edit-billingaddress-back").hide();
+            $("#edit-billingaddress-home").hide();
             $("#edit-billing-address").hide();
 
             $('#respond_back').click(function(e) {
@@ -781,7 +782,8 @@ Vue.component('modal', {
             $('#add-billing-address').click(function(e) {
                     $("#billing-addresses").css('display', 'none');
                     $("#edit-billing-address").css('display', 'none');
-                    $("#edit-billingaddress-back").css('display', 'block'); 
+                    $("#edit-billingaddress-back").css('display', 'block');
+                    $("#edit-billingaddress-home").css('display', 'none'); 
                     $('#add-billing-address-body').css('display', 'block');
             });
 
@@ -895,6 +897,7 @@ Vue.component('modal', {
                $('.panel-current-incoming-message').hide();
                $('#paymenthistory').hide();
                $('#incoming_messages_back').css('display','none');
+               $('#incoming_messages_home').css('display','block');
                var arr = {receiver_id: document.getElementById('user_id').value};
 
                $.ajax({
@@ -934,10 +937,12 @@ Vue.component('modal', {
                                result=result+"</div>";
 */
 
-                               result=result+"<div style='float:left;width=20%;padding-left:2.0em;margin-right:2.2em;'>"+first_name+" "+last_name+"</div>";
+                               result=result+"<div style='width:99%;padding-top:0.6em;padding-bottom:0.6em;'>";
 
-                               result=result+"<div style='float:left;width:28%;'>";
-                               result=result+msg[i].time_sent;
+                               result=result+"<div style='float:left;width=24%;padding-left:2.0em;margin-right:2.2em;'>"+first_name+" "+last_name+"</div>";
+
+                               result=result+"<div style='float:left;width:24%;'>";
+                               result=result+msg[i].time_sent.slice(0,10);
                                result=result+"</div>";
 
                                result=result+"<div style='float:left;width:30%;'>";
@@ -982,6 +987,7 @@ Vue.component('modal', {
                   //$("#billingaddress").css('display', 'none');
                   $("#edit-billing-address").hide();
                   $("#edit-billingaddress-back").hide();
+                  $("#edit-billingaddress-home").css('display', 'block');
                   $("#add-billing-address-body").hide();
           }
           else if (target=='paymentmethods') {
@@ -1264,7 +1270,8 @@ function readmessage(id) {
    }).done(function( msg ) {
       $("#total_unseen").attr("value", msg.total_unseen);
       $(".notification-counter").html(msg.total_unseen);
-      $("#incoming_messages_back").css('display','block');
+      $("#incoming_messages_back").css('display', 'block');
+      $("#incoming_messages_home").css('display', 'none');
       var total = msg.total_unseen;
 
       interval = setInterval(function(){blink()}, 1000);
@@ -1293,6 +1300,7 @@ function editaddress(id) {
     $("#billing-addresses").hide();
     $("#edit-billing-address").show();
     $("#edit-billingaddress-back").show();
+    $("#edit-billingaddress-home").hide();
     $("#add-billing-address-body").hide();
 
     $.ajax({
@@ -1353,6 +1361,7 @@ function deleteaddress(id) {
                      $("#add-billing-address-body").hide();
                      $("#edit-billing-address").hide();
                      $("#edit-billingaddress-back").hide();
+                     $("#edit-billingaddress-home").css('display', 'block');
                      $("#billing-addresses").show();
 
                      var result = '';
@@ -2179,6 +2188,32 @@ new Vue({
 
    });
 
+
+new Vue({
+    el: '#paymentmethod',
+
+    data: {
+        payment_method_id: '',
+        associated_address_id: '',
+        card_number: '',
+        name_on_card: '',
+        cvc: '',
+        expiration_date: '',
+        make_default: 'true',
+    },
+
+    created: function() {
+    },
+
+    methods: {
+        edit: function(msg) {
+
+        },
+        submitpaymentmethod: function(msg) {
+
+        }
+    }
+});
 new Vue({
     el: '#billingaddress',
     data: {

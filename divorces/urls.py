@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.contrib.sitemaps import GenericSitemap
+from django.contrib.sitemaps.views import sitemap
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.models import User
@@ -28,6 +30,7 @@ from rest_framework import generics
 from rest_framework import viewsets, routers
 from rest_framework.authtoken import views as drf_views
 
+from custom.gui.sitemaps import StaticViewSitemap
 from custom.gui.views import resend_activation_view
 from custom.gui.views import confirm_account_view
 from custom.gui.views import GlobalSearchList
@@ -36,6 +39,7 @@ from custom.gui.views import GetSearchResultsView
 from custom.signup.views import SendEmailView
 from custom.signup.views import SubscribeView
 from custom.signup.views import logout_view
+from custom.blog.models import Post, Comment
 from custom.blog.views import AddPostView
 from custom.blog.views import AddCommentView
 from custom.blog.views import SaveCommentView
@@ -49,6 +53,7 @@ from custom.blog.views import CommentViewSet
 from custom.blog.views import GetCommentsView
 from custom.blog.views import DeleteCommentView
 from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
+from custom.blog.sitemap import PostSitemap, CommentsSitemap
 from custom.messaging.views import outgoing_messages_view
 from custom.messaging.views import incoming_messages_view
 from custom.messaging.views import msg_duplication_view
@@ -81,8 +86,25 @@ from custom.users.views import StateProvinceList
 from custom.users.views import StateProvinceViewSet
 import custom
 
-router = routers.DefaultRouter()
+blog_dict = {
+    'queryset': Post.objects.all(),
+    'title': 'title',
+    'time_published': 'time_published',
+}
 
+comments_dict = {
+    'queryset': Comment.objects.all(),
+    'title': 'title',
+    'time_published': 'time_published',
+}
+
+# Dictionary containing your sitemap classes
+sitemaps = {
+   'posts': PostSitemap(),
+   'comments': CommentsSitemap(),
+#   'static': StaticViewSitemap(),
+}
+router = routers.DefaultRouter()
 
 
 admin.autodiscover()
@@ -231,5 +253,15 @@ urlpatterns = [
     url(r'^deletemessage/',DeleteMessageView.as_view()),
 
     url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+   # url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    url(r'^sitemap\.xml$', sitemap,
+        {'sitemaps': {'blog': GenericSitemap(blog_dict, priority=0.7), 
+                      'comments': GenericSitemap(comments_dict, priority=0.7)}},
+        
+        name='django.contrib.sitemaps.views.sitemap'),
+    #url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
+   # url(r'^sitemap\.xml$', sitemap,
+   #     {'sitemaps': {'blog': StaticViewSitemap(info_dict, priority=0.6)}},
+   #     name='django.contrib.sitemaps.views.sitemap'),
 ]

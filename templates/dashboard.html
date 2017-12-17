@@ -298,7 +298,9 @@
                                 <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Past Transactions (0)</div>
                                 <div class="clear"></div>
                                 <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Billing Addresses (0)</div>
+                                <a href='#' onclick="openmenu('billingaddresses');" style="text-decoration:none;color:inherit;">
+                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Billing Addresses ({% dashboard_meta user_id 6 %})</div>
+                                </a>
                                 <div class="clear"></div>
                            </div>
                   </div>
@@ -312,14 +314,15 @@
                                 <div class="content-icon"></div>
                                 <a href='#' onclick="openmenu('incoming');" style="text-decoration:none;color:inherit;">
                                 <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Incoming Messages ({% dashboard_meta user_id 1 %})
-                                </a> 
                                 </div>
+                                </a> 
                                 <div class="clear"></div>
                                 <div class="content-icon"></div>
                                 <a href='#' onclick="openmenu('outgoing');" style="text-decoration:none;color:inherit;">
                                 <div  class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Outgoing Messages ({% dashboard_meta user_id 2 %})
-                                </a>
+                             
                                 </div>
+                                </a>
                                 <div class="clear"></div>
                                 <div class="content-icon"></div>
                                 <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;">Group Messages ({{ total_group }})</div>
@@ -601,7 +604,13 @@
                                      <div style="display:none;" id="edit-billingaddress-back">
                                          <a href="#" style="color:red;" onclick="openmenu('billingaddresses');">Back</a>
                                      </div>
+
+                                      <div id="edit-billingaddress-home" style="display:block;">
+                                           <a style="color:red;" href="#" onclick="openmenu('home');">Home</a><br/><br/>
+                                      </div>
+
                                 </div>
+
                                 <div style="float:left; width:75%;text-align:center;padding-left:3.2em;">
                                     <h4>Billing Addresses</h4>
                                 </div>
@@ -807,13 +816,22 @@
               <div class="card card-3 panel-right" style="min-width:370px;">
 
                                  <div class="panel-header">
-                                     <div style="float:left;padding-top:1.2em;padding-left:1.2em;width:5%;">
-                                          <div id="incoming_messages_back" style="display:none;">
-                                              <a style="color:red;" href="#" onclick="openmenu('incoming');">Back</a><br/><br/>
-                                          </div>
-                                     </div>
                                      <div style="float:left;padding-top:-0.4em;width:87%;">
-                                          <h4>Incoming Messages</h4>
+                                             <div style="float:left;padding-top:1.2em;padding-left:0.6em; width:3.5%;">
+                                                 <div id="incoming_messages_home" style="display:block;">
+                                                     <a style="color:red;" href="#" onclick="openmenu('home');">Home</a><br/><br/>
+                                                 </div>
+                                             </div>
+
+                                             <div style="float:left;padding-top:1.2em;padding-left:0.6em; width:3.5%;">
+                                               <div id="incoming_messages_back" style="display:none;">
+                                                    <a style="color:red;" href="#" onclick="openmenu('incoming');">Back</a><br/><br/>
+                                               </div>
+                                             </div>
+
+                                             <div style="float:left;width:88%">
+                                                <h4>Incoming Messages</h4>
+                                             </div>
                                      </div>
                                      <div style="float:left;padding-top:1.2em;width:5%;">&nbsp;
                                      </div>
@@ -832,7 +850,7 @@
                                 <div id="message_sender" style="margin-left:1.0em;"></div>
                                 <div id="message_date_sent" style="margin-left:1.0em;"></div>
                                 <div id="message_reply_title_div">
-                                      <input type="text" name="message_reply_title" id="message_reply_title" class="input-lg form-control" style="width:80%;margin-top:2.4em;margin-left:1.0em;" value="" />
+                                      <input type="text" name="message_reply_title" id="message_reply_title" class="input-lg form-control" style="width:75%;margin-top:2.4em;margin-left:1.0em;" value="" />
                                 </div>
                                 <div id="message_reply_body" style="margin-bottom:0em;margin-top:1.2em;margin-left:1.0em;"></div>
                                 <div class="respond-back" style="margin-top:1.2em;margin-left:1.0em;">
@@ -849,7 +867,18 @@ rows="5"></textarea>
         <div class="col-md-9 well admin-content" id="outgoing">
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                   <h4>Outgoing</h4>
+
+                                             <div style="float:left;padding-top:1.2em;padding-left:0.6em; width:3.5%;">
+                                               <div id="outgoing_messages_back" style="display:block;">
+                                                    <a style="color:red;" href="#" onclick="openmenu('home');">Home</a>
+                                               </div>
+                                             </div>
+
+                                             <div style="float:left;width:88%">
+                                                <h4>Outgoing Messages</h4>
+                                             </div>
+                                             <div class="clear"></div>
+
                              </div>
                              <div class="panel-outgoing-messages panel-inner">
 
@@ -864,7 +893,15 @@ rows="5"></textarea>
                <div style="float:left;width:100%;" class="panel-all-posts">
                      <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                   <h4>All your posts</h4>
+                                   <div style="float:left;padding-top:1.2em;padding-left:0.6em; width:4.5%;">
+                                       <div id="incoming_messages_home" style="display:block;">
+                                           <a style="color:red;" href="#" onclick="openmenu('home');">Home</a><br/><br/>
+                                       </div>
+                                   </div>
+                                   <div style="float:left;width:88%">
+                                       <h4>All your posts</h4>
+                                   </div>
+                                   <div class="clear"></div>
                              </div>
                              <div class="panel-posts">
 
@@ -1002,11 +1039,19 @@ rows="5"></textarea>
 
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                   <h4>Edit Post</h4>
+                                             <div style="float:left;padding-top:1.2em;padding-left:0.6em; width:4.5%;">
+                                                 <div id="incoming_messages_home" style="display:block;">
+                                                     <a style="color:red;" href="#" onclick="openmenu('allposts');">Back</a><br/><br/>
+                                                 </div>
+                                             </div>
+
+                                             <div style="float:left;width:88%">
+                                                <h4>Edit Post</h4>
+                                             </div>
+
+                                             <div class="clear"></div>
                              </div>
                              <div class="panel-editpost form-content">
-                                <a href="#" style="color:red;" onclick="openmenu('allposts');">Back</a>
-
                                 <p class="name">
                                      <label for="edit_post_title" class="control-label">Title</label>
                                      <input type="text" id="edit_post_title" name="edit_post_title" class="input-lg form-control" style="width:40%;" />

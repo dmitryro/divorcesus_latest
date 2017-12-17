@@ -21,6 +21,7 @@ from custom.gui.models import Logo
 from custom.gui.models import ContactInfo
 from custom.gui.models import Service
 from custom.messaging.models import Message
+from custom.payments.models import Address
 from custom.blog.models import Post
 from custom.blog.models import Comment
 
@@ -107,6 +108,13 @@ def dashboard_meta(a, b,  *args, **kwargs):
        try:
           messages = Message.objects.filter(receiver_id=user.id, is_seen=False)
           return len(messages)
+       except Exception as e:
+          return 0
+
+    elif b==6:
+       try:
+          addresses = Address.objects.filter(user_id=user.id)
+          return len(addresses)
        except Exception as e:
           return 0
 

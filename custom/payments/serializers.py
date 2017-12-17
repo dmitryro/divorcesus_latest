@@ -37,6 +37,11 @@ class AddressSerializer(serializers.ModelSerializer):
                   'zip_or_postal', 'user', 'is_default',
                   'is_active', 'nickname',)
 
+class CreditCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CreditCard
+        fields = ('id',)        
+
 class TransactionTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = TransactionType

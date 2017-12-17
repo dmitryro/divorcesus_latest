@@ -10,6 +10,7 @@ from restless.views import Endpoint
 from custom.users.models import Contact
 from custom.users.models import StateProvince
 from custom.utils.models import Logger
+from custom.payments.models import CreditCard
 from custom.payments.models import Payment
 from custom.payments.models import Address
 from custom.payments.models import State
@@ -71,9 +72,6 @@ class AddressViewSet(viewsets.ModelViewSet):
 def reset_default_billing(address_id, user_id):
     try:
         addresses = Address.objects.filter(user_id=user_id).exclude(id=address_id)
-        log = Logger(log='TOTAL FOUND HERE {}'.format(len(addresses)))
-        log.save()
-
         for address in addresses:
             address.is_default = False
             address.save()
@@ -81,6 +79,26 @@ def reset_default_billing(address_id, user_id):
         log = Logger(log='SOMETHING BROKE {}'.format(e))
         log.save()
 
+class PaymentMethodViewSet(viewsets.ModelViewSet):
+   pass
+
+@api_view(['POST', 'GET'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def add_payment_method_view(request):
+    """
+    A view to add payment method
+    """
+    pass
+
+@api_view(['POST', 'GET'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def delete_payment_method_view(request):
+    """
+    A view to depete a payment method
+    """
+    pass
 
 
 @api_view(['POST', 'GET'])

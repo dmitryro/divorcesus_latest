@@ -21,6 +21,7 @@ from custom.gui.models import Logo
 from custom.gui.models import ContactInfo
 from custom.gui.models import Service
 from custom.messaging.models import Message
+from custom.payments.models import CreditCard
 from custom.payments.models import Address
 from custom.blog.models import Post
 from custom.blog.models import Comment
@@ -117,6 +118,15 @@ def dashboard_meta(a, b,  *args, **kwargs):
           return len(addresses)
        except Exception as e:
           return 0
+
+    elif b==7:
+        return 0
+
+    elif b==8:
+        return 0
+
+    elif b==9:
+        return 0
 
 
 """

@@ -275,7 +275,9 @@
                            <div class="header">Cases</div>
                            <div class="content">
                                 <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Your Cases (0)</div>
+                                <a href='#' onclick="openmenu('checkstatus');" style="text-decoration:none;color:inherit;">
+                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Your Cases ({% dashboard_meta user_id 8 %})</div>
+                                </a>
                                 <div class="clear"></div>
                                 <div class="content-icon"></div>
                                 <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Similar Cases (0)</div>
@@ -292,7 +294,9 @@
                            <div class="header">Payments</div>
                            <div class="content">
                                 <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Payment Methods (0)</div>
+                                <a href='#' onclick="openmenu('paymentmethods');" style="text-decoration:none;color:inherit;">
+                                   <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Payment Methods ({% dashboard_meta user_id 7 %})</div>
+                                </a>
                                 <div class="clear"></div>
                                 <div class="content-icon"></div>
                                 <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Past Transactions (0)</div>
@@ -356,7 +360,15 @@
         <div class="col-md-9 well admin-content" id="profile">
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                   <h4>Personal Profile</h4>
+
+                                     <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.4em;">
+                                         <a href="#" style="color:red;" onclick="openmenu('home');">Home</a>
+                                     </div>
+                                     <div style="width:84%;float:left;">
+                                         <h4>Personal Profile</h4>
+                                     </div>
+                                     <div class="clear"></div>
+
                              </div>
                              <div class="panel-payments">
 
@@ -368,7 +380,15 @@
         <div class="col-md-9 well admin-content" id="preferences">
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                   <h4>Personal Preferences</h4>
+
+                                     <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.4em;">
+                                         <a href="#" style="color:red;" onclick="openmenu('home');">Home</a>
+                                     </div>
+                                     <div style="width:84%;float:left;">
+                                         <h4>Personal Preferences</h4>
+                                     </div>
+                                     <div class="clear"></div>
+
                              </div>
                              <div class="panel-payments">
 
@@ -380,7 +400,14 @@
         <div class="col-md-9 well admin-content" id="addresses">
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                   <h4>Manage Your Addresses</h4>
+                                     <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.4em;">
+                                         <a href="#" style="color:red;" onclick="openmenu('home');">Home</a>
+                                     </div>
+                                     <div style="width:84%;float:left;">
+                                         <h4>Manage Your Addresses</h4>
+                                     </div>
+                                     <div class="clear"></div>
+
                              </div>
                              <div class="panel-payments">
 
@@ -392,7 +419,14 @@
         <div class="col-md-9 well admin-content" id="contacts">
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                   <h4>Personal Contacts</h4>
+                                     <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.4em;">
+                                         <a href="#" style="color:red;" onclick="openmenu('home');">Home</a>
+                                     </div>
+                                     <div style="width:84%;float:left;">
+                                         <h4>Personal Contacts</h4>
+                                     </div>
+                                     <div class="clear"></div>
+
                              </div>
                              <div class="panel-payments">
 
@@ -405,7 +439,14 @@
         <div class="col-md-9 well admin-content" id="payments">
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                   <h4>Payments</h4>
+                                     <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.4em;">
+                                         <a href="#" style="color:red;" onclick="openmenu('home');">Home</a>
+                                     </div>
+                                     <div style="width:84%;float:left;">
+                                         <h4>Past Payments</h4>
+                                     </div>
+                                     <div class="clear"></div>
+
                              </div>
                              <div class="panel-payments">
 
@@ -421,6 +462,9 @@
                                      <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.2em;">
                                          <div id="add-payment-method-back" style="display:none;">
                                              <a href="#" style="color:red;" onclick="openmenu('paymentmethods');">Back</a>
+                                         </div>
+                                         <div id="add-payment-method-home" style="display:block;">
+                                             <a href="#" style="color:red;" onclick="openmenu('home');">Home</a>
                                          </div>
                                      </div>
 
@@ -441,7 +485,7 @@
                                     <!--
                                       <iframe src="/static/add-payment-method.html" scrolling="no"></iframe>
                                      -->
-
+<div id="paymentmethod">
 <div class="container" style="width:60%;margin-left:15%;">
      <h4>
       Add Payment Method
@@ -450,7 +494,7 @@
         <div class="form-group" style="margin-bottom:1.5em;">
             <label for="cc-number" class="control-label">Card number formatting <small class="text-muted">[<span class="cc-brand"></span>]</small>
             </label>
-            <input id="cc-number" type="tel" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
+            <input id="cc-number" v-model="credit_card" type="tel" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
         </div>
         <div class="form-group" style="margin-bottom:1.5em;">
             <label for="cc-exp" class="control-label">Card expiry formatting</label>
@@ -461,16 +505,30 @@
             <input id="cc-cvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="•••" required>
         </div>
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="numeric" class="control-label">Name On Card (Full Name)</label>
-            <input id="numeric" type="tel" class="input-lg form-control" data-numeric>
+            <label for="name_on_card" class="control-label">Name On Card (Full Name)</label>
+            <input id="name_on_card" type="tel" class="input-lg form-control" data-numeric>
         </div>
+        <div class="form-group" style="margin-bottom:1.5em;">
+                <div>
+                    <label for="make-default-payment-method" class="control-label">Set As Your Default Payment Method
+                    </label>
+                </div>
+                <div style="margin-top:0.4em;">
+                <label class="switch">
+                       <input type="checkbox" value="" id="make-default-payment-method" v-model="make_default">
+                                   <div class="slider round"><!--ADDED HTML --><span class="on">YES</span><span class="off">NO</span><!--END--></div>
+                </label>
+                </div>
+                <div class="clear"></div>
+        </div>
+
         <button type="submit" class="button button2">Submit</button>
 
          <h2 class="validation"></h2>
 
     </form>
 </div>
-
+</div>
 
                              </div>
               </div>
@@ -478,7 +536,22 @@
 
         </div>
         <div class="col-md-9 well admin-content" id="dispute">
-            Dispute
+
+              <div class="card card-3 panel-right">
+                             <div id="dispute-past-transaction" class="panel-payments">
+                                 <div class="panel-header">
+                                     <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.4em;">
+                                         <a href="#" style="color:red;" onclick="openmenu('home');">Home</a>
+                                     </div>
+                                     <div style="width:84%;float:left;">
+                                         <h4>Dispute Past Transaction</h4>
+                                     </div>
+                                     <div class="clear"></div>
+                                 </div>
+                                 <div id="dispute-transaction-inner" style="width:92%;padding-left:1%;">
+                                 </div>
+                            </div>
+               </div>
         </div>
 
 
@@ -762,7 +835,25 @@
         <div class="col-md-9 well admin-content" id="checkstatus">
               <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                   <h4>Case Status</h4>
+
+                                     <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.2em;">
+                                         <div id="add-payment-method-back" style="display:none;">
+                                             <a href="#" style="color:red;" onclick="openmenu('checkstatus');">Back</a>
+                                         </div>
+                                         <div id="add-payment-method-home" style="display:block;">
+                                             <a href="#" style="color:red;" onclick="openmenu('home');">Home</a>
+                                         </div>
+                                     </div>
+
+                                <div style="float:left; width:75%;text-align:center;padding-left:3.2em;">
+                                    <h4>Your Cases</h4>
+                                </div>
+                                <div style="float:left; width:8%;padding-top:1.2em;">
+                                   <a href="#" style="color:#959699;text-decoration:underlined;" id="add-new-case">Add</a>
+                                </div>
+                                <div class="clear"></div>
+
+
                              </div>
                              <div class="panel-inner">
 
@@ -914,10 +1005,14 @@ rows="5"></textarea>
                                      <input type="hidden" name="comments_post_id" id="comments_post_id" value="" />
                                      <input type="hidden" name="comments_comment_id" id="comments_comment_id" value="" />
                                      <div id="edit_comment_wrapper">
-                                                <textarea name="commentbody" id="edit_comment_body" width="20"  /></textarea>
+                                                 <textarea name="commentbody" id="edit_comment_body" class="inner-textarea" style="overflow:hidden;margin-bottom:1.2em;"
+rows="5"></textarea>
                                      </div>
                                      <p class="submit">
+                                        <button type="submit" v-on:click="edit" class="button button2" id='post'>Save</button>
+                                        <!--
                                         <input type="button" v-on:click="edit" value="Save" id='post' />
+                                        -->
                                      </p>
 
                                  </form>
@@ -973,11 +1068,14 @@ rows="5"></textarea>
 
                <form class="form" novalidate>
                         <input type="hidden" name="post_id" id="post_id" value="" />
+                        <div class="form-group" style="margin-bottom:1.5em;">
 	         	<p class="name">
-		            	<input type="text" id="posttitle" name="posttitle" v-validate:posttitle=['nonempty'] />
-             			<label for="title">Title</label>
+                               <label for="posttitle" class="control-label">Title</label>
+		            	<input class="input-lg form-control"  placeholder="Post Title"   style="width:32%;" type="text" id="posttitle" name="posttitle" v-validate:posttitle=['nonempty'] />
         		</p>
+                        </div>
 	 
+                        <div class="form-group" style="margin-bottom:1.5em;">
                         <label for="email">Category</label>	
 	         	<p class="category">
 <!--
@@ -989,23 +1087,28 @@ rows="5"></textarea>
                                   {% endfor %}
                                 </select>
 	        	</p>
-		
-	          	<p class="link">
-		          	<input type="text" name="link" id="link"  v-validate:link=['url'] />
-	         		<label for="link">Link</label>
-            		</p>		
+                        </div>
+		        <div class="form-group" style="margin-bottom:1.5em;"> 
+	          	    <p class="link">
+                                <label for="link" class="control-label">Post Link</label>
+		          	<input type="text" name="link" id="link" class="input-lg form-control" style="width:32%;" v-validate:link=['url'] />
+                            </p>
+	                </div>
 	
 	           	<p class="text">
-		         	<textarea name="postbody" id="postbody" width="40"  /></textarea>
+		         	<textarea name="postbody" id="postbody" v-model="postbody" width="40"  /></textarea>
 	          	</p>
 
                         <p class="submit">
+                           <!--
                                 <input type="button" v-on:click="editblog" value="Save" id='edit_post' style="display:none;" />
+                              --> 
+                                <button type="submit" class="button button2" v-on:click="editblog" id='edit_post'  style="display:none;" v-if="$validation1.valid">Save</button>
                         </p>
 	
 	
 	         	<p class="submit">
-		         	<input type="button" v-on:click="submitblog" value="Post" id='post' v-if="$validation1.valid" />
+                                <button type="submit" class="button button2" id="post" v-on:click="submitblog" id='edit_post' v-if="$validation1.valid">Post</button>
 	            	</p>
                         
            	</form>
@@ -1073,7 +1176,10 @@ rows="5"></textarea>
 
 
                                      <div id="edit_post_wrapper">
-                                                <textarea name="postbody" id="edit_post_body" width="20"  /></textarea>
+                                                <textarea name="postbody" id="edit_post_body" class="inner-textarea" style="overflow:hidden;margin-bottom:1.2em;"
+rows="5"></textarea>
+
+
                                      </div>
                                      <p class="submit">
                                         <input type="button" value="Save" class="button button2" style="padding-top:0.2em;padding-left:-1.2em;margin-top:1.2em;margin-bottom:1.2em;padding-top:0.8em;" id='saveeditedpost' />

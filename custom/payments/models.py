@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -11,6 +12,7 @@ class State(models.Model):
 
 
 class Address(models.Model):
+    time_published = models.DateTimeField(default=datetime.now, blank=True)
     nickname = models.CharField(max_length=150, blank=True, null=True)
     name_or_company = models.CharField(max_length=150, blank=True, null=True)
     user = models.ForeignKey(User, blank=True, null=True)
@@ -26,6 +28,12 @@ class Address(models.Model):
     class Meta:
         verbose_name = 'Address'
         verbose_name_plural = 'Addresses'
+
+    def __str__(self):
+        return str(self.nickname)
+
+    def __unicode__(self):
+        return unicode(str(self.nickname))
 
 
 class PaymentStatus(models.Model):
@@ -102,6 +110,7 @@ class CardType(models.Model):
 
 class CreditCard(models.Model):
     """ Customer Credit Card """
+    time_published = models.DateTimeField(default=datetime.now, blank=True)
     is_default = models.NullBooleanField(default=False,blank=True,null=True)
     first_name = models.CharField(max_length=100,blank=True,null=True)
     last_name = models.CharField(max_length=100,blank=True,null=True)

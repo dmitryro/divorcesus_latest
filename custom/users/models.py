@@ -178,8 +178,11 @@ class AboutUs(models.Model):
     def __str__(self):
         return self.title
 
-    def __unicode__(self):
-        return unicode(self.title)
+    def get_absolute_url(self):
+        return "/aboutus/%s/" % self.title
+
+ #   def __unicode__(self):
+ #       return unicode(self.title)
 
 
 class TeamMember(models.Model):

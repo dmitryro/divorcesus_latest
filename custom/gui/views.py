@@ -3,6 +3,7 @@ from jinja2 import Environment
 import json
 import itertools
 import logging
+from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout as log_out
@@ -28,6 +29,7 @@ from custom.users.models import MileStone
 from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
 from custom.users.models import Profile
+from custom.gui.filters import ServiceFilter
 from custom.gui.models import Slide
 from custom.gui.models import Service
 from custom.gui.models import FAQ
@@ -41,6 +43,8 @@ from custom.messaging.callbacks import message_sent_handler
 from custom.signup.callbacks import resend_activation_handler
 from custom.signup.signals import user_resend_activation
 
+from rest_framework import filters
+from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
@@ -53,6 +57,22 @@ from restless.views import Endpoint
 from custom.gui.serializers import GlobalSearchSerializer
 from custom.gui.serializers import ServiceSerializer
 from custom.blog.serializers import CategorySerializer
+
+
+class ServiceViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing services
+    """
+    serializer_class = ServiceSerializer
+    queryset = Service.objects.all()
+    filter_class = ServiceFilter
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id', 'title', 'statement', 'time_published', 'description',)
+
+
+class FAQViewSet(viewsets.ModelViewSet):
+    pass
+
 
 @api_view(['POST', 'GET'])
 @renderer_classes((JSONRenderer,))

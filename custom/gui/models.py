@@ -7,6 +7,7 @@ from ckeditor.fields import RichTextField
 from tinymce.models import HTMLField
 from froala_editor.fields import FroalaField
 from redactor.fields import RedactorField
+from datetime import datetime
 
 class State(models.Model):
     state = models.CharField(max_length=150, blank=True)
@@ -24,6 +25,7 @@ class State(models.Model):
 
 
 class Slide(models.Model):
+    time_published = models.DateTimeField(default=datetime.now, blank=True)
     title =  models.CharField(max_length=150, blank=True)
     text =  models.CharField(max_length=450, blank=True)
     link = models.CharField(max_length=350, blank=True)
@@ -79,6 +81,7 @@ class Logo(models.Model):
 
 
 class ContactInfo(models.Model):
+   time_published = models.DateTimeField(default=datetime.now, blank=True)
    statement = models.CharField(max_length=450, blank=True)
    address1 = models.CharField(max_length=150, blank=True)
    address2 = models.CharField(max_length=150, blank=True)
@@ -99,13 +102,14 @@ class ContactInfo(models.Model):
 class Service(models.Model):
    title = models.CharField(max_length=150, blank=True)
    statement = models.CharField(max_length=450, blank=True)
+   time_published = models.DateTimeField(default=datetime.now, blank=True)
    description = RedactorField(verbose_name=u'Description',null=True,blank=True,default='')
    service = models.ImageField(upload_to='servces')
    service_thumbnail = ImageSpecField(source='service',
                                      processors=[ResizeToFill(100, 50)],
                                      format='JPEG',
                                      options={'quality': 60})
-      
+         
 
    class Meta:
         verbose_name = 'Service'
@@ -119,7 +123,7 @@ class Service(models.Model):
 
 
 class QualifyQuestionnaire(models.Model):
-
+   time_published = models.DateTimeField(default=datetime.now, blank=True)
    state =  models.ForeignKey(State,blank=True,null=True)
    does_qualify = models.NullBooleanField(default=False,blank=True,null=True)
    date_avaluated = models.DateTimeField(auto_now_add=True)
@@ -132,6 +136,7 @@ class QualifyQuestionnaire(models.Model):
 
 
 class QualifyQuestion(models.Model):
+   time_published = models.DateTimeField(default=datetime.now, blank=True)
    html_id = models.CharField(max_length=400,null=True,blank=True)
    questionnaire = models.ForeignKey(QualifyQuestionnaire,blank=True,null=True) 
    question = models.CharField(max_length=550, null=True, blank=True)
@@ -144,6 +149,7 @@ class QualifyQuestion(models.Model):
 
 
 class FAQ(models.Model):
+   time_published = models.DateTimeField(default=datetime.now, blank=True)
    question = models.CharField(max_length=1550, blank=True)
    note = models.CharField(max_length=1550, blank=True)
    answer = RedactorField(verbose_name=u'Answer')

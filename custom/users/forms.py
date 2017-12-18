@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+from django.db import models
 from django.forms import ModelForm, Textarea
 from django import forms
 from django.forms.widgets import Input
@@ -47,10 +49,12 @@ class AdvantageModelForm(ModelForm):
         fields = '__all__' #
 
 class TeamMemberModelForm(ModelForm):
+    user = models.OneToOneField(User)
     class Meta:
         model = TeamMember
         widgets = {
             'bio': Textarea(attrs={'cols': 80, 'rows': 30}),
+            'user': models.OneToOneField(User),
         }
         fields = '__all__' #
 

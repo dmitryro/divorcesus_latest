@@ -15,6 +15,23 @@ from models import CustomerActivityStats
 from models import CustomerProfile
 
 
+class AddressAdmin(admin.ModelAdmin):
+    fieldsets = ((None, {'fields': ['user',
+                                    'nickname',
+                                    'address1',
+                                    'address2',
+                                    'city',
+                                    'name_or_company',
+                                    'state_province',
+                                    'zip_or_postal',
+                                    'country',
+                                    'is_default',
+                                    'is_active',]}),)
+    list_display = ('id','nickname','user','address1', 'city', 'is_default','name_or_company',)
+    class Meta:
+         verbose_name = 'Billing Address'
+         verbose_name_plural = 'Billing Addresses'
+    
 
 class CustomerProfileAdmin(admin.ModelAdmin):
 
@@ -40,6 +57,5 @@ class CustomerProfileAdmin(admin.ModelAdmin):
          verbose_name = 'Customer Profile'
          verbose_name_plural = 'Customer Profiles'
 
-
-admin.site.register(CustomerProfile,CustomerProfileAdmin)
-
+admin.site.register(CustomerProfile, CustomerProfileAdmin)
+admin.site.register(Address, AddressAdmin)

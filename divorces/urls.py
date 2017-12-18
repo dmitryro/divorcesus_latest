@@ -36,6 +36,7 @@ from custom.gui.views import confirm_account_view
 from custom.gui.views import GlobalSearchList
 from custom.gui.views import DashboardLogoutView
 from custom.gui.views import GetSearchResultsView
+from custom.gui.views import ServiceViewSet
 from custom.signup.views import SendEmailView
 from custom.signup.views import SubscribeView
 from custom.signup.views import logout_view
@@ -54,6 +55,7 @@ from custom.blog.views import GetCommentsView
 from custom.blog.views import DeleteCommentView
 from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
 from custom.blog.sitemap import PostSitemap, CommentsSitemap
+from custom.users.sitemap import AboutUsSitemap
 from custom.messaging.views import outgoing_messages_view
 from custom.messaging.views import incoming_messages_view
 from custom.messaging.views import msg_duplication_view
@@ -84,7 +86,18 @@ from custom.services.views import ServiceList
 from custom.services.views import PackageList
 from custom.users.views import StateProvinceList
 from custom.users.views import StateProvinceViewSet
+from custom.users.views import AboutUsList
+from custom.users.views import AboutUsViewSet
+from custom.users.views import TeamMemberViewSet
+from custom.users.views import TeamMemberList
+from custom.users.models import AboutUs
 import custom
+
+about_dict = {
+    'queryset': AboutUs.objects.all(),
+    'bio': 'bio',
+    'time_published': 'time_published',
+}
 
 blog_dict = {
     'queryset': Post.objects.all(),
@@ -102,6 +115,7 @@ comments_dict = {
 sitemaps = {
    'posts': PostSitemap(),
    'comments': CommentsSitemap(),
+   'aboutus': AboutUsSitemap(),
 #   'static': StaticViewSitemap(),
 }
 router = routers.DefaultRouter()
@@ -109,6 +123,7 @@ router = routers.DefaultRouter()
 
 admin.autodiscover()
 #router.register(r'bushwick',BushwickArtistViewSet)
+router.register(r'services', ServiceViewSet)
 router.register(r'states', StateProvinceViewSet)
 router.register(r'msgsettings', MessagingSettingsViewSet)
 router.register(r'users', UserViewSet)
@@ -120,6 +135,8 @@ router.register(r'messages', MessageViewSet)
 router.register(r'services', ServiceViewSet)
 router.register(r'packages', PackageViewSet)
 router.register(r'addresses', AddressViewSet)
+router.register(r'aboutprofiles', AboutUsViewSet)
+router.register(r'teammembers', TeamMemberViewSet)
 
 
 urlpatterns = [
@@ -139,6 +156,9 @@ urlpatterns = [
     url(r'^$',custom.gui.views.home),
     url(r'^states/(?P<abbreviation>.+)/$', StateProvinceList.as_view()),
     url(r'^userlist/(?P<username>.+)/$', UserList.as_view()),
+    url(r'^aboutuslist/(?P<title>.+)/$', AboutUsList.as_view()),
+    url(r'^aboutuslist/(?P<subtitle>.+)/$', AboutUsList.as_view()),
+    url(r'^aboutuslist/(?P<body>.+)/$', AboutUsList.as_view()),
     url(r'^addresseslist/(?P<username>.+)/$', AddressList.as_view()),
     url(r'^addresseslist/(?P<nickname>.+)/$', AddressList.as_view()),
     url(r'^dashboard/$', custom.gui.views.dashboard),
@@ -178,6 +198,7 @@ urlpatterns = [
     url(r'^duplication/$', msg_duplication_view),
     url(r'^pastpayments/(?P<user_id>.+)/$', PaymentsList.as_view()),
     url(r'^msgsettings/(?P<user_id>.+)/$', MessagingSettingsList.as_view()),
+    url(r'^tmlist/$', TeamMemberList.as_view()),
     url(r'^pastpayments/', PastPaymentsList.as_view()),
     url(r'^packagelist/$', PackageList.as_view()),
     url(r'^servicelist/$', ServiceList.as_view()),
@@ -257,7 +278,8 @@ urlpatterns = [
    # url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps': {'blog': GenericSitemap(blog_dict, priority=0.7), 
-                      'comments': GenericSitemap(comments_dict, priority=0.7)}},
+                      'comments': GenericSitemap(comments_dict, priority=0.7),
+                      'about': GenericSitemap(about_dict, priority=0.7)}},
         
         name='django.contrib.sitemaps.views.sitemap'),
     #url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})

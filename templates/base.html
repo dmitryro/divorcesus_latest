@@ -1,7 +1,8 @@
+        {% load meta %}
         <!DOCTYPE html>
-        <html class="no-js">
+        <html class="no-js" {% meta_namespaces_gplus %}>
          <!--<![endif]-->
-        <head>
+        <head {% meta_namespaces %}>
         {% load static %}
         {% load wysiwyg %}
         {% wysiwyg_setup %}

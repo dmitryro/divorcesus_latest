@@ -84,7 +84,7 @@ class MileStoneAdmin(admin.ModelAdmin):
 
 class TeamMemberAdmin(admin.ModelAdmin):
     bio = forms.CharField( widget=forms.Textarea )
-    fieldsets = ((None, {'fields': ['username','first_name','last_name','is_associate','is_partner','phone','email','title','bio','avatar']}),)
+    fieldsets = ((None, {'fields':  ['username','first_name','last_name','is_associate','is_partner','phone','email','title','bio','avatar']}),)
 
     list_display = ('__str__','first_name','last_name','is_partner','is_associate','phone','email','title','bio', 'admin_thumbnail')
     admin_thumbnail = AdminThumbnail(image_field='avatar_thumbnail')

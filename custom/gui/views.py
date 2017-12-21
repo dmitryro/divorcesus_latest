@@ -445,8 +445,6 @@ def dashboard(request):
 
 @ensure_csrf_cookie
 def home(request):
-    log = Logger(log='TEST IT WE ARE ENTERING')
-    log.save()
 
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
@@ -491,6 +489,56 @@ def home(request):
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
+
+
+def blog(request):
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
+
+    if request.user.is_authenticated():
+        logout=True
+        try:
+           user_id = request.user.id
+           username = request.user.username
+           first_name = request.user.first_name
+           last_name = request.user.last_name
+           profile_image_path = ''
+        except Exception, R:
+           log = Logger(log='WE GOT SOME ERROR'+str(R))
+           log.save()
+           user_id = -1
+           username = ''
+           first_name = ''
+           last_name = ''
+           profile_image_path = ''
+
+    else:
+        user_id = -1
+        logout=False
+        username = ''
+        first_name = ''
+        last_name = ''
+        profile_image_path = ''
+
+    return render(request, 'index-0.html',{'logout':logout,
+                                           'user_id':user_id,
+                                           'first':first_name,
+                                           'last':last_name,
+                                           'service':'blog',
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'qualifying':qquestions,
+                                           'posts':posts,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
+                                           'profile_image':profile_image_path})
+
+
+
 
 @ensure_csrf_cookie
 def about(request):
@@ -541,7 +589,55 @@ def about(request):
 
 
 @ensure_csrf_cookie
-def services(request,service):
+def allservices(request):
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
+
+    if request.user.is_authenticated():
+        logout=True
+        try:
+           user_id = request.user.id
+           username = request.user.username
+           first_name = request.user.first_name
+           last_name = request.user.last_name
+           profile_image_path = ''
+        except Exception, R:
+           log = Logger(log='WE GOT SOME ERROR'+str(R))
+           log.save()
+           user_id = -1
+           username = ''
+           first_name = ''
+           last_name = ''
+           profile_image_path = ''
+
+    else:
+        user_id = -1
+        logout=False
+        username = ''
+        first_name = ''
+        last_name = ''
+        profile_image_path = ''
+
+    return render(request, 'index-0.html',{'logout':logout,
+                                           'user_id':user_id,
+                                           'first':first_name,
+                                           'last':last_name,
+                                           'service':'services',
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'qualifying':qquestions,
+                                           'posts':posts,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
+                                           'profile_image':profile_image_path})
+
+
+@ensure_csrf_cookie
+def services(request, service):
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -1084,6 +1180,53 @@ def pricing(request):
                                            'service':'pricing',
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'posts':posts,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
+                                           'profile_image':profile_image_path})
+
+
+@ensure_csrf_cookie
+def faq(request):
+
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+    posts = Post.objects.all()
+    qquestions = QualifyQuestion.objects.all()
+
+    if request.user.is_authenticated():
+        logout=True
+        try:
+           user_id = request.user.id
+           username = request.user.username
+           first_name = request.user.first_name
+           last_name = request.user.last_name
+           profile_image_path = ''
+        except Exception, R:
+           log = Logger(log='WE GOT SOME ERROR'+str(R))
+           log.save()
+           user_id = -1
+           username = ''
+           first_name = ''
+           last_name = ''
+           profile_image_path = ''
+
+    else:
+        user_id = -1
+        logout=False
+        username = ''
+        first_name = ''
+        last_name = ''
+        profile_image_path = ''
+
+    return render(request, 'index-0.html',{'logout':logout,
+                                           'user_id':user_id,
+                                           'first':first_name,
+                                           'last':last_name,
+                                           'qualifying':qquestions,
+                                           'service':'faq',
                                            'posts':posts,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,

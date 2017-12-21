@@ -123,7 +123,6 @@ router = routers.DefaultRouter()
 
 admin.autodiscover()
 #router.register(r'bushwick',BushwickArtistViewSet)
-router.register(r'services', ServiceViewSet)
 router.register(r'states', StateProvinceViewSet)
 router.register(r'msgsettings', MessagingSettingsViewSet)
 router.register(r'users', UserViewSet)
@@ -132,7 +131,7 @@ router.register(r'comments', CommentViewSet)
 router.register(r'notificationtypes', NotificationTypeViewSet)
 router.register(r'notifications', NotificationViewSet)
 router.register(r'messages', MessageViewSet)
-router.register(r'services', ServiceViewSet)
+router.register(r'allservices', ServiceViewSet)
 router.register(r'packages', PackageViewSet)
 router.register(r'addresses', AddressViewSet)
 router.register(r'aboutprofiles', AboutUsViewSet)
@@ -240,12 +239,12 @@ urlpatterns = [
 #    url(r'^chat/', include('chatrooms.urls')),
     url(r'^search/$', GlobalSearchList.as_view(), name="search"),
     url(r'^searchresults/$',GetSearchResultsView.as_view(),name="searchresults"),
-    url(r'^services/(?P<service>[^/]+)/$', custom.gui.views.services),
     url(r'^blog/$',custom.gui.views.post),
     url(r'^blog/(?P<page>[^/]+)/$',custom.gui.views.posts),
-    url(r'^blog/',custom.gui.views.post),
+    url(r'^blog/',custom.gui.views.blog),
 
-
+    url(r'^services/$',custom.gui.views.allservices),
+    url(r'^services/(?P<service>[^/]+)/$', custom.gui.views.services),
     url(r'^about/',custom.gui.views.about),
     url(r'^aboutus/',custom.gui.views.about),
     url(r'^activate/(?P<activation_key>\w+)/',custom.signup.views.activate),
@@ -259,6 +258,8 @@ urlpatterns = [
     url(r'^pricing/', custom.gui.views.pricing),
     url(r'^prices/', custom.gui.views.pricing),  
     url(r'^ask/', custom.gui.views.ask),
+    url(r'^faq/', custom.gui.views.faq),
+    url(r'^frequentlyasked/', custom.gui.views.faq),
     url(r'^api/$',include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
     url(r'^rss/', RssSiteNewsFeed()),

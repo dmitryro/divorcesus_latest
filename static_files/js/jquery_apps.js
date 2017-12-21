@@ -13,7 +13,7 @@
                         .resizable();
 
            });
-
+             
 
             var activate = eval($("#show_activation").val());
             var link_expired = eval($("#link_expired").val());
@@ -23,6 +23,9 @@
                                 $('#activation-app').fadeOut('slow');
                          }, 2500);
             }
+
+
+
 
             if (link_expired==1) {
                 alert("this link has expired");
@@ -1078,9 +1081,42 @@
           });
 
 
-
+          if($('#page-service').val()==='blog') {
+                on_mobile_blog();
+          } else if($('#page-service').val()=='services') {
+                on_mobile_services();
+          } else if($('#page-service').val()=='payments') {
+                on_mobile_payments();
+          } else if($('#page-service').val()=='adoption') {
+                on_mobile_adoption();
+          } else if($('#page-service').val()=='agreements') {
+                on_mobile_agreements();
+          } else if($('#page-service').val()=='contested') {
+                on_mobile_contested();
+          } else if($('#page-service').val()=='uncontested') {
+                on_mobile_uncontested();
+          } else if($('#page-service').val()=='childcustody') {
+                on_mobile_child_custody();
+          } else if($('#page-service').val()=='childsupport') {
+                on_mobile_child_support();
+          } else if($('#page-service').val()=='domesticviolence') {
+                on_mobile_domestic_violence();
+          } else if($('#page-service').val()=='mediation') {
+                on_mobile_mediation();
+          } else if($('#page-service').val()=='consultation') {
+                on_mobile_free_consultation();
+          } else if($('#page-service').val()=='property') {
+                on_mobile_property();
+          } else if($('#page-service').val()=='protection') {
+                on_mobile_protection();
+          } else if($('#page-service').val()=='spousalsupport') {
+                on_mobile_spousal_support();
+          }  else if($('#page-service').val()=='faq' || $('#page-service').val()=='frequentlyasked') {
+                on_mobile_faq();
+          }
 
     }); // ready ends
+
 
 
 

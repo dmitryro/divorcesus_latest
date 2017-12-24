@@ -23,6 +23,9 @@ class State(models.Model):
     def __unicode__(self):
         return unicode(self.state)
 
+    def get_absolute_url(self):
+        return "/states/%s/" % self.code
+
 
 class Slide(models.Model):
     time_published = models.DateTimeField(default=datetime.now, blank=True)
@@ -45,6 +48,10 @@ class Slide(models.Model):
 
     def __unicode__(self):
         return unicode(self.title)
+
+    def get_absolute_url(self):
+        return "/slides/%s/" % self.title
+
 
 
 class LogoColor(models.Model):
@@ -105,6 +112,7 @@ class Service(models.Model):
    time_published = models.DateTimeField(default=datetime.now, blank=True)
    description = RedactorField(verbose_name=u'Description',null=True,blank=True,default='')
    service = models.ImageField(upload_to='servces')
+   nick = models.CharField(max_length=150, blank=True)
    service_thumbnail = ImageSpecField(source='service',
                                      processors=[ResizeToFill(100, 50)],
                                      format='JPEG',
@@ -120,6 +128,9 @@ class Service(models.Model):
 
    def __unicode__(self):
         return unicode(self.title)
+
+   def get_absolute_url(self):
+        return "/services/%s/" % self.nick
 
 
 class QualifyQuestionnaire(models.Model):
@@ -153,6 +164,7 @@ class FAQ(models.Model):
    question = models.CharField(max_length=1550, blank=True)
    note = models.CharField(max_length=1550, blank=True)
    answer = RedactorField(verbose_name=u'Answer')
+   nick = models.CharField(max_length=150, blank=True)
 
    class Meta:
         verbose_name = 'Frequently Asked Question'
@@ -163,4 +175,7 @@ class FAQ(models.Model):
 
    def __unicode__(self):
         return unicode(self.question)
+
+   def get_absolute_url(self):
+        return "/faq/%s/" % self.nick
 

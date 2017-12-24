@@ -116,7 +116,7 @@ class CreditCard(models.Model):
     last_name = models.CharField(max_length=100,blank=True,null=True)
     phone = models.CharField(max_length=100,blank=True,null=True)
     email = models.CharField(max_length=200,blank=True,null=True)
-    address = models.ForeignKey(Address,blank=True,null=True)
+    address = models.ForeignKey(Address, blank=True,null=True)
     owner = models.ForeignKey(Profile, blank=True,null=True)
     token = models.CharField(max_length=600,blank=True,null=True)
     nonce = models.CharField(max_length=600,blank=True,null=True)

@@ -97,7 +97,7 @@ class SendEmailView(Endpoint):
 ####################################
 
 class SubscribeView(Endpoint):
-
+    @csrf_exempt
     def get(self, request):  # Get requests handler
         try:
            email = request.params.get('email','')
@@ -113,7 +113,7 @@ class SubscribeView(Endpoint):
 
            return {'message':'error','data':'we failed reading s3 base url'}
 
-
+    @csrf_exempt
     def post(self, request): # Post requests handler
         try:
 
@@ -133,7 +133,7 @@ class SubscribeView(Endpoint):
 
            return {'message':'error','data':'we failed reading s3 base url'}
 
-
+@csrf_exempt
 def activate(request, activation_key):
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
@@ -257,11 +257,11 @@ def activate(request, activation_key):
 
 
 
-
+@csrf_exempt
 def confirm(request):
     return render(request, 'confirm.html',{})
  
-
+@csrf_exempt
 def logout_view(request):
     logout(request)
 

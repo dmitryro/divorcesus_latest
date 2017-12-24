@@ -30,6 +30,7 @@ from rest_framework import generics
 from rest_framework import viewsets, routers
 from rest_framework.authtoken import views as drf_views
 
+from custom.gui.models import Service, FAQ
 from custom.gui.sitemaps import StaticViewSitemap
 from custom.gui.views import resend_activation_view
 from custom.gui.views import confirm_account_view
@@ -55,7 +56,7 @@ from custom.blog.views import GetCommentsView
 from custom.blog.views import DeleteCommentView
 from custom.blog.feeds import RssSiteNewsFeed, AtomSiteNewsFeed
 from custom.blog.sitemap import PostSitemap, CommentsSitemap
-from custom.users.sitemap import AboutUsSitemap
+from custom.users.sitemap import AboutUsSitemap, ContactUsSitemap
 from custom.messaging.views import outgoing_messages_view
 from custom.messaging.views import incoming_messages_view
 from custom.messaging.views import msg_duplication_view
@@ -93,6 +94,18 @@ from custom.users.views import TeamMemberList
 from custom.users.models import AboutUs
 import custom
 
+services_dict = { 
+    'queryset': Service.objects.all(),
+    'bio': 'bio',
+    'time_published': 'time_published',
+}
+
+faq_dict = {
+    'queryset': FAQ.objects.all(),
+    'bio': 'bio',
+    'time_published': 'time_published',
+}
+
 about_dict = {
     'queryset': AboutUs.objects.all(),
     'bio': 'bio',
@@ -105,6 +118,13 @@ blog_dict = {
     'time_published': 'time_published',
 }
 
+contact_dict = {
+    'queryset': AboutUs.objects.all(),
+    'bio': 'bio',
+    'time_published': 'time_published',
+}
+
+
 comments_dict = {
     'queryset': Comment.objects.all(),
     'title': 'title',
@@ -113,10 +133,12 @@ comments_dict = {
 
 # Dictionary containing your sitemap classes
 sitemaps = {
-   'posts': PostSitemap(),
-   'comments': CommentsSitemap(),
-   'aboutus': AboutUsSitemap(),
-#   'static': StaticViewSitemap(),
+   'contacts': ContactUsSitemap,
+   'contact': ContactUsSitemap,
+#   'posts': PostSitemap,
+#   'comments': CommentsSitemap,
+#   'aboutus': AboutUsSitemap,
+   'static': StaticViewSitemap,
 }
 router = routers.DefaultRouter()
 
@@ -241,25 +263,24 @@ urlpatterns = [
     url(r'^searchresults/$',GetSearchResultsView.as_view(),name="searchresults"),
     url(r'^blog/$',custom.gui.views.post),
     url(r'^blog/(?P<page>[^/]+)/$',custom.gui.views.posts),
-    url(r'^blog/',custom.gui.views.blog),
-
+    url(r'^blog/',custom.gui.views.blog, name='blog'),
     url(r'^services/$',custom.gui.views.allservices),
     url(r'^services/(?P<service>[^/]+)/$', custom.gui.views.services),
-    url(r'^about/',custom.gui.views.about),
-    url(r'^aboutus/',custom.gui.views.about),
+    url(r'^about/',custom.gui.views.about, name='about'),
+    url(r'^aboutus/',custom.gui.views.about, name='aboutus'),
     url(r'^activate/(?P<activation_key>\w+)/',custom.signup.views.activate),
     url(r'^confirm/',custom.signup.views.confirm),
     url(r'^resendactivation/', resend_activation_view),
     url(r'^qualify/',custom.gui.views.check_qualify),
-    url(r'^contacts/', custom.gui.views.contact),
-    url(r'^contact/', custom.gui.views.contact),
+    url(r'^contacts/', custom.gui.views.contact, name='contacts'),
+    url(r'^contact/', custom.gui.views.contact, name='contact'),
     url(r'^payments/', custom.gui.views.payment),
     url(r'^payment/', custom.gui.views.payment),
     url(r'^pricing/', custom.gui.views.pricing),
     url(r'^prices/', custom.gui.views.pricing),  
     url(r'^ask/', custom.gui.views.ask),
-    url(r'^faq/', custom.gui.views.faq),
-    url(r'^frequentlyasked/', custom.gui.views.faq),
+    url(r'^faq/', custom.gui.views.faq, name='faq'),
+    url(r'^frequentlyasked/', custom.gui.views.faq, name='frequentlyasked'),
     url(r'^api/$',include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
     url(r'^rss/', RssSiteNewsFeed()),
@@ -278,10 +299,15 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
    # url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^sitemap\.xml$', sitemap,
-        {'sitemaps': {'blog': GenericSitemap(blog_dict, priority=0.7), 
-                      'comments': GenericSitemap(comments_dict, priority=0.7),
-                      'about': GenericSitemap(about_dict, priority=0.7)}},
-        
+        {'sitemaps':
+                      {'blog': GenericSitemap(blog_dict, priority=0.7), 
+                       'faq':  GenericSitemap(faq_dict, priority=0.7),
+                       'comments': GenericSitemap(comments_dict, priority=0.7),
+                       'contact': GenericSitemap(contact_dict, priority=0.7),
+                       'contactus':GenericSitemap(contact_dict, priority=0.7),
+                       'about': GenericSitemap(about_dict, priority=0.7),
+                       'services': GenericSitemap(services_dict, priority=0.7),}
+        },
         name='django.contrib.sitemaps.views.sitemap'),
     #url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
    # url(r'^sitemap\.xml$', sitemap,

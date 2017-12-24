@@ -16,7 +16,6 @@ from django.forms.formsets import formset_factory
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.views.decorators.csrf import ensure_csrf_cookie
 from custom.utils.models import Logger
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -74,9 +73,11 @@ class FAQViewSet(viewsets.ModelViewSet):
     pass
 
 
+
 @api_view(['POST', 'GET'])
 @renderer_classes((JSONRenderer,))
 @permission_classes([AllowAny,])
+@csrf_exempt
 def resend_activation_view(request):
     """
      A view that returns incoming messages
@@ -105,7 +106,7 @@ def resend_activation_view(request):
 @api_view(['POST','GET'])
 @renderer_classes((JSONRenderer,))
 @permission_classes([AllowAny,])
-#@ensure_csrf_cookie
+#@csrf_exempt
 def confirm_account_view(request):
     """
      A view that confirms the user
@@ -335,7 +336,7 @@ class GlobalSearchList(generics.ListAPIView):
       return all_results
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def environment(**options):
     env = Environment(**options)
     env.globals.update({
@@ -344,12 +345,12 @@ def environment(**options):
     })
     return env
 
-@ensure_csrf_cookie
+@csrf_exempt
 def index(request):
     return render(request, 'index.html',{'home':'index.html'})
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def dashboard(request):
     
     milestones = MileStone.objects.all()
@@ -443,7 +444,7 @@ def dashboard(request):
 
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def home(request):
 
     milestones = MileStone.objects.all()
@@ -540,7 +541,7 @@ def blog(request):
 
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def about(request):
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
@@ -588,7 +589,7 @@ def about(request):
                                            'profile_image':profile_image_path})
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def allservices(request):
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
@@ -636,7 +637,7 @@ def allservices(request):
                                            'profile_image':profile_image_path})
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def services(request, service):
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
@@ -683,7 +684,7 @@ def services(request, service):
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
 
-@ensure_csrf_cookie
+@csrf_exempt
 def posts(request,page):
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
@@ -731,7 +732,7 @@ def posts(request,page):
                                            'profile_image':profile_image_path})
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def post(request):
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
@@ -779,7 +780,7 @@ def post(request):
                                            'profile_image':profile_image_path})
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def pricing(request):
     if request.user.is_authenticated():
         logout=True
@@ -813,7 +814,7 @@ def pricing(request):
                                            'last':last_name,
                                            'profile_image':profile_image_path})
 
-@ensure_csrf_cookie
+@csrf_exempt
 def ask(request):
     if request.user.is_authenticated():
         logout=True
@@ -845,7 +846,7 @@ def ask(request):
                                            'last':last_name,
                                            'profile_image':profile_image_path})
 
-@ensure_csrf_cookie
+@csrf_exempt
 def contacts(request):
     if request.user.is_authenticated():
         logout=True
@@ -880,7 +881,7 @@ def contacts(request):
                                            'last':last_name,
                                            'profile_image':profile_image_path})
 
-@ensure_csrf_cookie
+@csrf_exempt
 def payment(request):
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
@@ -928,7 +929,7 @@ def payment(request):
                                            'profile_image':profile_image_path})
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def toast(request):
     if request.user.is_authenticated():
         logout=True
@@ -963,7 +964,7 @@ def toast(request):
                                            'profile_image':profile_image_path})
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def blog(request):
     if request.user.is_authenticated():
         logout=True
@@ -972,7 +973,7 @@ def blog(request):
 
     return render(request, 'blog.html',{'blog':'blog.html'})
 
-@ensure_csrf_cookie
+@csrf_exempt
 def divorce(request):
     if request.user.is_authenticated():
         logout=True
@@ -1005,7 +1006,7 @@ def divorce(request):
                                                                     'last':last_name,
                                                                     'profile_image':profile_image_path})
 
-@ensure_csrf_cookie
+@csrf_exempt
 def logout(request):
     log_out(request)
     milestones = MileStone.objects.all()
@@ -1040,7 +1041,7 @@ def logout(request):
     return HttpResponseRedirect('/')
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def check_qualify(request):
 
     milestones = MileStone.objects.all()
@@ -1089,7 +1090,7 @@ def check_qualify(request):
                                            'profile_image':profile_image_path})
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def contact(request):
 
     milestones = MileStone.objects.all()
@@ -1137,7 +1138,7 @@ def contact(request):
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
 
-@ensure_csrf_cookie
+@csrf_exempt
 def pricing(request):
 
     milestones = MileStone.objects.all()
@@ -1186,7 +1187,7 @@ def pricing(request):
                                            'profile_image':profile_image_path})
 
 
-@ensure_csrf_cookie
+@csrf_exempt
 def faq(request):
 
     milestones = MileStone.objects.all()
@@ -1242,6 +1243,8 @@ class DashboardLogoutViewMixin(object):
 
 class DashboardLogoutView(DashboardLogoutViewMixin, TemplateView):
     template_name = "inedex-0.html"
+     
+    @csrf_exempt
     def get(self, request):
         threshold=180
         if request.user.is_authenticated():

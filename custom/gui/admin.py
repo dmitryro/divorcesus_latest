@@ -70,9 +70,9 @@ class SlideAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
     content = forms.CharField(widget=CKEditorWidget())
     form = ServiceForm
-    fieldsets = ((None, {'fields': ['title','statement','description','service']}),)
-    list_display = ('id','title','statement','description','service_thumbnail')
-    list_editable = ('title','statement')
+    fieldsets = ((None, {'fields': ['title', 'statement', 'description','service', 'nick']}),)
+    list_display = ('id','title','statement', 'description', 'service_thumbnail', 'nick')
+    list_editable = ('title','statement','nick')
     service_thumbnail = AdminThumbnail(image_field='service_thumbnail')
 
 
@@ -86,9 +86,9 @@ class ServiceAdmin(admin.ModelAdmin):
 class FAQAdmin(admin.ModelAdmin):
 
     form = FAQForm
-    fieldsets = ((None, {'fields': ['question','note','answer']}),)
-    list_display = ('id','question','note','answer',)
-    list_editable = ('question','note','answer')
+    fieldsets = ((None, {'fields': ['question', 'note', 'answer', 'nick']}),)
+    list_display = ('id','question','note','answer', 'nick',)
+    list_editable = ('question', 'note', 'answer', 'nick',)
 #    formfield_overrides = { models.TextField: {'widget': forms.Textarea(attrs={'class':'ckeditor'})}, }
 
 

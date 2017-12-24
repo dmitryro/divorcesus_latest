@@ -274,16 +274,18 @@
                   <div class="panel panel-default">
                            <div class="header">Cases</div>
                            <div class="content">
+<!--
                                 <div class="content-icon"></div>
-                                <a href='#' onclick="openmenu('checkstatus');" style="text-decoration:none;color:inherit;">
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Your Cases ({% dashboard_meta user_id 8 %})</div>
-                                </a>
+--> 
+                                <div class="panel-row"> 
+                                       <a href='#' onclick="openmenu('checkstatus');" style="text-decoration:none;color:inherit;">
+                                            Your Cases ({% dashboard_meta user_id 8 %})
+                                       </a>
+                                </div>
                                 <div class="clear"></div>
-                                <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Similar Cases (0)</div>
+                                <div class="panel-row" class="panel-row">Similar Cases (0)</div>
                                 <div class="clear"></div>
-                                <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">You Want To Know (0)</div>
+                                <div class="panel-row" class="panel-row">You Want To Know (0)</div>
                                 <div class="clear"></div>
                            </div>
                   </div>
@@ -293,18 +295,19 @@
                   <div class="panel panel-default">
                            <div class="header">Payments</div>
                            <div class="content">
-                                <div class="content-icon"></div>
-                                <a href='#' onclick="openmenu('paymentmethods');" style="text-decoration:none;color:inherit;">
-                                   <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Payment Methods ({% dashboard_meta user_id 7 %})</div>
-                                </a>
+                                <div class="panel-row">
+                                       <a href='#' onclick="openmenu('paymentmethods');" style="text-decoration:none;color:inherit;">
+                                       Payment Methods ({% dashboard_meta user_id 7 %})
+                                       </a>  
+                                </div>
                                 <div class="clear"></div>
-                                <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Past Transactions (0)</div>
+                                <div class="panel-row">Past Transactions (0)</div>
                                 <div class="clear"></div>
-                                <div class="content-icon"></div>
-                                <a href='#' onclick="openmenu('billingaddresses');" style="text-decoration:none;color:inherit;">
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Billing Addresses ({% dashboard_meta user_id 6 %})</div>
-                                </a>
+                                <div class="panel-row">
+                                    <a href='#' onclick="openmenu('billingaddresses');" style="text-decoration:none;color:inherit;"> 
+                                    Billing Addresses ({% dashboard_meta user_id 6 %})
+                                    </a>
+                                </div>
                                 <div class="clear"></div>
                            </div>
                   </div>
@@ -315,21 +318,20 @@
                   <div class="panel panel-default">
                            <div class="header">Messages</div>
                            <div class="content">
-                                <div class="content-icon"></div>
-                                <a href='#' onclick="openmenu('incoming');" style="text-decoration:none;color:inherit;">
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Incoming Messages ({% dashboard_meta user_id 1 %})
+                                <div class="panel-row">
+                                     <a href='#' onclick="openmenu('incoming');" style="text-decoration:none;color:inherit;">
+                                     Incoming Messages ({% dashboard_meta user_id 1 %})
+                                     </a>
                                 </div>
                                 </a> 
                                 <div class="clear"></div>
-                                <div class="content-icon"></div>
-                                <a href='#' onclick="openmenu('outgoing');" style="text-decoration:none;color:inherit;">
-                                <div  class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;min-width:89%;">Outgoing Messages ({% dashboard_meta user_id 2 %})
-                             
+                                <div  class="panel-row">
+                                    <a href='#' onclick="openmenu('outgoing');" style="text-decoration:none;color:inherit;">  
+                                    Outgoing Messages ({% dashboard_meta user_id 2 %})
+                                    </a>
                                 </div>
-                                </a>
                                 <div class="clear"></div>
-                                <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;">Group Messages ({{ total_group }})</div>
+                                <div class="panel-row">Group Messages ({{ total_group }})</div>
                                 <div class="clear"></div>
                            </div>
                   </div>
@@ -340,14 +342,11 @@
                   <div class="panel panel-default">
                            <div class="header">Posts</div>
                            <div class="content">
-                                <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;color:#959699;"><a href="#"  onclick="openmenu('allposts');" style="color:#959699;">All Posts ({% dashboard_meta user_id 3 %})</a></div>
+                                <div class="panel-row"><a href="#"  onclick="openmenu('allposts');" style="color:#959699;">All Posts ({% dashboard_meta user_id 3 %})</a></div>
                                 <div class="clear"></div>
-                                <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;">Comments({% dashboard_meta user_id 4 %})</div>
+                                <div class="panel-row">Comments({% dashboard_meta user_id 4 %})</div>
                                 <div class="clear"></div>
-                                <div class="content-icon"></div>
-                                <div class="content-option" style="padding:1.0em 1.3em 1.0em 1.3em;border-bottom:1px dotted;width:89%;">Subscriptions (0)</div>
+                                <div class="panel-row">Subscriptions (0)</div>
                                 <div class="clear"></div>
                            </div>
                   </div>

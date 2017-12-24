@@ -370,9 +370,105 @@
 
                              </div>
                              <div class="panel-payments">
+                                   <div id="customerprofile">
+
+                                   <div class="container" style="width:60%;margin-left:15%;">
 
 
+				    <validator name="validation4">
+				    <div class="errors">
+                                           <div style="display:none;">
+					   <validator-errors :validation="$validation4"></validator-errors>
+                                           </div>
+				    </div>
 
+				    <form id="customer-profile-form" novalidate autocomplete="on" method="POST">
+
+                                        <input id="customer-profile-form-submitted" type="hidden" />
+
+
+                                        <div class="form-group" style="margin-bottom:1.5em;">
+                                            <div style="float:left;padding-right:2.0em;">
+                                                <label for="username" class="control-label">User Name
+                                                </label>
+                                            </div>
+                                            <div style="float:left;margin-left:1.0em;">
+                                                 <span v-if="$validation4['username'].invalid" class="errors"> Username must be non-empty !!</span>
+                                            </div>
+                                            <div class="clear"></div>
+
+                                            <div>
+                       
+                                                <input id="username" type="name" class="input-lg form-control"  placeholder="User Name" v-model="username"  v-validate:username=['nonempty']>
+                                            </div>
+                                        </div>
+
+
+					<div class="form-group" style="margin-bottom:1.5em;">
+                                            <div style="float:left;padding-right:2.0em;">
+					           <label for="first-name" class="control-label">First Name
+					           </label> 
+                                            </div>
+                                            <div style="float:left;margin-left:1.0em;">
+                                                   <span v-if="$validation4['first_name'].invalid" class="errors"> First Name must be non-empty !!!</span>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div>
+
+					        <input id="first-name" type="name" class="input-lg form-control"  placeholder="First Name" v-model="first_name"  v-validate:first_name=['nonempty']>
+                                            </div>
+					</div>
+                                        <div class="form-group" style="margin-bottom:1.5em;">
+                                            <div style="float:left;padding-right:2.0em;">
+                                                <label for="last-name" class="control-label">Last Name
+                                                </label>
+                                            </div>
+                                            <div style="float:left;margin-left:1.0em;">
+                                                <span v-if="$validation4['last_name'].invalid" class="errors"> Last Name must be non-empty !!!</span>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div>
+                                                <input id="last-name" type="name" class="input-lg form-control"  placeholder="Last Name" v-model="last_name"  v-validate:last_name=['nonempty']>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" style="margin-bottom:1.5em;">
+                                            <div style="float:left;padding-right:2.0em;">
+                                                <label for="email" class="control-label">Email
+                                                </label>
+                                            </div>
+                                            <div style="float:left;margin-left:1.0em;">
+                                                 <span v-if="$validation4['email'].invalid" class="errors"> Email must have a valid format !!</span>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div>
+                                                   <input id="email" type="email" class="input-lg form-control"  placeholder="Email" v-model="email"  v-validate:email=['email']>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" style="margin-bottom:1.5em;">
+                                            <label for="phone" class="control-label">Phone
+                                            </label>
+                                            <input id="phone" type="phone" class="input-lg form-control"  placeholder="Phone" v-model="phone"  v-validate:email=['nonempty']>
+                                        </div>
+                                       
+                                        <div class="form-group" style="margin-bottom:1.5em;">
+                                            <label for="bio" class="control-label">Short bio.
+                                            </label>
+
+                                            <textarea name="bio" id="response-text" class="inner-textarea" style="overflow:hidden;margin-bottom:1.2em;"
+rows="5"></textarea>
+                                        </div>
+
+                                        <button type="submit" class="button button2">Save</button>
+
+
+				    </form>
+
+				    </validator>
+                                    </div>
+
+                                   </div>
                              </div>
               </div>
         </div>
@@ -484,50 +580,51 @@
                                     <!--
                                       <iframe src="/static/add-payment-method.html" scrolling="no"></iframe>
                                      -->
-<div id="paymentmethod">
-<div class="container" style="width:60%;margin-left:15%;">
-     <h4>
-      Add Payment Method
-    </h4>
-    <form id="payment-method-form" novalidate autocomplete="on" method="POST">
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="cc-number" class="control-label">Card number formatting <small class="text-muted">[<span class="cc-brand"></span>]</small>
-            </label>
-            <input id="cc-number" v-model="credit_card" type="tel" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
-        </div>
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="cc-exp" class="control-label">Card expiry formatting</label>
-            <input id="cc-exp" type="tel" class="input-lg form-control cc-exp" autocomplete="cc-exp" placeholder="•• / ••" required>
-        </div>
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="cc-cvc" class="control-label">Card CVC formatting</label>
-            <input id="cc-cvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="•••" required>
-        </div>
-        <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="name_on_card" class="control-label">Name On Card (Full Name)</label>
-            <input id="name_on_card" type="tel" class="input-lg form-control" data-numeric>
-        </div>
-        <div class="form-group" style="margin-bottom:1.5em;">
-                <div>
-                    <label for="make-default-payment-method" class="control-label">Set As Your Default Payment Method
-                    </label>
-                </div>
-                <div style="margin-top:0.4em;">
-                <label class="switch">
-                       <input type="checkbox" value="" id="make-default-payment-method" v-model="make_default">
-                                   <div class="slider round"><!--ADDED HTML --><span class="on">YES</span><span class="off">NO</span><!--END--></div>
-                </label>
-                </div>
-                <div class="clear"></div>
-        </div>
 
-        <button type="submit" class="button button2">Submit</button>
+				<div id="paymentmethod">
+				<div class="container" style="width:60%;margin-left:15%;">
+				     <h4>
+				      Add Payment Method
+				    </h4>
+				    <form id="payment-method-form" novalidate autocomplete="on" method="POST">
+					<div class="form-group" style="margin-bottom:1.5em;">
+					    <label for="cc-number" class="control-label">Card number formatting <small class="text-muted">[<span class="cc-brand"></span>]</small>
+					    </label>
+					    <input id="cc-number" v-model="credit_card" type="tel" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
+					</div>
+					<div class="form-group" style="margin-bottom:1.5em;">
+					    <label for="cc-exp" class="control-label">Card expiry formatting</label>
+					    <input id="cc-exp" type="tel" class="input-lg form-control cc-exp" autocomplete="cc-exp" placeholder="•• / ••" required>
+					</div>
+					<div class="form-group" style="margin-bottom:1.5em;">
+					    <label for="cc-cvc" class="control-label">Card CVC formatting</label>
+					    <input id="cc-cvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="•••" required>
+					</div>
+					<div class="form-group" style="margin-bottom:1.5em;">
+					    <label for="name_on_card" class="control-label">Name On Card (Full Name)</label>
+					    <input id="name_on_card" type="tel" class="input-lg form-control" data-numeric>
+					</div>
+					<div class="form-group" style="margin-bottom:1.5em;">
+						<div>
+						    <label for="make-default-payment-method" class="control-label">Set As Your Default Payment Method
+						    </label>
+						</div>
+						<div style="margin-top:0.4em;">
+						<label class="switch">
+						       <input type="checkbox" value="" id="make-default-payment-method" v-model="make_default">
+								   <div class="slider round"><!--ADDED HTML --><span class="on">YES</span><span class="off">NO</span><!--END--></div>
+						</label>
+						</div>
+						<div class="clear"></div>
+					</div>
 
-         <h2 class="validation"></h2>
+					<button type="submit" class="button button2">Submit</button>
 
-    </form>
-</div>
-</div>
+					 <h2 class="validation"></h2>
+
+				    </form>
+				</div>
+				</div>
 
                              </div>
               </div>
@@ -655,7 +752,6 @@
             </label>
             <input id="edit-country" type="name" class="input-lg form-control"  placeholder="Country" v-model="country"  v-validate:country=['nonempty']>
         </div>
-
 
         <button type="submit" class="button button2" v-on:click="submitbilling" v-if="$validation3.valid">Submit</button>
 
@@ -1062,16 +1158,26 @@ rows="5"></textarea>
 
                <validator name="validation1">
                 <div class="errors">
-                     <validator-errors :validation="$validation1"></validator-errors>
+                     <div style="display:none;">
+                         <validator-errors :validation="$validation1"></validator-errors>
+                     </div>
                 </div>
 
                <form class="form" novalidate>
                         <input type="hidden" name="post_id" id="post_id" value="" />
                         <div class="form-group" style="margin-bottom:1.5em;">
 	         	<p class="name">
-                               <label for="posttitle" class="control-label">Title</label>
-		            	<input class="input-lg form-control"  placeholder="Post Title"   style="width:32%;" type="text" id="posttitle" name="posttitle" v-validate:posttitle=['nonempty'] />
-        		</p>
+                                <div style="float:left;">
+                                    <label for="posttitle" class="control-label">Title</label>
+                                </div>
+                                <div style="float:left;margin-left:1.0em;">
+                                    <span v-if="$validation1['posttitle'].invalid" class="errors"> Post title must be non-empty !!</span>
+                                </div>
+
+                                <div class="clear"></div>
+                                <div>
+		            	    <input class="input-lg form-control"  placeholder="Post Title"   style="width:32%;" type="text" id="posttitle" name="posttitle" v-validate:posttitle=['nonempty'] />
+        	              	</div>
                         </div>
 	 
                         <div class="form-group" style="margin-bottom:1.5em;">
@@ -1087,11 +1193,17 @@ rows="5"></textarea>
                                 </select>
 	        	</p>
                         </div>
-		        <div class="form-group" style="margin-bottom:1.5em;"> 
-	          	    <p class="link">
-                                <label for="link" class="control-label">Post Link</label>
-		          	<input type="text" name="link" id="link" class="input-lg form-control" style="width:32%;" v-validate:link=['url'] />
-                            </p>
+		        <div class="form-group" style="margin-bottom:1.5em;">
+                                <div style="float:left;"> 
+                                    <label for="link" class="control-label">Post Link</label>
+                                </div>
+                                <div style="float:left;margin-left:1.0em;">
+                                                 <span v-if="$validation1['link'].invalid" class="errors"> This must be a valid link !!!</span>
+                                </div>
+                                <div class="clear"></div>
+                                <div>   
+		                 	<input type="text" name="link" id="link" class="input-lg form-control" v-model="link" style="width:32%;" v-validate:link=['url'] />
+                                </div>
 	                </div>
 	
 	           	<p class="text">
@@ -1207,17 +1319,24 @@ rows="5"></textarea>
 
                  <validator name="validation_messages">
                    <div class="errors">
-                       <validator-errors :validation="$validation_messages"></validator-errors>
+                       <div style="display:none;">
+                           <validator-errors :validation="$validation_messages"></validator-errors>
+                       </div>
                    </div>
                    <form class="form" novalidate>
-                        <div>
+                        <div style="float:left;">
                             <label for="message_title">Title</label>
                         </div>
+                        <div style="float:left;margin-left:1.0em;">
+                                 <span v-if="$validation_messages['message_title'].invalid" class="errors"> Title must be non-empty !!</span>
+                        </div>
+                        <div class="clear"></div>
+                       
                         <div>
-                        <input type="hidden" name="post_id" id="post_id" value="" />
-                        <p class="name">
+                             <input type="hidden" name="post_id" id="post_id" value="" />
+                             <p class="name">
                                 <input type="text" id="message_title" name="message_title" class="input-lg form-control" style="width:94%;" v-validate:message_title=['nonempty'] />
-                        </p>
+                             </p>
                         </div>                        
                         <div style="float:left;">
 

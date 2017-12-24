@@ -1985,7 +1985,53 @@ new Vue({
 
    });
 
+new Vue({
+    el: '#customerprofile',
+    data: {
+       username: '',
+       first_name: '',
+       middle_name: '',
+       last_name: '',
+       email: '',
+       phone: '',
+       bio: '',
+    },
+    created: function() {
+    },
+    methods: {
+       edit_profile: function(msg) {
+       },
 
+       submit_profile: function(msg) {
+       }
+    },
+    validators: {
+    
+          nonempty: { // `nonempty` custom validator local registration
+              message: function (field) {
+                return 'invalid "' + field + '" must be non-empty at least 1 characters long'
+              },
+              check: function (str) {
+                   return !(!str || 1 > str.length);
+              }
+          },
+          numeric: { // `numeric` custom validator local registration
+            message: 'invalid numeric value',
+            check: function (val) {
+              return /^[-+]?[0-9]+$/.test(val)
+            }
+          },
+          url: { // `url` custom validator local registration
+            message: function (field) {
+              return 'invalid "' + field + '" url format field'
+            },
+            check: function (val) {
+              return /^(http\:\/\/|https\:\/\/)(.{4,})$/.test(val)
+            }
+          }
+    }           
+
+});
 new Vue({
     el: '#paymentmethod',
 

@@ -217,6 +217,7 @@
                               {% endif %}
                               {% if link_expired %}
                                   <form method="POST">
+                                     {% csrf_token %}
                                      <input type="hidden" id="link_expired" value="{{ link_expired }}" />
                                   </form>
                               {% endif %}
@@ -3569,61 +3570,61 @@
                     </form>
         </div>
         <div id="qualify-steptwo" style="font-size:1.3em;">
-                    <form class='mailform contact-form' method="post">
-                     {% csrf_token %}
+				    <form class='mailform contact-form' method="post">
+				     {% csrf_token %}
 
-                         <div id="final_does_qualify"></div>
-                         <div id="final_ready_start"></div>
-                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
-                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
-                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
-                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
-                      <input type="hidden" name="package_price" id="package_price" v-model="package_price"  value="{{ package_price }}"/>
-                      <input type="hidden" name="package_type" id="package_type" v-model="package_type"  value="{{ package_type }}"/>
-                      <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
-                      <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
-                      <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
-                      <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
-                      <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
+					 <div id="final_does_qualify"></div>
+					 <div id="final_ready_start"></div>
+				      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
+				      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
+				      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
+				      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
+				      <input type="hidden" name="package_price" id="package_price" v-model="package_price"  value="{{ package_price }}"/>
+				      <input type="hidden" name="package_type" id="package_type" v-model="package_type"  value="{{ package_type }}"/>
+				      <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
+				      <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
+				      <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
+				      <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
+				      <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
 
-                  <input type="hidden" name="counter" id="counter" value=""/>
-   
-                       <div id="final-qualify-state"></div>
-                          <div class="clear"></div>
-                          <br/><br/>
-                          {% if not logout %}
-                           <div style="min-height:30%;pading-top:2.4em;font-size:1.2em;">
-                               Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to proceed with your process.
-                           </div>
-                          {% endif %}
+				  <input type="hidden" name="counter" id="counter" value=""/>
+		   
+				       <div id="final-qualify-state"></div>
+					  <div class="clear"></div>
+					  <br/><br/>
+					  {% if not logout %}
+					   <div style="min-height:30%;pading-top:2.4em;font-size:1.2em;">
+					       Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to proceed with your process.
+					   </div>
+					  {% endif %}
 
-                          {% if logout %}
+					  {% if logout %}
 
-                              <div style="float:left;padding-top:1.9em;">
-                                  <button class="btn4" v-on:click="submittwo"  id="qualify_next_two">Next</button>
-                              </div>
+					      <div style="float:left;padding-top:1.9em;">
+						  <button class="btn4" v-on:click="submittwo"  id="qualify_next_two">Next</button>
+					      </div>
 
-                          {% endif %}
+					  {% endif %}
 
-                          <modal :show.sync="showModal">
-                       <!--
-        /                  you can use custom content here to overwrite
-                          default content
-                             -->
+					  <modal :show.sync="showModal">
+				       <!--
+			/                  you can use custom content here to overwrite
+					  default content
+					     -->
 
-                          </modal>
+					  </modal>
 
-                    </form>              
+				    </form>              
 
-        </div>
+			</div>
 
-        <div id="qualify-stepthree">
-                {% if logout %}
-                <div class="col-xs-12 col-sm-8">
-                <p>
-        Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
-                  </p>
-                    <form class='mailform contact-form' method="post">
+			<div id="qualify-stepthree">
+				{% if logout %}
+				<div class="col-xs-12 col-sm-8">
+				<p>
+			Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
+				  </p>
+				    <form class='mailform contact-form' method="post">
                          {% csrf_token %}
 
                       <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>

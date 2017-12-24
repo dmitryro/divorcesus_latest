@@ -1,1 +1,5 @@
 User-agent: *
+Disallow: *.html
+Host: divorcesus.com
+Sitemap: https://divorcesus.com/sitemap.xml
+

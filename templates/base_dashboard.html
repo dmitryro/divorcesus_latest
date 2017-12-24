@@ -282,7 +282,7 @@ input, textarea, select, button, meter, progress {
 }
 
 .styled-select {
-   background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+   background: url(https://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
    height: 29px;
    overflow: hidden;
    width: 180px;
@@ -298,7 +298,7 @@ input, textarea, select, button, meter, progress {
 }
 
 .styled-select.slate {
-   background: url(http://i62.tinypic.com/2e3ybe1.jpg) no-repeat right center;
+   background: url(https://i62.tinypic.com/2e3ybe1.jpg) no-repeat right center;
    height: 34px;
    width: 180px;
 }
@@ -339,7 +339,7 @@ input, textarea, select, button, meter, progress {
 
 
 /* -------------------- Select Box Styles: danielneumann.com Method */
-/* -------------------- Source: http://danielneumann.com/blog/how-to-style-dropdown-with-css-only/ */
+/* -------------------- Source: https://danielneumann.com/blog/how-to-style-dropdown-with-css-only/ */
 #mainselection select {
    border: 0;
    color: #EEE;
@@ -360,12 +360,12 @@ input, textarea, select, button, meter, progress {
    -webkit-border-radius: 9px 9px 9px 9px;
    border-radius: 9px 9px 9px 9px;
    box-shadow: 1px 1px 11px #330033;
-   background: #58B14C url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 319px center;
+   background: #58B14C url("https://i62.tinypic.com/15xvbd5.png") no-repeat scroll 319px center;
 }
 
 
 /* -------------------- Select Box Styles: stackoverflow.com Method */
-/* -------------------- Source: http://stackoverflow.com/a/5809186 */
+/* -------------------- Source: https://stackoverflow.com/a/5809186 */
 select#soflow, select#soflow-color {
    -webkit-appearance: button;
    -webkit-border-radius: 2px;
@@ -373,7 +373,7 @@ select#soflow, select#soflow-color {
    -webkit-padding-end: 20px;
    -webkit-padding-start: 2px;
    -webkit-user-select: none;
-   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+   background-image: url(https://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
    background-position: 97% center;
    background-repeat: no-repeat;
    border: 1px solid #AAA;
@@ -389,7 +389,7 @@ select#soflow, select#soflow-color {
 
 select#soflow-color {
    color: #fff;
-   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#779126, #779126 40%, #779126);
+   background-image: url(https://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#779126, #779126 40%, #779126);
    background-color: #779126;
    -webkit-border-radius: 20px;
    -moz-border-radius: 20px;
@@ -655,7 +655,7 @@ Vue.component('modal', {
     }
 
     function read_user_by_id(user_id) {
-        $.get( "http://divorcesus.com/users/"+user_id, function(data) {
+        $.get( "https://divorcesus.com/users/"+user_id, function(data) {
              var user_id = data.id;
              $('#target-customer').val(data.username).change();
         });
@@ -664,7 +664,7 @@ Vue.component('modal', {
     function read_user() {
         var username = $('#target-customer').val();
 
-        $.get( "http://divorcesus.com/users?username="+username, function( data ) {
+        $.get( "https://divorcesus.com/users?username="+username, function( data ) {
              var user_id = data[0].id;
              if (user_id!=undefined) {
                  $('#receiver_id').val(user_id).change();
@@ -829,6 +829,16 @@ Vue.component('modal', {
 		$('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
 	      });
 	    });
+
+            $('#add-new-post').click(function(e) {
+              openmenu('newpost');
+            });
+
+            $('#add-new-post-one').click(function(e) {
+              openmenu('newpost');
+            });
+
+
     });
   
  
@@ -842,7 +852,7 @@ Vue.component('modal', {
        $.ajax({
                      
            method: "POST",
-           url: "http://divorcesus.com/savepost",
+           url: "https://divorcesus.com/savepost",
            data: { title: $('#edit_post_title').val(),post_id: $('#post_id').val(),category_id:$('#edit_category_id').val(), body:body, link:link}
               }).done(function( msg ) {
             openmenu('allposts');
@@ -869,7 +879,7 @@ Vue.component('modal', {
                          
                $.ajax({
                        method: "POST",
-                       url: "http://divorcesus.com/pastpayments/",
+                       url: "https://divorcesus.com/pastpayments/",
                        data: { user_id: $('#user_id').val()}
                }).done(function( msg ) {
 
@@ -917,7 +927,7 @@ Vue.component('modal', {
                var arr = {receiver_id: document.getElementById('user_id').value};
 
                $.ajax({
-                     url: "http://divorcesus.com/incoming/",
+                     url: "https://divorcesus.com/incoming/",
                      type: "POST",
                      crossDomain: true,
                      data: JSON.stringify(arr),
@@ -1020,7 +1030,7 @@ Vue.component('modal', {
                var arr = {sender_id: document.getElementById('user_id').value};
 
                $.ajax({
-                     url: "http://divorcesus.com/outgoing/",
+                     url: "https://divorcesus.com/outgoing/",
                      type: "POST",
                      crossDomain: true,
                      data: JSON.stringify(arr),
@@ -1096,7 +1106,7 @@ Vue.component('modal', {
 
               $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/getposts",
+                     url: "https://divorcesus.com/getposts",
                      data: {}
               }).done(function( msg ) {
                        var result = '';
@@ -1203,7 +1213,7 @@ function resetpost() {
 
 function read_toggle(user_id) {
      var xhReq = new XMLHttpRequest();
-     xhReq.open("GET", "http://divorcesus.com/msgsettings?user_id="+user_id, false);
+     xhReq.open("GET", "https://divorcesus.com/msgsettings?user_id="+user_id, false);
      xhReq.send(null);
      var data = JSON.parse(xhReq.responseText);
      if (data[0]==undefined) {
@@ -1217,7 +1227,7 @@ function toggle(tg) {
     var arr = {user_id: document.getElementById('user_id').value, 'toggle': tg};
     $.ajax({
         method: "POST",
-        url: "http://divorcesus.com/duplication/",
+        url: "https://divorcesus.com/duplication/",
         data:  JSON.stringify(arr)
     }).done(function( data ) {
         return new Boolean(data.duplicate_private);
@@ -1228,7 +1238,7 @@ function toggle(tg) {
 function sendmessage() {
     $.ajax({
         method: "POST",
-        url: "http://divorcesus.com/sendmessage/",
+        url: "https://divorcesus.com/sendmessage/",
         data: { title: $('#message_reply_title').val(),
                 message_id: $('#message_reply_id').val(),
                 receiver_id:$('#message_sender_id').val(),
@@ -1243,7 +1253,7 @@ function sendmessage() {
 function readmessage(id) {
    $.ajax({
        method: "POST",
-       url: "http://divorcesus.com/readmessage",
+       url: "https://divorcesus.com/readmessage",
        data: { message_id:id}
    }).done(function( msg ) {
       $("#total_unseen").attr("value", msg.total_unseen);
@@ -1283,16 +1293,17 @@ function editaddress(id) {
 
     $.ajax({
         method: "GET",
-        url: "http://divorcesus.com/addresses/"+id
+        url: "https://divorcesus.com/addresses/"+id
     }).done(function( data ) {
         $('#edit-address-id').attr('value', id);
         $('#edit-nickname').attr('value', data.nickname);
         $('#edit-name-or-company').attr('value', data.name_or_company);
-        $('#edit-address-1').attr('value', data.address_1);
-        $('#edit-address-2').attr('value', data.address_2);
+        $('#edit-address-1').attr('value', data.address1);
+        $('#edit-address-2').attr('value', data.address2);
         $('#edit-city').attr('value', data.city);
         $('#edit-state-province').attr('value', data.state_province.id);
         $('#edit-zip-postal').attr('value', data.zip_or_postal);
+        $('#edit-country').attr('value', data.country);   
 
         var tg = data.is_default;
         var l = document.getElementById('edit-make-default-billing');
@@ -1332,7 +1343,7 @@ function deleteaddress(id) {
 
               $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/deletebilling/",
+                     url: "https://divorcesus.com/deletebilling/",
                      data: JSON.stringify(arr)
               }).done(function( msg ) {
                      $("#billing-addresses-panel").show();
@@ -1389,7 +1400,7 @@ function deleteaddress(id) {
 function deletemessage(id,mode) {
               $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/deletemessage/",
+                     url: "https://divorcesus.com/deletemessage/",
                      data: {message_id:id,mode:mode}
               }).done(function( msg ) {
 
@@ -1452,7 +1463,7 @@ function editpost(id) {
 
    $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/readpost",
+                     url: "https://divorcesus.com/readpost",
                      data: { post_id:id}
    }).done(function( msg ) {
       $('#post_id').attr('value',msg.id);
@@ -1503,7 +1514,7 @@ function deletecomment(comment_id,post_id) {
 
               $.ajax({
                      method: "GET",
-                     url: "http://divorcesus.com/deletecomment?comment_id="+comment_id+"&post_id="+post_id,
+                     url: "https://divorcesus.com/deletecomment?comment_id="+comment_id+"&post_id="+post_id,
                      data: {}
               }).done(function( msg ) {
                            var result = '<a href="#" style="color:red;" onclick="restoreposts('+post_id+');">Back</a><br/><br/>';
@@ -1563,7 +1574,7 @@ function postcomments(post_id) {
 
               $.ajax({
                      method: "GET",
-                     url: "http://divorcesus.com/getcomments?post_id="+post_id,
+                     url: "https://divorcesus.com/getcomments?post_id="+post_id,
                      data: {}
               }).done(function( msg ) {
                            var result = '<a href="#" style="color:red;" onclick="restoreposts('+post_id+');">Back</a><br/><br/>';
@@ -1619,7 +1630,7 @@ function restoreposts(post_id) {
               $('#commentform').hide();
               $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/getposts",
+                     url: "https://divorcesus.com/getposts",
                      data: {}
               }).done(function( msg ) {
                        var result = '';
@@ -1664,7 +1675,7 @@ function restoreposts(post_id) {
 
 function read_receiver(username) {
      var xhReq = new XMLHttpRequest();
-     xhReq.open("GET", "http://divorcesus.com/users?username="+username, false);
+     xhReq.open("GET", "https://divorcesus.com/users?username="+username, false);
      xhReq.send(null);
      var data = JSON.parse(xhReq.responseText);
      if (data[0]==undefined) {
@@ -1678,7 +1689,7 @@ function read_receiver(username) {
 function deletepost(post_id) {
               $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/deleteblog",
+                     url: "https://divorcesus.com/deleteblog",
                      data: { post_id:post_id}
               }).done(function( msg ) {
                        var result = '';
@@ -1745,7 +1756,7 @@ new Vue ({
 
               $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/sendmessage/",
+                     url: "https://divorcesus.com/sendmessage/",
                      data: { title: document.getElementById("message_title").value,
                              receiver_id: receiver_id, 
                              body: document.getElementById("message_body").value}
@@ -1821,7 +1832,7 @@ new Vue ({
 
                       $.ajax({
                              method: "POST",
-                             url: "http://divorcesus.com/savecomment/",
+                             url: "https://divorcesus.com/savecomment/",
                              data: {"comment_id":$('#comments_comment_id').val(),"post_id":$('#comments_post_id').val(),"body":$('#edit_comment_body').val()}
                       }).done(function( msg ) {
 
@@ -1913,7 +1924,7 @@ new Vue({
                               'user_id': $('#user_id').val()};
                $.ajax({
                        method: "POST",
-                       url: "http://divorcesus.com/addbilling/",
+                       url: "https://divorcesus.com/addbilling/",
                        data:  JSON.stringify(address)
                }).done(function( msg ) {
                            $("#edit-billing-address").hide()
@@ -2075,7 +2086,7 @@ new Vue({
                var user_id = $('#user_id').val();
                $.ajax({
                        method: "GET",
-                       url: "http://divorcesus.com/addresses/?user_id="+user_id
+                       url: "https://divorcesus.com/addresses/?user_id="+user_id
                }).done(function( msg ) {
 
                        $("#add-billing-address-body").hide();
@@ -2141,7 +2152,7 @@ new Vue({
                               'user_id': $('#user_id').val()}
                $.ajax({
                        method: "POST",
-                       url: "http://divorcesus.com/addbilling/",
+                       url: "https://divorcesus.com/addbilling/",
                        data:  JSON.stringify(address)
                }).done(function( msg ) {
                        $("#billing-addresses-panel").show();
@@ -2231,7 +2242,7 @@ new Vue({
           editblog: function() {
               $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/savepost",
+                     url: "https://divorcesus.com/savepost",
                      data: { title: $('#posttitle').val(),post_id: $('#post_id').val(),category_id:$('#category_id').val(), body: this.postbody, link:$('#link').val()}
               }).done(function( msg ) {
                        var result = '';
@@ -2277,7 +2288,7 @@ new Vue({
 
               $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/postblog",
+                     url: "https://divorcesus.com/postblog",
                      data: { title: $('#posttitle').val(),category_id:$('#category_id').val(), body: this.postbody, link:$('#link').val()}
               }).done(function( msg ) {
                        var result = '';

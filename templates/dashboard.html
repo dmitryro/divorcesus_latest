@@ -657,6 +657,7 @@ rows="5"></textarea>
 
             
               <div class="card card-3 panel-right">
+                             <div id="#edit-billing-address">
                              <div id="edit-billing-address" class="panel-payments">
                                  <div class="panel-header">
                                      <div class="panel-editpost form-content" style="width:5%;float:left;padding-top:1.4em;">
@@ -667,34 +668,63 @@ rows="5"></textarea>
                                      </div>
                                      <div class="clear"></div>
                                  </div>
-                                 <div id="edit-billing-addresses-inner" style="width:92%;padding-left:1%;">
+                                 <div id="edit-billing-addresses-inner" style="width:90%;padding-left:2%;padding-right:2%;padding-top:2%;">
 
 
     
     <validator name="validation3">
     <div class="errors">
-           <validator-errors :validation="$validation3"></validator-errors>
+           <div style="display:none;">
+               <validator-errors :validation="$validation3"></validator-errors>
+           </div>
     </div>
 
 
     <form id="edit-billing-address-form" novalidate autocomplete="on" method="POST">
-         <input id="edit-address-id" type="hidden"  v-model="address_id" />
-         <input id="edit-billing-address-form-submitted" type="hidden" />
+        <input id="edit-address-id" type="hidden"  v-model="address_id" />
+        <input id="edit-billing-address-form-submitted" type="hidden" />
+
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="edit-nickname" class="control-label">Address Nickname
-            </label>
-            <input id="edit-nickname" type="name" class="input-lg form-control"  placeholder="Address Nickname" v-model="nickname"  v-validate:address_1=['nonempty']>
+            <div style="float:left;">
+                <label for="edit-nickname" class="control-label">Address Nickname
+                </label>
+            </div>
+
+            <div style="float:left;margin-left:1.0em;">
+                 <span v-if="$validation3['nickname'].invalid" class="errors">Address nickname  must be non-empty !!!</span>
+            </div>           
+           <div class="clear"></div> 
+           <div>
+                <input id="edit-nickname" type="name" class="input-lg form-control"  placeholder="Address Nickname" v-model="nickname"  v-validate:nickname=['nonempty']>
+            </div>
         </div>
 
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="edit-name-or-company" class="control-label">Name or Company
-            </label>
-            <input id="edit-name-or-company" type="name" class="input-lg form-control"  placeholder="Name or Company" v-model="name_or_company"  v-validate:address_1=['nonempty']>
+            <div style="float:left;">
+                <label for="edit-name-or-company" class="control-label">Name or Company
+                </label>
+            </div>
+            <div style="float:left;margin-left:1.0em;">
+                 <span v-if="$validation3['name_or_company'].invalid" class="errors">Name or company  must be non-empty !!!</span>
+            </div>
+           <div class="clear"></div>
+           <div>
+                        <input id="edit-name-or-company" type="name" class="input-lg form-control"  placeholder="Name or Company" v-model="name_or_company"  v-validate:name_or_company=['nonempty']>
+           </div>
         </div>
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="edit-address-1" class="control-label">Address 1
-            </label>
-            <input id="edit-address-1" type="name" class="input-lg form-control"  placeholder="Address 1" v-model="address_1"  v-validate:address_1=['nonempty']>
+            <div style="float:left;">
+                <label for="edit-address-1" class="control-label">Address 1
+                </label>
+            </div>
+            <div style="float:left;margin-left:1.0em;">
+                 <span v-if="$validation3['address_1'].invalid" class="errors">Address must be non-empty !!!</span>
+            </div>
+           <div class="clear"></div>
+           <div>
+
+               <input id="edit-address-1" type="name" class="input-lg form-control"  placeholder="Address 1" v-model="address_1"  v-validate:address_1=['nonempty']>
+           </div>
         </div>
         <div class="form-group" style="margin-bottom:1.5em;">
             <label for="edit-address-2" class="control-label">Address 2
@@ -703,9 +733,17 @@ rows="5"></textarea>
         </div>
 
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="edit-city" class="control-label">City
-            </label>
-            <input id="edit-city" type="name" class="input-lg form-control"  placeholder="City"  v-model="city" v-validate:city=['nonempty']>
+            <div style="float:left;">
+                <label for="edit-city" class="control-label">City
+                </label>
+            </div>
+            <div style="float:left;margin-left:1.0em;">
+                 <span v-if="$validation3['city'].invalid" class="errors">City  must be non-empty !!!</span>
+            </div>
+           <div class="clear"></div>
+           <div>
+                <input id="edit-city" type="name" class="input-lg form-control"  placeholder="City"  v-model="city" v-validate:city=['nonempty']>
+           </div>
         </div>
 
         <div class="form-group" style="margin-bottom:1.5em;">
@@ -740,17 +778,34 @@ rows="5"></textarea>
         </div>
         <div style="float:left;width:49%;">
             <div class="form-group" style="margin-bottom:1.5em;">
-                <label for="edit-zip-postal" class="control-label">Zip or Postal
-                </label>
-                <input id="edit-zip-postal" type="zip-postal" class="input-lg form-control"  placeholder="Zip or Postal" style="width:90%;" v-model="zip_or_postal"  v-validate:zip_or_postal=['nonempty']>
+
+		    <div style="float:left;">
+			<label for="edit-zip-postal" class="control-label">Zip or Postal
+			</label>
+		    </div>
+		    <div style="float:left;margin-left:1.0em;">
+			 <span v-if="$validation3['zip_or_postal'].invalid" class="errors">Zip or Postal must be non-empty !!!</span>
+		    </div>
+		   <div class="clear"></div>
+		   <div>
+                     <input id="edit-zip-postal" type="zip-postal" class="input-lg form-control"  placeholder="Zip or Postal" style="width:90%;" v-model="zip_or_postal"  v-validate:zip_or_postal=['nonempty']>
+                   </div>
             </div>
         </div>
         <div class="clear"></div>
 
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="edit-country" class="control-label">Country
-            </label>
-            <input id="edit-country" type="name" class="input-lg form-control"  placeholder="Country" v-model="country"  v-validate:country=['nonempty']>
+		    <div style="float:left;">
+			<label for="edit-country" class="control-label">Country
+			</label>
+		    </div>
+                    <div style="float:left;margin-left:1.0em;">
+                         <span v-if="$validation3['country'].invalid" class="errors">Country must be non-empty !!!</span>
+                    </div>
+                   <div class="clear"></div>
+                   <div>
+                      <input id="edit-country" type="name" class="input-lg form-control"  placeholder="Country" v-model="country"  v-validate:country=['nonempty']>
+                   </div>
         </div>
 
         <button type="submit" class="button button2" v-on:click="submitbilling" v-if="$validation3.valid">Submit</button>
@@ -766,6 +821,7 @@ rows="5"></textarea>
                              </div>
 
                        
+</div>
                           <div id="billing-addresses-panel">
                              <div class="panel-header">
                                 <div class="panel-editpost form-content" style="float:left;width:5%;padding-top:1.2em;">
@@ -805,7 +861,7 @@ rows="5"></textarea>
                              </div>
                              <div id="add-billing-address-body">
 
-<div class="container" style="width:60%;margin-left:15%;float:left;">
+<div class="container" style="width:90%;margin-left:2%;float:left;">
 
      <!-- start billingaddress -->
      <div id="billingaddress">
@@ -817,38 +873,72 @@ rows="5"></textarea>
 
     <validator name="validation2">
     <div class="errors">
-           <validator-errors :validation="$validation2"></validator-errors>
+           <div style="display:none;">
+               <validator-errors :validation="$validation2"></validator-errors>
+           </div>
     </div>
 
 
     <form id="billing-address-form" novalidate autocomplete="on" method="POST">
 
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="name_or_company" class="control-label">Name or Company
-            </label>
-            <input id="name_or_company" type="name" class="input-lg form-control"  placeholder="Address Nickname" v-model="nickname"  v-validate:address_1=['nonempty']>
+            <div style="float:left;">
+               <label for="add-nickname" class="control-label">Address Nickname
+               </label>
+            </div>
+            <div style="float:left;margin-left:1.0em;">
+                 <span v-if="$validation2['nickname'].invalid" class="errors">Address nickname must be non-empty !!!</span>
+            </div>
+           <div class="clear"></div>
+           <div>
+               <input id="add-nickname" type="name" class="input-lg form-control"  placeholder="Address Nickname" v-model="nickname"  v-validate:nickname=['nonempty']>
+           </div>
         </div>
 
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="name_or_company" class="control-label">Name or Company
-            </label>
-            <input id="name_or_company" type="name" class="input-lg form-control"  placeholder="Name or Company" v-model="name_or_company"  v-validate:address_1=['nonempty']>
+            <div style="float:left;">
+                <label for="add-name-or-company" class="control-label">Name or Company
+                </label>
+            </div>
+            <div style="float:left;margin-left:1.0em;">
+                <span v-if="$validation2['name_or_company'].invalid" class="errors">Name or Company must be non-empty !!!</span>
+            </div>
+            <div class="clear"></div>
+            <div>
+                <input id="add-name-or-company" type="name" class="input-lg form-control"  placeholder="Name or Company" v-model="name_or_company"  v-validate:name_or_company=['nonempty']>
+            </div>
         </div> 
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="address-1" class="control-label">Address 1
-            </label>
-            <input id="address-1" type="name" class="input-lg form-control"  placeholder="Address 1" v-model="address_1"  v-validate:address_1=['nonempty']>
+            <div style="float:left;">
+                <label for="add-address-1" class="control-label">Address 1
+                </label>
+            </div>
+            <div style="float:left;margin-left:1.0em;">
+                <span v-if="$validation2['address_1'].invalid" class="errors">Address must be non-empty !!!</span>
+            </div>
+            <div class="clear"></div>
+            <div> 
+                <input id="add-address-1" type="name" class="input-lg form-control"  placeholder="Address 1" v-model="address_1"  v-validate:address_1=['nonempty']>
+            </div>
         </div>
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="address-2" class="control-label">Address 2
+            <label for="add-address-2" class="control-label">Address 2
             </label>
-            <input id="address-2" type="name" class="input-lg form-control"  placeholder="Address 2">
+            <input id="add-address-2" type="name" class="input-lg form-control"  placeholder="Address 2">
         </div>
 
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="city" class="control-label">City
-            </label>
-            <input id="city" type="name" class="input-lg form-control"  placeholder="City"  v-model="city" v-validate:city=['nonempty']>
+            <div style="float:left;">
+                <label for="add-city" class="control-label">City
+                </label>
+            </div>
+            <div style="float:left;margin-left:1.0em;">
+                <span v-if="$validation2['city'].invalid" class="errors">City must be non-empty !!!</span>
+            </div>
+            <div class="clear"></div>
+            <div>
+                       <input id="add-city" type="name" class="input-lg form-control"  placeholder="City"  v-model="city" v-validate:city=['nonempty']>
+            </div>
         </div>
 
         <div class="form-group" style="margin-bottom:1.5em;">
@@ -867,11 +957,11 @@ rows="5"></textarea>
 
 
         <div style="float:left;width:49%;">
-                             <label for="state-province" class="control-label">State or Province
+                             <label for="add-state-province" class="control-label">State or Province
                              </label>
 
 
-                             <select id="state-province" class="styled-select slate" style="width:90%;" v-model="state">
+                             <select id="add-state-province" class="styled-select slate" style="width:90%;" v-model="state">
                                 <option value="1">Alabama</option>
                                 <option value="2">Alaska</option>
                                 <option value="3">Alberta</option>
@@ -883,17 +973,33 @@ rows="5"></textarea>
         </div>
         <div style="float:left;width:49%;">
             <div class="form-group" style="margin-bottom:1.5em;">
-                <label for="zip-postal" class="control-label">Zip or Postal 
-                </label>
-                <input id="zip-postal" type="zip-postal" class="input-lg form-control"  placeholder="Zip or Postal" style="width:90%;" v-model="zip_or_postal"  v-validate:zip_or_postal=['nonempty']>
+                <div style="float:left;">  
+                    <label for="add-zip-postal" class="control-label">Zip or Postal 
+                    </label>
+                </div>
+                <div style="float:left;margin-left:1.0em;">
+                    <span v-if="$validation2['zip_or_postal'].invalid" class="errors">Zip or Postal must be non-empty !!!</span>
+                </div>
+                <div class="clear"></div>
+                <div>
+                     <input id="add-zip-postal" type="zip-postal" class="input-lg form-control"  placeholder="Zip or Postal" style="width:90%;" v-model="zip_or_postal"  v-validate:zip_or_postal=['nonempty']>
+                </div>
             </div>                
         </div>
         <div class="clear"></div>
 
         <div class="form-group" style="margin-bottom:1.5em;">
-            <label for="country" class="control-label">Country
-            </label>
-            <input id="country" type="name" class="input-lg form-control"  placeholder="Country" v-model="country"  v-validate:country=['nonempty']>
+            <div style="float:left;"> 
+                <label for="add-country" class="control-label">Country
+                </label>
+            </div>
+            <div style="float:left;margin-left:1.0em;">
+                    <span v-if="$validation2['country'].invalid" class="errors">Country must be non-empty !!!</span>
+            </div>
+            <div class="clear"></div>
+            <div>
+                <input id="add-country" type="name" class="input-lg form-control"  placeholder="Country" v-model="country"  v-validate:country=['nonempty']>
+            </div>
         </div>
 
 
@@ -1084,8 +1190,13 @@ rows="5"></textarea>
                                            <a style="color:red;" href="#" onclick="openmenu('home');">Home</a><br/><br/>
                                        </div>
                                    </div>
-                                   <div style="float:left;width:88%">
+                                   <div style="float:left; width:75%;text-align:center;padding-left:3.2em;">
                                        <h4>All your posts</h4>
+                                   </div>
+                                   <div style="float:left; width:8%;padding-top:1.2em;">
+					<div style="float:left; width:8%;">
+					   <a href="#" style="color:#959699;text-decoration:underlined;" id="add-new-post">Add</a>
+					</div>
                                    </div>
                                    <div class="clear"></div>
                              </div>
@@ -1130,7 +1241,21 @@ rows="5"></textarea>
                <div style="float:left;width:100%;" class="panel-all-your-posts" style="display:none;">
                      <div class="card card-3 panel-right">
                              <div class="panel-header">
-                                   <h4>All your posts</h4>
+
+                                   <div style="float:left;padding-top:1.2em;padding-left:0.6em; width:4.5%;">
+                                       <div id="incoming_messages_home" style="display:block;">
+                                           <a style="color:red;" href="#" onclick="openmenu('home');">Home</a><br/><br/>
+                                       </div>
+                                   </div>
+                                   <div style="float:left; width:75%;text-align:center;padding-left:3.2em;">
+                                       <h4>All your posts</h4>
+                                   </div>
+                                   <div style="float:left; width:8%;padding-top:1.2em;">
+                                        <div style="float:left; width:8%;">
+                                           <a href="#" style="color:#959699;text-decoration:underlined;" id="add-new-post-one">Add</a>
+                                        </div>
+                                   </div>
+
                              </div>
                               
                              <div class="panel-posts">
@@ -1151,7 +1276,19 @@ rows="5"></textarea>
 
 
            	<div class="panel-header">
-                                   <h4>New Post</h4>
+
+                                   <div style="float:left;padding-top:1.2em;padding-left:0.6em; width:4.5%;">
+                                       <div id="new_post_home" style="display:block;">
+                                           <a style="color:red;" href="#" onclick="openmenu('home');">Home</a><br/><br/>
+                                       </div>
+                                   </div>
+                                   <div style="float:left; width:75%;text-align:center;padding-left:3.2em;">
+                                       <h4>New Post</h4>
+                                   </div>
+                                   <div style="float:left; width:8%;padding-top:1.2em;">
+                                   </div>
+                                   <div class="clear"></div>
+
                  </div>
 
                 <div class="panel-editpost form-content">

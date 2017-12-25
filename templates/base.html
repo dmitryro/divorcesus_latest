@@ -4,8 +4,6 @@
          <!--<![endif]-->
         <head {% meta_namespaces %}>
         {% load static %}
-        {% load wysiwyg %}
-        {% wysiwyg_setup %}
         {% load gui_extras %}
         {% load blog_extras %}
         {% load services_extras %}
@@ -30,10 +28,8 @@
         <meta name="format-detection" content="telephone=no"/>
         <meta name="google-site-verification" content="GhGjmFZn7fIVTlSVbvgreQpXzAUSj-SueP-v9rUaJik" />
         <meta name="msvalidate.01" content="9B784791BC80D67E354DD7F1DDA6EAC9" />
-        <!--
-          <link rel="icon" href="media/icons/favicon.ico" type="image/x-icon">
-        -->
-        <link rel="stylesheet" href="/static/css/main-v1.css"/>
+        <link rel="icon" href="https://divorcesus.com/media/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="https://divorcesus.com/static/css/main-v1.css"/>
        <!--
           <link rel="stylesheet" href="/static/css/grid.css">
           <link rel="stylesheet" href="/static/css/mailform.css"/>
@@ -68,7 +64,7 @@
            <script src="https://cdn.jsdelivr.net/vue.router/2.5.3/vue-router.min.js"></script>
            <script src="/static/js/vue.social-shares.js"></script>
 <!--
-           <link type="text/css" href="http://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
+           <link type="text/css" href="https://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
 -->
            <script type="text/javascript" src="/static/js/jquery-ui.js"></script> 
 <!--
@@ -82,7 +78,7 @@
           <!--[if lt IE 9]> 
           <html class="lt-ie9">
           <div style=' clear: both; text-align:center; position: relative;'>
-            <a href="http://windows.microsoft.com/en-US/internet-explorer/..">
+            <a href="https://windows.microsoft.com/en-US/internet-explorer/..">
               <img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820"
                    alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."/>
             </a>
@@ -90,10 +86,11 @@
           <script src="/static/js/html5shiv.js"></script>
           <![endif]-->
 
-          <script src='/static/js/device.min.js'></script>
+          <script src='https://divorcesus.com/static/js/device.min.js'></script>
 
         <meta id="_token" value="{% csrf_token %}"> 
         <!-- Google Analytics -->
+<!--
         <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -103,6 +100,18 @@
         ga('create', 'UA-34075839-1', 'auto');
         ga('send', 'pageview');
         </script>
+-->
+	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.
+	com/gtag/js?id=UA-34075839-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-34075839-1');
+	</script>
+
         <!-- End Google Analytics -->
         <script src="/static/js/jssor.slider.mini.js"></script>
         <script src="/static/js/jssor.slider.min.js"></script>
@@ -112,7 +121,7 @@
         <script src="/static/js/vue_apps.js"></script>
         <script src="/static/js/jquery_apps.js"></script>
 <!--
-        <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyBQUZ7TmbVcH7MhLkf92WC2mxAiYDvslps" type="text/javascript"></script>
+        <script src="https://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyBQUZ7TmbVcH7MhLkf92WC2mxAiYDvslps" type="text/javascript"></script>
 -->
         <style>
            .gmap_canvas {
@@ -196,7 +205,7 @@
                                {% endif %}
 
                                {% if not user.is_authenticated %}
-                                          <a style="text-decoration:none;" href="http://divorcesus.com/dashboard">
+                                          <a style="text-decoration:none;" href="https://divorcesus.com/dashboard">
                                          <div class="avatar-container">
                                          </div>
                                           </a>
@@ -204,10 +213,10 @@
 
                               {% if user.is_authenticated %}
                                          <div class="creds-container">
-                                            <a style="text-decoration:none;" href="http://divorcesus.com/dashboard">
+                                            <a style="text-decoration:none;" href="https://divorcesus.com/dashboard">
                                                {% user_meta user.id 1 %}
                                             </a>
-                                             <a style="text-decoration:none;" href="http://divorcesus.com/dashboard">
+                                             <a style="text-decoration:none;" href="https://divorcesus.com/dashboard">
                                                     &nbsp;
                                                {% user_meta user.id 2 %}
                                                &nbsp;&nbsp;
@@ -500,7 +509,7 @@
               <div class="container" id="navapp">
                 <div class="brand">
                             <div style="float:left;">  
-                                <a href="./"><img src="http://divorcesus.com/media/{% logo_meta 2 1 %}" width="{% logo_meta 2 2 %}" height="{% logo_meta 2 3 %}" alt="divorcesus.com"/></a>
+                                <a href="./"><img src="https://divorcesus.com/media/{% logo_meta 2 1 %}" width="{% logo_meta 2 2 %}" height="{% logo_meta 2 3 %}" alt="divorcesus.com"/></a>
                             </div>
 
                             <div class="clear"></div>
@@ -652,7 +661,7 @@
                   {% for slide in slides %}
 
                     <div data-p="112.50" style="display: none;" class="et_pb_slide">
-                        <img data-u="image" src="http://divorcesus.com/media/{{ slide.slide }}" alt="divorcesus.com" />
+                        <img data-u="image" src="https://divorcesus.com/media/{{ slide.slide }}" alt="divorcesus.com" />
                           <!--div class="slide-item">
                                    {{ slide.title }} 
                           </div-->
@@ -669,7 +678,7 @@
 
 
 
-                    <a data-u="ad" href="http://www.jssor.com" style="display:none">jQuery Slider</a>
+                    <a data-u="ad" href="https://www.jssor.com" style="display:none">jQuery Slider</a>
 
                 </div>
                 <!-- Bullet Navigator -->
@@ -1647,7 +1656,7 @@
                 <div class="row">
                   <div class="col-xs-12 col-sm-4 wow fadeInUp">
                     <h3>{% aboutus_meta 1 1 %}</h3>
-                    <img src="http://divorcesus.com/media/{% aboutus_meta 1 4 %}" width="324" height="293" alt="about us"/>
+                    <img src="https://divorcesus.com/media/{% aboutus_meta 1 4 %}" width="324" height="293" alt="about us"/>
                     <h4>{% aboutus_meta 1 2 %}</h4>
                     <p> {% aboutus_meta 1 3 %}</p>
                   </div>
@@ -1701,17 +1710,17 @@
                 <h3><span>Meet</span> Our Team</h3>
                 <div class="row">
                   <div class="col-xs-12 col-sm-3 wow fadeInLeft ">
-                    <img src="http://divorcesus.com/media/{% member_meta 4 3 %}" width="250" height="250" alt="team" />
+                    <img src="https://divorcesus.com/media/{% member_meta 4 3 %}" width="250" height="250" alt="team" />
                     <h4>{% member_meta 4 1 %}</h4>
                     <p>{% member_meta 4 2 %}</p>
                   </div>
                   <div class="col-xs-12 col-sm-3 wow fadeInLeft" data-wow-delay=".2s">
-                    <img src="http://divorcesus.com/media/{% member_meta 5 3 %}" width="250" height="250" alt="team"/>
+                    <img src="https://divorcesus.com/media/{% member_meta 5 3 %}" width="250" height="250" alt="team"/>
                     <h4>{% member_meta 5 1 %}</h4>
                     <p>{% member_meta 5 2 %}</p>
                   </div>
                   <div class="col-xs-12 col-sm-3 wow fadeInRight" data-wow-delay=".2s">
-                   <img src="http://divorcesus.com/media/{% member_meta 6 3 %}" width="250" height="250" alt="team"/>
+                   <img src="https://divorcesus.com/media/{% member_meta 6 3 %}" width="250" height="250" alt="team"/>
                     <h4>{% member_meta 6 1 %}</h4>
                     <p>{% member_meta 6 2 %}</p>
                   </div>
@@ -6876,7 +6885,7 @@
             </div>
             <hr/>
             <div class="container">
-              <center><p class="copy" style="padding-top:2%;">Grinberg & Segal Â© <span id="copyright-year">2016</span> <a href="index-5.html">Privacy Policy</a></p></center>
+              <center><p class="copy" style="padding-top:2%;">Grinberg & Segal Â© <span id="copyright-year">2016</span> <a href="https://divorcesus.com">Privacy Policy</a></p></center>
               <section style="width:290px;margin-top:-3.5%;padding-top:1%;padding-bottom:1%;margin-left:14%;margin-right:14%;">
                                <div class="social-popout" style="float:left;width:10%;"><img src="/media/images/googleplus-32circle.png" /></div>
                                <div class="social-popout" style="float:left;width:10%;"><img src="/media/images/facebook-32circle.png" /></div>

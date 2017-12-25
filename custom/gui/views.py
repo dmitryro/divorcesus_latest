@@ -41,6 +41,7 @@ from custom.messaging.signals import message_sent
 from custom.messaging.callbacks import message_sent_handler
 from custom.signup.callbacks import resend_activation_handler
 from custom.signup.signals import user_resend_activation
+from custom.users.models import StateProvince
 
 from rest_framework import filters
 from rest_framework import viewsets
@@ -360,6 +361,7 @@ def dashboard(request):
     posts = Post.objects.all()
     qquestions = QualifyQuestion.objects.all()
     categories = Category.objects.all()
+    states = StateProvince.objects.all()
 
     if request.user.is_authenticated():
         logout=True
@@ -432,6 +434,7 @@ def dashboard(request):
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'states': states,
                                            'slides':slides,
                                            'faqs':faqs,
                                            'total_unseen': total_unseen,

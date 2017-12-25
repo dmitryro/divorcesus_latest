@@ -676,7 +676,7 @@
              
       $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/getallposts",
+                     url: "https://divorcesus.com/getallposts",
                      data: {}
       }).done(function( msg ) {
       
@@ -927,7 +927,7 @@
    function processPaymentQualify() {
       $.ajax({
             type: "POST",
-            url: "http://divorcesus.com/confirm/",
+            url: "https://divorcesus.com/confirm/",
             data: '{"email":"'+$("#step_six_email").val()+
                   '","first":"'+$("#step_six_first").val()+
                   '","last":"'+$("#step_six_last").val()+
@@ -952,7 +952,7 @@
    function processPayment() {
       $.ajax({
             type: "POST",
-            url: "http://divorcesus.com/confirm/",
+            url: "https://divorcesus.com/confirm/",
             data: '{"email":"'+$("#email").val()+'","fullname":"'+$("#fullname").val()+'","cardtype":"'+$("#cardtype").val()+
                                  '","cardnumber":"'+$("#cardnumber").val()+'","address1":"'+$("#address1").val()+'","address2":"'+
                                  $("#address2").val()+'","city":"'+$("#city").val()+'","phone":"'+$("#phone").val()+'","state":"'+
@@ -1031,7 +1031,7 @@
 
                   $.ajax({
                          method: "GET",
-                         url: "http://divorcesus.com/addcomment?post_id="+post_id+"&body='"+comment+"'",
+                         url: "https://divorcesus.com/addcomment?post_id="+post_id+"&body='"+comment+"'",
                          data: {}
                   }).done(function( msg ) {
 
@@ -1094,7 +1094,7 @@
 
                   $.ajax({
                          method: "GET",
-                         url: "http://divorcesus.com/getcomments?post_id="+post_id,
+                         url: "https://divorcesus.com/getcomments?post_id="+post_id,
                          data: {}
                   }).done(function( msg ) {
 
@@ -1157,7 +1157,7 @@
 
                      method: "GET",
 
-                     url: "http://divorcesus.com/searchresults?q="+$("#search").val(),
+                     url: "https://divorcesus.com/searchresults?q="+$("#search").val(),
 
                      data: {}
 
@@ -1310,7 +1310,7 @@
 function subscribe() {
       $.ajax({
                      method: "POST",
-                     url: "http://divorcesus.com/subscribe/",
+                     url: "https://divorcesus.com/subscribe/",
                      data: {'email':$('#newsletter-email').val()}
       }).done(function( msg ) {
          $('#newsletter-success').css('display','block').fadeOut(1200);
@@ -1327,7 +1327,7 @@ function resend() {
       var arr = {user_id: document.getElementById('user-id').value};
 
       $.ajax({
-                url: "http://divorcesus.com/resendactivation/",
+                url: "https://divorcesus.com/resendactivation/",
                 type: "POST",
                 crossDomain: true,
                 data: JSON.stringify(arr),
@@ -1353,7 +1353,7 @@ function confirm_info() {
   $.ajax(
 
             {
-                url: "http://divorcesus.com/confirmaccount/",
+                url: "https://divorcesus.com/confirmaccount/",
                 type: "POST",
                 crossDomain: true,
                 data: JSON.stringify(arr),

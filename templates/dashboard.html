@@ -767,12 +767,19 @@ rows="5"></textarea>
 
 
                              <select id="edit-state-province" class="styled-select slate" style="width:90%;" v-model="state">
+
+                                  {% for state in states %}
+                                       <option value="{{ state.id }}">{{ state.name }}</option>
+                                  {% endfor %}
+<!--
+
                                 <option value="1">Alabama</option>
                                 <option value="2">Alaska</option>
                                 <option value="3">Alberta</option>
                                 <option value="4">Arkanzas</option>
                                 <option value="5">British Columbia</option>
                                 <option value="6">California</option>
+-->
                              </select>
 
         </div>
@@ -1405,7 +1412,7 @@ rows="5"></textarea>
 
 			       <validator name="validation5">
 				<div class="errors">
-				     <div style="display:block;">
+				     <div style="display:none;">
 					 <validator-errors :validation="$validation5"></validator-errors>
 				     </div>
 				</div>
@@ -1413,6 +1420,7 @@ rows="5"></textarea>
                                 <form class="form" novalidate>
 
 
+                              <div class="form-group" style="margin-bottom:1.5em;">
 
                                 <div style="float:left;">
                                     <label for="edit-posttitle" class="control-label">Title</label>
@@ -1425,10 +1433,11 @@ rows="5"></textarea>
                                 <div>
                                     <input class="input-lg form-control"  id="edit_post_title" placeholder="Post Title" v-model="posttitle"  style="width:32%;" type="text" id="edit-posttitle" name="edit-posttitle" v-validate:posttitle=['nonempty'] />
                                 </div>
+                               </div>
 
 
-
-
+                                       
+                                 <div class="form-group" style="margin-bottom:1.5em;">
 
 				       <div>
                                                 <label for="edit_category_id" class="control-label">Category</label>
@@ -1441,6 +1450,9 @@ rows="5"></textarea>
 					  {% endfor %}
 					</select>
 					</div>
+                                </div>
+                                <div class="form-group" style="margin-bottom:1.5em;">
+
 
                                 <div style="float:left;">
                                     <label for="edit_link" class="control-label">Post Link</label>
@@ -1452,6 +1464,10 @@ rows="5"></textarea>
                                 <div>
                                         <input type="text" name="edit_link" id="edit_link" class="input-lg form-control" style="width:32%;" v-model="link" v-validate:link=['url'] />
                                 </div>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom:1.5em;">
+
 
                            
                                                <div style="float:left;">
@@ -1468,9 +1484,12 @@ rows="5"></textarea>
 rows="5" v-model="postbody"></textarea>
 
                                                </div>
-                                     <p class="submit">
-                                        <input type="button" v-on:click="editblog"  value="Save" class="button button2" style="padding-top:0.2em;padding-left:-1.2em;margin-top:1.2em;margin-bottom:1.2em;padding-top:0.8em;" id='saveeditedpost' />
-                                     </p>
+                                              <div>
+                                               <p class="submit">
+                                                      <input type="button" v-on:click="editblog"  value="Save" class="button button2" style="padding-top:0.2em;padding-left:-1.2em;margin-top:1.2em;margin-bottom:1.2em;padding-top:0.8em;" id='saveeditedpost' />
+                                               </p>
+                                              </div>
+                               </div>
                                   
                                 </form>
                                </validator>                                 

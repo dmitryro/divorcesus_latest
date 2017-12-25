@@ -1070,7 +1070,7 @@
                      if (validEmail($('#newsletter-email').val())) {
                            $.ajax({
                                   method: "POST",
-                                  url: "http://divorcesus.com/subscribe/",
+                                  url: "https://divorcesus.com/subscribe/",
                                   data: {'email':$('#newsletter-email').val()}
                            }).done(function( msg ) {
                                   $('#newsletter-success').css('display','block').fadeOut(1200);
@@ -1115,6 +1115,9 @@
                 on_mobile_faq();
           }
 
+          $('#add-new-post').click(function(e) {
+              openmenu('newpost');
+          });
     }); // ready ends
 
 

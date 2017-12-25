@@ -903,7 +903,7 @@ new Vue({
            $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
      },
      submit: function() {
-         $.get('http://divorcesus.com/sendmail?email='+this.email+'&phone='+this.phone+'&message='+this.message+'&name='+this.name, function(data)
+         $.get('https://divorcesus.com/sendmail?email='+this.email+'&phone='+this.phone+'&message='+this.message+'&name='+this.name, function(data)
                 {
                      if (data.message =='success')  {
                           

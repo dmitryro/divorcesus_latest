@@ -205,7 +205,7 @@
     </div>
     <hr/>
     <div class="container">
-      <p class="copy">Scripts © <span id="copyright-year"></span> <a href="index-5.html">Privacy Policy</a></p>
+      <p class="copy">Scripts © <span id="copyright-year"></span> <a href="https://divorcesus.com">Privacy Policy</a></p>
     </div>
   </footer>
 </div>

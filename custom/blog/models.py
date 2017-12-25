@@ -6,12 +6,14 @@ from django.contrib.auth.models import User
 
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+from taggit.managers import TaggableManager
 
 class Category(models.Model):
 
     name = models.CharField(max_length=200,blank=True,null=True)
     code = models.CharField(max_length=200,blank=True,null=True)
     total_posts = models.IntegerField(default=0,blank=True,null=True)
+    tags = TaggableManager()
 
     class Meta:
         verbose_name = 'Category'
@@ -44,6 +46,7 @@ class Post(models.Model):
                                      options={'quality': 60})
 
     total_comments = models.IntegerField(default=0,blank=True,null=True)
+    tags = TaggableManager()
 
     @property
     def teaser(self):
@@ -89,6 +92,7 @@ class Comment(models.Model):
     is_anonymous = models.NullBooleanField(default=False,blank=True,null=True)
     avatar =  models.CharField(max_length=500,blank=True,null=True)
     username = models.CharField(max_length=200,blank=True,null=True)
+    tags = TaggableManager()
 
     class Meta:
         verbose_name = 'Comment'

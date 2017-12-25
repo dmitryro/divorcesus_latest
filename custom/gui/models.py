@@ -7,11 +7,13 @@ from ckeditor.fields import RichTextField
 from tinymce.models import HTMLField
 from froala_editor.fields import FroalaField
 from redactor.fields import RedactorField
+from taggit.managers import TaggableManager
 from datetime import datetime
 
 class State(models.Model):
     state = models.CharField(max_length=150, blank=True)
     code = models.CharField(max_length=10, blank=True)
+    tags = TaggableManager()
 
     class Meta:
         verbose_name = 'State'
@@ -34,6 +36,7 @@ class Slide(models.Model):
     link = models.CharField(max_length=350, blank=True)
     action = models.CharField(max_length=500, blank=True)
     slide = models.ImageField(upload_to='slides')
+    tags = TaggableManager()
     slide_thumbnail = ImageSpecField(source='slide',
                                      processors=[ResizeToFill(100, 50)],
                                      format='JPEG',
@@ -100,6 +103,7 @@ class ContactInfo(models.Model):
    fax = models.CharField(max_length=150, blank=True)
    email = models.CharField(max_length=150, blank=True)
    header = models.CharField(max_length=150, blank=True)
+   tags = TaggableManager()
 
    class Meta:
         verbose_name = 'Contanct Info'
@@ -117,7 +121,7 @@ class Service(models.Model):
                                      processors=[ResizeToFill(100, 50)],
                                      format='JPEG',
                                      options={'quality': 60})
-         
+   tags = TaggableManager()         
 
    class Meta:
         verbose_name = 'Service'
@@ -139,6 +143,7 @@ class QualifyQuestionnaire(models.Model):
    does_qualify = models.NullBooleanField(default=False,blank=True,null=True)
    date_avaluated = models.DateTimeField(auto_now_add=True)
    action_taken = models.NullBooleanField(default=False,blank=True,null=True)
+   tags = TaggableManager()
 
    class Meta:
         verbose_name = 'Qualify Questionnaire'
@@ -152,6 +157,7 @@ class QualifyQuestion(models.Model):
    questionnaire = models.ForeignKey(QualifyQuestionnaire,blank=True,null=True) 
    question = models.CharField(max_length=550, null=True, blank=True)
    answer = models.NullBooleanField(default=False,blank=True,null=True)
+   tags = TaggableManager()
 
    class Meta:
         verbose_name = 'Question'
@@ -165,6 +171,7 @@ class FAQ(models.Model):
    note = models.CharField(max_length=1550, blank=True)
    answer = RedactorField(verbose_name=u'Answer')
    nick = models.CharField(max_length=150, blank=True)
+   tags = TaggableManager()
 
    class Meta:
         verbose_name = 'Frequently Asked Question'

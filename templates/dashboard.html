@@ -1303,7 +1303,6 @@ rows="5"></textarea>
                <form class="form" novalidate>
                         <input type="hidden" name="post_id" id="post_id" value="" />
                         <div class="form-group" style="margin-bottom:1.5em;">
-	         	<p class="name">
                                 <div style="float:left;">
                                     <label for="posttitle" class="control-label">Title</label>
                                 </div>
@@ -1402,41 +1401,83 @@ rows="5"></textarea>
 
                                              <div class="clear"></div>
                              </div>
-                             <div class="panel-editpost form-content">
-                                <p class="name">
-                                     <label for="edit_post_title" class="control-label">Title</label>
-                                     <input type="text" id="edit_post_title" name="edit_post_title" class="input-lg form-control" style="width:40%;" />
-                                </p>
-                               <div>
-                                <label for="edit_category_id" class="control-label">Category</label>
-                               </div>
-                               <div>
-                                <select name="edit_category_id" id="edit_category_id" class="styled-select slate  category">
-                                  {% for category in categories %}
-                                       <option value="{{ category.id }}">{{ category.name }}</option>
-                                  {% endfor %}
-                                </select>
+                             <div id="edit-appform" class="panel-editpost form-content">
+
+			       <validator name="validation5">
+				<div class="errors">
+				     <div style="display:block;">
+					 <validator-errors :validation="$validation5"></validator-errors>
+				     </div>
+				</div>
+
+                                <form class="form" novalidate>
+
+
+
+                                <div style="float:left;">
+                                    <label for="edit-posttitle" class="control-label">Title</label>
                                 </div>
-                                  <p class="link">
-                                       <label for="edit_link" class="control-label">Link</label>
-                                       <input type="text" name="edit_link" id="edit_link"  class="input-lg form-control" style="width:40%;" />
-                                   </p>
+                                <div style="float:left;margin-left:1.0em;">
+                                    <span v-if="$validation5['posttitle'].invalid" class="errors"> Post title must be non-empty !!</span>
+                                </div>
+
+                                <div class="clear"></div>
+                                <div>
+                                    <input class="input-lg form-control"  id="edit_post_title" placeholder="Post Title" v-model="posttitle"  style="width:32%;" type="text" id="edit-posttitle" name="edit-posttitle" v-validate:posttitle=['nonempty'] />
+                                </div>
 
 
-                                     <div id="edit_post_wrapper">
-                                                <textarea name="postbody" id="edit_post_body" class="inner-textarea" style="overflow:hidden;margin-bottom:1.2em;"
-rows="5"></textarea>
 
 
-                                     </div>
+
+				       <div>
+                                                <label for="edit_category_id" class="control-label">Category</label>
+                                       </div>
+                                       <div>
+					<select name="edit_category_id" id="edit_category_id" name="edit_category_id" 
+                                                class="styled-select slate  category" v-model="category">
+					  {% for category in categories %}
+					       <option value="{{ category.id }}">{{ category.name }}</option>
+					  {% endfor %}
+					</select>
+					</div>
+
+                                <div style="float:left;">
+                                    <label for="edit_link" class="control-label">Post Link</label>
+                                </div>
+                                <div style="float:left;margin-left:1.0em;">
+                                                 <span v-if="$validation5['link'].invalid" class="errors">Post link must be a valid link!</span>
+                                </div>
+                                <div class="clear"></div>
+                                <div>
+                                        <input type="text" name="edit_link" id="edit_link" class="input-lg form-control" style="width:32%;" v-model="link" v-validate:link=['url'] />
+                                </div>
+
+                           
+                                               <div style="float:left;">
+                                                   <label for="edit_post_body" class="control-label">Post Body</label>
+                                               </div>
+                                               <div style="float:left;margin-left:1.0em;">
+                                                    <span v-if="$validation5['postbody'].invalid" class="errors"> Post body must be non-empty !!!</span>
+                                               </div>
+                                               <div class="clear"></div>
+
+
+                                               <div id="edit_post_wrapper">
+                                                <textarea name="edit-postbody" id="edit_post_body" class="inner-textarea" style="overflow:hidden;margin-bottom:1.2em;"
+rows="5" v-model="postbody"></textarea>
+
+                                               </div>
                                      <p class="submit">
-                                        <input type="button" value="Save" class="button button2" style="padding-top:0.2em;padding-left:-1.2em;margin-top:1.2em;margin-bottom:1.2em;padding-top:0.8em;" id='saveeditedpost' />
+                                        <input type="button" v-on:click="editblog"  value="Save" class="button button2" style="padding-top:0.2em;padding-left:-1.2em;margin-top:1.2em;margin-bottom:1.2em;padding-top:0.8em;" id='saveeditedpost' />
                                      </p>
-                                 
+                                  
+                                </form>
+                               </validator>                                 
 
                              </div>
+
               </div>
-  
  
 
         </div>

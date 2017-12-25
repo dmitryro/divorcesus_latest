@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from custom.users.models import Profile
 from custom.users.models import StateProvince
+from taggit.managers import TaggableManager
 
 class State(models.Model):
     name = models.CharField(max_length=150,blank=True,null=True)
@@ -24,6 +25,7 @@ class Address(models.Model):
     country = models.CharField(max_length=150, blank=True, null=True)
     is_default = models.NullBooleanField(default=False, blank=True, null=True)  
     is_active = models.NullBooleanField(default=True,blank=True,null=True)  
+    tags = TaggableManager()
 
     class Meta:
         verbose_name = 'Address'
@@ -251,6 +253,7 @@ class CustomerProfile(models.Model):
     transactions = models.ManyToManyField(MerchantActivity,related_name='customer_transactions',blank=True)
     orders = models.ManyToManyField(MerchantActivity,related_name='customer_orders',blank=True)
     stats = models.OneToOneField(CustomerActivityStats,related_name='customer_activity_stats',blank=True,null=True)
+    tags = TaggableManager()
 
     class Meta:
         verbose_name = 'Customer Profile'

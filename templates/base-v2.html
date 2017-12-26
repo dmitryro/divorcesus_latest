@@ -3606,10 +3606,15 @@
 					  <div class="clear"></div>
 					  <br/><br/>
 					  {% if not logout %}
+                     
+                 <!-- signupapp-pay -->
+                <div id="signupapp-pay" style="float:left;">
 					   <div style="min-height:30%;pading-top:2.4em;font-size:1.2em;">
 					       Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to proceed with your process.
 					   </div>
+                </div>
 					  {% endif %}
+
 
 					  {% if logout %}
 
@@ -4094,10 +4099,9 @@
                     {% if not logout %}
 
 
-                 <!-- signupapp -->
-                <div id="signupapp" style="float:left;">
+                 <!-- signupapp-pay -->
+                <div id="signupapp-pay" style="float:left;">
                       <!-- use the modal component, pass in the prop -->
-
                     {% if not logout %}
                       <div style="min-height:30%;pading-top:2.4em;font-size:1.2em;">
                           Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to continue with your payment.
@@ -4113,14 +4117,6 @@
 
 
                     {% endif %}
-
-                       <modal :show="showModal">
-                       <!--
-        /                  you can use custom content here to overwrite
-                          default content
-                             -->
-
-                      </modal>
 
 
                </div>
@@ -7034,9 +7030,6 @@
         <div id="fb-root"></div>
         <div id="chat_div"  style="height:200;width:200;"></div>
         <div id="log"></div>
-        <!-- signupapp -->
-        <div id="signupapp"></div>
-
 
 
 <!-- template for the modal component -->
@@ -7105,6 +7098,7 @@ height="20" width="20" style="margin-right:-10%;margin-top:-10%;"
     </div>
   </transition>
 </script>
+
  <script src="/static/js/vue_apps_v2.js"></script>
         </body>
 

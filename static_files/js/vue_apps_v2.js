@@ -113,7 +113,7 @@ var qvm2 = new Vue({
   methods: {
     submitone: function (event) {
            console.log("SUBMIT ONE");
-          // this.$set('does_qualify','NO');
+           this.$set('does_qualify','NO');
            this.$set('state',$('#state-selected').val());
     },
     submittwo: function (event) {
@@ -275,6 +275,8 @@ var qvm4 = new Vue({
     state:'',
     city:'',
     zip:'',
+    year: '',
+    month: '',
     address1:'',
     address2:'',
     fullname: '',
@@ -371,6 +373,8 @@ var qvm5 = new Vue({
     fullname: '',
     first:'',
     last:'',
+    year: '',
+    month: '',
     does_qualify:'',
     agree_to_start: '',
     is_spouse_location_known:'',
@@ -473,6 +477,10 @@ var qvm6 = new Vue({
     fullname: '',
     first:'',
     last:'',
+    year:'',
+    state: '',
+    month: '',
+    day: '',
     does_qualify:'',
     agree_to_start: '',
     is_spouse_location_known:'',
@@ -883,37 +891,6 @@ new Vue({
   }
 })
 
-new Vue({
-  el: '#main_wrapper',
-  data: {
-    showModal: false,
-    showNewCommentModal: false,
-    active: null,
-  },
-  methods: {
-    open: function(which, e) {
-      // Prevents clicking the link from doing anything
-        e.preventDefault();
-        modal.active = which;
-    },
-    close: function (e) {
-        this.$emit('close');
-    },
-    show: function() {
-        this.$emit('show');
-    },
-    submit: function(which, e) {
-            e.preventDefault();
-    }
-
-
-  },
-
-  mounted: function () {
-    this.$emit('changed', {prop: this.showModal, value: true});
-  }
-
-})
 
 
 Vue.component('NewCommentModal', {
@@ -1017,6 +994,8 @@ Vue.component('modal', {
       type: Boolean,
       required: true,
     }
+  },
+  mounted: function () {
   }
 })
 
@@ -1036,6 +1015,13 @@ Vue.component('modal', {
       type: Boolean,
       required: true,
     }
+  },
+  mounted: function () {
+    document.addEventListener("keydown", (e) => {
+      if (this.show && e.keyCode == 27) {
+        this.close();
+      }
+    });
   }
 })
 
@@ -1048,7 +1034,7 @@ new Vue({
 })
 
 // register modal component
-var modal = Vue.component('modal', {
+Vue.component('modal', {
   template: '#modal-template-signup'
 })
 
@@ -1068,7 +1054,29 @@ new Vue({
             e.preventDefault();
     }
 
+});
+
+// start app
+new Vue({
+    el: '#signupapp',
+    data: {
+      showModal: false,
+      show: false
+    },
+    close: function (e) {
+       this.$emit('close');
+    },
+    show: function() {
+        this.$emit('show');
+    },
+    submit: function(which, e) {
+            e.preventDefault();
+    }
+
 })
+
+
+
 
 jQuery(document).ready(function() {
     

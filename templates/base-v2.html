@@ -6927,38 +6927,58 @@
                              <slot name="body">
 
                                    <form novalidate>
+                                          <div class="form-login"
+id="form-login">
 
-                                          <div class="form-login" id="form-login">
-
-                                    <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                    <div
+style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>
-                                                  <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?v-bind:next="request.path"" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                  <a class="btn-si btn-si-a
+btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?next={{
+request.path }}" style="width:100%;">Sign in with
+Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center>
                                                 </div>
 
-                                                <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                                <div
+style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>   
-                                                          <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?v-bind:next="request.path"">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si
+btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?next={{
+request.path }}">Sign in with
+Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center> 
                                                 </div>
 
-                                                <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                                <div
+style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center> 
-                                                          <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?v-bind:next="request.path"">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si
+btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?next={{
+request.path }}">Sign in with
+Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center>
                                                 </div>
-                                                <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                                <div
+style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>
-                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2' %}?v-bind:next="request.path"">
-                                                            Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                          <a class="btn-si
+btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2'
+%}?next={{ request.path }}">
+                                                            Sign in with Linked
+In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                           </a>
 <!--
-                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?v-bind:next="request.path"">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si
+btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{
+request.path }}">Sign in with Linked
+In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 -->    
                                                 </center>
                                                 </div>
 
                                           </div>
+
                                    </form>
 
                              </slot>

@@ -1070,7 +1070,6 @@ new Vue({
 
 })
 
-
 jQuery(document).ready(function() {
     
     jQuery('#add-billing-address').click(function(e) {

@@ -1,7 +1,8 @@
+        {% load meta %}
         <!DOCTYPE html>
-        <html class="no-js">
+        <html class="no-js" {% meta_namespaces_gplus %}>
          <!--<![endif]-->
-        <head>
+        <head {% meta_namespaces %}>
         {% load static %}
         {% load gui_extras %}
         {% load blog_extras %}
@@ -53,13 +54,12 @@
           <script src="/static/js/jssor.slider.mini.js"></script>
           <script src="/static/js/jquery-migrate-1.2.1.js"></script>
 -->
-
+<!--
            <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.min.js"></script>
+-->
            <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script> 
         <!-- for the future use -->
-<!--
            <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>   
--->
            <script src="https://cdn.jsdelivr.net/vue.router/2.5.3/vue-router.min.js"></script>
            <script src="/static/js/vue.social-shares.js"></script>
 <!--
@@ -117,6 +117,7 @@
         <script src="/static/js/script.js"></script>
         <script src="/static/js/classie.js"></script>
         <script src="/static/js/js_apps.js"></script>
+        <script src="/static/js/vue_apps.js"></script>
         <script src="/static/js/jquery_apps.js"></script>
 <!--
         <script src="https://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyBQUZ7TmbVcH7MhLkf92WC2mxAiYDvslps" type="text/javascript"></script>
@@ -145,11 +146,11 @@
         </head>
         <body>
         <form method="post">
-        <input type="hidden" name="page-service" id="page-service" v-bind:value="service" />
+        <input type="hidden" name="page-service" id="page-service" value="{{ service }}" />
         </form>
         <form id="activation" action="" method="POST">
-           <input type="hidden" id="show_activation" v-bind:value="is_activated" />
-           <input type="hidden" id="link_expired" v-bind:value="link_expired" />
+           <input type="hidden" id="show_activation" value="{{ is_activated }}" />
+           <input type="hidden" id="link_expired" value="{{ link_expired }}" />
         </form>
 
         <script>
@@ -225,7 +226,7 @@
                               {% if link_expired %}
                                   <form method="POST">
                                      {% csrf_token %}
-                                     <input type="hidden" id="link_expired" v-bind:value="link_expired" />
+                                     <input type="hidden" id="link_expired" value="{{ link_expired }}" />
                                   </form>
                               {% endif %}
 
@@ -234,9 +235,8 @@
                                    <form  method="POST" action="">
                                       {% csrf_token %}
                                    <!-- template for the modal component -->
-                                   <script type="text/x-template" id="activation-modal-template">
-                                      <transition name="modal">
-                                       <div class="modal-mask">
+                                   <script type="x/template" id="activation-modal-template">
+                                       <div class="modal-mask" v-show="show" transition="modal">
                                            <div class="modal-wrapper">
                                                <div class="modal-container" style="min-width: 25.5em;">
                                                      <div class="modal-header">
@@ -273,13 +273,12 @@
                                                </div>
                                            </div>
                                        </div>
-                                      </transition>
                                    </script>
                                    </form>
                                   <!-- activation-app -->
                                    <div id="activation-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show="showModal">
+                                            <modal :show.sync="showModal">
                                              <!--
                                                  you can use custom content here to overwrite
                                                  default content
@@ -293,9 +292,8 @@
                                    <form  method="POST" action="">
                                       {% csrf_token %}
                                    <!-- template for the modal component -->
-                                   <script type="text/x-template" id="final-modal-template">
-                                       <transition name="modal">
-                                       <div class="modal-mask" v-show="show">
+                                   <script type="x/template" id="final-modal-template">
+                                       <div class="modal-mask" v-show="show" transition="modal">
                                            <div class="modal-wrapper">
                                                <div class="modal-container" style="min-width: 25.5em;">
                                                      <div class="modal-header">
@@ -327,7 +325,7 @@
                                                      <div class="modal-body">
                                                          <slot name="body">
 
-                                                                <input type="hidden" name="user-id" id="user-id" v-bind:value="user_id" /> 
+                                                                <input type="hidden" name="user-id" id="user-id" value="{{ user_id }}" /> 
                                                                 <div style="float:left;padding-left:6%;width:26%;">
                                                                  First: 
                                                                 </div>
@@ -388,13 +386,12 @@
                                                </div>
                                            </div>
                                        </div>
-                                      </transition>
                                    </script>
                                    </form>
                                    <!-- app -->
                                    <div id="final-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show="showModal">
+                                            <modal :show.sync="showModal">
                                              <!--
                                                  you can use custom content here to overwrite
                                                  default content
@@ -410,8 +407,7 @@
                                       {% csrf_token %}
                                    <!-- template for the modal component -->
                                    <script type="x/template" id="activation-required-modal-template">
-                                       <transition name="modal">
-                                        <div class="modal-mask" v-show="show">
+                                       <div class="modal-mask" v-show="show" transition="modal">
                                            <div class="modal-wrapper">
                                                <div class="modal-container" style="min-width: 25.5em;">
                                                      <div class="modal-header">
@@ -426,7 +422,7 @@
                                                          <div class="modal-body">
                                                              <slot name="body">
 
-                                                                <input type="hidden" name="user-id" id="user-id" v-bind:value="user_id" />
+                                                                <input type="hidden" name="user-id" id="user-id" value="{{ user_id }}" />
                                                                 <div style="float:left;padding-left:6%;width:6%;">
                                                                  &nbsp;
                                                                 </div>
@@ -453,13 +449,12 @@
                                                </div>
                                            </div>
                                        </div>
-                                      </transition>
                                    </script>
                                    </form>
-                                  <!-- activation-requred-app -->
+                                  <!-- activation-app -->
                                    <div id="activation-required-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show="showModal">
+                                            <modal :show.sync="showModal">
                                              <!--
                                                  you can use custom content here to overwrite
                                                  default content
@@ -474,8 +469,8 @@
                             </div> <!-- meta ends -->
 
 
-                      <!-- signupapp -->
-                            <div id="signupapp" style="float:left;min-with:200px;padding-top:10px;">
+                      <!-- app -->
+                            <div id="app" style="float:left;min-with:200px;padding-top:10px;">
                       <!-- use the modal component, pass in the prop -->
 
                                        &nbsp;&nbsp;
@@ -489,8 +484,8 @@
                                              {% elif not logout %}
                                                   <a class="btn2" id="show-modal" @click="showModal = true">Sign In</a>
                                              {% endif %}
-                                      <modal v-if="showModal" @close="showModal
-= false">
+
+                                      <modal :show.sync="showModal">
                        <!--
         /                  you can use custom content here to overwrite
                           default content
@@ -665,14 +660,14 @@
                   {% for slide in slides %}
 
                     <div data-p="112.50" style="display: none;" class="et_pb_slide">
-                        <img data-u="image" src="https://divorcesus.com/media/{{ slide.slide }}"  alt="divorcesus.com" />
+                        <img data-u="image" src="https://divorcesus.com/media/{{ slide.slide }}" alt="divorcesus.com" />
                           <!--div class="slide-item">
                                    {{ slide.title }} 
                           </div-->
                           <div class="slide-caption">
                                 <strong>{{ slide.text }}</strong>
                                 <br/> 
-                                <strong><a v-bind:onclick="slide.action" v-bind:href="slide.link"><span style="font-size:0.7em;font-weight:bold;padding-top:0.8em;text-align:center;display:box;">Read More >>
+                                <strong><a onclick="{{ slide.action }}" href="{{ slide.link }}"><span style="font-size:0.7em;font-weight:bold;padding-top:0.8em;text-align:center;display:box;">Read More >>
                                 </span></a></strong>
 
                           </div>
@@ -1692,7 +1687,7 @@
 
                     <ul class="list2">
                       {% for link in advantage_links %}
-                      <li><a v-bind:href="link.link">{{ link.title }}</a></li>
+                      <li><a href="{{ link.link }}">{{ link.title }}</a></li>
         <!--
                       <li><a href="#">Hendreritivamus eget nibh vel metus</a></li>
                       <li><a href="#">Etiam cursus leo psumfaucibus orci suere</a></li>
@@ -1731,7 +1726,7 @@
                   <div class="col-xs-12 col-sm-3 wow fadeInRight">
                     <img src="/media/images/page-2_img05.jpg" alt="team"/>
                     <h4>Chandra Vancova</h4>
-                    <p>Ðvenenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venen</p>
+                    <p>ÃÂvenenatis semper. Do nec vitae mauris eget nibh efficitur porttitor. Praesent urna ipsum, tincidunt et lacus lacinia, venen</p>
                   </div>
                 </div>
               </div>
@@ -3560,17 +3555,17 @@
                             <div class="clear"></div>
 
 
-                            <input type="hidden" name="state-selected" id="state-selected" v-model="state"  v-bind:value="state""/>
+                            <input type="hidden" name="state-selected" id="state-selected" v-model="state"  value="{{ state }}"/>
 
                      {% for q in qualifying %}
                             <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
                                 {{ q.question }}
                             </div>
                             <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                <input type="radio" v-bind:id="q.html_id"  v-bind:name="q.html_id" value="yes" checked> Yes<br>
+                                <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="yes" checked> Yes<br>
                             </div>
                             <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                <input type="radio" v-bind:id="q.html_id"  v-bind:name="q.html_id" value="no"> No<br>
+                                <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="no"> No<br>
                             </div>
                             <div class="clear"></div> 
                     {% endfor %}
@@ -3588,14 +3583,14 @@
 
 					 <div id="final_does_qualify"></div>
 					 <div id="final_ready_start"></div>
-				      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  v-bind:value="is_military"/>
-				      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  v-bind:value="are_there_children"/>
-				      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  v-bind:value="does_spouse_agree"/>
-				      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  v-bind:value="is_spouse_location_known"/>
-				      <input type="hidden" name="package_price" id="package_price" v-model="package_price"  v-bind:value="package_price"/>
-				      <input type="hidden" name="package_type" id="package_type" v-model="package_type"  v-bind:value="package_type"/>
-				      <input type="hidden" name="state" id="state" v-model="state"  v-bind:value="state""/>
-				      <input type="hidden" name="email" id="email" v-model="email"  v-bind:value="email"/>
+				      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
+				      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
+				      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
+				      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
+				      <input type="hidden" name="package_price" id="package_price" v-model="package_price"  value="{{ package_price }}"/>
+				      <input type="hidden" name="package_type" id="package_type" v-model="package_type"  value="{{ package_type }}"/>
+				      <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
+				      <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
 				      <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
 				      <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
 				      <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
@@ -3619,7 +3614,7 @@
 
 					  {% endif %}
 
-					  <modal :show="showModal">
+					  <modal :show.sync="showModal">
 				       <!--
 			/                  you can use custom content here to overwrite
 					  default content
@@ -3640,14 +3635,14 @@
 				    <form class='mailform contact-form' method="post">
                          {% csrf_token %}
 
-                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  v-bind:value="is_military"/>
-                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  v-bind:value="are_there_children"/>
-                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  v-bind:value="does_spouse_agree"/>
-                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  v-bind:value="is_spouse_location_known"/>
+                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
+                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
+                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
+                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
 
-                      <input type="hidden" name="package_price" id="package_price" v-model="package_price"  v-bind:value="package_price"/>
-                      <input type="hidden" name="package_type" id="package_type" v-model="package_type"  v-bind:value="package_type"/>
-                      <input type="hidden" name="state" id="state" v-model="state"  v-bind:value="state""/>
+                      <input type="hidden" name="package_price" id="package_price" v-model="package_price"  value="{{ package_price }}"/>
+                      <input type="hidden" name="package_type" id="package_type" v-model="package_type"  value="{{ package_type }}"/>
+                      <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
                       <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
                       <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
                       <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
@@ -3736,18 +3731,18 @@
                     <div class="col-xs-12 col-sm-8">
                     <form class='mailform contact-form' method="post">
                          {% csrf_token %}
-                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  v-bind:value="is_military"/>
-                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  v-bind:value="are_there_children"/>
-                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  v-bind:value="does_spouse_agree"/>
-                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  v-bind:value="is_spouse_location_known"/>
-                      <input type="hidden" name="state" id="stepfour_state" v-model="state"  v-bind:value="state""/>
-                      <input type="hidden" name="phone" id="stepfour_phone" v-model="phone"  v-bind:value="phone"/>
-                      <input type="hidden" name="email" id="stepfour_email" v-model="email"  v-bind:value="email"/>
-                      <input type="hidden" name="first" id="stepfour_first" v-model="first"  v-bind:value="first"/>
-                      <input type="hidden" name="last" id="stepfour_last" v-model="last"  v-bind:value="last"/>
+                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
+                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
+                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
+                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
+                      <input type="hidden" name="state" id="stepfour_state" v-model="state"  value="{{ state }}"/>
+                      <input type="hidden" name="phone" id="stepfour_phone" v-model="phone"  value="{{ phone }}"/>
+                      <input type="hidden" name="email" id="stepfour_email" v-model="email"  value="{{ email }}"/>
+                      <input type="hidden" name="first" id="stepfour_first" v-model="first"  value="{{ first }}"/>
+                      <input type="hidden" name="last" id="stepfour_last" v-model="last"  value="{{ last }}"/>
 
-                      <input type="hidden" name="package_price" id="stepfour_package_price" v-model="package_price"  v-bind:value="package_price"/>  
-                      <input type="hidden" name="package_type" id="stepfour_package_type" v-model="package_type"  v-bind:value="package_type"/>
+                      <input type="hidden" name="package_price" id="stepfour_package_price" v-model="package_price"  value="{{ package_price }}"/>  
+                      <input type="hidden" name="package_type" id="stepfour_package_type" v-model="package_type"  value="{{ package_type }}"/>
                       <input type="hidden" name="counter" id="counter" value=""/>
 
 
@@ -3855,10 +3850,10 @@
                     <form class='mailform contact-form' method="post">
                          {% csrf_token %}
 
-                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  v-bind:value="is_military"/>
-                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  v-bind:value="are_there_children"/>
-                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  v-bind:value="does_spouse_agree"/>
-                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  v-bind:value="is_spouse_location_known"/>
+                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
+                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
+                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
+                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
 
 
           
@@ -4094,8 +4089,8 @@
                     {% if not logout %}
 
 
-                 <!-- signupapp -->
-                <div id="signupapp" style="float:left;">
+
+                <div id="app" style="float:left;">
                       <!-- use the modal component, pass in the prop -->
 
                     {% if not logout %}
@@ -4114,7 +4109,7 @@
 
                     {% endif %}
 
-                       <modal :show="showModal">
+                       <modal :show.sync="showModal">
                        <!--
         /                  you can use custom content here to overwrite
                           default content
@@ -4209,9 +4204,9 @@
         <div id="steptwo">
                     <form class='mailform contact-form' method="post">
                          {% csrf_token %}
-                      <input type="hidden" name="phone" id="step_two_phone" v-model="phone"  v-bind:value="phone"/>
-                      <input type="hidden" name="email" id="step_two_email" v-model="email"  v-bind:value="email"/>
-                      <input type="hidden" name="fullname" id="fullname" v-model="fullname"  v-bind:value="fullname"/>
+                      <input type="hidden" name="phone" id="step_two_phone" v-model="phone"  value="{{ phone }}"/>
+                      <input type="hidden" name="email" id="step_two_email" v-model="email"  value="{{ email }}"/>
+                      <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{{ fullname }}"/>
                       <input type="hidden" name="counter" id="counter" value=""/>
 
                       {{ fullname }}<br/>
@@ -6654,7 +6649,7 @@
 
                              <div class="container wow fadeInUp posts-all-container"> <!-- posts-all-container starts -->
                                       {% for post in posts %}
-                                             <div style="width:100%;" v-bind:id="'post-single-' + post.id" class="post-single-wrapper"> <!-- post single starts -->
+                                             <div style="width:100%;" id="post-single-{{ post.id }}" class="post-single-wrapper"> <!-- post single starts -->
                                                      <div style='width:100%;'> <!-- title starts -->
                                                             <div class="blog-item-left">
                                                                    Title:
@@ -6685,18 +6680,18 @@
                                                             <div class='clear'></div>
                                                      </div>  <!-- postedby ends -->
 
-                                                     <input type="hidden" v-bind:id="'full-' + post.id" v-bind:value="post.body" />
-                                                     <input type="hidden" v-bind:id="'teaser-' + post.id" v-bind:value="post.teaser" />
+                                                     <input type="hidden" id="full-{{ post.id }}" value="{{ post.body }}" />
+                                                     <input type="hidden" id="teaser-{{ post.id }}" value="{{ post.teaser }}" />
 
-                                                     <div style='width:100%;text-align:left;' v-bind:id="'fulltext-' + post.id">
-                                                            {{ post.teaser|safe }}<a href="#" v-bind:onclick="'readmore('' + post.id + '');'">&nbsp;Read more...</a>
+                                                     <div style='width:100%;text-align:left;' id="fulltext-{{ post.id }}">
+                                                            {{ post.teaser|safe }}<a href="#" onclick="readmore('{{ post.id }}');">&nbsp;Read more...</a>
                                                      </div>
 
                                                      <div style='width:100%;padding-top:5px;'> <!-- meta starts -->
                                                             <div class='comments-total'>
 
-                                                                        <button class="comments-link" v-bind:id="'comments-link-' + post.id" 
-                                                                                v-bind:onclick="'handlePostId(' + post.id + ');'">
+                                                                        <button class="comments-link" id="comments-link-{{ post.id }}" 
+                                                                                onclick="handlePostId({{ post.id }});">
                                                                                         Comments({{ post.total_comments }})
                                                                         </button>
 
@@ -6747,7 +6742,7 @@
                                                             <form class='mailform contact-form' method="post">
                                                                  {% csrf_token %}
                                                                  <input type="hidden" name="comments-open" id="comments-open" />
-                                                                 <input type="hidden" name="post-id" id="post-id" v-bind:value="post.id" />    
+                                                                 <input type="hidden" name="post-id" id="post-id" value="{{ post.id }}" />    
 
                                                                  <div class="clear"></div>
                                                                  <div style="float:top;padding-top:1.9em;">
@@ -6889,7 +6884,7 @@
             </div>
             <hr/>
             <div class="container">
-              <center><p class="copy" style="padding-top:2%;">Grinberg & Segal Â© <span id="copyright-year">2016</span> <a href="https://divorcesus.com">Privacy Policy</a></p></center>
+              <center><p class="copy" style="padding-top:2%;">Grinberg & Segal Ã‚Â© <span id="copyright-year">2016</span> <a href="https://divorcesus.com">Privacy Policy</a></p></center>
               <section style="width:290px;margin-top:-3.5%;padding-top:1%;padding-bottom:1%;margin-left:14%;margin-right:14%;">
                                <div class="social-popout" style="float:left;width:10%;"><img src="/media/images/googleplus-32circle.png" /></div>
                                <div class="social-popout" style="float:left;width:10%;"><img src="/media/images/facebook-32circle.png" /></div>
@@ -6907,9 +6902,9 @@
         </div> <!-- page ends--> 
 
         <!-- template for the modal component -->
-        <script type="text/x-template" id="modal-template">
-          <transition name="modal"> 
-          <div class="modal-mask"> <!-- modal mask opens -->
+        <script type="x/template" id="modal-template-signin">
+           
+          <div class="modal-mask" v-show="show" transition="modal"> <!-- modal mask opens -->
              <div class="modal-wrapper"> <!-- modal wrapper opens -->
 
                   <div class="modal-container"> <!-- modal container starts -->
@@ -6932,28 +6927,28 @@
 
                                     <div style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>
-                                                  <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?v-bind:next="request.path"" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                  <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center>
                                                 </div>
 
                                                 <div style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>   
-                                                          <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?v-bind:next="request.path"">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center> 
                                                 </div>
 
                                                 <div style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center> 
-                                                          <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?v-bind:next="request.path"">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center>
                                                 </div>
                                                 <div style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>
-                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2' %}?v-bind:next="request.path"">
+                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2' %}?next={{ request.path }}">
                                                             Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                           </a>
 <!--
-                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?v-bind:next="request.path"">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 -->    
                                                 </center>
                                                 </div>
@@ -6967,25 +6962,22 @@
                   </div> <!-- modal container ends -->
              </div> <!-- modal wrapper ends -->
         </div> <!-- modal mask ends -->
-        </transition>
         </div>
         </script>
 
 
         <!-- template for the Modal component -->
         <script type="x/template" id="modal-template">
-          <transition name="modal">
-            <div class="modal-mask" @click="close" v-show="show">
+            <div class="modal-mask" @click="close" v-show="show" transition="modal">
                 <div class="modal-container" @click.stop>
                     <slot></slot>
                 </div>
             </div>
-          </transition>
         </script>
 
         <!-- template for the NewPostModal component -->
         <script type="x/template" id="new-post-modal-template">
-            <modal :show="show" :on-close="close">
+            <modal :show.sync="show" :on-close="close">
                 <div class="modal-header">
                     <h3>New Post</h3>
                 </div>
@@ -7011,7 +7003,7 @@
         <!-- template for the NewCommentModal component -->
 <!--
         <script type="x/template" id="new-comment-modal-template">
-            <modal :show="show" :on-close="close">
+            <modal :show.sync="show" :on-close="close">
                 <div class="modal-header">
                     <h3>New Comment</h3>
                 </div>
@@ -7030,101 +7022,13 @@
                 </div>
             </modal>
         </script>
+-->
         <div id="fb-root"></div>
         <div id="chat_div"  style="height:200;width:200;"></div>
         <div id="log"></div>
-        <!-- signupapp -->
-        <div id="signupapp"></div>
-
-
-
-<!-- template for the modal component -->
-<script type="text/x-template" id="modal-template-signup">
-  <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
-
-                       <div class="modal-header">
-                             <div id="modal-header" class="header-left">
-                             <h3><strong>SIGN IN</strong></h3>
-                       </div>
-                       <div class="header-right">
-                             <img src="/media/images/close_icon.png"
-height="20" width="20" style="margin-right:-10%;margin-top:-10%;"
-@click="$emit('close')" />
-                       </div>
-                       <div class="clear"></div>
-
-                       <div class="modal-body"> <!-- modal body starts -->
-                             <slot name="body">
-
-                                   <form novalidate>
-
-                                          <div class="form-login"
-id="form-login">
-
-                                    <div
-style="margin-top:15%;margin-bottom:15%;width:100%;">
-                                                    <center>
-                                                  <a class="btn-si btn-si-a
-btn-google"  href="{% url 'social:begin' 'google-oauth2'
-%}?next=v-bind:next="request.path"" style="width:100%;">Sign in with
-%Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                                    </center>
-                                                </div>
-
-                                                <div
-style="margin-top:15%;margin-bottom:15%;width:100%;">
-                                                    <center>   
-                                                          <a class="btn-si
-btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook'
-%}?next=v-bind:next="request.path"">Sign in with
-%Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                                    </center> 
-                                                </div>
-
-                                                <div
-style="margin-top:15%;margin-bottom:15%;width:100%;">
-                                                    <center> 
-                                                          <a class="btn-si
-btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter'
-%}?next=v-bind:next="request.path"">Sign in with
-%Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                                    </center>
-                                                </div>
-                                                <div
-style="margin-top:15%;margin-bottom:15%;width:100%;">
-                                                    <center>
-                                                          <a class="btn-si
-btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2'
-%}?next=v-bind:next="request.path"">
-                                                            Sign in with Linked
-In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                          </a>
-<!--
-                                                          <a class="btn-si
-btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin'
-%}?next=v-bind:next="request.path"">Sign in with Linked
-%In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
--->    
-                                                </center>
-                                                </div>
-
-                                          </div>
-                                   </form>
-
-                             </slot>
-                       </div> <!-- modal body ends -->
-
-
-        </div>
-      </div>
-    </div>
-  </transition>
-</script>
-
- <script src="/static/js/vue_apps_v2.js"></script>
+        <div id="app"></div>
+        <script src="/static/js/vue_apps_v2.js"></script>
         </body>
 
         </html>
+

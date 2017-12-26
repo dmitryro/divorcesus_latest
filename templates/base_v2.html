@@ -400,7 +400,7 @@
                                                  you can use custom content here to overwrite
                                                  default content
                                              -->
-G                                            </modal>
+                                            </modal>
                                    </div>
 
                               {% endif %}
@@ -447,7 +447,7 @@ G                                            </modal>
                                                   <a class="btn2" id="show-modal"  @click="showModal = true">Sign In</a>
                                              {% endif %}
 
-                                       <modal v-if="showModal" @close="showModal = false">
+                                       <modal v-if="showModal" @close="showModal = false" :show.sync="show" :on-close="close"  @keyup.esc="$emit('close')">
 
 
                                        </modal>
@@ -3571,7 +3571,7 @@ G                                            </modal>
 
 				  <input type="hidden" name="counter" id="counter" value=""/>
 		   
-				       <div id="final-qualify-state"></div>
+				       <div id="final-qualify-state">{{ state }}</div>
 					  <div class="clear"></div>
 					  <br/><br/>
 					  {% if not logout %}
@@ -4070,7 +4070,7 @@ G                                            </modal>
                           Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to continue with your payment.
                   
                  
-                                       <modal v-if="showModal" @close="showModal = false">
+                                       <modal v-if="showModal" @close="showModal = false" :show.sync="show" :on-close="close"  @keyup.esc="$emit('close')">
 
 
                                        </modal>
@@ -6941,7 +6941,7 @@ G                                            </modal>
         <!-- template for the Modal component -->
         <script type="x/template" id="modal-template">
            <transition name="modal">
-            <div class="modal-mask" @click="@click="$emit('close')" v-show="show">
+            <div class="modal-mask" :show.sync="show" :on-close="close"  @keyup.esc="$emit('close')">
                 <div class="modal-container" @click.stop>
                     <slot></slot>
                 </div>
@@ -6991,9 +6991,7 @@ G                                            </modal>
                              <h3><strong>SIGN IN</strong></h3>
                        </div>
                        <div class="header-right">
-                             <img src="/media/images/close_icon.png"
-height="20" width="20" style="margin-right:-10%;margin-top:-10%;"
-@click="$emit('close')" />
+                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;" @click="$emit('close')" />
                        </div>
                        <div class="clear"></div>
 

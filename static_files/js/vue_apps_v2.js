@@ -113,6 +113,7 @@ var qvm2 = new Vue({
   methods: {
     submitone: function (event) {
            console.log("SUBMIT ONE");
+           this.does_qualify = 'NO'
            this.$set('does_qualify','NO');
            this.$set('state',$('#state-selected').val());
     },
@@ -1035,7 +1036,21 @@ new Vue({
 
 // register modal component
 Vue.component('modal', {
-  template: '#modal-template-signup'
+  template: '#modal-template-signup',
+  props: ['show'],
+  mounted: function () {
+    document.addEventListener("keydown", (e) => {
+      if (this.show && e.keyCode == 27) {
+        this.close();
+      }
+    });
+  },
+  methods: {
+    close: function () {
+      this.$emit('close');
+      this.comment = '';
+    }
+  }
 })
 
 // start app
@@ -1071,8 +1086,19 @@ new Vue({
     },
     submit: function(which, e) {
             e.preventDefault();
-    }
+    },
+    methods: { 
+     beforeOpen () {
+        document.addEventListener('keyup', this.close)
+     },
 
+     beforeClose () {
+        document.removeEventListener('keyup', this.close)
+     },
+     close (e) {
+       if (e.keyCode === 27)  this.$emit('close');
+     } 
+   }
 })
 
 

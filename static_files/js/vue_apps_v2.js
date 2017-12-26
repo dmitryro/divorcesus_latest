@@ -8,7 +8,6 @@ var modal_submit_login    = 'Login';
  // register modal component
 Vue.config.devtools = true;
 
-
 var qvm = new Vue({
   el: '#qualify-stepone',
   data: {

@@ -27,27 +27,24 @@ var qvm = new Vue({
   },
   methods: {
     submitone: function (event) {
-              
-               this.$set('is_spouse_location_known',$('#is_spouse_location_known').val());
-               this.$set('are_there_children',$('#are_there_children').val());
-               this.$set('does_spouse_agree',$('#does_spouse_agree').val());
-               this.$set('is_military',$('#is_military').val());
-
-               this.$set('state',$('#state-selected').val());
-               this.$set('first',$('#first').val());
-               this.$set('last',$('#last').val());
-               this.$set('email',$('#email').val());
+               this.is_spouse_location_known = $('#is_spouse_location_known').is(":checked") ? 'yes' : 'no';
+               this.are_there_children = $('#are_there_children').is(":checked") ? 'yes' : 'no';
+               this.does_spouse_agree = $('#does_spouse_agree').is(":checked") ? 'yes' : 'no';
+               this.is_military = $('#is_military').is(":checked") ? 'yes' : 'no';
+               this.state = $('#state-selected').val();
+               this.first = $('#first').val();
+               this.last = $('#last').val();
+               this.email = $('#email').val();
                $("#final-qualify-state").html("<h4><strong>"+$('#state-selected').val()+"</strong></h4>");
-               
 
-               if(!$('#is_spouse_location_known').is(":checked") || !$('#does_spouse_agree').is(":checked")) {
-                      $('#final_does_qualify').html("<h4><strong>Congratulations! You qualify to use our contested divorce package!</strong></h4>");
+               if(this.is_spouse_location_known == 'yes' && this.does_spouse_agree == 'yes') {
+                      $('#final_does_qualify').html("<h4><strong>Congratulations! You qualify to use our uncontested divorce package!</strong></h4>");
                       this.$set('package_type','contested');
                       this.$set('package_price','159.00');
                }          
 
                else {
-                      $('#final_does_qualify').html("<h4><strong>Congratulations! You qualify to use our uncontested divorce package!</strong></h4>");
+                      $('#final_does_qualify').html("<h4><strong>Congratulations! You qualify to use our contested divorce package!</strong></h4>");
                       this.$set('package_type','uncontested');  
                       this.$set('package_price','249.00');
                }
@@ -83,7 +80,11 @@ var qvm = new Vue({
            alert("VALID");
     }
 
+  },
+  mounted:function() {
+      this.is_spouse_location_known = 'yes';
   }
+
 })
 
 

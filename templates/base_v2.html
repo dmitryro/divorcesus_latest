@@ -3532,13 +3532,13 @@
 
                      {% for q in qualifying %}
                             <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
-                                {{ q.question }}
+                                {{ q.question }} 
                             </div>
                             <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="yes" checked> Yes<br>
+                                <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="yes" v-model="{{ q.html_id }}" checked> Yes<br>
                             </div>
                             <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="no"> No<br>
+                                <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="no"  v-model="{{ q.html_id }}"> No<br>
                             </div>
                             <div class="clear"></div> 
                     {% endfor %}
@@ -3550,6 +3550,7 @@
 
                     </form>
         </div>
+        <!-- qualify-steptwo -->
         <div id="qualify-steptwo" style="font-size:1.3em;">
                       <div>
 				    <form class='mailform contact-form' method="post">
@@ -3582,7 +3583,7 @@
 
 					  {% if logout %}
 
-					      <div style="float:left;padding-top:1.9em;">
+		       			      <div style="float:left;padding-top:1.9em;">
 						  <button class="btn4" v-on:click="submittwo"  id="qualify_next_two">Next</button>
 					      </div>
 

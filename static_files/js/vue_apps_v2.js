@@ -1048,7 +1048,7 @@ new Vue({
 })
 
 // register modal component
-Vue.component('modal', {
+var modal = Vue.component('modal', {
   template: '#modal-template-signup'
 })
 

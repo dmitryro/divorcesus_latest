@@ -26,6 +26,9 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import sys
 from jinja2 import StrictUndefined
+
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_nclpaBETRJ9al10depfVTirB")
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(
@@ -41,8 +44,8 @@ SECRET_KEY = 'mdbtl108v8i0)_q&f$@3j3gie^_^r!xj%-fp-lr@uq)zl0boe%'
 APPEND_SLASH = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-BASE_URL = 'http://divorcesus.com'
-PROFILE_IMAGE_PATH='http://divorcesus.com/static/images/user_no_avatar.png'
+BASE_URL = 'https://divorcesus.com'
+PROFILE_IMAGE_PATH='https://divorcesus.com/static/images/user_no_avatar.png'
 
 ALLOWED_HOSTS = ['divorcesus.com','www.divorcesus.com','127.0.0.1','localhost','www.googleapis.com','https://www.googleapis.com']
 
@@ -64,6 +67,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.redirects',
+    'django.contrib.sitemaps',
     'django.contrib.staticfiles',
     'admin_tools',
     'admin_tools.menu',
@@ -134,6 +138,9 @@ INSTALLED_APPS = [
     'haystack',
     'channels',
     'social_core',
+    'taggit',
+    'meta',
+    'meta_mixin',
     'social_django',
     #'chatrooms',
     #'chat_engine',
@@ -292,13 +299,13 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static_files'),
                     os.path.join(BASE_DIR, 'static_files/js'), 
                     os.path.join(BASE_DIR, 'static_files/html'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'static', )
-STATIC_URL = 'http://divorcesus.com/static/'
+STATIC_URL = 'https://divorcesus.com/static/'
 REGISTRATION_API_ACTIVATION_SUCCESS_URL = '/'
 ACTIVATION_HOST = ''
 MEDIA_ROOT = './media/'
 MEDIA_URL = '/media/'
 
-# See the django-compressor docs at http://django_compressor.readthedocs.org/en/latest/settings/
+# See the django-compressor docs at https://django_compressor.readthedocs.org/en/latest/settings/
 COMPRESS_ENABLED = False
 COMPRESS_OFFLINE = False
 STATICFILES_DIRS = (
@@ -362,6 +369,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.TemplateHTMLRenderer'
     ),
+    'UNICODE_JSON': False,
 }
 
 RQ_QUEUES = {
@@ -427,7 +435,7 @@ FACEBOOK_APPLICATION_SECRET_KEY = '0f57b646882a38e45d8a40eb391a1dd0'
 FACEBOOK_APPLICATION_NAMESPACE = ''
 FACEBOOK_APP_ID = '831699350268733'
 FACEBOOK_APP_SECRET = '0f57b646882a38e45d8a40eb391a1dd0'
-FANDJANGO_SITE_URL = 'http://divorcesus.com'
+FANDJANGO_SITE_URL = 'https://divorcesus.com'
 SOCIAL_AUTH_TWITTER_KEY = 'scqmosTONSHCvlcxTtLNJR9tF'
 SOCIAL_AUTH_TWITTER_SECRET = 'jWWUmos4pRm36En9zmO1UcoUuGMr5GdnatobOdziGwLhwtoVnp'
 SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = '77fvb1xbqmead8'
@@ -634,7 +642,7 @@ JINJA2_CONSTANTS = {
 
 REACT = {
     'RENDER': not DEBUG,
-    'RENDER_URL': 'http://127.0.0.1:8001/render',
+    'RENDER_URL': 'https://127.0.0.1:8001/render',
 }
 
 
@@ -813,7 +821,7 @@ CKEDITOR_CONFIGS = {
             ]),
     }
 }
-TINYMCE_JS_URL = 'http://debug.example.org/tiny_mce/tiny_mce_src.js'
+TINYMCE_JS_URL = 'https://debug.example.org/tiny_mce/tiny_mce_src.js'
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': "table,spellchecker,paste,searchreplace",
     'theme': "advanced",
@@ -845,4 +853,4 @@ ADMINS = (
 )
 
 #ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value
-
+TAGGIT_CASE_INSENSITIVE = True

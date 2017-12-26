@@ -245,7 +245,7 @@
                                                              <h3><strong>Your account has been activated!</strong></h3>
                                                          </div>
                                                          <div class="header-right">
-                                                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
+                                                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="$emit('close')" />
                                                          </div>
                                                          <div class="clear"></div>
                                                          <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
@@ -280,7 +280,7 @@
                                   <!-- activation-app -->
                                    <div id="activation-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show="show"Modal">
+                                            <modal :show="showModal">
                                              <!--
                                                  you can use custom content here to overwrite
                                                  default content
@@ -304,7 +304,7 @@
                                                              <h3><strong>Confirm your info</strong></h3>
                                                          </div>
                                                          <div class="header-right">
-                                                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
+                                                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="$emit('close')" />
                                                          </div>
                                                          <div class="clear"></div>
                                                          <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
@@ -395,7 +395,7 @@
                                    <!-- app -->
                                    <div id="final-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show="show"Modal">
+                                            <modal :show="showModal">
                                              <!--
                                                  you can use custom content here to overwrite
                                                  default content
@@ -420,7 +420,7 @@
                                                              <h6><strong>Please activate your account!</strong></h6>
                                                          </div>
                                                          <div class="header-right">
-                                                            <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
+                                                            <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="$emit('close')" />
                                                          </div>
                                                          <div class="clear"></div>
 
@@ -460,7 +460,7 @@
                                   <!-- activation-app -->
                                    <div id="activation-required-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show="show"Modal">
+                                            <modal :show="showModal">
                                              <!--
                                                  you can use custom content here to overwrite
                                                  default content
@@ -474,9 +474,8 @@
                               <div class="clear"></div>
                             </div> <!-- meta ends -->
 
-
-                      <!-- app -->
-                            <div id="app" style="float:left;min-with:200px;padding-top:10px;">
+                   <!-- signupapp -->
+                            <div id="signupapp" style="float:left;min-with:200px;padding-top:10px;">
                       <!-- use the modal component, pass in the prop -->
 
                                        &nbsp;&nbsp;
@@ -490,8 +489,8 @@
                                              {% elif not logout %}
                                                   <a class="btn2" id="show-modal" @click="showModal = true">Sign In</a>
                                              {% endif %}
-
-                                      <modal :show="show"Modal">
+                                      <modal v-if="showModal" @close="showModal
+= false">
                        <!--
         /                  you can use custom content here to overwrite
                           default content
@@ -501,6 +500,8 @@
 
 
                             </div><!-- end app -->
+
+
                             <div class="clear"></div>
 
 
@@ -3620,7 +3621,7 @@
 
 					  {% endif %}
 
-					  <modal :show="show"Modal">
+					  <modal :show="showModal">
 				       <!--
 			/                  you can use custom content here to overwrite
 					  default content
@@ -4095,8 +4096,8 @@
                     {% if not logout %}
 
 
-
-                <div id="app" style="float:left;">
+                <!-- signupapp -->
+                <div id="signupapp" style="float:left;">
                       <!-- use the modal component, pass in the prop -->
 
                     {% if not logout %}
@@ -4115,7 +4116,7 @@
 
                     {% endif %}
 
-                       <modal :show="show"Modal">
+                       <modal :show="showModal">
                        <!--
         /                  you can use custom content here to overwrite
                           default content
@@ -7009,34 +7010,80 @@
                 </div>
             </modal>
         </script>
-        <!-- template for the NewCommentModal component -->
-<!--
-        <script type="x/template" id="new-comment-modal-template">
-            <modal :show="show"" :on-close="close">
-                <div class="modal-header">
-                    <h3>New Comment</h3>
-                </div>
-
-                <div class="modal-body">
-                    <label class="form-label">
-                        Comment
-                        <textarea v-model="comment" rows="5" class="form-control"></textarea>
-                    </label>
-                </div>
-
-                <div class="modal-footer text-right">
-                    <button class="modal-default-button" @click="postComment()">
-                        Post
-                    </button>
-                </div>
-            </modal>
-        </script>
--->
         <div id="fb-root"></div>
         <div id="chat_div"  style="height:200;width:200;"></div>
         <div id="log"></div>
-        <div id="app"></div>
-        <script src="/static/js/vue_apps_v2.js"></script>
+
+        <!-- signupapp -->
+        <div id="signupapp"></div>
+
+<!-- template for the modal component -->
+<script type="text/x-template" id="modal-template-signup">
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+
+                       <div class="modal-header">
+                             <div id="modal-header" class="header-left">
+                             <h3><strong>SIGN IN</strong></h3>
+                       </div>
+                       <div class="header-right">
+                             <img src="/media/images/close_icon.png"
+height="20" width="20" style="margin-right:-10%;margin-top:-10%;"
+@click="$emit('close')" />
+                       </div>
+                       <div class="clear"></div>
+
+                       <div class="modal-body"> <!-- modal body starts -->
+                             <slot name="body">
+
+                                   <form novalidate>
+
+                                          <div class="form-login" id="form-login">
+
+                                    <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                                    <center>
+                                                  <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                    </center>
+                                                </div>
+
+                                                <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                                    <center>   
+                                                          <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                    </center> 
+                                                </div>
+
+                                                <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                                    <center> 
+                                                          <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                    </center>
+                                                </div>
+                                                <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                                    <center>
+                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2' %}?next={{ request.path }}">
+                                                            Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                          </a>
+<!--
+                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+-->    
+                                                </center>
+                                                </div>
+
+                                          </div>
+                                   </form>
+
+
+
+                             </slot>
+                       </div> <!-- modal body ends -->
+        </div>
+      </div>
+    </div>
+  </transition>
+</script>
+ <script src="/static/js/vue_apps_v2.js"></script>
+
         </body>
 
         </html>

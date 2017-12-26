@@ -236,7 +236,8 @@
                                       {% csrf_token %}
                                    <!-- template for the modal component -->
                                    <script type="x/template" id="activation-modal-template">
-                                       <div class="modal-mask" v-show="show" transition="modal">
+                                      <transition name="modal">
+                                       <div class="modal-mask" v-show="show">
                                            <div class="modal-wrapper">
                                                <div class="modal-container" style="min-width: 25.5em;">
                                                      <div class="modal-header">
@@ -273,12 +274,13 @@
                                                </div>
                                            </div>
                                        </div>
+                                       </transition>
                                    </script>
                                    </form>
                                   <!-- activation-app -->
                                    <div id="activation-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show.sync="showModal">
+                                            <modal :show="show"Modal">
                                              <!--
                                                  you can use custom content here to overwrite
                                                  default content
@@ -293,7 +295,8 @@
                                       {% csrf_token %}
                                    <!-- template for the modal component -->
                                    <script type="x/template" id="final-modal-template">
-                                       <div class="modal-mask" v-show="show" transition="modal">
+                                      <transition name="modal">
+                                       <div class="modal-mask" v-show="show">
                                            <div class="modal-wrapper">
                                                <div class="modal-container" style="min-width: 25.5em;">
                                                      <div class="modal-header">
@@ -386,12 +389,13 @@
                                                </div>
                                            </div>
                                        </div>
+                                       </transition>
                                    </script>
                                    </form>
                                    <!-- app -->
                                    <div id="final-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show.sync="showModal">
+                                            <modal :show="show"Modal">
                                              <!--
                                                  you can use custom content here to overwrite
                                                  default content
@@ -407,7 +411,8 @@
                                       {% csrf_token %}
                                    <!-- template for the modal component -->
                                    <script type="x/template" id="activation-required-modal-template">
-                                       <div class="modal-mask" v-show="show" transition="modal">
+                                      <transition name="modal">
+                                       <div class="modal-mask" v-show="show">
                                            <div class="modal-wrapper">
                                                <div class="modal-container" style="min-width: 25.5em;">
                                                      <div class="modal-header">
@@ -449,12 +454,13 @@
                                                </div>
                                            </div>
                                        </div>
+                                      </transition>
                                    </script>
                                    </form>
                                   <!-- activation-app -->
                                    <div id="activation-required-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show.sync="showModal">
+                                            <modal :show="show"Modal">
                                              <!--
                                                  you can use custom content here to overwrite
                                                  default content
@@ -485,7 +491,7 @@
                                                   <a class="btn2" id="show-modal" @click="showModal = true">Sign In</a>
                                              {% endif %}
 
-                                      <modal :show.sync="showModal">
+                                      <modal :show="show"Modal">
                        <!--
         /                  you can use custom content here to overwrite
                           default content
@@ -3614,7 +3620,7 @@
 
 					  {% endif %}
 
-					  <modal :show.sync="showModal">
+					  <modal :show="show"Modal">
 				       <!--
 			/                  you can use custom content here to overwrite
 					  default content
@@ -4109,7 +4115,7 @@
 
                     {% endif %}
 
-                       <modal :show.sync="showModal">
+                       <modal :show="show"Modal">
                        <!--
         /                  you can use custom content here to overwrite
                           default content
@@ -6903,8 +6909,8 @@
 
         <!-- template for the modal component -->
         <script type="x/template" id="modal-template-signin">
-           
-          <div class="modal-mask" v-show="show" transition="modal"> <!-- modal mask opens -->
+         <transition name="modal">
+          <div class="modal-mask" v-show="show"> <!-- modal mask opens -->
              <div class="modal-wrapper"> <!-- modal wrapper opens -->
 
                   <div class="modal-container"> <!-- modal container starts -->
@@ -6963,21 +6969,24 @@
              </div> <!-- modal wrapper ends -->
         </div> <!-- modal mask ends -->
         </div>
+        </transition>
         </script>
 
 
         <!-- template for the Modal component -->
         <script type="x/template" id="modal-template">
-            <div class="modal-mask" @click="close" v-show="show" transition="modal">
+           <transition name="modal">
+            <div class="modal-mask" @click="close" v-show="show">
                 <div class="modal-container" @click.stop>
                     <slot></slot>
                 </div>
             </div>
+           </transition>
         </script>
 
         <!-- template for the NewPostModal component -->
         <script type="x/template" id="new-post-modal-template">
-            <modal :show.sync="show" :on-close="close">
+            <modal :show="show"" :on-close="close">
                 <div class="modal-header">
                     <h3>New Post</h3>
                 </div>
@@ -7003,7 +7012,7 @@
         <!-- template for the NewCommentModal component -->
 <!--
         <script type="x/template" id="new-comment-modal-template">
-            <modal :show.sync="show" :on-close="close">
+            <modal :show="show"" :on-close="close">
                 <div class="modal-header">
                     <h3>New Comment</h3>
                 </div>

@@ -1054,7 +1054,7 @@ var modal = Vue.component('modal', {
 
 // start app
 new Vue({
-    el: '#signupapp',
+    el: '#signinapp',
     data: {
       showModal: false
     },

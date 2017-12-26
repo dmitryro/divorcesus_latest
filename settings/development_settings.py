@@ -155,8 +155,6 @@ INSTALLED_APPS = [
     'custom.signup',
     'custom.utils',
     'custom.services',
-    'custom.chat',
-    'custom.chatbot',
     'custom.tasks',
     'custom.gui',
     'custom.payments',

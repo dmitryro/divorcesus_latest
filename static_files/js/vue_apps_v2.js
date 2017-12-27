@@ -48,8 +48,6 @@ var qvm = new Vue({
                       this.package_type = 'contested';  
                       this.package_price = '249.00';
                }
-
-
     },
 
     submittwo: function (event) {

@@ -73,6 +73,7 @@ from custom.messaging.views import ReadMessageView
 from custom.messaging.views import DeleteMessageView
 from custom.messaging.views import UserViewSet
 from custom.messaging.views import UserList
+from custom.payments.models import Address
 from custom.payments.views import SendConfirmationEmailView
 from custom.payments.views import PaymentsList
 from custom.payments.views import PastPaymentsList
@@ -93,6 +94,12 @@ from custom.users.views import TeamMemberViewSet
 from custom.users.views import TeamMemberList
 from custom.users.models import AboutUs
 import custom
+
+payments_dict = {
+    'queryset': Address.objects.all(),
+    'bio': 'bio',
+    'time_published': 'time_published',
+}
 
 services_dict = { 
     'queryset': Service.objects.all(),
@@ -306,6 +313,7 @@ urlpatterns = [
                        'contact': GenericSitemap(contact_dict, priority=0.7),
                        'contactus':GenericSitemap(contact_dict, priority=0.7),
                        'about': GenericSitemap(about_dict, priority=0.7),
+                       'payments': GenericSitemap(payments_dict, priority=0.7),
                        'services': GenericSitemap(services_dict, priority=0.7),}
         },
         name='django.contrib.sitemaps.views.sitemap'),

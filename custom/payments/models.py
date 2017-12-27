@@ -37,6 +37,8 @@ class Address(models.Model):
     def __unicode__(self):
         return unicode(str(self.nickname))
 
+    def get_absolute_url(self):
+        return "/comments/%s/" % self.nickname
 
 class PaymentStatus(models.Model):
     """ Payment Status  Approved, Declined, on hold"""

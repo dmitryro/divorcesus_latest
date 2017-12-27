@@ -30,7 +30,8 @@
         <meta name="msvalidate.01" content="9B784791BC80D67E354DD7F1DDA6EAC9" />
         <link rel="icon" href="https://divorcesus.com/media/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="https://divorcesus.com/static/css/main-v1.css"/>
-       <!--
+        <link rel="stylesheet" href="/static/css/bread.css"/>
+  <!--
           <link rel="stylesheet" href="/static/css/grid.css">
           <link rel="stylesheet" href="/static/css/mailform.css"/>
           <link rel="stylesheet" href="/static/css/search.css"/>
@@ -84,7 +85,6 @@
           </div>
           <script src="/static/js/html5shiv.js"></script>
           <![endif]-->
-
           <script src='https://divorcesus.com/static/js/device.min.js'></script>
 
         <meta id="_token" value="{% csrf_token %}"> 
@@ -117,7 +117,8 @@
         <script src="/static/js/script.js"></script>
         <script src="/static/js/classie.js"></script>
         <script src="/static/js/js_apps.js"></script>
-        <script src="/static/js/jquery_apps.js"></script>
+        <script src="/static/js/jquery_apps_v2.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <!--
         <script src="https://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyBQUZ7TmbVcH7MhLkf92WC2mxAiYDvslps" type="text/javascript"></script>
 -->
@@ -3476,10 +3477,26 @@
                      <span>Qualify</span>
                   </p>
 
+
+
+      <div class="bread-main" id="qualify-wizard-steps">
+                <ul class="cd-multi-steps text-bottom count" id="qualify-wizard">
+                        <li class="current"><em><a id="qualify_progress_stepone" href="#">Verify</a></em></li>
+                        <li><em><a id="qualify_progress_steptwo" href="#">Confirm</a></em></li>
+                        {% if logout %}
+                                <li><em><a href="#" id="qualify_progress_stepthree"> Start Process</a></em></li>
+                                <li><em><a href="#" id="qualify_progress_stepfour">Payment Info</a></em></li>
+                                <li><em><a href="#" id="qualify_progress_stepfive">Billing Address</a></em></li>
+                                <li><em><a href="#" id="qualify_progress_stepsix">Review and Confirm</a></em></li>
+                                <li><em><a href="#" id="qualify_progress_stepseven">Make a Payment</a></em></li>
+                        {% endif %}
+                </ul>
+      </div>
+
+<!--
            <div id="qualifywizard" class="container wow fadeInUp">
 
                 <h3><span>Verify You Qualify</span></h3>
-
 
 
         <ul class='nav nav-wizard' id="qualify-wizard">
@@ -3489,7 +3506,7 @@
           <li><a id="qualify_progress_steptwo" href='#' data-toggle="tab">Confirm</a></li>
 
           {% if logout %}
-
+lify-stepone
           <li><a id="qualify_progress_stepthree" href='#' data-toggle="tab">Start Process</a></li>
 
           <li><a id="qualify_progress_stepfive" href='#' data-toggle="tab">Payment Info</a></li>
@@ -3501,9 +3518,10 @@
           <li><a id="qualify_progress_stepeight" href='#' data-toggle="tab">Make a Payment</a></li>
           {% endif %}
         </ul>
-        <br/><br/>
-        </div>
 
+       <br/><br/>
+        </div>
+-->
         <div id="qualify-stepone" style="font-size:1.3em;">
 
                   
@@ -4099,12 +4117,19 @@
 
            <!-- toast element -->
            <div id="paymentwizard-container" class="container wow fadeInUp">
-                      <div id="paymentwizard">
+                      <div  class="bread-main" id="paymentwizard">
  
                              <h3><span>Make a </span> Payment</h3>
 
+                <ul class="cd-multi-steps text-bottom count" id="wizard">
+                        <li class="current"><em><a href="#" id="progress_stepone" href="#">Step 1 - Name and Email</a></em></li>
+                        <li><em><a href="#" id="progress_steptwo" href="#">Step 2 - Payment Info</a></em></li>
+                        <li><em><a href="#" id="progress_stepthree">Step 3 - Billing Address</a></em></li>
+                        <li><em><a href="#" id="progress_stepfour">Step 4 - Review and Conirm</a></em></li>
+                        <li><em><a href="#" id="progress_stepfive">Step 5 - Process Payment</a></em></li>
+                </ul>
 
-
+<!--
                                        <ul class='nav nav-wizard' id="wizard">
 
                                                    <li><a id="progress_stepone" href='#' data-toggle="tab">Step 1 - Name and Email</a></li>
@@ -4118,6 +4143,7 @@
                                                    <li><a id="progress_stepfive">Step 5 - Process Payment</a></li>
 
                                        </ul>
+-->
                                         <br/><br/>
                       </div>
          

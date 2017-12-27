@@ -48,6 +48,7 @@ var qvm = new Vue({
                       this.package_type = 'contested';  
                       this.package_price = '249.00';
                }
+
     },
 
     submittwo: function (event) {
@@ -314,7 +315,6 @@ var qvm4 = new Vue({
     },
 
     submitfour: function (event) {
-               alert( $('#stepfour_first').val() + ' and ' +qvm3.first);
                this.phone = qvm3.phone;
                this.email = qvm3.email;
                this.fullname = $('#fullname').val();

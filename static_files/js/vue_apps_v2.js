@@ -39,14 +39,14 @@ var qvm = new Vue({
 
                if(this.is_spouse_location_known == 'yes' && this.does_spouse_agree == 'yes') {
                       $('#final_does_qualify').html("<h4><strong>Congratulations! You qualify to use our uncontested divorce package!</strong></h4>");
-                      this.$set('package_type','contested');
-                      this.$set('package_price','159.00');
+                      this.package_type = 'uncontested';
+                      this.package_price = '159.00';
                }          
 
                else {
                       $('#final_does_qualify').html("<h4><strong>Congratulations! You qualify to use our contested divorce package!</strong></h4>");
-                      this.$set('package_type','uncontested');  
-                      this.$set('package_price','249.00');
+                      this.package_type = 'contested';  
+                      this.package_price = '249.00';
                }
 
 
@@ -113,15 +113,23 @@ var qvm2 = new Vue({
 
   methods: {
     submitone: function (event) {
-           console.log("SUBMIT ONE");
            this.does_qualify = 'NO'
-           this.$set('does_qualify','NO');
-           this.$set('state',$('#state-selected').val());
+           this.state = $('#state-selected').val();
     },
     submittwo: function (event) {
-           this.$set('state', qvm.state);
-           this.$set('package_price', qvm.package_price);
-           this.$set('package_type',qvm.package_type);
+           this.state = qvm.state;
+           this.package_price = qvm.package_price;
+           this.package_type = qvm.package_type;
+           this.is_spouse_location_known = qvm.is_spouse_location_known;
+           this.are_there_children = qvm.are_there_children;
+           this.does_spouse_agree = qvm.does_spouse_agree;
+           this.is_military = qvm.is_military;
+           this.state = qvm.state;
+           this.first = qvm.first;
+           this.last = qvm.last;
+           this.email = qvm.email
+    
+ 
            $("#step_three_package").html(this.package_type);
            $("#step_three_state").html(this.state);
            $("#step_three_price").html(this.package_price);   
@@ -177,7 +185,6 @@ var qvm2 = new Vue({
   mounted:function() {
       this.does_qualify = 'NO';
       this.state = $('#state-selected').val();
-
   }
 
 })
@@ -213,14 +220,15 @@ var qvm3 = new Vue({
     },
 
     submitthree: function (event) {
-               this.$set('phone',$('#stepthree_phone').val());
-               this.$set('email',$('#stepthree_email').val());
-               this.$set('fullname',$('#fullname').val());
-               this.$set('state', qvm2.state);
-               this.$set('package_price', qvm2.package_price);
-               this.$set('package_type',qvm2.package_type);
-               this.$set('first', $('#stepthree_first').val());
-               this.$set('last', $('#stepthree_last').val()); 
+               this.phone = $('#stepthree_phone').val();
+               this.email = $('#stepthree_email').val();
+               this.fullname = $('#fullname').val();
+               this.state = qvm2.state;
+               this.package_price = qvm2.package_price;
+               this.package_type = qvm2.package_type;
+               this.first = $('#stepthree_first').val();
+               this.last = $('#stepthree_last').val(); 
+               
 
                $("#step_four_package").html(this.package_type);
                $("#step_four_state").html(this.state);
@@ -308,32 +316,33 @@ var qvm4 = new Vue({
     },
 
     submitfour: function (event) {
-               this.$set('phone',qvm3.phone);
-               this.$set('email',qvm3.email);
-               this.$set('fullname',$('#fullname').val());
-               this.$set('state', qvm2.state);
-               this.$set('package_price', qvm2.package_price);
-               this.$set('package_type',qvm2.package_type);
-               this.$set('first', $('#stepfour_first').val());
-               this.$set('last', $('#stepfour_last').val());
-               this.$set('cardnumber',$('#cardnumber').val());
-               this.$set('cardtype',$('#cardtype').val());
-               this.$set('expirationmonth',$('#expirationmonth').val());
-               this.$set('expirationyear',$('#expirationyear').val());
+               alert( $('#stepfour_first').val() + ' and ' +qvm3.first);
+               this.phone = qvm3.phone;
+               this.email = qvm3.email;
+               this.fullname = $('#fullname').val();
+               this.state = qvm2.state;
+               this.package_price = qvm2.package_price;
+               this.package_type = qvm2.package_type;
+               this.first = qvm3.first;
+               this.last = qvm3.last;
+               this.cardnumber = $('#cardnumber').val();
+               this.cardtype = $('#cardtype').val();
+               this.expirationmonth = $('#expirationmonth').val();
+               this.expirationyear = $('#expirationyear').val();
 
-               qvm5.$set('email',this.email);
-               qvm5.$set('first',this.first);
-               qvm5.$set('last',this.last);
-               qvm5.$set('cardtype',this.cardtype);
-               qvm5.$set('cardnumber',this.cardnumber);
-               qvm5.$set('expirationmonth',this.expirationmonth);
-               qvm5.$set('expirationyear',this.expirationyear);
-               qvm5.$set('address1',this.address1);
-               qvm5.$set('address2',this.address2);
-               qvm5.$set('city',this.city);
-               qvm5.$set('state',this.state);
-               qvm5.$set('zip',this.zip);
-               qvm5.$set('phone',this.phone);
+               qvm5.email = this.email;
+               qvm5.first = this.first;
+               qvm5.last = this.last;
+               qvm5.cardtype = this.cardtype;
+               qvm5.cardnumber = this.cardnumber;
+               qvm5.expirationmonth = this.expirationmonth;
+               qvm5.expirationyear = this.expirationyear;
+               qvm5.address1 = this.address1;
+               qvm5.address2 = this.address2;
+               qvm5.city = this.city;
+               qvm5.state = this.state;
+               qvm5.zip = this.zip;
+               qvm5.phone = this.phone;
 
                $("#step_five_package").html(this.package_type);
                $("#step_five_state").html(this.state);
@@ -405,22 +414,21 @@ var qvm5 = new Vue({
     },
 
     submitfive: function (event) {
-               this.$set('phone',qvm4.phone);
-    
-               qvm6.$set('email',this.email);
-               qvm6.$set('fullname',this.fullname);
-               qvm6.$set('first',this.first);
-               qvm6.$set('last',this.last);
-               qvm6.$set('cardtype',this.cardtype);
-               qvm6.$set('cardnumber',this.cardnumber);
-               qvm6.$set('expirationmonth',this.expirationmonth);
-               qvm6.$set('expirationyear',this.expirationyear);
-               qvm6.$set('address1',this.address1);
-               qvm6.$set('address2',this.address2);
-               qvm6.$set('city',this.city);
-               qvm6.$set('state',this.state);
-               qvm6.$set('zip',this.zip);
-               qvm6.$set('phone',this.phone);
+               this.phone = qvm4.phone;
+               qvm6.email = this.email;
+               qvm6.fullname = this.fullname;
+               qvm6.first = this.first;
+               qvm6.last = this.last;
+               qvm6.cardtype = this.cardtype;
+               qvm6.cardnumber = this.cardnumber;
+               qvm6.expirationmonth = this.expirationmonth;
+               qvm6.expirationyear = this.expirationyear;
+               qvm6.address1 = this.address1;
+               qvm6.address2 = this.address2;
+               qvm6.city = this.city;
+               qvm6.state = this.state;
+               qvm6.zip = this.zip;
+               qvm6.phone = this.phone;
 
                $("#step_six_phone").attr("value",this.phone.toString());
                $("#step_six_city").attr("value",this.city.toString());
@@ -569,9 +577,9 @@ var vm = new Vue({
   methods: {
 
     submitone: function (event) {
-               this.$set('phone',$('#regular_phone').val());
-               this.$set('email',$('#regular_email').val());
-               this.$set('fullname',$('#fullname').val());               
+               this.phone = $('#regular_phone').val();
+               this.email = $('#regular_email').val();
+               this.fullname = $('#fullname').val();               
     },
 
     submittwo: function (event) {

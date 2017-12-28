@@ -2419,7 +2419,6 @@ container.className += "active";
           $('.comments-link').bind('click',handleComments);
 
 
-          $('#next_four').bind('click',processPayment);
 
           if  (service=='contact')  {
                on_mobile_contact();

@@ -287,8 +287,6 @@ class PastPaymentsList(Endpoint):
             serializer = PaymentSerializer(payments,many=True)      
             return {"payments":serializer.data}      
         except Exception, R:
-            log = Logger(log='A DISASTER HAS HAPPENED '+str(R))
-            log.save()
             return {"payments":str(R)}
 
 ####################################
@@ -297,52 +295,25 @@ class PastPaymentsList(Endpoint):
 ## RETURNED: SUCCESS/FAILUTRE ######
 ####################################
 
-class SendConfirmationEmailView(Endpoint):
-    @csrf_exempt
-    def get(self, request):
-        try:
-           email = request.params.get('email','')
-           if not email or len(email) < 1:
-              return {'message':'error','exception':'email is a mandatory'}
+@api_view(['POST', 'GET'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def send_confiration_view(request):
+        contact = None
+        if request.user.is_authenticated():
+            user = request.user
+        else:
+            try:
+                user_id = request.data['user_id']
+                user = User.objects.get(id=int(user_id))
+            except Exception as e:
+                log = Logger(log='Could not read user {}'.format(e))
+                log.save()
+                return Response({'result':'error'})
 
-           message = request.params.get('message','')
-
-           if not message or len(message) < 1:
-              return {'message':'error','exception':'message is a mandatory'}
-
-
-           phone = request.params.get('phone','')
-           name = request.params.get('name','')
-           if not name or len(name) < 1:
-              return {'message':'error','exception':'name is a mandatory'}
-          
- 
-           try:
-               contact = Contact.objects.get(email=email)
-           except Exception, R:
-               log = Logger(log='WE FAILED TO READ IT '+str(R))
-               log.save()
-
-               contact = Contact.objects.create(name=name,email=email,message=message,phone=phone)
-
-           payment_send_confirmation_email.send(sender=User,contact=contact,payment=None)
-           log = Logger(log='WE ARE SENDING EMAIL IN GET '+email)
-           log.save()
-           return {'message':'success','s3_base_url':"blablabla"}
-        except Exception, R:
-           log = Logger(log='WE HAD AN ERROR '+str(R))
-           log.save()
-           return {'message':'error','data':'we failed reading s3 base url'}
-
-    @csrf_exempt
-    def post(self, request):
         try:
            email = request.data['email']
 
-           log = Logger(log='WE ARE SENDING EMAIL IN POST '+email)
-           log.save()
-
- 
            if not email or len(email) < 1:
               return {'message':'email is a mandatory'}
 
@@ -354,8 +325,6 @@ class SendConfirmationEmailView(Endpoint):
 
               if not fullname or len(fullname) < 1:
                   return {'message':'fullname is a mandatory'}
-
-
            cardtype = request.data['cardtype']
            cardnumber = request.data['cardnumber']
 
@@ -369,19 +338,23 @@ class SendConfirmationEmailView(Endpoint):
            year = request.data['year']
 
            if not cardtype or len(cardtype) < 1:
-              return {'message':'card type is a mandatory'}
-
+              return Response({'message':'card type is a mandatory'})
+            
            try:
                contact = Contact.objects.get(email=email)
-           except Exception, R:
-               contact = Contact.objects.create(name=fullname,email=email)
+           except Exception as R:
+               contact = Contact.objects.create(name=fullname, email=email)
+
+           if not contact:
+               return Response({'message':'error','s3_base_url':"no link"})
+
 
            try:
                ppn = getPaymentProcessing() 
  
                payment = Payment.objects.create(email=email,
                                                 payment_processing_number=ppn,
-                                                user=request.user,
+                                                user=user,
                                                 fullname=fullname,
                                                 phone=phone,
                                                 cardtype=cardtype,
@@ -396,14 +369,11 @@ class SendConfirmationEmailView(Endpoint):
            except Exception, R:
                payment = None
 
-           payment_send_confirmation_email.send(sender=User,contact=contact,payment=payment)
-           log = Logger(log='WE ARE SENDING EMAIL IN POST '+email)
-           log.save()
-           return {'message':'success','s3_base_url':"blablabla"}
+           if contact:
+               payment_send_confirmation_email.send(sender=User, contact=contact, payment=payment)
+           return Response({'message':'success','s3_base_url':"blablabla"})
         except Exception, R:
-           log = Logger(log='WE HAD AN ERROR '+str(R))
-           log.save()
-           return {'message':str(R)}
+           return Response({'message':str(R)})
 
 
 payment_send_confirmation_email.connect(payment_send_confirmation_email_handler)

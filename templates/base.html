@@ -6905,7 +6905,7 @@
         <!-- template for the modal component -->
         <script type="x/template" id="modal-template-signin">
            
-          <div class="modal-mask" v-show="show" transition="modal"> <!-- modal mask opens -->
+          <div class="modal-mask" v-show="show" transition="modal"  :show="show" @close="close"> <!-- modal mask opens -->
              <div class="modal-wrapper"> <!-- modal wrapper opens -->
 
                   <div class="modal-container"> <!-- modal container starts -->
@@ -6978,7 +6978,7 @@
 
         <!-- template for the NewPostModal component -->
         <script type="x/template" id="new-post-modal-template">
-            <modal :show.sync="show" :on-close="close">
+            <modal :show.sync="show" :on-close="close"  @keyup.esc="$emit('close')">
                 <div class="modal-header">
                     <h3>New Post</h3>
                 </div>

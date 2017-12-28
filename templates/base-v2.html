@@ -1,8 +1,7 @@
-        {% load meta %}
         <!DOCTYPE html>
-        <html class="no-js" {% meta_namespaces_gplus %}>
+        <html class="no-js">
          <!--<![endif]-->
-        <head {% meta_namespaces %}>
+        <head>
         {% load static %}
         {% load gui_extras %}
         {% load blog_extras %}
@@ -30,8 +29,7 @@
         <meta name="msvalidate.01" content="9B784791BC80D67E354DD7F1DDA6EAC9" />
         <link rel="icon" href="https://divorcesus.com/media/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="https://divorcesus.com/static/css/main-v1.css"/>
-        <link rel="stylesheet" href="/static/css/bread.css"/>
-  <!--
+       <!--
           <link rel="stylesheet" href="/static/css/grid.css">
           <link rel="stylesheet" href="/static/css/mailform.css"/>
           <link rel="stylesheet" href="/static/css/search.css"/>
@@ -60,7 +58,7 @@
 -->
            <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script> 
         <!-- for the future use -->
-           <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.0/vue.js"></script>   
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>   
            <script src="https://cdn.jsdelivr.net/vue.router/2.5.3/vue-router.min.js"></script>
            <script src="/static/js/vue.social-shares.js"></script>
 <!--
@@ -85,6 +83,7 @@
           </div>
           <script src="/static/js/html5shiv.js"></script>
           <![endif]-->
+
           <script src='https://divorcesus.com/static/js/device.min.js'></script>
 
         <meta id="_token" value="{% csrf_token %}"> 
@@ -117,8 +116,7 @@
         <script src="/static/js/script.js"></script>
         <script src="/static/js/classie.js"></script>
         <script src="/static/js/js_apps.js"></script>
-        <script src="/static/js/jquery_apps_v2.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+        <script src="/static/js/jquery_apps.js"></script>
 <!--
         <script src="https://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyBQUZ7TmbVcH7MhLkf92WC2mxAiYDvslps" type="text/javascript"></script>
 -->
@@ -146,11 +144,11 @@
         </head>
         <body>
         <form method="post">
-        <input type="hidden" name="page-service" id="page-service" value="{{ service }}" />
+        <input type="hidden" name="page-service" id="page-service" v-bind:value="service" />
         </form>
         <form id="activation" action="" method="POST">
-           <input type="hidden" id="show_activation" value="{{ is_activated }}" />
-           <input type="hidden" id="link_expired" value="{{ link_expired }}" />
+           <input type="hidden" id="show_activation" v-bind:value="is_activated" />
+           <input type="hidden" id="link_expired" v-bind:value="link_expired" />
         </form>
 
         <script>
@@ -170,7 +168,6 @@
              fjs.parentNode.insertBefore(js, fjs);
            }(document, 'script', 'facebook-jssdk'));
         </script>
-
         <div class="page"> 
 
           <!--========================================================
@@ -227,7 +224,7 @@
                               {% if link_expired %}
                                   <form method="POST">
                                      {% csrf_token %}
-                                     <input type="hidden" id="link_expired" value="{{ link_expired }}" />
+                                     <input type="hidden" id="link_expired" v-bind:value="link_expired" />
                                   </form>
                               {% endif %}
 
@@ -236,9 +233,9 @@
                                    <form  method="POST" action="">
                                       {% csrf_token %}
                                    <!-- template for the modal component -->
-                                   <script type="x/template" id="activation-modal-template">
+                                   <script type="text/x-template" id="activation-modal-template">
                                       <transition name="modal">
-                                       <div class="modal-mask" v-show="show">
+                                       <div class="modal-mask">
                                            <div class="modal-wrapper">
                                                <div class="modal-container" style="min-width: 25.5em;">
                                                      <div class="modal-header">
@@ -246,7 +243,7 @@
                                                              <h3><strong>Your account has been activated!</strong></h3>
                                                          </div>
                                                          <div class="header-right">
-                                                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="$emit('close')" />
+                                                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
                                                          </div>
                                                          <div class="clear"></div>
                                                          <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
@@ -275,7 +272,7 @@
                                                </div>
                                            </div>
                                        </div>
-                                       </transition>
+                                      </transition>
                                    </script>
                                    </form>
                                   <!-- activation-app -->
@@ -295,8 +292,8 @@
                                    <form  method="POST" action="">
                                       {% csrf_token %}
                                    <!-- template for the modal component -->
-                                   <script type="x/template" id="final-modal-template">
-                                      <transition name="modal">
+                                   <script type="text/x-template" id="final-modal-template">
+                                       <transition name="modal">
                                        <div class="modal-mask" v-show="show">
                                            <div class="modal-wrapper">
                                                <div class="modal-container" style="min-width: 25.5em;">
@@ -305,7 +302,7 @@
                                                              <h3><strong>Confirm your info</strong></h3>
                                                          </div>
                                                          <div class="header-right">
-                                                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="$emit('close')" />
+                                                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
                                                          </div>
                                                          <div class="clear"></div>
                                                          <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
@@ -329,7 +326,7 @@
                                                      <div class="modal-body">
                                                          <slot name="body">
 
-                                                                <input type="hidden" name="user-id" id="user-id" value="{{ user_id }}" /> 
+                                                                <input type="hidden" name="user-id" id="user-id" v-bind:value="user_id" /> 
                                                                 <div style="float:left;padding-left:6%;width:26%;">
                                                                  First: 
                                                                 </div>
@@ -390,7 +387,7 @@
                                                </div>
                                            </div>
                                        </div>
-                                       </transition>
+                                      </transition>
                                    </script>
                                    </form>
                                    <!-- app -->
@@ -410,9 +407,55 @@
 
                                    <form  method="POST" action="">
                                       {% csrf_token %}
+                                   <!-- template for the modal component -->
+                                   <script type="x/template" id="activation-required-modal-template">
+                                       <transition name="modal">
+                                        <div class="modal-mask" v-show="show">
+                                           <div class="modal-wrapper">
+                                               <div class="modal-container" style="min-width: 25.5em;">
+                                                     <div class="modal-header">
+                                                         <div id="modal-header" class="header-left" style="text-align:center;">
+                                                             <h6><strong>Please activate your account!</strong></h6>
+                                                         </div>
+                                                         <div class="header-right">
+                                                            <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
+                                                         </div>
+                                                         <div class="clear"></div>
 
+                                                         <div class="modal-body">
+                                                             <slot name="body">
+
+                                                                <input type="hidden" name="user-id" id="user-id" v-bind:value="user_id" />
+                                                                <div style="float:left;padding-left:6%;width:6%;">
+                                                                 &nbsp;
+                                                                </div>
+                                                               <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
+                                                                 <div style="margin-top:-15px;">Your activation link has been resent!</div>
+                                                               </div>
+
+                                                                <div style="float:left;padding-left:6%;margin-top:2.3em;width:88%;">
+                                                                 Your account is still not activated.<br/>
+                                                                 We have sent you the activation link<br/>
+                                                                 If you want to resend the activation link,<br/>
+                                                                 please click <a href="#" name="resend" id="resend" style="text-decoration:underline;">here</a>. 
+                                                                </div>
+                                                                <div class="clear"></div>
+
+                                                             </slot>
+                                                         </div>
+                                                         <div class="modal-footer">
+                                                             <slot name="footer">
+                                                                 &nbsp;<br/>
+                                                             </slot>
+                                                         </div>
+                                                     </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                      </transition>
+                                   </script>
                                    </form>
-                                  <!-- activation-required-app -->
+                                  <!-- activation-requred-app -->
                                    <div id="activation-required-app">
                                    <!-- use the modal component, pass in the prop -->
                                             <modal :show="showModal">
@@ -429,45 +472,30 @@
                               <div class="clear"></div>
                             </div> <!-- meta ends -->
 
-           
-                <!-- signinapp -->
-                <div id="signinapp" style="float:left;">
 
+                      <!-- signupapp -->
+                            <div id="signupapp" style="float:left;min-with:200px;padding-top:10px;">
                       <!-- use the modal component, pass in the prop -->
 
                                        &nbsp;&nbsp;
                                               {% if logout %}
                                          &nbsp;&nbsp;   
-                                                    <a href="/signout" class="btn2" id="show-modal" @close="showModal = false">Sign Out</a>
+                                                    <a href="/signout" class="btn2" id="show-modal" @click="showModal = false">Sign Out</a>
 
                                                      &nbsp;&nbsp; 
 
 
                                              {% elif not logout %}
-                                                  <a class="btn2" id="show-modal"  @click="showModal = true">Sign In</a>
+                                                  <a class="btn2" id="show-modal" @click="showModal = true">Sign In</a>
                                              {% endif %}
+<!--
+                                      <modal v-if="showModal" @close="showModal
+= false">
 
-                                     {% if not user.is_authenticated %}
-                                       <modal v-if="showModal" @close="showModal = false" :show.sync="show" :on-close="close"  @keyup.esc="$emit('close')">
+                                     </modal>
+-->
 
-
-                                       </modal>
-                                     {% endif %}
-
-                            </div><!-- end signupapp -->
-
-
-
-
-
-
- 
-
-
-
-
-
-
+                            </div><!-- end app -->
                             <div class="clear"></div>
 
 
@@ -633,14 +661,14 @@
                   {% for slide in slides %}
 
                     <div data-p="112.50" style="display: none;" class="et_pb_slide">
-                        <img data-u="image" src="https://divorcesus.com/media/{{ slide.slide }}" alt="divorcesus.com" />
+                        <img data-u="image" src="https://divorcesus.com/media/{{ slide.slide }}"  alt="divorcesus.com" />
                           <!--div class="slide-item">
                                    {{ slide.title }} 
                           </div-->
                           <div class="slide-caption">
                                 <strong>{{ slide.text }}</strong>
                                 <br/> 
-                                <strong><a onclick="{{ slide.action }}" href="{{ slide.link }}"><span style="font-size:0.7em;font-weight:bold;padding-top:0.8em;text-align:center;display:box;">Read More >>
+                                <strong><a v-bind:onclick="slide.action" v-bind:href="slide.link"><span style="font-size:0.7em;font-weight:bold;padding-top:0.8em;text-align:center;display:box;">Read More >>
                                 </span></a></strong>
 
                           </div>
@@ -1660,7 +1688,7 @@
 
                     <ul class="list2">
                       {% for link in advantage_links %}
-                      <li><a href="{{ link.link }}">{{ link.title }}</a></li>
+                      <li><a v-bind:href="link.link">{{ link.title }}</a></li>
         <!--
                       <li><a href="#">Hendreritivamus eget nibh vel metus</a></li>
                       <li><a href="#">Etiam cursus leo psumfaucibus orci suere</a></li>
@@ -3476,26 +3504,10 @@
                      <span>Qualify</span>
                   </p>
 
-
-
-      <div class="bread-main" id="qualify-wizard-steps">
-                <ul class="cd-multi-steps text-bottom count" id="qualify-wizard">
-                        <li class="current"><em><a id="qualify_progress_stepone" href="#">Verify</a></em></li>
-                        <li><em><a id="qualify_progress_steptwo" href="#">Confirm</a></em></li>
-                        {% if logout %}
-                                <li><em><a href="#" id="qualify_progress_stepthree"> Start Process</a></em></li>
-                                <li><em><a href="#" id="qualify_progress_stepfour">Payment Info</a></em></li>
-                                <li><em><a href="#" id="qualify_progress_stepfive">Billing Address</a></em></li>
-                                <li><em><a href="#" id="qualify_progress_stepsix">Review and Confirm</a></em></li>
-                                <li><em><a href="#" id="qualify_progress_stepseven">Make a Payment</a></em></li>
-                        {% endif %}
-                </ul>
-      </div>
-
-<!--
            <div id="qualifywizard" class="container wow fadeInUp">
 
                 <h3><span>Verify You Qualify</span></h3>
+
 
 
         <ul class='nav nav-wizard' id="qualify-wizard">
@@ -3505,7 +3517,7 @@
           <li><a id="qualify_progress_steptwo" href='#' data-toggle="tab">Confirm</a></li>
 
           {% if logout %}
-lify-stepone
+
           <li><a id="qualify_progress_stepthree" href='#' data-toggle="tab">Start Process</a></li>
 
           <li><a id="qualify_progress_stepfive" href='#' data-toggle="tab">Payment Info</a></li>
@@ -3517,10 +3529,9 @@ lify-stepone
           <li><a id="qualify_progress_stepeight" href='#' data-toggle="tab">Make a Payment</a></li>
           {% endif %}
         </ul>
-
-       <br/><br/>
+        <br/><br/>
         </div>
--->
+
         <div id="qualify-stepone" style="font-size:1.3em;">
 
                   
@@ -3545,17 +3556,17 @@ lify-stepone
                             <div class="clear"></div>
 
 
-                            <input type="hidden" name="state-selected" id="state-selected" v-model="state"  value="{{ state }}"/>
+                            <input type="hidden" name="state-selected" id="state-selected" v-model="state"  v-bind:value="state""/>
 
                      {% for q in qualifying %}
                             <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
-                                {{ q.question }} 
+                                {{ q.question }}
                             </div>
                             <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="yes" v-model="{{ q.html_id }}" checked> Yes<br>
+                                <input type="radio" v-bind:id="q.html_id"  v-bind:name="q.html_id" value="yes" checked> Yes<br>
                             </div>
                             <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="no"  v-model="{{ q.html_id }}"> No<br>
+                                <input type="radio" v-bind:id="q.html_id"  v-bind:name="q.html_id" value="no"> No<br>
                             </div>
                             <div class="clear"></div> 
                     {% endfor %}
@@ -3567,29 +3578,27 @@ lify-stepone
 
                     </form>
         </div>
-        <!-- qualify-steptwo -->
         <div id="qualify-steptwo" style="font-size:1.3em;">
-                      <div>
 				    <form class='mailform contact-form' method="post">
 				     {% csrf_token %}
 
 					 <div id="final_does_qualify"></div>
 					 <div id="final_ready_start"></div>
-				      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
-				      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
-				      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
-				      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
-				      <input type="hidden" name="package_price" id="package_price" v-model="package_price"  value="{{ package_price }}"/>
-				      <input type="hidden" name="package_type" id="package_type" v-model="package_type"  value="{{ package_type }}"/>
-				      <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
-				      <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
+				      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  v-bind:value="is_military"/>
+				      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  v-bind:value="are_there_children"/>
+				      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  v-bind:value="does_spouse_agree"/>
+				      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  v-bind:value="is_spouse_location_known"/>
+				      <input type="hidden" name="package_price" id="package_price" v-model="package_price"  v-bind:value="package_price"/>
+				      <input type="hidden" name="package_type" id="package_type" v-model="package_type"  v-bind:value="package_type"/>
+				      <input type="hidden" name="state" id="state" v-model="state"  v-bind:value="state""/>
+				      <input type="hidden" name="email" id="email" v-model="email"  v-bind:value="email"/>
 				      <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
 				      <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
 				      <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
 
 				  <input type="hidden" name="counter" id="counter" value=""/>
 		   
-				       <div id="final-qualify-state">{{ state }}</div>
+				       <div id="final-qualify-state"></div>
 					  <div class="clear"></div>
 					  <br/><br/>
 					  {% if not logout %}
@@ -3600,7 +3609,7 @@ lify-stepone
 
 					  {% if logout %}
 
-		       			      <div style="float:left;padding-top:1.9em;">
+					      <div style="float:left;padding-top:1.9em;">
 						  <button class="btn4" v-on:click="submittwo"  id="qualify_next_two">Next</button>
 					      </div>
 
@@ -3615,7 +3624,7 @@ lify-stepone
 					  </modal>
 
 				    </form>              
-                               </div>
+
 			</div>
 
 			<div id="qualify-stepthree">
@@ -3627,14 +3636,14 @@ lify-stepone
 				    <form class='mailform contact-form' method="post">
                          {% csrf_token %}
 
-                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
-                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
-                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
-                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
+                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  v-bind:value="is_military"/>
+                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  v-bind:value="are_there_children"/>
+                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  v-bind:value="does_spouse_agree"/>
+                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  v-bind:value="is_spouse_location_known"/>
 
-                      <input type="hidden" name="package_price" id="package_price" v-model="package_price"  value="{{ package_price }}"/>
-                      <input type="hidden" name="package_type" id="package_type" v-model="package_type"  value="{{ package_type }}"/>
-                      <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
+                      <input type="hidden" name="package_price" id="package_price" v-model="package_price"  v-bind:value="package_price"/>
+                      <input type="hidden" name="package_type" id="package_type" v-model="package_type"  v-bind:value="package_type"/>
+                      <input type="hidden" name="state" id="state" v-model="state"  v-bind:value="state""/>
                       <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
                       <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
                       <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
@@ -3643,7 +3652,7 @@ lify-stepone
                       <fieldset>
                           <label>
                               <input type="text"
-                              name="first"
+                              name="rist"
                               id="stepthree_first"
                               v-model="first"
                               placeholder="First Name*"
@@ -3723,18 +3732,18 @@ lify-stepone
                     <div class="col-xs-12 col-sm-8">
                     <form class='mailform contact-form' method="post">
                          {% csrf_token %}
-                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
-                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
-                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
-                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
-                      <input type="hidden" name="state" id="stepfour_state" v-model="state"  value="{{ state }}"/>
-                      <input type="hidden" name="phone" id="stepfour_phone" v-model="phone"  value="{{ phone }}"/>
-                      <input type="hidden" name="email" id="stepfour_email" v-model="email"  value="{{ email }}"/>
-                      <input type="hidden" name="first" id="stepfour_first" v-model="first"  value="{{ first }}"/>
-                      <input type="hidden" name="last" id="stepfour_last" v-model="last"  value="{{ last }}"/>
+                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  v-bind:value="is_military"/>
+                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  v-bind:value="are_there_children"/>
+                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  v-bind:value="does_spouse_agree"/>
+                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  v-bind:value="is_spouse_location_known"/>
+                      <input type="hidden" name="state" id="stepfour_state" v-model="state"  v-bind:value="state""/>
+                      <input type="hidden" name="phone" id="stepfour_phone" v-model="phone"  v-bind:value="phone"/>
+                      <input type="hidden" name="email" id="stepfour_email" v-model="email"  v-bind:value="email"/>
+                      <input type="hidden" name="first" id="stepfour_first" v-model="first"  v-bind:value="first"/>
+                      <input type="hidden" name="last" id="stepfour_last" v-model="last"  v-bind:value="last"/>
 
-                      <input type="hidden" name="package_price" id="stepfour_package_price" v-model="package_price"  value="{{ package_price }}"/>  
-                      <input type="hidden" name="package_type" id="stepfour_package_type" v-model="package_type"  value="{{ package_type }}"/>
+                      <input type="hidden" name="package_price" id="stepfour_package_price" v-model="package_price"  v-bind:value="package_price"/>  
+                      <input type="hidden" name="package_type" id="stepfour_package_type" v-model="package_type"  v-bind:value="package_type"/>
                       <input type="hidden" name="counter" id="counter" value=""/>
 
 
@@ -3842,10 +3851,10 @@ lify-stepone
                     <form class='mailform contact-form' method="post">
                          {% csrf_token %}
 
-                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
-                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
-                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
-                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
+                      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  v-bind:value="is_military"/>
+                      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  v-bind:value="are_there_children"/>
+                      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  v-bind:value="does_spouse_agree"/>
+                      <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  v-bind:value="is_spouse_location_known"/>
 
 
           
@@ -4078,23 +4087,16 @@ lify-stepone
 
                       <!-- use the modal component, pass in the prop -->
 
+                    {% if not logout %}
+
+
+                 <!-- signupapppay -->
+                <div id="signupapppay" style="float:left;">
+                      <!-- use the modal component, pass in the prop -->
 
                     {% if not logout %}
-                     <div style="float:left;">
-
-                     <!-- signupapp -->
-                      <div id="signupapp" style="min-height:30%;pading-top:2.4em;font-size:1.2em;">
-                  
+                      <div style="min-height:30%;pading-top:2.4em;font-size:1.2em;">
                           Please <a id="show-modal" @click="showModal = true" style="font-weight:bold;">sign in</a> to continue with your payment.
-                  
-                 
-                                       <modal v-if="showModal" @close="showModal = false" :show.sync="show" :on-close="close"  @keyup.esc="$emit('close')">
-
-
-                                       </modal>
- 
-                     </div>
-
                       </div>
                     {% endif %}
 
@@ -4107,28 +4109,27 @@ lify-stepone
 
 
                     {% endif %}
+<!--
+                       <modal :show="showModal">
 
+                      </modal>
+-->
 
+               </div>
 
+                    {% endif %}
 
                     {% if logout %}
 
 
            <!-- toast element -->
            <div id="paymentwizard-container" class="container wow fadeInUp">
-                      <div  class="bread-main" id="paymentwizard">
+                      <div id="paymentwizard">
  
                              <h3><span>Make a </span> Payment</h3>
 
-                <ul class="cd-multi-steps text-bottom count" id="wizard">
-                        <li class="current"><em><a href="#" id="progress_stepone" href="#">Step 1 - Name and Email</a></em></li>
-                        <li><em><a href="#" id="progress_steptwo" href="#">Step 2 - Payment Info</a></em></li>
-                        <li><em><a href="#" id="progress_stepthree">Step 3 - Billing Address</a></em></li>
-                        <li><em><a href="#" id="progress_stepfour">Step 4 - Review and Conirm</a></em></li>
-                        <li><em><a href="#" id="progress_stepfive">Step 5 - Process Payment</a></em></li>
-                </ul>
 
-<!--
+
                                        <ul class='nav nav-wizard' id="wizard">
 
                                                    <li><a id="progress_stepone" href='#' data-toggle="tab">Step 1 - Name and Email</a></li>
@@ -4142,13 +4143,11 @@ lify-stepone
                                                    <li><a id="progress_stepfive">Step 5 - Process Payment</a></li>
 
                                        </ul>
--->
+                                        <br/><br/>
                       </div>
          
          <!-- stepone -->
         <div id="stepone">
-
-             <div class="col-xs-12 col-sm-8">
 
                 <p>
         Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
@@ -4161,27 +4160,17 @@ lify-stepone
                       <fieldset>
                           <label>
                               <input type="text"
-                              name="first"
-                              id="first_payments"
-                              v-model="first"
-                              placeholder="First Name*"
-                              value="{% if logout %}{% user_meta user_id 1 %}{% endif %}"
-                              data-constraints="@LettersOnly @NotEmpty"/>
-                          </label>
-
-                          <label>
-                              <input type="text"
-                              name="last"
-                              id="last_payments"
-                              v-model="last"
-                              placeholder="Last Name*"
-                              value="{% if logout %}{% user_meta user_id 2 %}{% endif %}"
+                              name="fullname"
+                              id="fullname"
+                              v-model="fullname"
+                              placeholder="Name*"
+                              value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}" 
                               data-constraints="@LettersOnly @NotEmpty"/>
                           </label>
 
                           <label style="padding-top:1.9em;">
                               <input type="text"
-                              id="email_payments"
+                              id="regular_email"
                               name="email"
                               v-model="email"
                               value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
@@ -4191,7 +4180,7 @@ lify-stepone
 
                           <label style="padding-top:1.9em;">
                               <input type="text"
-                              id="phone_payments"
+                              id="regular_phone"
                               name="phone"
                               v-model="phone"
                               value="{% if logout %}{% user_meta user_id 5 %}{% endif %}"
@@ -4206,67 +4195,15 @@ lify-stepone
                           <div class="clear"></div>
                       </fieldset>
                      </form>
-                 </div>
-
-                     <div class="col-xs-12 col-sm-4">
-                           <div style="border-bottom:1px solid;">Progress</div>
-                           <div>
-
-                               <div>
-                               <div style="float:left;">Package:</div><div id="step_one_package" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Price:</div><div id="step_one_price" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">State:</div><div id="step_one_state" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">First:</div><div id="step_one_first" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Last:</div><div id="step_one_last" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Email:</div><div id="step_one_email" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Phone:</div><div id="step_one_phone" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-
-
-                               First: {% user_meta user_id 1 %}<br/>
-                               Last: {% user_meta user_id 2 %}<br/>
-                               Email {% user_meta user_id 4 %}
-                           </div>
-                     </div>
-
         </div>
 
-        <!-- steptwo -->
+
         <div id="steptwo">
-             <div class="col-xs-12 col-sm-8">
                     <form class='mailform contact-form' method="post">
                          {% csrf_token %}
-                      <input type="hidden" name="phone" id="st-phone" v-model="phone"  value="{{ phone }}"/>
-                      <input type="hidden" name="email" id="st-email" v-model="email"  value="{{ email }}"/>
-                      <input type="hidden" name="first" id="st-first" v-model="first"  value="{{ first }}"/>
-                      <input type="hidden" name="last" id="st-last" v-model="last"  value="{{ last }}"/>
-                      <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{{ fullname }}"/>
+                      <input type="hidden" name="phone" id="step_two_phone" v-model="phone"  v-bind:value="phone"/>
+                      <input type="hidden" name="email" id="step_two_email" v-model="email"  v-bind:value="email"/>
+                      <input type="hidden" name="fullname" id="fullname" v-model="fullname"  v-bind:value="fullname"/>
                       <input type="hidden" name="counter" id="counter" value=""/>
 
                       {{ fullname }}<br/>
@@ -4274,16 +4211,6 @@ lify-stepone
                       {{ phone }}
 
                       <fieldset> 
-                          <label>
-                              <input type="text"
-                              name="fullname"
-                              id="fullname"
-                              v-model="fullname"
-                              placeholder="Name on card*"
-                              value="{{ first }} {{ last }}"
-                              data-constraints="@LettersOnly @NotEmpty"/>
-                          </label>
-
                           <label style="padding-top:1.9em;">
                               <input type="text"
                               name="cardtype"
@@ -4337,62 +4264,19 @@ lify-stepone
                           <div class="clear"></div>
                       </fieldset>
                      </form>
-                 </div>
-
-                     <div class="col-xs-12 col-sm-4">
-                           <div style="border-bottom:1px solid;">Progress</div>
-                           <div>
-
-                               <div>
-                               <div style="float:left;">Package:</div><div id="step_two_package" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Price:</div><div id="step_two_price" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">State:</div><div id="step_two_state" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">First:</div><div id="step_two_first" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Last:</div><div id="step_two_last" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Email:</div><div id="step_two_email" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Phone:</div><div id="step_two_phone" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                           </div>
-                     </div>
 
         </div>
 
-        <!-- #stepthree -->
+
         <div id="stepthree">
-              <div class="col-xs-12 col-sm-8">
+
                     <form class='mailform contact-form' method="post">
                          {% csrf_token %}
 
                       <input type="hidden" name="phone" id="phone" v-model="phone"  value=""/>
                       <input type="hidden" name="email" id="email" v-model="email"  value=""/>
                       <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
-              
+
                       <input type="hidden" name="counter" id="counter" value=""/>
                       <fieldset>
                           <label style="padding-top:1.9em;">
@@ -4454,77 +4338,10 @@ lify-stepone
                           <div class="clear"></div>
                       </fieldset>
                      </form>
-               </div>
-
-                     <div class="col-xs-12 col-sm-4">
-                           <div style="border-bottom:1px solid;">Progress</div>
-                           <div>
-
-                               <div>
-                               <div style="float:left;">Package:</div><div id="step_three_package" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Price:</div><div id="step_three_price" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">State:</div><div id="step_three_state" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">First:</div><div id="step_three_first" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Last:</div><div id="step_three_last" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Email:</div><div id="step_three_email" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Phone:</div><div id="step_three_phone" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-
-                               <div>
-                               <div style="float:left;">Card Type:</div><div id="step_three_cardtype" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Card No.:</div><div id="step_three_cardnumber" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                               <div>
-                               <div style="float:left;">Name on card:</div><div id="step_three_nameoncard" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-
-                               <div>
-                               <div style="float:left;">Expiration:</div><div id="step_three_expiration" style="float:left;"></div>
-                               <div class="clear"></div>
-                               </div>
-
-                           </div>
-                     </div>
 
         </div>
 
         <div id="stepfour">
-              <div class="col-xs-12 col-sm-8">
-
               <form class='mailform contact-form' method="post">
                          {% csrf_token %}
                          <div><h4><strong>Individual Details</strong></h4></div>
@@ -4545,7 +4362,7 @@ lify-stepone
                          <div id="final_state"></div>
                          <div id="final_zip"></div>
 
-                         <input type="hidden" name="user_id" id="user_id" v-model="user_id" value="{{ user.id }}" />
+
                          <input type="hidden" name="phone" id="phone" v-model="phone"  />
                          <input type="hidden" name="email" id="email" v-model="email"  />
                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  />
@@ -4564,17 +4381,16 @@ lify-stepone
 
                          <fieldset>
                           <div style="float:left;padding-top:1.9em;">
-                              <button class="btn4" @click="submitfour"  id="next_four">Proceed</button>
+                              <button class="btn4" v-on:click="submitfour"  id="next_four">Proceed</button>
                           </div>
                           <div class="clear"></div>
                          </fieldset>
 
 
           </form>
-          </div>
+
         </div>
         <div id="stepfive">
-            <div class="col-xs-12 col-sm-8">
             <form class='mailform contact-form' method="post">
                          {% csrf_token %}
 
@@ -4588,7 +4404,7 @@ lify-stepone
 
 
         </form>
-        </div>
+
 
 
 
@@ -6830,7 +6646,7 @@ lify-stepone
 
                              <div class="container wow fadeInUp posts-all-container"> <!-- posts-all-container starts -->
                                       {% for post in posts %}
-                                             <div style="width:100%;" id="post-single-{{ post.id }}" class="post-single-wrapper"> <!-- post single starts -->
+                                             <div style="width:100%;" v-bind:id="'post-single-' + post.id" class="post-single-wrapper"> <!-- post single starts -->
                                                      <div style='width:100%;'> <!-- title starts -->
                                                             <div class="blog-item-left">
                                                                    Title:
@@ -6861,18 +6677,18 @@ lify-stepone
                                                             <div class='clear'></div>
                                                      </div>  <!-- postedby ends -->
 
-                                                     <input type="hidden" id="full-{{ post.id }}" value="{{ post.body }}" />
-                                                     <input type="hidden" id="teaser-{{ post.id }}" value="{{ post.teaser }}" />
+                                                     <input type="hidden" v-bind:id="'full-' + post.id" v-bind:value="post.body" />
+                                                     <input type="hidden" v-bind:id="'teaser-' + post.id" v-bind:value="post.teaser" />
 
-                                                     <div style='width:100%;text-align:left;' id="fulltext-{{ post.id }}">
-                                                            {{ post.teaser|safe }}<a href="#" onclick="readmore('{{ post.id }}');">&nbsp;Read more...</a>
+                                                     <div style='width:100%;text-align:left;' v-bind:id="'fulltext-' + post.id">
+                                                            {{ post.teaser|safe }}<a href="#" v-bind:onclick="'readmore('' + post.id + '');'">&nbsp;Read more...</a>
                                                      </div>
 
                                                      <div style='width:100%;padding-top:5px;'> <!-- meta starts -->
                                                             <div class='comments-total'>
 
-                                                                        <button class="comments-link" id="comments-link-{{ post.id }}" 
-                                                                                onclick="handlePostId({{ post.id }});">
+                                                                        <button class="comments-link" v-bind:id="'comments-link-' + post.id" 
+                                                                                v-bind:onclick="'handlePostId(' + post.id + ');'">
                                                                                         Comments({{ post.total_comments }})
                                                                         </button>
 
@@ -6923,7 +6739,7 @@ lify-stepone
                                                             <form class='mailform contact-form' method="post">
                                                                  {% csrf_token %}
                                                                  <input type="hidden" name="comments-open" id="comments-open" />
-                                                                 <input type="hidden" name="post-id" id="post-id" value="{{ post.id }}" />    
+                                                                 <input type="hidden" name="post-id" id="post-id" v-bind:value="post.id" />    
 
                                                                  <div class="clear"></div>
                                                                  <div style="float:top;padding-top:1.9em;">
@@ -6970,6 +6786,8 @@ lify-stepone
             </section>
           </main>
         </div> <!-- blog_block ends -->
+
+
 
           <!--========================================================
                                     FOOTER
@@ -7051,12 +6869,13 @@ lify-stepone
 
                 <div class="col-md-2 col-sm-6 col-xs-6 pt">
                   <h4>Contact Us</h4>
+---------------------------------------
                   <ul class="list">
                       <li><a href="#">Phone (212) 202 0342</a></li>
                       <li><a href="#">Fax 212 202 0342</a></li>
                       <li><a href="#">info@myattorneyusa.com</a></li>
                       <li><a href="#">76 Beaver Street, 10th Floor</a></li>
-                      <li><a href="#">New York, NY</a></li>
+                      <li><a href="#">{% contact_meta 1 4 %}, {% contact_meta 1 5 %}</a></li>
                   </ul>
                 </div>
               </div>
@@ -7081,9 +6900,10 @@ lify-stepone
         </div> <!-- page ends--> 
 
         <!-- template for the modal component -->
-        <script type="x/template" id="modal-template-signin">
-         <transition name="modal">
-          <div class="modal-mask" v-show="show"> <!-- modal mask opens -->
+        <script type="text/x-template" id="modal-template">
+
+        <transition name="modal"> 
+          <div class="modal-mask"> <!-- modal mask opens -->
              <div class="modal-wrapper"> <!-- modal wrapper opens -->
 
                   <div class="modal-container"> <!-- modal container starts -->
@@ -7093,7 +6913,7 @@ lify-stepone
                              <h3><strong>SIGN IN</strong></h3>
                        </div>
                        <div class="header-right">
-                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="$emit('close')" />
+                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="show = false" />
                        </div>
                        <div class="clear"></div>
 
@@ -7106,28 +6926,28 @@ lify-stepone
 
                                     <div style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>
-                                                  <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                  <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?v-bind:next="request.path"" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center>
                                                 </div>
 
                                                 <div style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>   
-                                                          <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?v-bind:next="request.path"">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center> 
                                                 </div>
 
                                                 <div style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center> 
-                                                          <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?v-bind:next="request.path"">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center>
                                                 </div>
                                                 <div style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>
-                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2' %}?next={{ request.path }}">
+                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2' %}?v-bind:next="request.path"">
                                                             Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                           </a>
 <!--
-                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?v-bind:next="request.path"">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 -->    
                                                 </center>
                                                 </div>
@@ -7140,21 +6960,23 @@ lify-stepone
 
                   </div> <!-- modal container ends -->
              </div> <!-- modal wrapper ends -->
+              </div>
         </div> <!-- modal mask ends -->
-        </div>
         </transition>
-        </script>
+            </script>
+       
+     
 
 
         <!-- template for the Modal component -->
         <script type="x/template" id="modal-template">
-           <transition name="modal">
-            <div class="modal-mask" :show.sync="show" :on-close="close"  @keyup.esc="$emit('close')">
+          <transition name="modal">
+            <div class="modal-mask" @click="close" v-show="show">
                 <div class="modal-container" @click.stop>
                     <slot></slot>
                 </div>
             </div>
-           </transition>
+          </transition>
         </script>
 
         <!-- template for the NewPostModal component -->
@@ -7182,16 +7004,39 @@ lify-stepone
                 </div>
             </modal>
         </script>
+        <!-- template for the NewCommentModal component -->
+<!--
+        <script type="x/template" id="new-comment-modal-template">
+            <modal :show="show" :on-close="close">
+                <div class="modal-header">
+                    <h3>New Comment</h3>
+                </div>
+
+                <div class="modal-body">
+                    <label class="form-label">
+                        Comment
+                        <textarea v-model="comment" rows="5" class="form-control"></textarea>
+                    </label>
+                </div>
+
+                <div class="modal-footer text-right">
+                    <button class="modal-default-button" @click="postComment()">
+                        Post
+                    </button>
+                </div>
+            </modal>
+        </script>
         <div id="fb-root"></div>
         <div id="chat_div"  style="height:200;width:200;"></div>
         <div id="log"></div>
 
-{% if not user.is_authenticated %}
+
+
 <!-- template for the modal component -->
 <script type="text/x-template" id="modal-template-signup">
   <transition name="modal">
     <div class="modal-mask">
-      <div class="modal-wrapper" @click="$emit('close')">
+      <div class="modal-wrapper">
         <div class="modal-container">
 
                        <div class="modal-header">
@@ -7199,7 +7044,9 @@ lify-stepone
                              <h3><strong>SIGN IN</strong></h3>
                        </div>
                        <div class="header-right">
-                             <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;" @click="$emit('close')" />
+                             <img src="/media/images/close_icon.png"
+height="20" width="20" style="margin-right:-10%;margin-top:-10%;"
+@click="$emit('close')" />
                        </div>
                        <div class="clear"></div>
 
@@ -7208,32 +7055,52 @@ lify-stepone
 
                                    <form novalidate>
 
-                                          <div class="form-login" id="form-login">
+                                          <div class="form-login"
+id="form-login">
 
-                                    <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                    <div
+style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>
-                                                  <a class="btn-si btn-si-a btn-google"  href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" style="width:100%;">Sign in with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                  <a class="btn-si btn-si-a
+btn-google"  href="{% url 'social:begin' 'google-oauth2'
+%}?next=v-bind:next="request.path"" style="width:100%;">Sign in with
+%Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center>
                                                 </div>
 
-                                                <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                                <div
+style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>   
-                                                          <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si
+btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook'
+%}?next=v-bind:next="request.path"">Sign in with
+%Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center> 
                                                 </div>
 
-                                                <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                                <div
+style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center> 
-                                                          <a class="btn-si btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Sign in with Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si
+btn-si-a btn-twitter"  href="{% url 'social:begin' 'twitter'
+%}?next=v-bind:next="request.path"">Sign in with
+%Twitter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                                     </center>
                                                 </div>
-                                                <div style="margin-top:15%;margin-bottom:15%;width:100%;">
+                                                <div
+style="margin-top:15%;margin-bottom:15%;width:100%;">
                                                     <center>
-                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2' %}?next={{ request.path }}">
-                                                            Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                          <a class="btn-si
+btn-si-a btn-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2'
+%}?next=v-bind:next="request.path"">
+                                                            Sign in with Linked
+In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                           </a>
 <!--
-                                                          <a class="btn-si btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}">Sign in with Linked In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                          <a class="btn-si
+btn-si-a btn-linkedin" href="{% url 'social:begin' 'linkedin'
+%}?next=v-bind:next="request.path"">Sign in with Linked
+%In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 -->    
                                                 </center>
                                                 </div>
@@ -7241,83 +7108,17 @@ lify-stepone
                                           </div>
                                    </form>
 
-
-
                              </slot>
                        </div> <!-- modal body ends -->
+
+
         </div>
       </div>
     </div>
   </transition>
 </script>
-{% endif %}
 
-{% if not user.is_authenticated %}
-<!-- template for the modal component -->
-<script type="text/x-template" id="modal-template-signin">
-  <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-wrapper" @click="$emit('close')">
-        <div class="modal-container">
-        </div>
-      </div>
-    </div>
-  </transition>
-</script>
-{% endif %}
-
-                                   <!-- template for the modal component -->
-                                   <script type="text/x-template" id="activation-required-modal-template">
-                                      <transition name="modal">
-                                       <div class="modal-mask" v-show="show">
-                                           <div class="modal-wrapper" @click="$emit('close')">
-                                               <div class="modal-container" style="min-width: 25.5em;">
-                                                     <div class="modal-header">
-                                                         <div id="modal-header" class="header-left" style="text-align:center;">
-                                                             <h6><strong>Please activate your account!</strong></h6>
-                                                         </div>
-                                                         <div class="header-right">
-                                                            <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="$emit('close')" />
-                                                         </div>
-                                                         <div class="clear"></div>
-
-                                                         <div class="modal-body">
-                                                             <slot name="body">
-
-                                                                <input type="hidden" name="user-id" id="user-id" value="{{ user_id }}" />
-                                                                <div style="float:left;padding-left:6%;width:6%;">
-                                                                 &nbsp;
-                                                                </div>
-                                                               <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
-                                                                 <div style="margin-top:-15px;">Your activation link has been resent!</div>
-                                                               </div>
-
-                                                                <div style="float:left;padding-left:6%;margin-top:2.3em;width:88%;">
-                                                                 Your account is still not activated.<br/>
-                                                                 We have sent you the activation link<br/>
-                                                                 If you want to resend the activation link,<br/>
-                                                                 please click <a href="#" name="resend" id="resend" style="text-decoration:underline;">here</a>. 
-                                                                </div>
-                                                                <div class="clear"></div>
-
-                                                             </slot>
-                                                         </div>
-                                                         <div class="modal-footer">
-                                                             <slot name="footer">
-                                                                 &nbsp;<br/>
-                                                             </slot>
-                                                         </div>
-                                                     </div>
-                                               </div>
-                                           </div>
-                                       </div>
-                                      </transition>
-                                   </script>
-        
-        <script src="/static/js/vue_apps_v2.js"></script>
-        <form>
-            <input type="hidden" name="current-user-id" id="current-user-id" value="{{ user_id }}" />
-        </form>
+ <script src="/static/js/vue_apps_v2.js"></script>
         </body>
-        </html>
 
+        </html>

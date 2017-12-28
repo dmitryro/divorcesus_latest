@@ -975,7 +975,6 @@
           $('.comments-link').bind('click',handleComments);
 
 
-          $('#next_four').bind('click',processPayment);
           $('#qualify_next_six').bind('click',processPaymentQualify);
 
           if  (service=='contact')  {

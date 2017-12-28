@@ -925,9 +925,10 @@
   }
 
    function processPaymentQualify() {
-      $.ajax({
+      
+     $.ajax({
             type: "POST",
-            url: "https://divorcesus.com/confirm/",
+            url: "https://divorcesus.com/qualifyconfirm/",
             data: '{"email":"'+$("#step_six_email").val()+
                   '","first":"'+$("#step_six_first").val()+
                   '","last":"'+$("#step_six_last").val()+
@@ -940,6 +941,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(data) {
+              alert('succeeded');
             },
             error: function(data){
               alert("failure"+data);
@@ -949,25 +951,6 @@
    }
 
 
-   function processPayment() {
-      $.ajax({
-            type: "POST",
-            url: "https://divorcesus.com/confirm/",
-            data: '{"email":"'+$("#email").val()+'","fullname":"'+$("#fullname").val()+'","cardtype":"'+$("#cardtype").val()+
-                                 '","cardnumber":"'+$("#cardnumber").val()+'","address1":"'+$("#address1").val()+'","address2":"'+
-                                 $("#address2").val()+'","city":"'+$("#city").val()+'","phone":"'+$("#phone").val()+'","state":"'+
-                                 $("#state").val()+'","zip":"'+$("#zip").val()+'","month":"'+$("#month").val()+'","year":"'+$("#year").val()+'"}',
-
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(data) {
-            },
-            error: function(data){
-              alert("failure"+data);
-           }
-      });
-
-   }
 
        function close_comments() {
 

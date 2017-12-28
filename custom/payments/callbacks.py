@@ -36,25 +36,18 @@ from signals import payment_send_confirmation_email
 
 @receiver(payment_send_confirmation_email,sender=User)
 def payment_send_confirmation_email_handler(sender,**kwargs):
+     contact = kwargs['contact']
      try:
-        contact = kwargs['contact']
-        payment = kwargs['payment']
-
         task = TaskLog.objects.get(user_id=contact.id,job='sending_payment_email')
      except Exception, R:
-        task = TaskLog.objects.create(user_id=contact.id,job='sending_payment_email',is_complete=False)
-        contact = kwargs['contact']
-        log = Logger(log="WE ARE IN SIGNAL AND ARE TRYING TO SEND IT ")
-        log.save()
+        task = TaskLog.objects.create(user_id=contact.id, job='sending_payment_email', is_complete=False)
         payment = kwargs['payment']
         process_payment_confirmation_email(payment)
+
 
 def process_payment_confirmation_email(payment):
 
     try:
-        log = Logger(log="WE ARE TRYING TO SEND IT ")
-        log.save()
-
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
@@ -65,6 +58,9 @@ def process_payment_confirmation_email(payment):
         SERVER = profile.smtp_server
         TO = payment.email
 
+        log = Logger(log = 'We are sending email to {}'.format(payment))
+        log.save()
+
         SUBJECT = 'Your payment has been processed'
         try:
             path = "templates/payment_message.html"
@@ -73,19 +69,19 @@ def process_payment_confirmation_email(payment):
 
             m = f.read()
             mess = m
-            mess = string.replace(m, '[fullname]',payment.fullname)
+            mess = string.replace(m, '[fullname]', payment.fullname)
             mess = string.replace(mess, '[message]', "Your payment has been processed")
-            mess = string.replace(mess, '[address1]',payment.address1)
-            mess = string.replace(mess, '[address2]',payment.address2)
-            mess = string.replace(mess, '[city]',payment.city)
-            mess = string.replace(mess, '[state]',payment.state)
-            mess = string.replace(mess, '[zip]',payment.zipcode)
-            mess = string.replace(mess, '[cardtype]',payment.cardtype)
-            mess = string.replace(mess, '[cardnumber]',payment.cardnumber)
-            mess = string.replace(mess, '[month]',payment.month)
-            mess = string.replace(mess, '[year]',payment.year)
-            mess = string.replace(mess, '[phone]',payment.phone)
-            mess = string.replace(mess, '[email]',payment.email)
+            mess = string.replace(mess, '[address1]', payment.address1)
+            mess = string.replace(mess, '[address2]', payment.address2)
+            mess = string.replace(mess, '[city]', payment.city)
+            mess = string.replace(mess, '[state]', payment.state)
+            mess = string.replace(mess, '[zip]', payment.zipcode)
+            mess = string.replace(mess, '[cardtype]', payment.cardtype)
+            mess = string.replace(mess, '[cardnumber]', payment.cardnumber)
+            mess = string.replace(mess, '[month]', payment.month)
+            mess = string.replace(mess, '[year]', payment.year)
+            mess = string.replace(mess, '[phone]', payment.phone)
+            mess = string.replace(mess, '[email]', payment.email)
         #    mess = string.replace(mess,'[link]',link)
 
         except Exception, R:
@@ -119,7 +115,7 @@ def process_payment_confirmation_email(payment):
     except ObjectDoesNotExist:
         pass
     except Exception, R:
-        log = Logger(log=str(R))
+        log = Logger(log="ANOTHER FAILURE HERE: "+str(R))
         log.save()
 
 

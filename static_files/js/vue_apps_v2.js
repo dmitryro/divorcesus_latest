@@ -35,6 +35,7 @@ var qvm = new Vue({
                this.first = $('#first').val();
                this.last = $('#last').val();
                this.email = $('#email').val();
+           
                $("#final-qualify-state").html("<h4><strong>"+$('#state-selected').val()+"</strong></h4>");
 
                if(this.is_spouse_location_known == 'yes' && this.does_spouse_agree == 'yes') {
@@ -58,6 +59,7 @@ var qvm = new Vue({
     },
 
     submitfour: function (event) {
+         alert('submitfour 1');
     },
 
     submitfive: function (event) {
@@ -145,6 +147,7 @@ var qvm2 = new Vue({
     },
 
     submitfour: function (event) {
+       alert('submitfour 2');
     },
 
     submitfive: function (event) {
@@ -240,6 +243,7 @@ var qvm3 = new Vue({
     },
 
     submitfour: function (event) {
+       alert('submitfour 3');
     },
 
     submitfive: function (event) {
@@ -565,50 +569,74 @@ var qvm7 = new Vue({
 
 var vm = new Vue({
   el: '#stepone',
-
   data: {
-    email:'',
-    phone:'',
-    fullname: '',
+    email: '',
+    first: '',
+    last:  '',
+    phone: '',
+    state: '',
+    month: '',
+    year: '',
+    fullname: ''
   },
-
   methods: {
+    submitone: function () {
+        if (this.phone==undefined || this.phone.toString().length==0) {
+           vm2.phone = $('#phone_payments').val();
+           this.phone = $('#phone_payments').val();
+        } else {
+           vm2.phone = this.phone;
+        }
 
-    submitone: function (event) {
-               this.phone = $('#regular_phone').val();
-               this.email = $('#regular_email').val();
-               this.fullname = $('#fullname').val();               
+        if (this.email==undefined || this.email.toString().length==0) {
+           vm2.email = $('#email_payments').val();
+           this.email = $('#email_payments').val();
+        } else {
+           vm2.email = this.email;
+        }
+
+        if (this.first==undefined || this.first.toString().length==0) {
+           vm2.first = $('#first_payments').val();
+           this.first = $('#first_payments').val();
+        } else {
+           vm2.first = this.first;
+        }
+
+        if (this.last==undefined || this.last.toString().length==0) {
+           vm2.last = $('#last_payments').val();
+           this.last = $('#last_payments').val();
+        } else {
+           vm2.last = this.last;
+        }
+
+        vm2.state = this.state;
+        $("#step_two_phone").html(this.phone.toString());
+        $("#step_two_state").html(this.state.toString());
+        $("#step_two_email").html(this.email.toString());
+        $("#step_two_first").html(this.first.toString());
+        $("#step_two_last").html(this.last.toString());
     },
-
     submittwo: function (event) {
 
     },
-
     submitthree: function (event) {
     },
-
     submitfour: function (event) {
-        alert('hihihi');
     },
-
     successCallback: function(event) {
-            alert("SUCCESS");
     },
     errorCallback: function(event) {
-            alert("ERROR");
     },
     validConfirm: function(event) {
-           alert("VALID");
     },
-    mounted:function() {
-      this.phone = $('#phone').val();
-      this.email = $('#email').val();
-      this.fullname = $('#fullname').val();
-    }
-
-    
+  },
+  mounted:function() {
+      this.first = $('#first_payments').val();
+      this.last =  $('#last_payments').val();
+      this.email =  $('#email_payments').val();
+      this.phone = $('#phone_payments').val();
   }
-})
+});
 
 
 var vm2 = new Vue({
@@ -616,6 +644,9 @@ var vm2 = new Vue({
   data: {
     email:'',
     phone:'',
+    first: '',
+    last: '',
+    state: '',
     fullname: '',
     cardtype:'',
     cardnumber:'',
@@ -624,39 +655,43 @@ var vm2 = new Vue({
   },
   methods: {
     submitone: function (event) {
+
     },
     submittwo: function (event) {
-           this.$set('phone',vm.phone);
-           this.$set('fullname',vm.fullname);
-           vm3.$set('email',vm.email);
-           vm3.$set('fullname',this.fullname);
-           vm3.$set('cardtype',this.cardtype);
-           vm3.$set('cardnumber',this.cardnumber);
-           vm3.$set('expirationmonth',this.expirationmonth);
-           vm3.$set('expirationyear',this.expirationyear);
+           vm3.first = this.fist;
+           vm3.last = this.last;
+           vm3.state = this.state;
+           vm3.email = this.email;
+           vm3.fullname = this.fullname;
+           vm3.cardtype = this.cardtype;
+           vm3.cardnumber = this.cardnumber;
+           vm3.expirationmonth = this.expirationmonth;
+           vm3.expirationyear = this.expirationyear;
+           $("#step_three_phone").html(this.phone.toString());
+           $("#step_three_state").html(this.state.toString());
+           $("#step_three_email").html(this.email.toString());
+           $("#step_three_first").html(this.first.toString());
+           $("#step_three_last").html(this.last.toString());
+           $("#step_three_cardtype").html(this.cardtype.toString());
+           $("#step_three_cardnumber").html(this.cardnumber.toString());
+           $("#step_three_nameoncard").html(this.fullname.toString());
+           $("#step_three_expiration").html(this.expirationmonth.toString()+'/'+this.expirationyear.toString());
     },
 
     submitthree: function (event) {
     },
 
     submitfour: function (event) {
-         alert('hi ho hi hi');
     },
 
     successCallback: function(event) {
-            alert("SUCCESS");
     },
     errorCallback: function(event) {
-            alert("ERROR");
     },
     validConfirm: function(event) {
-           alert("VALID");
     }
   },
   mounted:function() {
-      this.phone = vm.phone;
-      this.email = $('#email').val();
-      this.fullname = $('#fullname').val(); 
   }
   
 })
@@ -666,6 +701,7 @@ var vm2 = new Vue({
 var vm3 = new Vue({
   el: '#stepthree',
   data: {
+    user_id:'',
     email:'',
     fullname: '',
     address1: '',
@@ -686,21 +722,20 @@ var vm3 = new Vue({
     },
 
     submitthree: function (event) {
-
-               this.$set('phone',vm.phone);
-               this.$set('email',vm.email);
-               vm4.$set('email',vm.email);
-               vm4.$set('fullname',this.fullname);
-               vm4.$set('cardtype',this.cardtype);
-               vm4.$set('cardnumber',this.cardnumber);
-               vm4.$set('expirationmonth',this.expirationmonth);
-               vm4.$set('expirationyear',this.expirationyear);
-               vm4.$set('address1',this.address1);
-               vm4.$set('address2',this.address2); 
-               vm4.$set('city',this.city);
-               vm4.$set('state',this.state);
-               vm4.$set('zip',this.zip);
-               vm4.$set('phone',vm.phone);  
+               this.phone = vm.phone;
+               this.email = vm.email;
+               vm4.email = vm.email;
+               vm4.fullname = this.fullname;
+               vm4.cardtype = this.cardtype;
+               vm4.cardnumber = this.cardnumber;
+               vm4.expirationmonth = this.expirationmonth;
+               vm4.expirationyear = this.expirationyear;
+               vm4.address1 = this.address1;
+               vm4.address2 = this.address2; 
+               vm4.city = this.city;
+               vm4.state = this.state;
+               vm4.zip = this.zip;
+               vm4.phone = vm.phone;  
 
                $("#phone").attr("value",this.phone.toString());
                $("#city").attr("value",this.city.toString());  
@@ -753,9 +788,9 @@ var vm3 = new Vue({
 var vm4 = new Vue({
   el: '#stepfour',
   data: {
-     
+    user_id: '',     
     email:vm3.email,
-    fullname: vm3.fullname,
+    fullname: '',
     address1: vm3.address1,
     address2: vm3.address2,
     city: vm3.city,
@@ -780,6 +815,39 @@ var vm4 = new Vue({
     },
 
     submitfour: function (event) {
+     this.user_id = +$('#current-user-id').val();
+
+     var arr = {
+        "email": this.email,
+        "first": this.first,
+        "last": this.last,
+        "fullname": this.fullname,
+        "cardtype": this.cardtype,
+        "cardnumber": this.cardnumber,
+        "phone": this.phone,
+        "address1": this.address1,
+        "address2": this.address2,
+        "city": this.city,
+        "state": this.state,
+        "zip": this.zip,
+        "user_id": this.user_id,
+        "month": this.expirationmonth,
+        "year": this.expirationyear};
+
+     $.ajax({
+            type: "POST",
+            url: "https://divorcesus.com/paymentconfirm/",
+            crossDomain: true,
+            data: JSON.stringify(arr),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+            },
+            error: function(data){
+              alert("failure"+data);
+           }
+      });
+
     },
 
     successCallback: function(event) {
@@ -826,11 +894,10 @@ var vm5 = new Vue({
     },
 
     submitfour: function (event) {
-            alert('hi hi hi hi hi hi');
+       alert('submitfour 4');
     },
 
     submitfive: function (event) {
-         alert('pay');
     },
     successCallback: function(event) {
     },
@@ -1117,10 +1184,10 @@ jQuery(document).ready(function() {
            jQuery('#add-billing-address-body').css('display','block');
     });
 
-    vm.$el = document.getElementById('stepone');
-    vm2.$el = document.getElementById('steptwo');
-    vm3.$el = document.getElementById('stepthree');
-    vm4.$el = document.getElementById('stepfour');
-    vm5.$el = document.getElementById('stepfive');
-    news.$el = document.getElementById('newsletter');
+//    vm.$el = document.getElementById('stepone');
+//    vm2.$el = document.getElementById('steptwo');
+ //   vm3.$el = document.getElementById('stepthree');
+ //   vm4.$el = document.getElementById('stepfour');
+  //  vm5.$el = document.getElementById('stepfive');
+  //  news.$el = document.getElementById('newsletter');
 });

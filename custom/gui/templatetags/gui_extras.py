@@ -327,7 +327,7 @@ def contact_meta(a, b,  *args, **kwargs):
     try:
         try:
             contact = ContactInfo.objects.get(id=int(a))
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):

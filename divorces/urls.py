@@ -74,7 +74,6 @@ from custom.messaging.views import DeleteMessageView
 from custom.messaging.views import UserViewSet
 from custom.messaging.views import UserList
 from custom.payments.models import Address
-from custom.payments.views import SendConfirmationEmailView
 from custom.payments.views import PaymentsList
 from custom.payments.views import PastPaymentsList
 from custom.payments.views import AddressList
@@ -82,6 +81,7 @@ from custom.payments.views import AddressViewSet
 from custom.payments.views import add_address_view
 from custom.payments.views import delete_address_view
 from custom.payments.views import read_addresses_view
+from custom.payments.views import send_confiration_view
 from custom.services.views import ServiceViewSet
 from custom.services.views import PackageViewSet
 from custom.services.views import ServiceList
@@ -212,7 +212,8 @@ urlpatterns = [
     url(r'^subscribe/$',SubscribeView.as_view()),
     url(r'^addcomment',AddCommentView.as_view()),
     url(r'^search/', include('haystack.urls')),
-    url(r'^confirm/',SendConfirmationEmailView.as_view()),
+    url(r'^qualifyconfirm/$', send_confiration_view),
+    url(r'^paymentconfirm/$', send_confiration_view),
     url(r'^deletecomment/',DeleteCommentView.as_view()),
     url(r'^savecomment/$',SaveCommentView.as_view()),
     url(r'^sendmessage/',SendMessageView.as_view()),
@@ -254,7 +255,6 @@ urlpatterns = [
     url(r'^subscribe/$',SubscribeView.as_view()),
     url(r'^addcomment',AddCommentView.as_view()),
     url(r'^search/', include('haystack.urls')),
-    url(r'^confirm/',SendConfirmationEmailView.as_view()),
     url(r'^outgoing/(?P<sender_id>.+)/$',OutgoingMessagesList.as_view()),
     url(r'^outgoing/$',OutgoingMessagesList.as_view()),
     url(r'^incoming/(?P<receiver_id>.+)/$',IncomingMessagesList.as_view()),

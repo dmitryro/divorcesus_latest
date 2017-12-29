@@ -295,11 +295,16 @@ class PastPaymentsList(Endpoint):
 ## RETURNED: SUCCESS/FAILUTRE ######
 ####################################
 
-@api_view(['POST', 'GET'])
+@api_view(['POST'])
 @renderer_classes((JSONRenderer,))
 @permission_classes([AllowAny,])
 def send_confiration_view(request):
         contact = None
+        month = str(request.data.get('month', ''))
+        year = str(request.data.get('year', ''))
+        email = request.data['email']
+        city = request.data['city']
+
         if request.user.is_authenticated():
             user = request.user
         else:
@@ -328,14 +333,11 @@ def send_confiration_view(request):
            cardtype = request.data['cardtype']
            cardnumber = request.data['cardnumber']
 
-           address1 = request.data['address1']
-           address2 = request.data['address2']
+           address1 = request.data.get("address1", "")
+           address2 = request.data.get("address2", "")
            phone = request.data['phone']
-           city = request.data['city']
            state = request.data['state']
            zipcode = request.data['zip']
-           month = request.data['month']
-           year = request.data['year']
 
            if not cardtype or len(cardtype) < 1:
               return Response({'message':'card type is a mandatory'})
@@ -344,10 +346,6 @@ def send_confiration_view(request):
                contact = Contact.objects.get(email=email)
            except Exception as R:
                contact = Contact.objects.create(name=fullname, email=email)
-
-           if not contact:
-               return Response({'message':'error','s3_base_url':"no link"})
-
 
            try:
                ppn = getPaymentProcessing() 
@@ -366,14 +364,16 @@ def send_confiration_view(request):
                                                 zipcode=zipcode,
                                                 month=month,
                                                 year=year)
+               payment.save()
            except Exception, R:
+               return Response({'message':'failure','cause':str(R)})
                payment = None
 
            if contact:
                payment_send_confirmation_email.send(sender=User, contact=contact, payment=payment)
            return Response({'message':'success','s3_base_url':"blablabla"})
         except Exception, R:
-           return Response({'message':str(R)})
+           return Response({'message': 'failure', 'cause':str(R)})
 
 
 payment_send_confirmation_email.connect(payment_send_confirmation_email_handler)

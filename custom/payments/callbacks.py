@@ -66,22 +66,22 @@ def process_payment_confirmation_email(payment):
             path = "templates/payment_message.html"
 
             f = codecs.open(path, 'r')
-
+            log = Logger(log=" EMAIL {} ".format(str(payment.email)))
             m = f.read()
             mess = m
-            mess = string.replace(m, '[fullname]', payment.fullname)
+            mess = string.replace(m, '[fullname]', str(payment.fullname))
             mess = string.replace(mess, '[message]', "Your payment has been processed")
-            mess = string.replace(mess, '[address1]', payment.address1)
-            mess = string.replace(mess, '[address2]', payment.address2)
-            mess = string.replace(mess, '[city]', payment.city)
-            mess = string.replace(mess, '[state]', payment.state)
-            mess = string.replace(mess, '[zip]', payment.zipcode)
-            mess = string.replace(mess, '[cardtype]', payment.cardtype)
-            mess = string.replace(mess, '[cardnumber]', payment.cardnumber)
-            mess = string.replace(mess, '[month]', payment.month)
-            mess = string.replace(mess, '[year]', payment.year)
-            mess = string.replace(mess, '[phone]', payment.phone)
-            mess = string.replace(mess, '[email]', payment.email)
+            mess = string.replace(mess, '[address1]', str(payment.address1))
+            mess = string.replace(mess, '[address2]', str(payment.address2))
+            mess = string.replace(mess, '[city]', str(payment.city))
+            mess = string.replace(mess, '[state]', str(payment.state))
+            mess = string.replace(mess, '[zip]', str(payment.zipcode))
+            mess = string.replace(mess, '[cardtype]', str(payment.cardtype))
+            mess = string.replace(mess, '[cardnumber]', str(payment.cardnumber))
+            mess = string.replace(mess, '[month]', str(payment.month))
+            mess = string.replace(mess, '[year]', str(payment.year))
+            mess = string.replace(mess, '[phone]', str(payment.phone))
+            mess = string.replace(mess, '[email]', str(payment.email))
         #    mess = string.replace(mess,'[link]',link)
 
         except Exception, R:

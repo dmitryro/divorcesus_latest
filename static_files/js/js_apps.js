@@ -925,28 +925,39 @@
   }
 
    function processPaymentQualify() {
-      
+    
+/*
+     var arr = {
+        "email": $("#step_six_email").val(),
+        "first": $("#step_six_first").val(),
+        "last": $("#step_six_last").val(),
+        "fullname": $("#step_six_first").val()+" "+$("#step_six_last").val(),
+        "cardtype": $("#step_six_cardtype").val(),
+        "cardnumber": $("#step_six_cardnumber").val(),
+        "phone": $("#step_six_phone").val(),
+        "address1": $("#step_six_address1").val(),
+        "address2": +$("#step_six_address2").val(),
+        "city": +$("#step_six_city").val(),
+        "state": $("#step_six_state").val(),
+        "zip": $("#step_six_zip").val(),
+        "user_id": $("#current-user-id").val(),
+        "month": $("#step_six_month").val(),
+        "year": $("#step_six_year").val()};
+
      $.ajax({
             type: "POST",
-            url: "https://divorcesus.com/qualifyconfirm/",
-            data: '{"email":"'+$("#step_six_email").val()+
-                  '","first":"'+$("#step_six_first").val()+
-                  '","last":"'+$("#step_six_last").val()+
-                  '","fullname":"'+$("#step_six_first").val()+' '+$("#step_six_last").val()+
-                  '","cardtype":"'+$("#step_six_cardtype").val()+
-                  '","cardnumber":"'+$("#step_six_cardnumber").val()+'","address1":"'+$("#step_six_address1").val()+'","address2":"'+
-                                 $("step_six_#address2").val()+'","city":"'+$("#step_six_city").val()+'","phone":"'+$("#step_six_phone").val()+'","state":"'+
-                                 $("#step_six_state").val()+'","zip":"'+$("#step_six_zip").val()+'","month":"'+$("#step_six_month").val()+'","year":"'+$("#step_six_year").val()+'"}',
-
+            url: "https://divorcesus.com/paymentconfirm/",
+            crossDomain: true,
+            data: JSON.stringify(arr),
+            dataType: 'json',
             contentType: "application/json; charset=utf-8",
-            dataType: "json",
             success: function(data) {
-              alert('succeeded');
             },
             error: function(data){
               alert("failure"+data);
            }
       });
+ */
 
    }
 

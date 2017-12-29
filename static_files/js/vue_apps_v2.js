@@ -12,6 +12,7 @@ var qvm = new Vue({
   el: '#qualify-stepone',
   data: {
     state:'',
+    user_id:'',
     is_spouse_location_known:'',
     are_there_children: '',
     does_spouse_agree:'',
@@ -24,6 +25,7 @@ var qvm = new Vue({
     last:'',
     fullname:'',
     is_military:'',
+    user_id:''
   },
   methods: {
     submitone: function (event) {
@@ -35,7 +37,8 @@ var qvm = new Vue({
                this.first = $('#first').val();
                this.last = $('#last').val();
                this.email = $('#email').val();
-           
+               this.user_id = $("#current-user-id").val();    
+               qvm2.user_id = this.user_id;
                $("#final-qualify-state").html("<h4><strong>"+$('#state-selected').val()+"</strong></h4>");
 
                if(this.is_spouse_location_known == 'yes' && this.does_spouse_agree == 'yes') {
@@ -84,6 +87,7 @@ var qvm = new Vue({
   },
   mounted:function() {
       this.is_spouse_location_known = 'yes';
+      this.user_id = $("#current-user-id").val();
   }
 
 })
@@ -93,6 +97,7 @@ var qvm2 = new Vue({
   el: '#qualify-steptwo',
 
   data: {
+    user_id:'',
     state:'',
     does_qualify:'',
     agree_to_start: '',
@@ -128,9 +133,9 @@ var qvm2 = new Vue({
            this.state = qvm.state;
            this.first = qvm.first;
            this.last = qvm.last;
-           this.email = qvm.email
-    
- 
+           this.email = qvm.email;
+           this.user_id = qvm.user_id;   
+           qvm3.user_id = this.user_id;
            $("#step_three_package").html(this.package_type);
            $("#step_three_state").html(this.state);
            $("#step_three_price").html(this.package_price);   
@@ -195,6 +200,7 @@ var qvm3 = new Vue({
   el: '#qualify-stepthree',
 
   data: {
+    user_id:'',
     email:'',
     phone:'',
     fullname: '',
@@ -224,14 +230,15 @@ var qvm3 = new Vue({
     submitthree: function (event) {
                this.phone = $('#stepthree_phone').val();
                this.email = $('#stepthree_email').val();
-               this.fullname = $('#fullname').val();
+               this.fullname = $('#qnameoncard').val();
                this.state = qvm2.state;
                this.package_price = qvm2.package_price;
                this.package_type = qvm2.package_type;
                this.first = $('#stepthree_first').val();
                this.last = $('#stepthree_last').val(); 
-               
-
+               qvm4.user_id = this.user_id;               
+               qvm4.fullname = this.fullname;
+              
                $("#step_four_package").html(this.package_type);
                $("#step_four_state").html(this.state);
                $("#step_four_price").html(this.package_price);//this.package_price);
@@ -283,6 +290,7 @@ var qvm4 = new Vue({
   el: '#qualify-stepfour',
 
   data: {
+    user_id:'',
     email:'',
     phone:'',
     state:'',
@@ -319,9 +327,9 @@ var qvm4 = new Vue({
     },
 
     submitfour: function (event) {
+               
                this.phone = qvm3.phone;
                this.email = qvm3.email;
-               this.fullname = $('#fullname').val();
                this.state = qvm2.state;
                this.package_price = qvm2.package_price;
                this.package_type = qvm2.package_type;
@@ -345,6 +353,8 @@ var qvm4 = new Vue({
                qvm5.state = this.state;
                qvm5.zip = this.zip;
                qvm5.phone = this.phone;
+               qvm5.user_id = this.user_id;
+               qvm5.fullname = this.fullname;
 
                $("#step_five_package").html(this.package_type);
                $("#step_five_state").html(this.state);
@@ -376,6 +386,7 @@ var qvm5 = new Vue({
   el: '#qualify-stepfive',
 
   data: {
+    user_id:'',
     email:'',
     phone:'',
     state:'',
@@ -431,6 +442,7 @@ var qvm5 = new Vue({
                qvm6.state = this.state;
                qvm6.zip = this.zip;
                qvm6.phone = this.phone;
+               qvm6.user_id = this.user_id;
 
                $("#step_six_phone").attr("value",this.phone.toString());
                $("#step_six_city").attr("value",this.city.toString());
@@ -479,6 +491,7 @@ var qvm6 = new Vue({
   el: '#qualify-stepsix',
 
   data: {
+    user_id:'',
     email:'',
     phone:'',
     state:'',
@@ -524,6 +537,39 @@ var qvm6 = new Vue({
     },
 
     submitsix: function (event) {
+	     var arr = {
+		"email": this.email,
+		"first": this.first,
+		"last": this.last,
+		"fullname": this.fullname,
+		"cardtype": this.cardtype,
+		"cardnumber": this.cardnumber,
+		"phone": this.phone,
+		"address1": this.address1,
+		"address2": this.address2,
+		"state": this.state,
+		"zip": this.zip,
+		"user_id": $("#current-user-id").val(),
+		"month": this.expirationmonth,
+		"year": this.expirationyear,
+                "city": this.city};
+
+	     $.ajax({
+		    type: "POST",
+		    url: "https://divorcesus.com/paymentconfirm/",
+		    crossDomain: true,
+		    data: JSON.stringify(arr),
+		    dataType: 'json',
+		    contentType: "application/json; charset=utf-8",
+		    success: function(data) {
+                      alert('success');
+		    },
+		    error: function(data){
+		      alert("failure"+data);
+		   }
+	      });
+
+
     },
 
     submitseven: function (event) {

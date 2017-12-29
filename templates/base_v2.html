@@ -3575,6 +3575,7 @@ lify-stepone
 
 					 <div id="final_does_qualify"></div>
 					 <div id="final_ready_start"></div>
+                                      <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/> 
 				      <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
 				      <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
 				      <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
@@ -3626,7 +3627,7 @@ lify-stepone
 				  </p>
 				    <form class='mailform contact-form' method="post">
                          {% csrf_token %}
-
+                      <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/>
                       <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
                       <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
                       <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
@@ -3723,6 +3724,7 @@ lify-stepone
                     <div class="col-xs-12 col-sm-8">
                     <form class='mailform contact-form' method="post">
                          {% csrf_token %}
+                      <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/>
                       <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
                       <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
                       <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
@@ -3738,7 +3740,8 @@ lify-stepone
                       <input type="hidden" name="counter" id="counter" value=""/>
 
 
-                      <fieldset> 
+                      <fieldset>
+                          <div> 
                           <label style="padding-top:1.9em;">
                               <input type="text"
                               name="cardtype"
@@ -3748,7 +3751,10 @@ lify-stepone
                               value="Visa,AMEX,MasterCard,Discover..."
                               data-constraints="@LettersOnly @NotEmpty"/>
                           </label>
+                          </div>
 
+
+                          <div>
                           <label style="padding-top:1.9em;">
                               <input type="text"
                               name="cardnumber"
@@ -3758,6 +3764,21 @@ lify-stepone
                               value="Your Card Number (Digits Only, no dashes)..."
                               data-constraints="@NumbersOnly @NotEmpty"/>
                           </label>
+                          </div>
+                         
+
+
+                          <div>
+                          <label style="padding-top:1.9em;">
+                              <input type="text"
+                              name="fullname"
+                              id="qnameoncard"
+                              v-model="fullname"
+                              placeholder="Name on Card*"
+                              value="Your Full Name the way it appears on Your Card ..."
+                              data-constraints="@NotEmpty"/>
+                          </label>
+                          </div>
 
                              <div style="width:20.5%;float:left;">
                                 <label style="padding-top:1.9em;"> 
@@ -3842,6 +3863,7 @@ lify-stepone
                     <form class='mailform contact-form' method="post">
                          {% csrf_token %}
 
+                      <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/>
                       <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
                       <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
                       <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
@@ -3999,7 +4021,7 @@ lify-stepone
                          <div id="qualify_final_state"></div>
                          <div id="qualify_final_zip"></div>
 
-
+                         <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/>
                          <input type="hidden" name="phone" id="step_six_phone" v-model="phone"  />
                          <input type="hidden" name="email" id="step_six_email" v-model="email"  />
                          <input type="hidden" name="first" id="step_six_first" v-model="first"  />

@@ -231,6 +231,8 @@ class Payment(models.Model):
     year = models.CharField(max_length=100, blank=True, null=True)
     zipcode = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=100, blank=True, null=True)
+    package_type = models.CharField(max_length=100, blank=True, null=True)
+    package_price = models.CharField(max_length=100, blank=True, null=True) 
     message = models.CharField(max_length=100, blank=True, null=True)
     transaction = models.ForeignKey(Transaction,blank=True,null=True)
     payment_processing_number = models.CharField(max_length=100, blank=True, null=True)

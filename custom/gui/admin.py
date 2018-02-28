@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin
+from models import Article
 from models import Slide
 from models import Logo
 from models import LogoColor
@@ -13,12 +14,13 @@ from forms import SlideForm
 from forms import ContactInfoForm
 from forms import ServiceForm
 from forms import FAQForm
+from forms import ArticleForm
 from imagekit.admin import AdminThumbnail
 from ckeditor.widgets import CKEditorWidget
 from django.db import models
 from wymeditor.models import WYMEditorField
 from wymeditor.widgets import AdminWYMEditorArea
-
+from suit_redactor.widgets import RedactorWidget
 
 class QualifyQuestionnaireAdmin(admin.ModelAdmin):
 
@@ -68,17 +70,18 @@ class SlideAdmin(admin.ModelAdmin):
 
 
 class ServiceAdmin(admin.ModelAdmin):
-    content = forms.CharField(widget=CKEditorWidget())
     form = ServiceForm
-    fieldsets = ((None, {'fields': ['title', 'statement', 'description','service', 'nick']}),)
-    list_display = ('id','title','statement', 'description', 'service_thumbnail', 'nick')
+    fieldsets = [
+      ('Body', {'classes': ('full-width',), 'fields': ('title', 'statement', 'description','service', 'nick')})
+    ]
+    list_display = ('id','title','statement', 'service', 'service_thumbnail', 'nick')
     list_editable = ('title','statement','nick')
     service_thumbnail = AdminThumbnail(image_field='service_thumbnail')
 
 
-#    formfield_overrides = {
-#        WYMEditorField: {'widget': AdminWYMEditorArea},
-#    }
+    formfield_overrides = {
+        WYMEditorField: {'widget': AdminWYMEditorArea},
+    }
     class Meta:
          verbose_name = 'Service'
          verbose_name_plural = 'Services'
@@ -135,6 +138,17 @@ class ContactInfoAdmin(admin.ModelAdmin):
          verbose_name_plural = 'Contact Info'
 
 
+class ArticleAdmin(admin.ModelAdmin):
+
+    form = ArticleForm
+    fieldsets = ((None, {'fields': ['title', 'body']}),)
+    list_display = ('id','title', 'body',)
+    list_editable = ('title', 'body')
+
+    class Meta:
+         verbose_name = 'Article'
+         verbose_name_plural = 'Articles'
+
 admin.site.register(QualifyQuestionnaire, QualifyQuestionnaireAdmin)
 admin.site.register(QualifyQuestion, QualifyQuestionAdmin)
 admin.site.register(State, StateAdmin)
@@ -144,3 +158,4 @@ admin.site.register(ContactInfo, ContactInfoAdmin)
 admin.site.register(Logo, LogoAdmin)
 admin.site.register(LogoColor, LogoColorAdmin)
 admin.site.register(Slide, SlideAdmin)
+admin.site.register(Article, ArticleAdmin)

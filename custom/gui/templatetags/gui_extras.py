@@ -1,15 +1,15 @@
 import logging
 import re
 from lxml import html, etree
-
 import sys
+from cStringIO import StringIO
 from urlparse import urlparse
+import urllib2 as urllib
+import html2text
 from django.template import Library, Node, NodeList, TemplateSyntaxError
 from django.utils.encoding import smart_str
 from django import template
 from django.template.defaultfilters import stringfilter
-import urllib2 as urllib			
-from cStringIO import StringIO
 from django.contrib.auth.models import User
 from custom.users.models import Profile
 from custom.users.models import TeamMember
@@ -20,11 +20,15 @@ from custom.users.models import AdvantageLink
 from custom.gui.models import Logo
 from custom.gui.models import ContactInfo
 from custom.gui.models import Service
+from custom.gui.models import Article
 from custom.messaging.models import Message
 from custom.payments.models import CreditCard
 from custom.payments.models import Address
 from custom.blog.models import Post
 from custom.blog.models import Comment
+
+
+h = html2text.HTML2Text()
 
 register = template.Library()
 
@@ -205,6 +209,37 @@ def aboutus_meta(a, b,  *args, **kwargs):
 
 
 """
+ Get the article meta
+"""
+@register.simple_tag
+def article_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            article = Article.objects.get(id=int(a))
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return article.title
+
+        elif (b==2):
+            return h.handle(article.teaser)
+
+        elif (b==3):
+            return h.handle(article.body)
+
+
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+
+
+
+"""
  Get the logo meta
 """
 @register.simple_tag
@@ -373,7 +408,9 @@ def contact_meta(a, b,  *args, **kwargs):
     except NameError:
         print "No result for this id"
 
-
+@register.simple_tag
+def faq_meta(a,   *args, **kwargs):
+    return  h.handle(unicode(a)) #html2text(q)
 
 """
  Get the service provided  info data

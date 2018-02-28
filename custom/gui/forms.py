@@ -10,10 +10,12 @@ from tinymce.widgets import TinyMCE
 from wymeditor.widgets import AdminWYMEditorArea
 from froala_editor.widgets import FroalaEditor
 from redactor.widgets import RedactorEditor
+from suit_redactor.widgets import RedactorWidget
 from models import Service
 from models import Slide
 from models import ContactInfo
 from models import FAQ
+from models import Article
 
 class SlideForm(ModelForm):
     class Meta:
@@ -23,24 +25,29 @@ class SlideForm(ModelForm):
         }
         fields = '__all__' #
 
+class ArticleForm(ModelForm):
+    class Meta:
+        model = Article
+        widgets = {
+            'body': RedactorWidget(editor_options={'lang': 'en'}),
+        }
+        fields = '__all__' #
 
 class ServiceForm(ModelForm):
     class Meta:
         model = Service
         widgets = {
             'statement': Textarea(attrs={'cols': 80, 'rows': 30}),
-            'description':  RedactorEditor(),
+            'description': RedactorWidget(editor_options={'lang': 'en'}),
         }
         fields = '__all__' #
-
 
 class FAQForm(ModelForm):
     class Meta:
         model = FAQ
         widgets = {
             'note': Textarea(attrs={'cols': 80, 'rows': 20}),#CKEditorWidget(),#AdminWYMEditorArea(),#Textarea(attrs={'class':'ckeedior','cols': 80, 'rows': 30}),
-            'answer': RedactorEditor(),
-
+            'answer': RedactorWidget(editor_options={'lang': 'en'}), 
         }
         fields = '__all__' #
 
@@ -49,7 +56,7 @@ class ContactInfoForm(ModelForm):
     class Meta:
         model = ContactInfo
         widgets = {
-            'statement': Textarea(attrs={'cols': 80, 'rows': 30}),
+            'statement': RedactorWidget(editor_options={'lang': 'en'}),
         }
         fields = '__all__' #
 

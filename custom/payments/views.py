@@ -304,6 +304,14 @@ def send_confiration_view(request):
         year = str(request.data.get('year', ''))
         email = request.data['email']
         city = request.data['city']
+        package_type = request.data.get('package_type', '')
+        package_price = request.data.get('package_price', '')
+        log = Logger(log='LET US SEE')
+        log.save()
+
+
+        log = Logger(log='PACKAGE {} PRICE {}'.format(package_type, package_price))
+        log.save()
 
         if request.user.is_authenticated():
             user = request.user
@@ -360,19 +368,28 @@ def send_confiration_view(request):
                                                 address1=address1,
                                                 address2=address2,
                                                 city=city,
+                                                package_type="{} {}".format(package_type, state),
+                                                package_price=package_price,
                                                 state=state,
                                                 zipcode=zipcode,
                                                 month=month,
                                                 year=year)
                payment.save()
            except Exception, R:
+               log = Logger(log='THIS SHIT DID NOT WORK FOR US {}'.format(R))
+               log.save()
+
                return Response({'message':'failure','cause':str(R)})
                payment = None
+
 
            if contact:
                payment_send_confirmation_email.send(sender=User, contact=contact, payment=payment)
            return Response({'message':'success','s3_base_url':"blablabla"})
         except Exception, R:
+           log = Logger(log='THE SHIT DID NOT WORK FOR US {}'.format(R))
+           log.save()
+
            return Response({'message': 'failure', 'cause':str(R)})
 
 

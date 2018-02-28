@@ -3,10 +3,14 @@ from django.contrib import admin
 from models import Package
 from models import Service
 
+from forms import PackageForm
+from forms import ServiceForm
+
 class ServiceAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {'fields': ['title','fees','price','is_available','avatar']}),)
-#    list_display = ('title','fees','price','avatar')
-#    list_editable = ('title','fees','price')
+    form = ServiceForm
+    fieldsets = ((None, {'fields': ['title','fees','price','is_available','avatar', 'description']}),)
+    list_display = ('title','fees','price','avatar')
+    list_editable = ('title','fees','price')
     
     class Meta:
          verbose_name = 'Service'
@@ -15,9 +19,10 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 class PackageAdmin(admin.ModelAdmin):
-    fieldsets = ((None, {'fields': ['title','fees','price','is_available','services']}),)
- #   list_display = ('title','fees','price',)
- #   list_editable = ('title','fees','price')
+    form = PackageForm
+    fieldsets = ((None, {'fields': ['title','fees','price','is_available','services', 'description']}),)
+    list_display = ('title','fees','price',)
+    list_editable = ('title','fees','price')
 
     class Meta:
          verbose_name = 'Service Package'

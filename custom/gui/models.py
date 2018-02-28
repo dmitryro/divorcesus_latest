@@ -109,12 +109,35 @@ class ContactInfo(models.Model):
         verbose_name = 'Contanct Info'
         verbose_name_plural = 'Contact Info'
 
+class Article(models.Model):
+   title = models.CharField(max_length=150, blank=True)
+   time_published = models.DateTimeField(auto_now_add=True)
+   body = models.TextField(blank=True,null=True)
+   tags = TaggableManager()
+
+   class Meta:
+        verbose_name = 'Article'
+        verbose_name_plural = 'Articles'
+
+   def __str__(self):
+        return self.title
+
+   def __unicode__(self):
+        return unicode(self.title)
+
+   def get_absolute_url(self):
+        return "/articles/%s/" % self.title
+  
+   @property
+   def teaser(self):
+       return self.body[0:600] 
+
 
 class Service(models.Model):
    title = models.CharField(max_length=150, blank=True)
    statement = models.CharField(max_length=450, blank=True)
    time_published = models.DateTimeField(default=datetime.now, blank=True)
-   description = RedactorField(verbose_name=u'Description',null=True,blank=True,default='')
+   description = RedactorField(verbose_name=u'Description', null=True, blank=True, default='')
    service = models.ImageField(upload_to='servces')
    nick = models.CharField(max_length=150, blank=True)
    service_thumbnail = ImageSpecField(source='service',

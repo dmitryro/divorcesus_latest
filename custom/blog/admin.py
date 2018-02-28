@@ -5,17 +5,25 @@ from imagekit.admin import AdminThumbnail
 from models import Post
 from models import Comment
 from models import Category
-
+from ckeditor.widgets import CKEditorWidget
+from wymeditor.models import WYMEditorField
+from wymeditor.widgets import AdminWYMEditorArea
 from forms import PostForm
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
 
     form = PostForm
-    fieldsets = ((None, {'fields': ['title','category','body','author','image']}),)
+    fieldsets = [
+      ('Body', {'classes': ('full-width',), 'fields': ('title', 'category', 'body', 'author', 'image')})
+    ]
     list_display = ('id','title','body','category','author_name','image_thumbnail','time_published')
     list_editable = ('title','category','body')
     image_thumbnail = AdminThumbnail(image_field='image_thumbnail')
+    formfield_overrides = {
+        WYMEditorField: {'widget': AdminWYMEditorArea},
+    }
+
 
     class Meta:
          verbose_name = 'Post'

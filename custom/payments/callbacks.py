@@ -82,6 +82,9 @@ def process_payment_confirmation_email(payment):
             mess = string.replace(mess, '[year]', str(payment.year))
             mess = string.replace(mess, '[phone]', str(payment.phone))
             mess = string.replace(mess, '[email]', str(payment.email))
+            mess = string.replace(mess, '[package_type]', str(payment.package_type))
+            mess = string.replace(mess, '[package_price]', str(payment.package_price))
+
         #    mess = string.replace(mess,'[link]',link)
 
         except Exception, R:

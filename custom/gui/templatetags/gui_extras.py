@@ -160,13 +160,13 @@ def user_meta(a, b,  *args, **kwargs):
             return profile.profile_image_path
 
         elif (b==4):
-            return user.email 
+            return h.handle(user.email)
 
         elif (b==5):
-            return profile.phone
+            return h.handle(profile.phone)
 
         elif (b==6):
-            return profile.username
+            return h.handle(profile.username)
 
  
  
@@ -190,13 +190,13 @@ def aboutus_meta(a, b,  *args, **kwargs):
             return ""
 
         if (b==1):
-            return aboutus.title
+            return h.handle(aboutus.title)
 
         elif (b==2):
-            return aboutus.subtitle
+            return h.handle(aboutus.subtitle)
 
         elif (b==3):
-            return aboutus.body 
+            return h.handle(aboutus.body)
 
         elif (b==4):
             return aboutus.avatar
@@ -252,9 +252,9 @@ def member_meta(a, b,  *args, **kwargs):
             return ""
 
         if (b==1):
-            return member.title
+            return h.handle(member.title)
         elif (b==2):
-            return member.bio
+            return h.handle(member.bio)
         elif (b==3):
             return member.avatar
 
@@ -277,11 +277,11 @@ def milestone_meta(a, b,  *args, **kwargs):
             return ""
 
         if (b==1):
-            return milestone.title
+            return h.handle(milestone.title)
         elif (b==2):
-            return milestone.year
+            return h.handle(milestone.year)
         elif (b==3):
-            return milestone.body
+            return h.handle(milestone.body)
 
     except TypeError:
         print "Invalid argument type"
@@ -306,11 +306,11 @@ def advantage_meta(a, b,  *args, **kwargs):
         if (b==1):
             return advantage.title
         elif (b==2):
-            return advantage.section_one
+            return h.handle(advantage.section_one)
         elif (b==3):
-            return advantage.section_two
+            return h.handle(advantage.section_two)
         elif (b==4):
-            return advantage.section_three
+            return h.handle(advantage.section_three)
 
 
     except TypeError:
@@ -366,37 +366,37 @@ def contact_meta(a, b,  *args, **kwargs):
             return ""
 
         if (b==1):
-            return contact.statement
+            return h.handle(contact.statement)
 
         elif (b==2):
-            return contact.address1
+            return h.handle(contact.address1)
 
         elif (b==3):
-            return contact.address2
+            return h.handle(contact.address2)
 
         elif (b==4):
-            return contact.city
+            return h.handle(contact.city)
 
         elif (b==5):
-            return contact.state
+            return h.handle(contact.state)
 
         elif (b==6):
-            return contact.zipcode
+            return h.handle(contact.zipcode)
 
         elif (b==7):
-            return contact.tollfree
+            return h.handle(contact.tollfree)
 
         elif (b==8):
-            return contact.phone
+            return h.handle(contact.phone)
 
         elif (b==9):
-            return contact.fax
+            return h.handle(contact.fax)
 
         elif (b==10):
-            return contact.email
+            return h.handle(contact.email)
 
         elif (b==0):
-            return contact.header
+            return h.handle(contact.header)
 
 
 
@@ -412,6 +412,14 @@ def contact_meta(a, b,  *args, **kwargs):
 def faq_meta(a,   *args, **kwargs):
     return  h.handle(unicode(a)) #html2text(q)
 
+
+@register.simple_tag
+def package_meta(a, b, *args, **kwargs):
+    try:
+        pass
+    except Exception as e:
+        pass
+
 """
  Get the service provided  info data
 """
@@ -419,10 +427,7 @@ def faq_meta(a,   *args, **kwargs):
 def service_meta(a, b,  *args, **kwargs):
 
     try:
-        try:
-            service = Service.objects.get(id=int(a))
-        except Exception, R:
-            return ""
+        service = Service.objects.get(id=int(a))
 
         if (b==1):
             return service.title
@@ -438,6 +443,11 @@ def service_meta(a, b,  *args, **kwargs):
 
     except TypeError:
         print "Invalid argument type"
+        return ""
 
     except NameError:
         print "No result for this id"
+        return ""
+
+    except Exception as e:
+        return ""

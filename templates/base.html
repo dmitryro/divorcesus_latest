@@ -279,12 +279,8 @@
                                   <!-- activation-app -->
                                    <div id="activation-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show.sync="showModal">
-                                             <!--
-                                                 you can use custom content here to overwrite
-                                                 default content
-                                             -->
-                                            </modal>
+                             <!--
+                             -->
                                    </div>
                                   {% endif %}
                               {% endif %}
@@ -392,12 +388,8 @@
                                    <!-- app -->
                                    <div id="final-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show.sync="showModal">
-                                             <!--
-                                                 you can use custom content here to overwrite
-                                                 default content
-                                             -->
-                                            </modal>
+                                   <!--
+                                   -->
                                    </div>
 
                               {% endif %}
@@ -455,12 +447,8 @@
                                   <!-- activation-app -->
                                    <div id="activation-required-app">
                                    <!-- use the modal component, pass in the prop -->
-                                            <modal :show.sync="showModal">
-                                             <!--
-                                                 you can use custom content here to overwrite
-                                                 default content
-                                             -->
-                                            </modal>
+                                        <!--
+                                         -->
                                    </div>
 
                                   {% endif %}
@@ -485,15 +473,8 @@
                                              {% elif not logout %}
                                                   <a class="btn2" id="show-modal" @click="showModal = true">Sign In</a>
                                              {% endif %}
-
-                                      <modal :show.sync="showModal">
-                       <!--
-        /                  you can use custom content here to overwrite
-                          default content
-                             -->
-
-                                     </modal>
-
+<!--
+-->
 
                             </div><!-- end app -->
                             <div class="clear"></div>
@@ -677,9 +658,8 @@
                   {% endfor %}
 
 
-
-                    <a data-u="ad" href="https://www.jssor.com" style="display:none">jQuery Slider</a>
-
+<!--
+-->
                 </div>
                 <!-- Bullet Navigator -->
                 <div data-u="navigator" class="jssorb01" style="bottom:16px;right:16px;">
@@ -3614,15 +3594,8 @@
 					      </div>
 
 					  {% endif %}
-
-					  <modal :show.sync="showModal">
-				       <!--
-			/                  you can use custom content here to overwrite
-					  default content
-					     -->
-
-					  </modal>
-
+<!--
+-->
 				    </form>              
 
 			</div>
@@ -4109,15 +4082,8 @@
 
 
                     {% endif %}
-
-                       <modal :show.sync="showModal">
-                       <!--
-        /                  you can use custom content here to overwrite
-                          default content
-                             -->
-
-                      </modal>
-
+<!--
+-->
 
                </div>
 
@@ -6905,7 +6871,8 @@
         <!-- template for the modal component -->
         <script type="x/template" id="modal-template-signin">
            
-          <div class="modal-mask" v-show="show" transition="modal"  :show="show" @close="close"> <!-- modal mask opens -->
+          <div class="modal-mask" v-show="show" transition="modal"  :show="show" @close="close"> 
+          <!-- modal mask opens -->
              <div class="modal-wrapper"> <!-- modal wrapper opens -->
 
                   <div class="modal-container"> <!-- modal container starts -->
@@ -6976,35 +6943,8 @@
             </div>
         </script>
 
-        <!-- template for the NewPostModal component -->
-        <script type="x/template" id="new-post-modal-template">
-            <modal :show.sync="show" :on-close="close"  @keyup.esc="$emit('close')">
-                <div class="modal-header">
-                    <h3>New Post</h3>
-                </div>
-
-                <div class="modal-body">
-                    <label class="form-label">
-                        Title
-                        <input v-model="title" class="form-control">
-                    </label>
-                    <label class="form-label">
-                        Body
-                        <textarea v-model="body" rows="5" class="form-control"></textarea>
-                    </label>
-                </div>
-
-                <div class="modal-footer text-right">
-                    <button class="modal-default-button" @click="savePost()">
-                        Save
-                    </button>
-                </div>
-            </modal>
-        </script>
-        <!-- template for the NewCommentModal component -->
-<!--
         <script type="x/template" id="new-comment-modal-template">
-            <modal :show.sync="show" :on-close="close">
+            <div class="modal-mask" @click="close" v-show="show" transition="modal">
                 <div class="modal-header">
                     <h3>New Comment</h3>
                 </div>
@@ -7021,9 +6961,8 @@
                         Post
                     </button>
                 </div>
-            </modal>
-        </script>
--->
+            </div>
+            </script>
         <div id="fb-root"></div>
         <div id="chat_div"  style="height:200;width:200;"></div>
         <div id="log"></div>

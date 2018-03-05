@@ -23,7 +23,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 
-from custom.utils.models import Logger
 from custom.users.models import MileStone
 from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
@@ -495,6 +494,58 @@ def home(request):
                                            'profile_image':profile_image_path})
 
 
+@csrf_exempt
+def blogs(request, blog_id):
+    milestones = MileStone.objects.all()
+    advantage_links = AdvantageLink.objects.filter(advantage_id=1)
+    slides = Slide.objects.all()
+    faqs = FAQ.objects.all()
+
+    qquestions = QualifyQuestion.objects.all()
+
+    try:
+        posts = Post.objects.filter(id=int(blog_id))
+    except Exception as e:
+        posts = Post.objects.all()
+
+    if request.user.is_authenticated():
+        logout=True
+        try:
+           user_id = request.user.id
+           username = request.user.username
+           first_name = request.user.first_name
+           last_name = request.user.last_name
+           profile_image_path = ''
+        except Exception, R:
+           user_id = -1
+           username = ''
+           first_name = ''
+           last_name = ''
+           profile_image_path = ''
+
+    else:
+        user_id = -1
+        logout=False
+        username = ''
+        first_name = ''
+        last_name = ''
+        profile_image_path = ''
+
+    return render(request, 'index-0.html',{'logout':logout,
+                                           'user_id':user_id,
+                                           'first':first_name,
+                                           'last':last_name,
+                                           'service':'blog',
+                                           'slides':slides,
+                                           'faqs':faqs,
+                                           'qualifying':qquestions,
+                                           'posts': posts,
+                                           'milestones':milestones,
+                                           'advantage_links':advantage_links,
+                                           'profile_image':profile_image_path})
+
+
+@csrf_exempt
 def blog(request):
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
@@ -862,8 +913,6 @@ def contacts(request):
            profile_image_path = profile.profile_image_path
  
         except Exception, R:
-           log = Logger(log='WE GOT SOME ERROR'+str(R))
-           log.save()
            user_id = -1
            username = ''
            first_name = ''

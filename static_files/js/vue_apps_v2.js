@@ -25,7 +25,9 @@ var qvm = new Vue({
     last:'',
     fullname:'',
     is_military:'',
-    user_id:''
+    user_id:'',
+    showModal: false,
+    showNewCommentModal: false
   },
   methods: {
     submitone: function (event) {
@@ -80,10 +82,25 @@ var qvm = new Vue({
     errorCallback: function(event) {
             alert("ERROR");
     },
-    validConfirm: function(event) {
-           alert("VALID");
-    }
 
+    validConfirm: function(event) {
+    },
+    open: function(which, e) {
+      // Prevents clicking the link from doing anything
+        e.preventDefault();
+        modal.active = which;
+    },
+    close: function (e) {
+        alert('closing it');
+        this.$emit('close');
+    },
+    show: function() {
+        this.$emit('show');
+    },
+
+    submit: function(which, e) {
+            e.preventDefault();
+    }
   },
   mounted:function() {
       this.is_spouse_location_known = 'yes';
@@ -136,6 +153,8 @@ var qvm2 = new Vue({
            this.email = qvm.email;
            this.user_id = qvm.user_id;   
            qvm3.user_id = this.user_id;
+           qvm3.package_type = this.package_type;
+           qvm3.package_price = this.package_price;
            $("#step_three_package").html(this.package_type);
            $("#step_three_state").html(this.state);
            $("#step_three_price").html(this.package_price);   
@@ -238,7 +257,9 @@ var qvm3 = new Vue({
                this.last = $('#stepthree_last').val(); 
                qvm4.user_id = this.user_id;               
                qvm4.fullname = this.fullname;
-              
+               qvm4.package_type = this.package_type;
+               qvm4.package_price = this.package_price;              
+
                $("#step_four_package").html(this.package_type);
                $("#step_four_state").html(this.state);
                $("#step_four_price").html(this.package_price);//this.package_price);
@@ -340,6 +361,8 @@ var qvm4 = new Vue({
                this.expirationmonth = $('#expirationmonth').val();
                this.expirationyear = $('#expirationyear').val();
 
+               qvm5.package_price = this.package_price;
+               qvm5.package_type = this.package_type;
                qvm5.email = this.email;
                qvm5.first = this.first;
                qvm5.last = this.last;
@@ -443,6 +466,8 @@ var qvm5 = new Vue({
                qvm6.zip = this.zip;
                qvm6.phone = this.phone;
                qvm6.user_id = this.user_id;
+               qvm6.package_type = this.package_type;
+               qvm6.package_price = this.package_price;
 
                $("#step_six_phone").attr("value",this.phone.toString());
                $("#step_six_city").attr("value",this.city.toString());
@@ -549,11 +574,13 @@ var qvm6 = new Vue({
 		"address2": this.address2,
 		"state": this.state,
 		"zip": this.zip,
+                "package_type": this.package_type,
+                "package_price": this.package_price,
 		"user_id": $("#current-user-id").val(),
 		"month": this.expirationmonth,
 		"year": this.expirationyear,
                 "city": this.city};
-
+             alert('here:'+this.package_type+' and '+this.package_price);
 	     $.ajax({
 		    type: "POST",
 		    url: "https://divorcesus.com/paymentconfirm/",
@@ -1222,6 +1249,63 @@ new Vue({
 })
 
 
+// start app
+new Vue({
+    el: '#njsignupapp',
+    data: {
+      showModal: false,
+    },
+    close: function (e) {
+       this.$emit('close');
+    },
+    show: function() {
+        this.$emit('show');
+    },
+    submit: function(which, e) {
+            e.preventDefault();
+    },
+    methods: {
+     beforeOpen () {
+        document.addEventListener('keyup', this.close)
+     },
+
+     beforeClose () {
+        document.removeEventListener('keyup', this.close)
+     },
+     close (e) {
+       if (e.keyCode === 27)  this.$emit('close');
+     }
+   }
+})
+
+// start app
+new Vue({
+    el: '#nysignupapp',
+    data: {
+      showModal: false,
+    },
+    close: function (e) {
+       this.$emit('close');
+    },
+    show: function() {
+        this.$emit('show');
+    },
+    submit: function(which, e) {
+            e.preventDefault();
+    },
+    methods: {
+     beforeOpen () {
+        document.addEventListener('keyup', this.close)
+     },
+
+     beforeClose () {
+        document.removeEventListener('keyup', this.close)
+     },
+     close (e) {
+       if (e.keyCode === 27)  this.$emit('close');
+     }
+   }
+})
 
 
 jQuery(document).ready(function() {

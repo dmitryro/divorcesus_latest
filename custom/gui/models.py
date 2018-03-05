@@ -209,3 +209,46 @@ class FAQ(models.Model):
    def get_absolute_url(self):
         return "/faq/%s/" % self.nick
 
+class MileStone(models.Model):
+    title = models.CharField(max_length=140, blank=True, null=True)
+    year = models.CharField(max_length=140, blank=True, null=True)
+    body = models.CharField(max_length=1500, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Milestone'
+        verbose_name_plural = 'Milestones'
+
+    def __str__(self):
+        return self.title
+
+class Advantage(models.Model):
+    title = models.CharField(max_length=140, blank=True, null=True)
+    section_one = RedactorField(verbose_name=u'Section One',
+                                null=True, blank=True, default='')
+
+    section_two = RedactorField(verbose_name=u'Section Two',
+                                null=True, blank=True, default='')
+
+    section_three = RedactorField(verbose_name=u'Section Three',
+                                  null=True, blank=True, default='')
+
+    class Meta:
+        verbose_name = 'Advantage'
+        verbose_name_plural = 'Advantage'
+
+    def __str__(self):
+        return self.title
+
+
+class AdvantageLink(models.Model):
+    advantage = models.ForeignKey(Advantage, blank=False, null=False)
+    title = models.CharField(max_length=140, blank=True, null=True)
+    link = models.CharField(max_length=1500, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Advantage Link'
+        verbose_name_plural = 'Advantage Links'
+
+    def __str__(self):
+        return self.title
+

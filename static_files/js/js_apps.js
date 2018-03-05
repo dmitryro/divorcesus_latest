@@ -63,6 +63,9 @@
       return false;
   }
 
+
+
+
   function on_mobile_about() {
       document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
@@ -233,6 +236,8 @@
       document.getElementById('about_block').style.display='none';
       document.getElementById('services_block').style.display='none';
       document.getElementById('pricing_block').style.display='block';
+      document.getElementById('bring-change').style.display='block';
+      document.getElementById('pricing-article-show').style.display="none";
       document.getElementById('contact_block').style.display='none';
       document.getElementById('payment_block').style.display='none';
       document.getElementById('property_block').style.display='none';

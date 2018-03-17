@@ -11,11 +11,46 @@ from wymeditor.widgets import AdminWYMEditorArea
 from froala_editor.widgets import FroalaEditor
 from redactor.widgets import RedactorEditor
 from suit_redactor.widgets import RedactorWidget
+from models import AskTemplate
+from models import ConsultTemplate
+from models import ConsultationType
 from models import Service
 from models import Slide
 from models import ContactInfo
 from models import FAQ
 from models import Article
+
+class ConsultationTypeForm(ModelForm):
+    class Meta:
+        model = ConsultationType
+        widgets = {
+            'description': RedactorWidget(editor_options={'lang': 'en'}),
+        }
+        fields = '__all__' #
+
+
+class ConsultTemplateForm(ModelForm):
+    class Meta:
+        model = ConsultTemplate
+        widgets = {
+            'agreement': RedactorWidget(editor_options={'lang': 'en'}),
+            'disclaimer': RedactorWidget(editor_options={'lang': 'en'}),
+            'consult_intro': RedactorWidget(editor_options={'lang': 'en'}),
+        }
+        fields = '__all__' #
+
+
+class AskTemplateForm(ModelForm):
+    class Meta:
+        model = AskTemplate
+        widgets = {
+            'agreement': RedactorWidget(editor_options={'lang': 'en'}),
+            'disclaimer': RedactorWidget(editor_options={'lang': 'en'}),
+            'ask_intro': RedactorWidget(editor_options={'lang': 'en'}),
+        }
+        fields = '__all__' #
+
+
 
 class SlideForm(ModelForm):
     class Meta:

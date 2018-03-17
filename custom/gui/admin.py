@@ -10,11 +10,18 @@ from models import FAQ
 from models import State
 from models import QualifyQuestion
 from models import QualifyQuestionnaire
+from models import AskQuestion
+from models import AskTemplate
+from models import ConsultTemplate
+from models import ConsultationType
 from forms import SlideForm
 from forms import ContactInfoForm
 from forms import ServiceForm
 from forms import FAQForm
 from forms import ArticleForm
+from forms import AskTemplateForm
+from forms import ConsultationTypeForm
+from forms import ConsultTemplateForm
 from imagekit.admin import AdminThumbnail
 from ckeditor.widgets import CKEditorWidget
 from django.db import models
@@ -22,11 +29,54 @@ from wymeditor.models import WYMEditorField
 from wymeditor.widgets import AdminWYMEditorArea
 from suit_redactor.widgets import RedactorWidget
 
+class ConsultationTypeAdmin(admin.ModelAdmin):
+    form =  ConsultationTypeForm
+    fieldsets = ((None, {'fields': ['title', 'description',]}),)
+    list_display = ('id', 'title', 'description',)
+    list_editable = ('title', 'description',)
+
+    class Meta:
+         verbose_name = 'Consultation Type'
+         verbose_name_plural = 'Consultation Types'
+
+
+class ConsultTemplateAdmin(admin.ModelAdmin):
+    form = ConsultTemplateForm
+    fieldsets = ((None, {'fields': ['consult_intro', 'consultation_type', 'agreement', 'disclaimer']}),)
+    list_display = ('id', 'consult_intro', 'consultation_type', 'agreement', 'disclaimer')
+    list_editable = ('consult_intro', 'consultation_type','agreement', 'disclaimer')
+
+    class Meta:
+         verbose_name = 'Consult Template'
+         verbose_name_plural = 'Consult Templates'
+
+
+class AskTemplateAdmin(admin.ModelAdmin):
+    form = AskTemplateForm
+    fieldsets = ((None, {'fields': ['ask_intro', 'agreement', 'disclaimer']}),)
+    list_display = ('id', 'ask_intro', 'agreement', 'disclaimer')
+    list_editable = ('ask_intro', 'agreement', 'disclaimer')
+
+    class Meta:
+         verbose_name = 'Ask Question Template'
+         verbose_name_plural = 'Ask Question Templates'
+
+
+class AskQuestionAdmin(admin.ModelAdmin):
+    fieldsets = ((None, {'fields': ['full_name', 'email', 'subject', 'message', 'is_agreed', 'agreement']}),)
+    list_display = ('id', 'full_name', 'email', 'subject', 'message', 'is_agreed', 'agreement',)
+    list_editable = ('full_name', 'email', 'subject', 'message', 'is_agreed', 'agreement',)
+
+    class Meta:
+         verbose_name = 'Ask Question'
+         verbose_name_plural = 'Ask Question'
+
+
 class QualifyQuestionnaireAdmin(admin.ModelAdmin):
 
     fieldsets = ((None, {'fields': ['state','action_taken','does_qualify']}),)
-    list_display = ('id','state','action_taken','does_qualify')
-    list_editable = ('state','action_taken','does_qualify')
+    list_display = ('id','state','action_taken','does_qualify',)
+    list_editable = ('state','action_taken','does_qualify',)
 
     class Meta:
          verbose_name = 'Questionnaire'
@@ -94,14 +144,12 @@ class FAQAdmin(admin.ModelAdmin):
     list_editable = ('question', 'note', 'answer', 'nick',)
 #    formfield_overrides = { models.TextField: {'widget': forms.Textarea(attrs={'class':'ckeditor'})}, }
 
-
     class Media:
          js = ('static/ckeditor/ckeditor/ckeditor.js',)
 
     class Meta:
          verbose_name = 'Frequently Asked Questions'
          verbose_name_plural = 'Frequently Asked Questions'
-
 
 class LogoColorAdmin(admin.ModelAdmin):
 
@@ -112,8 +160,6 @@ class LogoColorAdmin(admin.ModelAdmin):
     class Meta:
          verbose_name = 'Logo Color'
          verbose_name_plural = 'Logo Colors'
-
-
 
 class LogoAdmin(admin.ModelAdmin):
 
@@ -149,6 +195,10 @@ class ArticleAdmin(admin.ModelAdmin):
          verbose_name = 'Article'
          verbose_name_plural = 'Articles'
 
+admin.site.register(AskQuestion, AskQuestionAdmin)
+admin.site.register(AskTemplate, AskTemplateAdmin)
+admin.site.register(ConsultationType, ConsultationTypeAdmin)
+admin.site.register(ConsultTemplate, ConsultTemplateAdmin)
 admin.site.register(QualifyQuestionnaire, QualifyQuestionnaireAdmin)
 admin.site.register(QualifyQuestion, QualifyQuestionAdmin)
 admin.site.register(State, StateAdmin)
@@ -159,3 +209,4 @@ admin.site.register(Logo, LogoAdmin)
 admin.site.register(LogoColor, LogoColorAdmin)
 admin.site.register(Slide, SlideAdmin)
 admin.site.register(Article, ArticleAdmin)
+

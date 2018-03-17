@@ -72,8 +72,6 @@ class LogoColor(models.Model):
         return unicode(self.color)
 
 
-
-
 class Logo(models.Model):
    color = models.ForeignKey(LogoColor,related_name='logo_color',blank=True,null=True)
    logo = models.ImageField(upload_to='logos')
@@ -87,8 +85,6 @@ class Logo(models.Model):
    class Meta:
         verbose_name = 'Logo'
         verbose_name_plural = 'Logos'
-
-
 
 class ContactInfo(models.Model):
    time_published = models.DateTimeField(default=datetime.now, blank=True)
@@ -158,6 +154,54 @@ class Service(models.Model):
 
    def get_absolute_url(self):
         return "/services/%s/" % self.nick
+
+
+class AskTemplate(models.Model):
+   ask_intro = models.TextField(null=True, blank=True)
+   agreement = models.TextField(null=True, blank=True)
+   disclaimer =  models.TextField(null=True, blank=True)
+   
+   class Meta:
+        verbose_name = 'Ask Question Template'
+        verbose_name_plural = 'Ask Question Templates'
+
+class AskQuestion(models.Model):
+   time_published = models.DateTimeField(default=datetime.now, blank=True)
+   full_name = models.CharField(max_length=400,null=True,blank=True)
+   email = models.CharField(max_length=400,null=True,blank=True)   
+   subject = models.CharField(max_length=400,null=True,blank=True)
+   message = models.TextField(null=True,blank=True)
+   is_agreed = models.NullBooleanField(default=False,blank=True,null=True)
+   agreement = models.TextField(null=True,blank=True)
+
+   class Meta:
+        verbose_name = 'Ask Question'
+        verbose_name_plural = 'Ask Step Five'   
+
+class ConsultationType(models.Model):
+   title = models.CharField(max_length=400,null=True,blank=True)
+   description = models.TextField(null=True, blank=True)
+
+   class Meta:
+        verbose_name = 'Consultation Type'
+        verbose_name_plural = 'Consultation Types'
+
+   def __str__(self):
+        return self.title
+
+   def __unicode__(self):
+        return unicode(self.title)
+
+
+class ConsultTemplate(models.Model):
+   consult_intro = models.TextField(null=True, blank=True)
+   agreement = models.TextField(null=True, blank=True)
+   disclaimer =  models.TextField(null=True, blank=True)
+   consultation_type =  models.ForeignKey(ConsultationType, blank=True,null=True)  
+ 
+   class Meta:
+        verbose_name = 'Online Consultation Template'
+        verbose_name_plural = 'Online Consultation  Templates'
 
 
 class QualifyQuestionnaire(models.Model):

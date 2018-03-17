@@ -1305,7 +1305,249 @@ new Vue({
        if (e.keyCode === 27)  this.$emit('close');
      }
    }
+});
+
+var askone = new Vue({
+   el: '#askquestion_stepone',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:''
+     message: '',
+     subject: '',
+     time_asked: '',
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+       submitone: function (event) {
+           asktwo.is_verified = this.is_verified;
+           asktwo.pre_verified = this.pre_verified;
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+   }  ,
+   mounted:function() {
+   }
+
+});
+
+var asktwo = new Vue({
+   el: '#askquestion_steptwo',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:''
+     message: '',
+     subject: '',
+     time_asked: ''
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+           askthree.is_verified = this.is_verified;
+           askthree.pre_verified = this.pre_verified;
+           askthree.full_name = this.full_name;
+           askthree.email = this.email;
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+   },
+   mounted:function() {
+   }
+});
+
+var askthree = new Vue({
+   el: '#askquestion_stepthree',
+   data: {     
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:''
+     message: '',
+     subject: '',
+     time_asked: ''
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+           askfour.is_verified = this.is_verified;
+           askfour.pre_verified = this.pre_verified;
+           askfour.full_name = this.full_name;
+           askfour.email = this.email;
+           askfour.message = this.message;
+           askfour.subject = this.subject;
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+   },
+   mounted:function() {
+   }
+
 })
+
+var askfour = new Vue({
+   el: '#askquestion_stepfour',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:''
+     message: '',
+     subject: '',
+     time_asked: ''
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+           askfive.is_verified = this.is_verified;
+           askfive.pre_verified = this.pre_verified;
+           askfive.full_name = this.full_name;
+           askfive.email = this.email;
+           askfive.message = this.message;
+           askfive.subject = this.subject;
+       },
+
+       submitfive: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+
+   },
+   mounted:function() {
+   }
+
+})
+
+var askfive = new Vue({
+   el: '#askquestion_stepfive',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:''
+     message: '',
+     subject: '',
+     time_asked: ''
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+    
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+          alert(this.message);
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+
+   },
+   mounted:function() {
+   }
+});
+
+
 
 
 jQuery(document).ready(function() {

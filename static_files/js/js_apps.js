@@ -54,6 +54,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -89,7 +91,9 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
-     
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';     
+
       if (isMobile()) {
           jQuery('body').scrollTop(500);
       } else {
@@ -122,6 +126,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -156,6 +162,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -189,6 +197,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -221,6 +231,8 @@
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
       document.getElementById('search_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -255,6 +267,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -287,6 +301,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -319,6 +335,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -351,6 +369,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -383,6 +403,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -415,6 +437,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -447,6 +471,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -479,6 +505,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -511,6 +539,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -543,6 +573,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -576,6 +608,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -609,6 +643,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -641,6 +677,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none'; 
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -677,7 +715,8 @@
       document.getElementById('blog_block').style.display='block';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='none'; 
-
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
              
       $.ajax({
                      method: "POST",
@@ -796,6 +835,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('qualify_block').style.display='none';
       document.getElementById('faq_block').style.display='block'; 
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
 
       if (isMobile()) {
           jQuery('body').scrollTop(500);
@@ -804,9 +845,82 @@
       }
 
       return false;
-
-
   }
+
+
+
+  function on_mobile_ask() {
+      document.getElementById('search_block').style.display='none';
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('qualify_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      document.getElementById('ask_block').style.display='block';
+      document.getElementById('consult_block').style.display='none';
+
+      if (isMobile()) {
+          jQuery('body').scrollTop(500);
+      } else {
+          jQuery('body').scrollTop(100);
+      }
+
+      return false;
+  }
+
+
+  function on_mobile_consult() {
+      document.getElementById('search_block').style.display='none';
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('qualify_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='block';
+
+      if (isMobile()) {
+          jQuery('body').scrollTop(500);
+      } else {
+          jQuery('body').scrollTop(100);
+      }
+
+      return false;
+  }
+
+
 
   function on_mobile_qualify(state) {
       if  (state==1) {
@@ -857,6 +971,8 @@
       document.getElementById('blog_block').style.display='none';
       document.getElementById('faq_block').style.display='none';
       document.getElementById('qualify_block').style.display='block';  
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
       $("#qualify-stepone").attr('class','active');
       $("#qualify-steptwo").attr("style","display:none;");
       $("#qualify-stepthree").attr("style","display:none;");

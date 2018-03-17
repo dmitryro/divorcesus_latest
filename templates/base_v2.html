@@ -140,6 +140,9 @@
                   margin-right: 5px;
                }
 
+               #root {
+                 margin-left: -100px;
+               }
             </style>
             <script>
                   function readmore(id) {
@@ -258,8 +261,8 @@
                      <div style="float:left;">
                               <ul class="inline-list">
                                    <li><a onclick="on_mobile_faq();return false;">FAQ</a></li>
-                                   <li><a href="#">Ask A Question </a></li>
-                                   <li><a href="#">Online Consultation </a></li>
+                                   <li><a onclick="on_mobile_ask(); return false;">Ask A Question </a></li>
+                                   <li><a onclick="on_mobile_consult(); return false;">Online Consultation </a></li>
     <!--
                                    <li><a href="#" id="chat_with_us">Chat with US</a></li>
     -->    
@@ -3433,6 +3436,79 @@
                 </section>
               </main>
 
+            </div>
+
+            <div id="ask_block">
+
+                <main id="content-qualify">
+                    <section class="bg-img well-top">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="terms">
+
+                        <div class="container">
+                            <p>
+                                <a onclick="on_mobile_home();return false;"  href="#">Home</a>&nbsp; >>&nbsp;
+                                <span>Ask a Question</span>
+                            </p>
+ 
+
+
+                            <div class="bread-main" id="qualify-wizard-steps">
+                                <ul class="cd-multi-steps text-bottom count" id="qualify-wizard">
+                                  <li class="current"><em><a id="qualify_progress_stepone" href="#">Verify</a></em></li>
+                                  <li><em><a href="#" id="ask_progress_steptwo" href="#">Confirm</a></em></li>
+                                  <li><em><a href="#" id="ask_progress_stepthree"> Start Process</a></em></li>
+                                  <li><em><a href="#" id="ask_progress_stepfour">Payment Info</a></em></li>
+                                  <li><em><a href="#" id="ask_progress_stepfive">Billing Address</a></em></li>
+                                </ul>
+                            </div>
+                       </div>
+                  </section>
+                 </main>
+            </div>
+
+
+            <div id="consult_block">
+
+                <main id="content-qualify">
+                    <section class="bg-img well-top">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="terms">
+
+                        <div class="container">
+                            <p>
+                                <a onclick="on_mobile_home();return false;"  href="#">Home</a>&nbsp; >>&nbsp;
+                                <span>Online Consultation</span>
+                            </p>
+
+
+
+                            <div class="bread-main" id="qualify-wizard-steps">
+                                <ul class="cd-multi-steps text-bottom count" id="qualify-wizard">
+                                  <li class="current"><em><a id="qualify_progress_stepone" href="#">Verify</a></em></li>
+                                  <li><em><a href="#" id="ask_progress_steptwo" href="#">Confirm</a></em></li>
+                                  <li><em><a href="#" id="ask_progress_stepthree"> Start Process</a></em></li>
+                                  <li><em><a href="#" id="ask_progress_stepfour">Payment Info</a></em></li>
+                                  <li><em><a href="#" id="ask_progress_stepfive">Billing Address</a></em></li>
+                                </ul>
+                            </div>
+                       </div>
+                  </section>
+                 </main>
             </div>
 
             <div id="contact_block">
@@ -7579,6 +7655,32 @@
                 <input type="hidden" name="current-user-id" id="current-user-id" value="{{ user_id }}" />
             </form>
             </div> <!-- page ends -->
+
+<!-- Start of Async Drift Code -->
+<script>
+!function() {
+  var t;
+  if (t = window.driftt = window.drift = window.driftt || [], !t.init) return t.invoked ? void (window.console && console.error && console.error("Drift snippet included twice.")) : (t.invoked = !0, 
+  t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+  t.factory = function(e) {
+    return function() {
+      var n;
+      return n = Array.prototype.slice.call(arguments), n.unshift(e), t.push(n), t;
+    };
+  }, t.methods.forEach(function(e) {
+    t[e] = t.factory(e);
+  }), t.load = function(t) {
+    var e, n, o, i;
+    e = 3e5, i = Math.ceil(new Date() / e) * e, o = document.createElement("script"), 
+    o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + i + "/" + t + ".js", 
+    n = document.getElementsByTagName("script")[0], n.parentNode.insertBefore(o, n);
+  });
+}();
+drift.SNIPPET_VERSION = '0.3.1';
+drift.load('4rmkw4ymhfay');
+</script>
+<!-- End of Async Drift Code -->
+
             </body>
             <script src="/static/js/vue_apps_v2.js"></script>
             <script>

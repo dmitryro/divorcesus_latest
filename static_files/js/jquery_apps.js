@@ -57,6 +57,8 @@
             document.getElementById('free_consultation_block').style.display='none';
             document.getElementById('blog_block').style.display='none';
             document.getElementById('faq_block').style.display='none';
+            document.getElementById('ask_block').style.display='none';
+            document.getElementById('consult_block').style.display='none';
             jQuery("#search_block").css('display', 'none');
             jQuery("#qualify_block").css('display', 'none');
             jQuery("#confirm-info").click(confirm_info);

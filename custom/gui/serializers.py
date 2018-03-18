@@ -2,7 +2,12 @@ from rest_framework import serializers
 from custom.blog.models import Post
 from models import Slide
 from models import Service
+from models import AskTemplate
 
+class AskTemplateSerializer(serializers.ModelSerializer):
+   class Meta:
+      model = AskTemplate
+      fields = ('id', 'ask_intro', 'agreement', 'disclaimer',)
 
 class SlideSerializer(serializers.ModelSerializer):
    class Meta:

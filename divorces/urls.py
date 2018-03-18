@@ -38,6 +38,7 @@ from custom.gui.views import GlobalSearchList
 from custom.gui.views import DashboardLogoutView
 from custom.gui.views import GetSearchResultsView
 from custom.gui.views import ServiceViewSet
+from custom.gui.views import AskTemplateViewSet
 from custom.signup.views import SendEmailView
 from custom.signup.views import SubscribeView
 from custom.signup.views import logout_view
@@ -165,7 +166,7 @@ router.register(r'packages', PackageViewSet)
 router.register(r'addresses', AddressViewSet)
 router.register(r'aboutprofiles', AboutUsViewSet)
 router.register(r'teammembers', TeamMemberViewSet)
-
+router.register(r'asktemplates', AskTemplateViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),

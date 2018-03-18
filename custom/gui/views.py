@@ -26,6 +26,7 @@ from django.views.generic.base import View
 from custom.users.models import MileStone
 from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
+from custom.gui.models import AskTemplate
 from custom.users.models import Profile
 from custom.gui.filters import ServiceFilter
 from custom.gui.models import Slide
@@ -53,9 +54,18 @@ from rest_framework.decorators import api_view, renderer_classes, permission_cla
 from rest_framework import generics
 from restless.views import Endpoint
 
+from custom.gui.serializers import AskTemplateSerializer
 from custom.gui.serializers import GlobalSearchSerializer
 from custom.gui.serializers import ServiceSerializer
 from custom.blog.serializers import CategorySerializer
+
+class AskTemplateViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing ask templates
+    """
+    serializer_class = AskTemplateSerializer
+    queryset = AskTemplate.objects.all()
+    filter_fields = ('id', 'ask_intro', 'agreement', 'disclaimer',)
 
 
 class ServiceViewSet(viewsets.ModelViewSet):

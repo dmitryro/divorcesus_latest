@@ -472,6 +472,21 @@ class ReadMessageView(Endpoint):
             return {'messages':{'message':'error  '+str(R)}}
 
 
+@api_view(['POST'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def send_question_view(request):
+   
+    email = str(request.data.get('email', ''))
+    full_name = str(request.data.get('full_name', ''))
+    message = request.data['message']
+    subject = request.data['subject']
+
+    try:
+        serializer = MessageSerializer(message, many=False)
+        return Response(serializer.data)
+    except Exception as e:
+        return None
 
 message_duplicate_to_email.connect(message_duplicate_to_email_handler)
 message_read.connect(message_read_handler)

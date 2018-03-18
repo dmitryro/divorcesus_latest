@@ -1308,7 +1308,7 @@ new Vue({
 });
 
 var askone = new Vue({
-   el: '#askquestion_step_one',
+   el: '#ask-stepone',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1354,7 +1354,7 @@ var askone = new Vue({
 });
 
 var asktwo = new Vue({
-   el: '#askquestion_step_two',
+   el: '#ask-steptwo',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1401,7 +1401,7 @@ var asktwo = new Vue({
 });
 
 var askthree = new Vue({
-   el: '#askquestion_step_three',
+   el: '#ask-stepthree',
    data: {     
      is_verified: false,
      pre_verified: '',
@@ -1428,6 +1428,10 @@ var askthree = new Vue({
            askfour.email = this.email;
            askfour.message = this.message;
            askfour.subject = this.subject;
+           $.get('https://divorcesus.com/asktemplates/1/', function(data){
+               $("#ask-agreement-container").html(data.agreement);
+           });
+
        },
 
        submitfour: function (event) {
@@ -1451,7 +1455,7 @@ var askthree = new Vue({
 })
 
 var askfour = new Vue({
-   el: '#askquestion_step_four',
+   el: '#ask-stepfour',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1475,6 +1479,12 @@ var askfour = new Vue({
        },
 
        submitfour: function (event) {
+
+           $("#final_email").html(this.email);
+           $("#final_full_name").html(this.full_name);
+           $("#final_subject").html(this.subject);
+           $("#final_message").html(this.message);
+
            askfive.is_verified = this.is_verified;
            askfive.pre_verified = this.pre_verified;
            askfive.full_name = this.full_name;
@@ -1502,7 +1512,7 @@ var askfour = new Vue({
 })
 
 var askfive = new Vue({
-   el: '#askquestion_step_five',
+   el: '#ask-stepfive',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1530,7 +1540,18 @@ var askfive = new Vue({
        },
 
        submitfive: function (event) {
-          alert(this.message);
+
+         $.get('https://divorcesus.com/sendmail?email='+this.email+'&subject='+this.subject+'&message='+this.message+'&name='+this.full_name, function(data)
+                {
+                     if (data.message =='success')  {
+                           $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
+                     }
+                    this.email='';
+                    this.phone='';
+                    this.message='';
+                    this.name='';
+                });
+
        },
 
        successCallback: function(event) {
@@ -1565,6 +1586,8 @@ var consultone = new Vue({
    methods: {
 
        submitone: function (event) {
+         alert(this.email);
+         alert(this.full_name);
        },
 
        submittwo: function (event) {

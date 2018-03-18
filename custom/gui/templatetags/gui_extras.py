@@ -470,7 +470,7 @@ def ask_meta(a, b,  *args, **kwargs):
             return h.handle(ask.ask_intro)
 
         elif (b==2):
-            return h.handle(ask.agreement)
+            return ask.agreement
 
         elif (b==3):
             return h.handle(ask.disclaimer)

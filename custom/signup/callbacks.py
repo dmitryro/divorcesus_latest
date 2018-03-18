@@ -89,6 +89,70 @@ def user_send_email_handler(sender,contact,**kwargs):
        task = TaskLog.objects.create(user_id=contact.id,job='sending_user_email',is_complete=False)  
        process_user_email(contact)
 
+
+@run_async
+def process_user_question(contact):
+    try:
+        timeNow = datetime.now()
+
+        profile = ProfileMetaProp.objects.get(pk=1)
+        FROM = '<strong>Grinberg & Segal'
+        USER = profile.user_name
+        PASSWORD = profile.password
+        PORT = profile.smtp_port
+        SERVER = profile.smtp_server
+        TO = contact.email
+
+        SUBJECT = contact.subject
+        path = "templates/new_message_question_confirm.html"
+
+        try:
+
+            f = codecs.open(path, 'r')
+
+            m = f.read()
+            mess = string.replace(m, '[name]',contact.name)
+            mess = string.replace(mess, '[message]', contact.message)
+
+            mess = string.replace(mess, '[subject]',contact.subject)
+            mess = string.replace(mess,'[email]',contact.email)
+        #    mess = string.replace(mess,'[link]',link)
+
+        except Exception, R:
+            log = Logger(log=str(R))
+            log.save()
+        message = mess
+
+        MESSAGE = MIMEMultipart('alternative')
+        MESSAGE['subject'] = SUBJECT
+        MESSAGE['To'] = TO
+        MESSAGE['From'] = FROM
+        MESSAGE.preamble = """
+                Your mail reader does not support the report format.
+                Please visit us <a href="http://www.mysite.com">online</a>!"""
+
+    # Attach parts into message container.
+    # According to RFC 2046, the last part of a multipart message, in this case
+    # the HTML message, is best and preferred.
+        HTML_BODY  = MIMEText(message, 'html','utf-8')
+        MESSAGE.attach(HTML_BODY)
+        msg = MESSAGE.as_string()
+        server = smtplib.SMTP(SERVER+':'+PORT)
+        server.ehlo()
+        server.starttls()
+        server.login(USER,PASSWORD)
+        server.sendmail(FROM, TO, msg)
+        server.quit()
+
+    except SMTPRecipientsRefused:
+        pass
+    except ObjectDoesNotExist:
+        pass
+    except Exception, R:
+        log = Logger(log=str(R))
+        log.save()
+
+
 @run_async
 def process_user_email(contact):
 
@@ -102,16 +166,28 @@ def process_user_email(contact):
         PORT = profile.smtp_port
         SERVER = profile.smtp_server
         TO = profile.email
-        SUBJECT = 'New message from a customer'
-        try:
+
+        if contact.subject:
+            SUBJECT = contact.subject
+            path = "templates/new_message_question.html"
+            process_user_question(contact)            
+        else:
+            SUBJECT = 'New message from a customer'
             path = "templates/new_message.html"
+
+        try:
 
             f = codecs.open(path, 'r')
 
             m = f.read()
             mess = string.replace(m, '[name]',contact.name)
             mess = string.replace(mess, '[message]', contact.message)
-            mess = string.replace(mess, '[phone]',contact.phone)
+
+            if contact.subject:
+                mess = string.replace(mess, '[subject]',contact.subject)
+            else:
+                mess = string.replace(mess, '[phone]',contact.phone)
+
             mess = string.replace(mess,'[email]',contact.email)
         #    mess = string.replace(mess,'[link]',link)
 

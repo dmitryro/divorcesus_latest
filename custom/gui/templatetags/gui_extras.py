@@ -21,6 +21,7 @@ from custom.gui.models import Logo
 from custom.gui.models import ContactInfo
 from custom.gui.models import Service
 from custom.gui.models import Article
+from custom.gui.models import AskTemplate
 from custom.messaging.models import Message
 from custom.payments.models import CreditCard
 from custom.payments.models import Address
@@ -420,11 +421,14 @@ def package_meta(a, b, *args, **kwargs):
     except Exception as e:
         pass
 
-"""
- Get the service provided  info data
-"""
+
+
+
 @register.simple_tag
 def service_meta(a, b,  *args, **kwargs):
+    """
+     Get the service provided  info data
+    """
 
     try:
         service = Service.objects.get(id=int(a))
@@ -451,3 +455,31 @@ def service_meta(a, b,  *args, **kwargs):
 
     except Exception as e:
         return ""
+
+
+@register.simple_tag
+def ask_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            ask = AskTemplate.objects.get(id=int(a))
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return h.handle(ask.ask_intro)
+
+        elif (b==2):
+            return h.handle(ask.agreement)
+
+        elif (b==3):
+            return h.handle(ask.disclaimer)
+
+
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+

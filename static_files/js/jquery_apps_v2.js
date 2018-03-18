@@ -40,6 +40,24 @@
             $("#stepfour").css("display","none");
             $("#stepfive").css("display","none");
 
+
+            $("#ask-wizard :nth-child(1)").attr('class','current');
+            $("#ask-stepone").css("display","block");
+            $("#ask-steptwo").css("display","none");
+            $("#ask-stepthree").css("display","none");
+            $("#ask-stepfour").css("display","none");
+            $("#ask-stepfive").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").attr('class','current');
+            $("#consult-stepone").css("display","block");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display","none");
+            $("#consult-stepfour").css("display","none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+
+
             $("#resend").bind("click", function() {
                   resend();
             });
@@ -141,6 +159,32 @@
           });
 
         $('#submitcomment').bind('click',handlePost);
+
+
+
+        $("#ask_step_one").bind("click", ask_step_one);
+     //   $("#ask_progress_step_one").bind("click", ask_step_zero);
+
+        $("#ask_step_two").bind("click", ask_step_two);
+     //   $("#ask_progress_step_two").bind("click", ask_step_one);
+
+        $("#ask_step_three").bind("click", ask_step_three);
+     //   $("#ask_progress_step_three").bind("click", ask_step_two);
+    
+        $("#ask_step_four").bind("click", ask_step_four);
+   //     $("#ask_progress_step_four").bind("click",  ask_step_three);
+
+        $("#ask_step_five").bind("click", ask_step_five);
+ //       $("#ask_progress_step_five").bind("click", ask_step_four);
+
+
+        $("#consult_step_one").bind("click", consult_step_one);
+        $("#consult_step_two").bind("click", consult_step_two);
+        $("#consult_step_three").bind("click", consult_step_three);
+        $("#consult_step_four").bind("click", consult_step_four);
+        $("#consult_step_five").bind("click", consult_step_five);
+        $("#consult_step_six").bind("click", consult_step_six);
+        $("#consult_step_seven").bind("click", consult_step_seven);
 
 
         $("#qualify_progress_stepone").bind("click",function() {

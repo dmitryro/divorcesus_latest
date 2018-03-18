@@ -1308,12 +1308,12 @@ new Vue({
 });
 
 var askone = new Vue({
-   el: '#askquestion_stepone',
+   el: '#askquestion_step_one',
    data: {
      is_verified: false,
      pre_verified: '',
      full_name:'',
-     email:''
+     email:'',
      message: '',
      subject: '',
      time_asked: '',
@@ -1354,15 +1354,15 @@ var askone = new Vue({
 });
 
 var asktwo = new Vue({
-   el: '#askquestion_steptwo',
+   el: '#askquestion_step_two',
    data: {
      is_verified: false,
      pre_verified: '',
      full_name:'',
-     email:''
+     email:'',
      message: '',
      subject: '',
-     time_asked: ''
+     time_asked: '',
      agreement: '',
      agreed_note: '',
      agreed: false
@@ -1401,15 +1401,15 @@ var asktwo = new Vue({
 });
 
 var askthree = new Vue({
-   el: '#askquestion_stepthree',
+   el: '#askquestion_step_three',
    data: {     
      is_verified: false,
      pre_verified: '',
      full_name:'',
-     email:''
+     email:'',
      message: '',
      subject: '',
-     time_asked: ''
+     time_asked: '',
      agreement: '',
      agreed_note: '',
      agreed: false
@@ -1451,15 +1451,15 @@ var askthree = new Vue({
 })
 
 var askfour = new Vue({
-   el: '#askquestion_stepfour',
+   el: '#askquestion_step_four',
    data: {
      is_verified: false,
      pre_verified: '',
      full_name:'',
-     email:''
+     email:'',
      message: '',
      subject: '',
-     time_asked: ''
+     time_asked: '',
      agreement: '',
      agreed_note: '',
      agreed: false
@@ -1502,15 +1502,15 @@ var askfour = new Vue({
 })
 
 var askfive = new Vue({
-   el: '#askquestion_stepfive',
+   el: '#askquestion_step_five',
    data: {
      is_verified: false,
      pre_verified: '',
      full_name:'',
-     email:''
+     email:'',
      message: '',
      subject: '',
-     time_asked: ''
+     time_asked: '',
      agreement: '',
      agreed_note: '',
      agreed: false
@@ -1548,7 +1548,367 @@ var askfive = new Vue({
 });
 
 
+var consultone = new Vue({
+   el: '#onlineconsult_step_one',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:'',
+     message: '',
+     subject: '',
+     time_asked: '',
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
 
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+       },
+
+       submitsix: function (event) {
+       },
+
+       submitseven: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+
+   },
+   mounted:function() {
+   }
+});
+
+
+var consulttwo = new Vue({
+   el: '#onlineconsult_step_two',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:'',
+     message: '',
+     subject: '',
+     time_asked: '',
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+       },
+
+       submitsix: function (event) {
+       },
+
+       submitseven: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+
+   },
+   mounted:function() {
+   }
+});
+
+var consultthree = new Vue({
+   el: '#onlineconsult_step_three',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:'',
+     message: '',
+     subject: '',
+     time_asked: '',
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+       },
+
+       submitsix: function (event) {
+       },
+
+       submitseven: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+
+   },
+   mounted:function() {
+   }
+});
+
+
+var consulttfour = new Vue({
+   el: '#onlineconsult_step_four',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:'',
+     message: '',
+     subject: '',
+     time_asked: '',
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+       },
+
+       submitsix: function (event) {
+       },
+
+       submitseven: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+
+   },
+   mounted:function() {
+   }
+});
+
+
+var consultfive = new Vue({
+   el: '#onlineconsult_step_five',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:'',
+     message: '',
+     subject: '',
+     time_asked: '',
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+       },
+
+       submitsix: function (event) {
+       },
+
+       submitseven: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+
+   },
+   mounted:function() {
+   }
+});
+
+
+var consultsix = new Vue({
+   el: '#onlineconsult_step_six',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:'',
+     message: '',
+     subject: '',
+     time_asked: '',
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+       },
+
+       submitsix: function (event) {
+       },
+
+       submitseven: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+
+   },
+   mounted:function() {
+   }
+});
+
+
+var consultseven = new Vue({
+   el: '#onlineconsult_step_seven',
+   data: {
+     is_verified: false,
+     pre_verified: '',
+     full_name:'',
+     email:'',
+     message: '',
+     subject: '',
+     time_asked: '',
+     agreement: '',
+     agreed_note: '',
+     agreed: false
+   },
+   methods: {
+
+       submitone: function (event) {
+       },
+
+       submittwo: function (event) {
+       },
+
+       submitthree: function (event) {
+       },
+
+       submitfour: function (event) {
+       },
+
+       submitfive: function (event) {
+       },
+
+       submitsix: function (event) {
+       },
+
+       submitseven: function (event) {
+       },
+
+       successCallback: function(event) {
+       },
+
+       errorCallback: function(event) {
+       },
+
+       validConfirm: function(event) {
+       }
+
+   },
+   mounted:function() {
+   }
+});
 
 jQuery(document).ready(function() {
     

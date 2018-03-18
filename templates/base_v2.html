@@ -140,8 +140,18 @@
                   margin-right: 5px;
                }
 
-               #root {
-                 margin-left: -100px;
+               
+               a.fa-chevron-up {
+                 margin-right: 80px;
+               }
+             
+               .progress {
+
+               }
+
+               
+               ul.cd-multi-steps em {
+                 display:inline-block;
                }
             </style>
             <script>
@@ -1039,7 +1049,7 @@
                   <div class="container wow fadeIn">
                     <h2><span>Still not sure if you re ready to start?</span></h2>
                     <h4>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4>
-                    <a href="#" class="btn4">Read more</a>
+                    <a href="#" class="btn4" v-scroll-to="{el: '#page', offset: -120,}" onclick="on_mobile_ask(); return false;">Start</a>
                   </div>
                 </section>
     <!--
@@ -3460,14 +3470,58 @@
  
 
 
-                            <div class="bread-main" id="qualify-wizard-steps">
-                                <ul class="cd-multi-steps text-bottom count" id="qualify-wizard">
-                                  <li class="current"><em><a id="qualify_progress_stepone" href="#">Verify</a></em></li>
-                                  <li><em><a href="#" id="ask_progress_steptwo" href="#">Confirm</a></em></li>
-                                  <li><em><a href="#" id="ask_progress_stepthree"> Start Process</a></em></li>
-                                  <li><em><a href="#" id="ask_progress_stepfour">Payment Info</a></em></li>
-                                  <li><em><a href="#" id="ask_progress_stepfive">Billing Address</a></em></li>
+                            <div class="bread-main" id="ask-wizard-steps">
+                                <ul class="cd-multi-steps text-bottom count" id="ask-wizard">
+                                  <li class="current progress"><em  onclick="ask_step_zero();"></em></li>
+                                  <li class="progress"><em onclick="ask_step_one();"></em></li>
+                                  <li class="progress"><em onclick="ask_step_two();" ></em></li>
+                                  <li class="progress"><em onclick="ask_step_three();"></em></li>
+                                  <li class="progress"><em onclick="ask_step_four();"></em></li>
                                 </ul>
+                            </div>
+                            <div id="ask-stepone">
+
+                              {% ask_meta 1 1 %}
+                              <br />
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submitone"  id="ask_step_one">Next</button>
+                              </div>
+                              <div class="clear"></div>
+                                
+
+                            </div>
+                            <div id="ask-steptwo">
+
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submittwo"  id="ask_step_two">Next</button>
+                              </div>
+                              <div class="clear"></div>                                    
+
+                            </div>
+                            <div id="ask-stepthree">
+
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submitthree"  id="ask_step_three">Next</button>
+                              </div>
+                              <div class="clear"></div>
+
+                        
+
+                            </div>  
+                            <div id="ask-stepfour">
+
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submitfour"  id="ask_step_four">Next</button>
+                              </div>
+                              <div class="clear"></div>
+
+                            </div>
+                            <div id="ask-stepfive">
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submitfive"  id="ask_step_five">Ask</button>
+                              </div>
+                              <div class="clear"></div>
+
                             </div>
                        </div>
                   </section>
@@ -3497,15 +3551,75 @@
 
 
 
-                            <div class="bread-main" id="qualify-wizard-steps">
-                                <ul class="cd-multi-steps text-bottom count" id="qualify-wizard">
-                                  <li class="current"><em><a id="qualify_progress_stepone" href="#">Verify</a></em></li>
-                                  <li><em><a href="#" id="ask_progress_steptwo" href="#">Confirm</a></em></li>
-                                  <li><em><a href="#" id="ask_progress_stepthree"> Start Process</a></em></li>
-                                  <li><em><a href="#" id="ask_progress_stepfour">Payment Info</a></em></li>
-                                  <li><em><a href="#" id="ask_progress_stepfive">Billing Address</a></em></li>
+                            <div class="bread-main" id="consult-wizard-steps">
+                                <ul class="cd-multi-steps text-bottom count" id="consult-wizard">
+                                  <li class="current" onclick="consult_step_zero();"><em></em></li>
+                                  <li><em onclick="consult_step_one();"></em></li>
+                                  <li><em onclick="consult_step_two();"></em></li>
+                                  <li><em onclick="consult_step_three();"></em></li>
+                                  <li><em onclick="consult_step_four();"></em></li>
+                                  <li><em onclick="consult_step_five();"></em></li>
+                                  <li><em onclick="consult_step_six();"></em></li>
                                 </ul>
                             </div>
+                            <div id="consult-stepone">
+                         
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submitone"  id="consult_step_one">Next</button>
+                              </div>
+                              <div class="clear"></div>
+
+                            </div>
+                            <div id="consult-steptwo">
+                        
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submittwo"  id="consult_step_two">Next</button>
+                              </div>
+                              <div class="clear"></div>
+
+                            </div>
+                            <div id="consult-stepthree">
+                   
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submitthree"  id="consult_step_three">Next</button>
+                              </div>
+                              <div class="clear"></div>
+
+                            </div>
+                            <div id="consult-stepfour">
+                          
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submitfour"  id="consult_step_four">Next</button>
+                              </div>
+                              <div class="clear"></div>
+
+                            </div>
+                            <div id="consult-stepfive">
+
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submitfive"  id="consult_step_five">Next</button>
+                              </div>
+                              <div class="clear"></div>
+                     
+
+                            </div>
+                            <div id="consult-stepsix">
+                    
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submitsix"  id="consult_step_six">Next</button>
+                              </div>
+                              <div class="clear"></div>
+
+                            </div>
+                            <div id="consult-stepseven">
+
+                              <div style="float:left;padding-top:1.9em;">
+                                  <button class="btn4" v-on:click="submitseven"  id="cosnult_step_seven">Consult</button>
+                              </div>
+                              <div class="clear"></div>
+
+                            </div>
+
                        </div>
                   </section>
                  </main>
@@ -7288,11 +7402,10 @@
                     <div class="col-md-2 col-sm-6 col-xs-16">
                       <h4>Need Help?</h4>
                       <ul class="list">
-                          <li><a href="#">Ctetur adipisicing</a></li>
-                          <li><a href="#">Elit sed do eiusmod</a></li>
-                          <li><a href="#">Incididunt ut labore</a></li>
-                          <li><a href="#">Et dolore magna aliqua</a></li>
-                          <li><a href="#">Ut enim ad mini</a></li>
+                          <li><a href="#" v-scroll-to="{el: '#page', offset: -120,}" onclick="$('#toTop').click();on_mobile_ask(); return false;">Ask a Question</a></li>
+                          <li><a href="#" v-scroll-to="{el: '#page', offset: -120,}" onclick="$('#toTop').click();on_mobile_consult(); return false;">Online Consultation</a></li>
+                          <li><a href="#" v-scroll-to="{el: '#page', offset: -120,}" onclick="$('#toTop').click();on_mobile_faq(); return false;">Frequently Asked Questions</a></li>
+                          <li><a href="#" v-scroll-to="{el: '#page', offset: -1120,}" onclick="$('#toTop').click();on_mobile_contact();return false;">Contact Us</a></li>
                       </ul>
                     </div>
 

@@ -1514,3 +1514,331 @@ function confirm_info() {
 
 }
 
+function ask_step_two() {
+            $("#ask-stepone").css("display","none");
+            $("#ask-steptwo").css("display","none");
+            $("#ask-stepthree").css("display","block");
+            $("#ask-stepfour").css("display","none");
+            $("#ask-stepfive").css("display","none");
+
+            $("#ask-wizard :nth-child(1)").removeAttr('class');
+            $("#ask-wizard :nth-child(2)").removeAttr('class');
+            $("#ask-wizard :nth-child(3)").attr('class','progress current');
+            $("#ask-wizard :nth-child(4)").removeAttr('class');
+            $("#ask-wizard :nth-child(5)").removeAttr('class');
+
+            $("#ask-wizard :nth-child(1)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(2)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(4)").attr('class','progress');
+            $("#ask-wizard :nth-child(5)").attr('class','progress');
+
+            return false;
+}
+
+function ask_step_zero() {
+            $("#ask-stepone").css("display","block");
+            $("#ask-steptwo").css("display","none");
+            $("#ask-stepthree").css("display","none");
+            $("#ask-stepfour").css("display","none");
+            $("#ask-stepfive").css("display","none");
+
+            $("#ask-wizard :nth-child(1)").attr('class','progress current');
+            $("#ask-wizard :nth-child(2)").removeAttr('class');
+            $("#ask-wizard :nth-child(3)").removeAttr('class');
+            $("#ask-wizard :nth-child(4)").removeAttr('class');
+            $("#ask-wizard :nth-child(5)").removeAttr('class');
+            $("#ask-wizard :nth-child(2)").attr('class','progress');
+            $("#ask-wizard :nth-child(3)").attr('class','progress');
+            $("#ask-wizard :nth-child(4)").attr('class','progress');
+            $("#ask-wizard :nth-child(5)").attr('class','progress');
+
+            return false;
+}
+
+
+function ask_set_step_one() {
+            $("#ask-stepone").css("display","block");
+            $("#ask-steptwo").css("display","none");
+            $("#ask-stepthree").css("display","none");
+            $("#ask-stepfour").css("display","none");
+            $("#ask-stepfive").css("display","none");
+
+            $("#ask-wizard :nth-child(1)").attr('class','progress current');
+            $("#ask-wizard :nth-child(2)").removeAttr('class');
+            $("#ask-wizard :nth-child(3)").removeAttr('class');
+            $("#ask-wizard :nth-child(4)").removeAttr('class');
+            $("#ask-wizard :nth-child(5)").removeAttr('class');
+            $("#ask-wizard :nth-child(2)").attr('class','progress');
+            $("#ask-wizard :nth-child(3)").attr('class','progress');
+            $("#ask-wizard :nth-child(4)").attr('class','progress');
+            $("#ask-wizard :nth-child(5)").attr('class','progress');
+
+            return false;
+}
+
+function ask_step_one() {
+            $("#ask-stepone").css("display","none");
+            $("#ask-steptwo").css("display","block");
+            $("#ask-stepthree").css("display","none");
+            $("#ask-stepfour").css("display","none");
+            $("#ask-stepfive").css("display","none");
+
+            $("#ask-wizard :nth-child(1)").removeAttr('class');
+            $("#ask-wizard :nth-child(2)").attr('class','progress current');
+            $("#ask-wizard :nth-child(3)").removeAttr('class');
+            $("#ask-wizard :nth-child(4)").removeAttr('class');
+            $("#ask-wizard :nth-child(5)").removeAttr('class');
+            $("#ask-wizard :nth-child(1)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(3)").attr('class','progress');
+            $("#ask-wizard :nth-child(4)").attr('class','progress');
+            $("#ask-wizard :nth-child(5)").attr('class','progress');
+
+            return false;
+}
+
+        
+function ask_step_three() {
+            $("#ask-stepone").css("display","none");
+            $("#ask-steptwo").css("display","none");
+            $("#ask-stepthree").css("display","none");
+            $("#ask-stepfour").css("display","block");
+            $("#ask-stepfive").css("display","none");
+
+            $("#ask-wizard :nth-child(1)").removeAttr('class');
+            $("#ask-wizard :nth-child(2)").removeAttr('class');
+            $("#ask-wizard :nth-child(3)").removeAttr('class');
+            $("#ask-wizard :nth-child(4)").attr('class','progress current');
+            $("#ask-wizard :nth-child(5)").removeAttr('class');
+            $("#ask-wizard :nth-child(1)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(2)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(3)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(5)").attr('class','progress');
+
+
+            return false;
+}
+
+function ask_step_four() {
+            $("#ask-stepone").css("display","none");
+            $("#ask-steptwo").css("display","none");
+            $("#ask-stepthree").css("display","none");
+            $("#ask-stepfour").css("display","none");
+            $("#ask-stepfive").css("display","block");
+
+            $("#ask-wizard :nth-child(1)").removeAttr('class');
+            $("#ask-wizard :nth-child(2)").removeAttr('class');
+            $("#ask-wizard :nth-child(3)").removeAttr('class');
+            $("#ask-wizard :nth-child(4)").removeAttr('class');
+            $("#ask-wizard :nth-child(5)").attr('class','progress current');
+            $("#ask-wizard :nth-child(1)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(2)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(3)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(4)").attr('class','progress visited');
+            
+            return false;
+}
+
+function ask_step_five() {
+            $("#ask-stepone").css("display","none");
+            $("#ask-steptwo").css("display","none");
+            $("#ask-stepthree").css("display","none");
+            $("#ask-stepfour").css("display","none");
+            $("#ask-stepfive").css("display","block");
+
+            $("#ask-wizard :nth-child(1)").removeAttr('class');
+            $("#ask-wizard :nth-child(2)").removeAttr('class');
+            $("#ask-wizard :nth-child(3)").removeAttr('class');
+            $("#ask-wizard :nth-child(4)").removeAttr('class');
+            $("#ask-wizard :nth-child(5)").attr('class','progress current');
+            $("#ask-wizard :nth-child(1)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(2)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(3)").attr('class','progress visited');
+            $("#ask-wizard :nth-child(4)").attr('class','progress visited');
+            
+
+            return false;
+}
+
+function consult_step_zero() {
+            $("#consult-stepone").css("display","block");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display","none");
+            $("#consult-stepfour").css("display","none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").attr('class','current');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');   
+
+            return false;
+}
+
+function consult_step_one() {
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","block");
+            $("#consult-stepthree").css("display","none");
+            $("#consult-stepfour").css("display","none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").removeAttr('class');
+            $("#consult-wizard :nth-child(2)").attr('class','current')
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+
+            $("#consult-wizard :nth-child(1)").attr('class','visited');
+
+}
+
+function consult_step_two() {
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display", "block");
+            $("#consult-stepfour").css("display","none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").removeAttr('class');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").attr('class','current');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+
+            $("#consult-wizard :nth-child(1)").attr('class','visited');
+            $("#consult-wizard :nth-child(2)").attr('class','visited');
+}
+
+function consult_step_three() {
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display", "none");
+            $("#consult-stepfour").css("display", "block");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").removeAttr('class');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").attr('class','current');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+
+            $("#consult-wizard :nth-child(1)").attr('class','visited');
+            $("#consult-wizard :nth-child(2)").attr('class','visited');
+            $("#consult-wizard :nth-child(3)").attr('class','visited');
+}
+
+function consult_step_four() {
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display", "none");
+            $("#consult-stepfour").css("display", "none");
+            $("#consult-stepfive").css("display","block");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").removeAttr('class');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").attr('class','current');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+
+            $("#consult-wizard :nth-child(1)").attr('class','visited');
+            $("#consult-wizard :nth-child(2)").attr('class','visited');
+            $("#consult-wizard :nth-child(3)").attr('class','visited');
+            $("#consult-wizard :nth-child(4)").attr('class','visited');
+}
+
+function consult_step_five() {
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display", "none");
+            $("#consult-stepfour").css("display", "none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","block");
+            $("#consult-stepseven").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").removeAttr('class');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").attr('class','current');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+
+            $("#consult-wizard :nth-child(1)").attr('class','visited');
+            $("#consult-wizard :nth-child(2)").attr('class','visited');
+            $("#consult-wizard :nth-child(3)").attr('class','visited');
+            $("#consult-wizard :nth-child(4)").attr('class','visited');
+            $("#consult-wizard :nth-child(5)").attr('class','visited');
+}
+
+function consult_step_six() {
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display", "none");
+            $("#consult-stepfour").css("display", "none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","block");
+
+            $("#consult-wizard :nth-child(1)").removeAttr('class');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").attr('class','current');
+
+            $("#consult-wizard :nth-child(1)").attr('class','visited');
+            $("#consult-wizard :nth-child(2)").attr('class','visited');
+            $("#consult-wizard :nth-child(3)").attr('class','visited');
+            $("#consult-wizard :nth-child(4)").attr('class','visited');
+            $("#consult-wizard :nth-child(5)").attr('class','visited');
+            $("#consult-wizard :nth-child(6)").attr('class','visited'); 
+}
+
+
+function consult_step_seven() {
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display", "none");
+            $("#consult-stepfour").css("display", "none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","block");
+
+            $("#consult-wizard :nth-child(1)").removeAttr('class');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").attr('class','current');
+
+            $("#consult-wizard :nth-child(1)").attr('class','visited');
+            $("#consult-wizard :nth-child(2)").attr('class','visited');
+            $("#consult-wizard :nth-child(3)").attr('class','visited');
+            $("#consult-wizard :nth-child(4)").attr('class','visited');
+            $("#consult-wizard :nth-child(5)").attr('class','visited');
+            $("#consult-wizard :nth-child(6)").attr('class','visited');
+}
+
+

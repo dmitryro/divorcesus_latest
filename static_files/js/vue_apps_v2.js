@@ -1372,6 +1372,8 @@ var asktwo = new Vue({
        },
 
        submittwo: function (event) {
+           this.email = $("#ask_email").val();
+           this.full_name = $("#ask_full_name").val();
            askthree.is_verified = this.is_verified;
            askthree.pre_verified = this.pre_verified;
            askthree.full_name = this.full_name;
@@ -1545,6 +1547,7 @@ var askfive = new Vue({
                 {
                      if (data.message =='success')  {
                            $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
+                           $("#ask-stepfive-submit").html("<button class='btn4' v-scroll-to='{el: \"#page\", offset: -120,}'  onclick='on_mobile_home(); return false;'  id='ask_step_five'>Home</button>");
                      }
                     this.email='';
                     this.phone='';

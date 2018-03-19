@@ -3546,7 +3546,7 @@
                               <label>
                                   <input type="text"
                                   name="full_name"
-                                  id="full_name"
+                                  id="ask_full_name"
                                   v-model="full_name"
                                   placeholder="Full Name*"
                                   value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %}{% endif %}"
@@ -3555,7 +3555,7 @@
 
                               <label style="padding-top:1.9em;">
                                   <input type="text"
-                                  id="email_ask"
+                                  id="ask_email"
                                   name="email"
                                   v-model="email"
                                   value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
@@ -3643,7 +3643,7 @@
 
                                         {% ask_meta 1 3 %}
                                         <div style="float:left;padding-top:1.9em;">
-                                              <button class="btn4" v-on:click="submitfour"  id="ask_step_four">Review</button>
+                                              <button class="btn4" v-scroll-to="{el: '#page', offset: -80,}" v-on:click="submitfour"  id="ask_step_four">Review</button>
                                        </div>
 
                                     </div>
@@ -3675,7 +3675,7 @@
                                         <div id="final_message"></div>
                                      
 
-                                        <div style="float:left;padding-top:1.9em;">
+                                        <div style="float:left;padding-top:1.9em;" id="ask-stepfive-submit">
                                              <button class="btn4" v-on:click="submitfive"  id="ask_step_five">Ask</button>
                                         </div>
 
@@ -3724,60 +3724,124 @@
                                 </ul>
                             </div>
                             <div id="consult-stepone">
-                         
-                              <div style="float:left;padding-top:1.9em;">
-                                  <button class="btn4" v-on:click="submitone"  id="consult_step_one">Next</button>
-                              </div>
+
+                                   <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                                   </div>
+
+
+                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+                        
+ 
+                                          <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                                  <button class="btn4" v-on:click="submitone"  id="consult_step_one">Next</button>
+                                          </div>
+                                   </div>
                               <div class="clear"></div>
 
                             </div>
                             <div id="consult-steptwo">
-                        
-                              <div style="float:left;padding-top:1.9em;">
-                                  <button class="btn4" v-on:click="submittwo"  id="consult_step_two">Next</button>
-                              </div>
-                              <div class="clear"></div>
+                       
+                                   <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                                   </div>
+
+
+                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+
+ 
+                                            <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                                  <button class="btn4" v-on:click="submittwo"  id="consult_step_two">Next</button>
+                                            </div>
+                                   </div>
+                                   <div class="clear"></div>
 
                             </div>
                             <div id="consult-stepthree">
                    
-                              <div style="float:left;padding-top:1.9em;">
-                                  <button class="btn4" v-on:click="submitthree"  id="consult_step_three">Next</button>
-                              </div>
-                              <div class="clear"></div>
+                                   <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                                   </div>
+
+
+                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+
+
+                                          <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                              <button class="btn4" v-on:click="submitthree"  id="consult_step_three">Next</button>
+                                          </div>
+                                   </div>
+                                   <div class="clear"></div>
 
                             </div>
                             <div id="consult-stepfour">
                           
-                              <div style="float:left;padding-top:1.9em;">
-                                  <button class="btn4" v-on:click="submitfour"  id="consult_step_four">Next</button>
-                              </div>
-                              <div class="clear"></div>
+                                   <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                                   </div>
+
+
+                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+
+
+                                         <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                               <button class="btn4" v-on:click="submitfour"  id="consult_step_four">Next</button>
+                                         </div>
+                                   </div>
+                                   <div class="clear"></div>
 
                             </div>
                             <div id="consult-stepfive">
 
-                              <div style="float:left;padding-top:1.9em;">
-                                  <button class="btn4" v-on:click="submitfive"  id="consult_step_five">Next</button>
-                              </div>
-                              <div class="clear"></div>
+                                   <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                                   </div>
+
+
+                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+
+
+                                           <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                               <button class="btn4" v-on:click="submitfive"  id="consult_step_five">Next</button>
+                                           </div>
+                                  </div>
+                                  <div class="clear"></div>
                      
 
                             </div>
                             <div id="consult-stepsix">
                     
-                              <div style="float:left;padding-top:1.9em;">
-                                  <button class="btn4" v-on:click="submitsix"  id="consult_step_six">Next</button>
-                              </div>
-                              <div class="clear"></div>
+                                   <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                                   </div>
+
+
+                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+
+
+                                          <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                              <button class="btn4" v-on:click="submitsix"  id="consult_step_six">Next</button>
+                                          </div>
+                                   </div>
+
+                                   <div class="clear"></div>
 
                             </div>
                             <div id="consult-stepseven">
 
-                              <div style="float:left;padding-top:1.9em;">
-                                  <button class="btn4" v-on:click="submitseven"  id="cosnult_step_seven">Consult</button>
-                              </div>
-                              <div class="clear"></div>
+                                   <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                                   </div>
+
+
+                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+
+
+                                            <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                                <button class="btn4" v-on:click="submitseven"  id="cosnult_step_seven">Consult</button>
+                                            </div>
+                                   </div>
+                                   <div class="clear"></div>
 
                             </div>
 
@@ -3862,15 +3926,16 @@
                       <div class="col-xs-12 col-sm-6" id="contactus">
                              <br/>
 
+                        <div>
                               <div class="alert-box success">
                                     <strong>Thanks for contacting Grinberg & Segal!</strong>
                                     <p>Your message will be reviewed and responded soon.</p>
                                </div>
-
+                   
                         <h3><span>Contact</span> Us</h3>
                         <form class='mailform contact-form' method="post"> 
                              {% csrf_token %}
-
+                       
                           <input type="hidden" name="form-type" value="contact"/> 
                           <fieldset> 
                               <label> 
@@ -3907,12 +3972,13 @@
                                   v-model="message"
                                   data-constraints="@NotEmpty"></textarea> 
                               </label> 
-
-                              <div class="mfControls"> 
-                                  <span class="submit_text">required fields*</span>
-                                  <button class="btn4"  v-on:click="submit">Send</button> 
-                              </div> 
                           </fieldset> 
+                          </div>
+                          <div  style="float:left;padding-top:1.6em;">
+                              <button class="btn4" v-on:click="submit">Send</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="submit_text">required fields*</span>
+                          </div>
+
+                          <div class="clear"></div>
                       </form> 
                       </div>
                     </div>

@@ -1573,7 +1573,7 @@ var askfive = new Vue({
 
 
 var consultone = new Vue({
-   el: '#onlineconsult_step_one',
+   el: '#consult-stepone',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1584,13 +1584,56 @@ var consultone = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     consultancytype: '',
+     items: [ { 'message': 'Foo' }]
    },
    methods: {
 
        submitone: function (event) {
-         alert(this.email);
-         alert(this.full_name);
+
+             
+
+           $.get('https://divorcesus.com/consulttypes', function(msg) {
+                     let result = "<div>";
+                     for(var i=0;i<msg.length;i++) {
+                         str = "<div style='float:left;width:5%;margin-bottom:1.2em;'><input type='radio' v-model='consultancytype'  name='consultancytype' value='"+
+                               msg[i].title+"'></div><div style='float:left;width:94%;margin-bottom:1.2em;'>"+msg[i].description+"</div><div class='clear'></div>";
+                         result = result + str
+                     }
+                     result = result + "</div>";
+                     $("#service-choices").html(result);
+            });
+
+            $.get('https://divorcesus.com/cardtypes', function(msg) {
+                     let result = "<select id='select-card' class='styled-select slate' style='width:100%;' >";
+                     for(var i=0;i<msg.length;i++) {
+                         result =  result+'<option value="'+msg[i].id+'">'+msg[i].card+'</option>';
+                     }
+                     result = result + "</select>";
+                     $("#card-choices").html(result);
+            });
+
+            $.get('https://divorcesus.com/states', function(msg) {
+                     let result = "<select id='select-state' class='styled-select slate' style='width:100%;' >";
+                     for(var i=0;i<msg.length;i++) {
+                         result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                     }
+                     result = result + "</select>";
+                     $("#state-choices").html(result);
+            });
+
+            $.get('https://divorcesus.com/countries', function(msg) {
+                     let result = "<select id='select-country' class='styled-select slate' style='width:100%;' >";
+                     for(var i=0;i<msg.length;i++) {
+                         result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                     }
+                     result = result + "</select>";
+                     $("#country-choices").html(result);
+            });
+        
+ 
+    
        },
 
        submittwo: function (event) {
@@ -1627,7 +1670,7 @@ var consultone = new Vue({
 
 
 var consulttwo = new Vue({
-   el: '#onlineconsult_step_two',
+   el: '#consult-steptwo',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1638,14 +1681,17 @@ var consulttwo = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
-   },
+     agreed: false,
+     consultancytype: '',
+     items: []
+  },
    methods: {
 
        submitone: function (event) {
        },
 
        submittwo: function (event) {
+           consultthree.items = [ { 'message': 'Foo' }]
        },
 
        submitthree: function (event) {
@@ -1674,11 +1720,19 @@ var consulttwo = new Vue({
 
    },
    mounted:function() {
+   },
+   data() {
+      return {
+         items: [
+              {name: 'apple', price: '7'},
+              {name: 'orange', price: '12'}
+         ]
    }
+}
 });
 
 var consultthree = new Vue({
-   el: '#onlineconsult_step_three',
+   el: '#consult-stepthree',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1689,7 +1743,9 @@ var consultthree = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     consultancytype: '',
+     items: []
    },
    methods: {
 
@@ -1700,6 +1756,7 @@ var consultthree = new Vue({
        },
 
        submitthree: function (event) {
+          alert("submit 3");
        },
 
        submitfour: function (event) {
@@ -1730,7 +1787,7 @@ var consultthree = new Vue({
 
 
 var consulttfour = new Vue({
-   el: '#onlineconsult_step_four',
+   el: '#consult-stepfour',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1741,7 +1798,9 @@ var consulttfour = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     consultancytype: '',
+     items: []
    },
    methods: {
 
@@ -1782,7 +1841,7 @@ var consulttfour = new Vue({
 
 
 var consultfive = new Vue({
-   el: '#onlineconsult_step_five',
+   el: '#consult-stepfive',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1793,7 +1852,9 @@ var consultfive = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     consultancytype: '',
+     items: []
    },
    methods: {
 
@@ -1834,7 +1895,7 @@ var consultfive = new Vue({
 
 
 var consultsix = new Vue({
-   el: '#onlineconsult_step_six',
+   el: '#consult-stepsix',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1845,7 +1906,9 @@ var consultsix = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     consultancytype: '',
+     items: []
    },
    methods: {
 
@@ -1886,7 +1949,7 @@ var consultsix = new Vue({
 
 
 var consultseven = new Vue({
-   el: '#onlineconsult_step_seven',
+   el: '#consult-stepseven',
    data: {
      is_verified: false,
      pre_verified: '',
@@ -1897,7 +1960,9 @@ var consultseven = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     consultancytype: '',
+     items: []
    },
    methods: {
 

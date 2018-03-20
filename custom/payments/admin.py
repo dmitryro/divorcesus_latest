@@ -57,5 +57,15 @@ class CustomerProfileAdmin(admin.ModelAdmin):
          verbose_name = 'Customer Profile'
          verbose_name_plural = 'Customer Profiles'
 
+class CardTypeAdmin(admin.ModelAdmin):
+    fieldsets = ((None, {'fields': ['card',
+                                    'code',]}),)
+
+    class Meta:
+         verbose_name = 'Card Type'
+         verbose_name_plural = 'Card Types'
+
+
+admin.site.register(CardType, CardTypeAdmin)
 admin.site.register(CustomerProfile, CustomerProfileAdmin)
 admin.site.register(Address, AddressAdmin)

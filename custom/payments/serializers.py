@@ -17,6 +17,13 @@ from models import Transaction
 from models import CustomerProfile
 from custom.users.models import StateProvince
 
+
+class CardTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CardType
+        fields = ('id','card','code')
+
+
 class StateProvinceSerializer(serializers.ModelSerializer):
     class Meta:
         model = StateProvince

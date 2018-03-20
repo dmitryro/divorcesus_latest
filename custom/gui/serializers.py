@@ -1,13 +1,29 @@
 from rest_framework import serializers
 from custom.blog.models import Post
+from models import Country
 from models import Slide
 from models import Service
 from models import AskTemplate
+from models import ConsultationType
+
+
+class CountrySerializer(serializers.ModelSerializer):
+   class Meta:
+      model = Country
+      fields = ('id', 'name', 'code',)
+
 
 class AskTemplateSerializer(serializers.ModelSerializer):
    class Meta:
       model = AskTemplate
       fields = ('id', 'ask_intro', 'agreement', 'disclaimer',)
+
+
+class ConsultationTypeSerializer(serializers.ModelSerializer):
+   class Meta:
+      model = ConsultationType
+      fields = ('id', 'title', 'description',)
+
 
 class SlideSerializer(serializers.ModelSerializer):
    class Meta:

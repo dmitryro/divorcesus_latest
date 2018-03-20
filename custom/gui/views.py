@@ -27,7 +27,9 @@ from custom.users.models import MileStone
 from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
 from custom.gui.models import AskTemplate
+from custom.gui.models import Country
 from custom.users.models import Profile
+from custom.gui.models import ConsultationType
 from custom.gui.filters import ServiceFilter
 from custom.gui.models import Slide
 from custom.gui.models import Service
@@ -54,10 +56,30 @@ from rest_framework.decorators import api_view, renderer_classes, permission_cla
 from rest_framework import generics
 from restless.views import Endpoint
 
+from custom.gui.serializers import CountrySerializer
 from custom.gui.serializers import AskTemplateSerializer
+from custom.gui.serializers import ConsultationTypeSerializer
 from custom.gui.serializers import GlobalSearchSerializer
 from custom.gui.serializers import ServiceSerializer
 from custom.blog.serializers import CategorySerializer
+
+class CountryViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing countries
+    """
+    serializer_class = CountrySerializer
+    queryset = Country.objects.all()
+    filter_fields = ('id', 'name', 'code',)
+
+
+class ConsultationTypeViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing consultation types
+    """
+    serializer_class = ConsultationTypeSerializer
+    queryset = ConsultationType.objects.all()
+    filter_fields = ('id', 'title', 'description',)
+
 
 class AskTemplateViewSet(viewsets.ModelViewSet):
     """

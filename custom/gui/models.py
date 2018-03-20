@@ -28,6 +28,24 @@ class State(models.Model):
     def get_absolute_url(self):
         return "/states/%s/" % self.code
 
+class Country(models.Model):
+    name = models.CharField(max_length=150, blank=True)
+    code = models.CharField(max_length=10, blank=True)
+    tags = TaggableManager()
+
+    class Meta:
+        verbose_name = 'Country'
+        verbose_name_plural = 'Countries'
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+    def get_absolute_url(self):
+        return "/countries/%s/" % self.code
+
 
 class Slide(models.Model):
     time_published = models.DateTimeField(default=datetime.now, blank=True)
@@ -179,7 +197,7 @@ class AskQuestion(models.Model):
         verbose_name_plural = 'Ask Step Five'   
 
 class ConsultationType(models.Model):
-   title = models.CharField(max_length=400,null=True,blank=True)
+   title = models.CharField(max_length=400, null=True, blank=True)
    description = models.TextField(null=True, blank=True)
 
    class Meta:

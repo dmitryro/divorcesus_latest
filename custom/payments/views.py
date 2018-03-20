@@ -11,6 +11,7 @@ from restless.views import Endpoint
 from custom.users.models import Contact
 from custom.users.models import StateProvince
 from custom.utils.models import Logger
+from custom.payments.models import CardType
 from custom.payments.models import CreditCard
 from custom.payments.models import Payment
 from custom.payments.models import Address
@@ -32,6 +33,7 @@ from callbacks import  payment_send_confirmation_email_handler
 from serializers import PaymentSerializer
 from serializers import AddressSerializer
 from serializers import StateProvinceSerializer
+from serializers import CardTypeSerializer
 from utils import randomDigits
 from utils import getPaymentProcessing
 
@@ -58,6 +60,13 @@ class AddressList(generics.ListAPIView):
             user_id = self.request.user.id
 
             return Address.objects.filter(user_id=user_id)
+
+
+class CardTypeViewSet(viewsets.ModelViewSet):
+    serializer_class = CardTypeSerializer
+    queryset = CardType.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id', 'card', 'code',)
 
 class AddressViewSet(viewsets.ModelViewSet):
     """

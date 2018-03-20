@@ -22,6 +22,7 @@ from custom.gui.models import ContactInfo
 from custom.gui.models import Service
 from custom.gui.models import Article
 from custom.gui.models import AskTemplate
+from custom.gui.models import ConsultTemplate
 from custom.messaging.models import Message
 from custom.payments.models import CreditCard
 from custom.payments.models import Address
@@ -458,6 +459,33 @@ def service_meta(a, b,  *args, **kwargs):
 
 
 @register.simple_tag
+def consult_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            consult = ConsultTemplate.objects.get(id=int(a))
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return h.handle(consult.consult_intro)
+
+        elif (b==2):
+            return consult.agreement
+
+        elif (b==3):
+            return h.handle(consult.disclaimer)
+
+
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+
+
+@register.simple_tag
 def ask_meta(a, b,  *args, **kwargs):
 
     try:
@@ -474,6 +502,48 @@ def ask_meta(a, b,  *args, **kwargs):
 
         elif (b==3):
             return h.handle(ask.disclaimer)
+
+
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+
+
+@register.simple_tag
+def billing_meta(a, b,  *args, **kwargs):
+
+    try:
+       user = User.objects.get(id=int(a))
+    except Exception as e:
+       return 'invalid user'
+
+    try:
+        try:
+            address = Address.objects.get(user_id=user.id, is_default=True)
+        except Exception, R:
+            return ""
+
+        if (b==1):
+            return h.handle(address.address1)
+
+        elif (b==2):
+            return h.handle(address.address2)
+
+
+        elif (b==3):
+            return h.handle(address.city)
+
+        elif (b==4):
+            return address.state.id
+
+        elif (b==5):
+            return h.handle(address.country)
+        
+        elif (b==6):
+            return h.handle(address.zip_or_postal)
 
 
 

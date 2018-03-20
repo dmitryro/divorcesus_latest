@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin
 from models import Article
+from models import Country
 from models import Slide
 from models import Logo
 from models import LogoColor
@@ -49,6 +50,15 @@ class ConsultTemplateAdmin(admin.ModelAdmin):
     class Meta:
          verbose_name = 'Consult Template'
          verbose_name_plural = 'Consult Templates'
+
+class CountryAdmin(admin.ModelAdmin):
+    fieldsets = ((None, {'fields': ['name', 'code',]}),)
+    list_display = ('id', 'name', 'code',)
+    list_editable = ('name', 'code',)
+
+    class Meta:
+         verbose_name = 'Country'
+         verbose_name_plural = 'Countries'
 
 
 class AskTemplateAdmin(admin.ModelAdmin):
@@ -199,6 +209,7 @@ admin.site.register(AskQuestion, AskQuestionAdmin)
 admin.site.register(AskTemplate, AskTemplateAdmin)
 admin.site.register(ConsultationType, ConsultationTypeAdmin)
 admin.site.register(ConsultTemplate, ConsultTemplateAdmin)
+admin.site.register(Country, CountryAdmin)
 admin.site.register(QualifyQuestionnaire, QualifyQuestionnaireAdmin)
 admin.site.register(QualifyQuestion, QualifyQuestionAdmin)
 admin.site.register(State, StateAdmin)

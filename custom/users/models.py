@@ -109,6 +109,8 @@ class StateProvince(models.Model):
         verbose_name_plural = 'States or Provinces' 
 
 
+
+
 class Address(models.Model):
     address1 = models.CharField(max_length=250, blank=True, null=True)
     address2 = models.CharField(max_length=250, blank=True, null=True)

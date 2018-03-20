@@ -94,22 +94,18 @@ class CustomerActivityStats(models.Model):
 
 class CardType(models.Model):
     """ Card Type  identify which card type is used """
-    type = models.CharField(max_length=100,blank=False,null=False)
+    card = models.CharField(max_length=100,blank=False,null=False)
     code = models.CharField(max_length=100,blank=False,null=False)
 
     class Meta:
         verbose_name = 'Card Type'
         verbose_name_plural = 'Card Types'
 
-    class Meta:
-        verbose_name = 'Feed Item'
-        verbose_name_plural = 'Feed Items'
-
     def __str__(self):
-        return self.type
+        return self.card
 
     def __unicode__(self):
-        return unicode(self.type)
+        return unicode(self.card)
 
 
 class CreditCard(models.Model):

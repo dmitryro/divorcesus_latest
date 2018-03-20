@@ -38,7 +38,9 @@ from custom.gui.views import GlobalSearchList
 from custom.gui.views import DashboardLogoutView
 from custom.gui.views import GetSearchResultsView
 from custom.gui.views import ServiceViewSet
+from custom.gui.views import CountryViewSet
 from custom.gui.views import AskTemplateViewSet
+from custom.gui.views import ConsultationTypeViewSet
 from custom.signup.views import SendEmailView
 from custom.signup.views import SubscribeView
 from custom.signup.views import logout_view
@@ -79,6 +81,7 @@ from custom.payments.views import PaymentsList
 from custom.payments.views import PastPaymentsList
 from custom.payments.views import AddressList
 from custom.payments.views import AddressViewSet
+from custom.payments.views import CardTypeViewSet
 from custom.payments.views import add_address_view
 from custom.payments.views import delete_address_view
 from custom.payments.views import read_addresses_view
@@ -153,7 +156,9 @@ router = routers.DefaultRouter()
 
 admin.autodiscover()
 #router.register(r'bushwick',BushwickArtistViewSet)
+router.register(r'countries', CountryViewSet)
 router.register(r'states', StateProvinceViewSet)
+router.register(r'cardtypes', CardTypeViewSet)
 router.register(r'msgsettings', MessagingSettingsViewSet)
 router.register(r'users', UserViewSet)
 router.register(r'posts', PostViewSet)
@@ -167,6 +172,7 @@ router.register(r'addresses', AddressViewSet)
 router.register(r'aboutprofiles', AboutUsViewSet)
 router.register(r'teammembers', TeamMemberViewSet)
 router.register(r'asktemplates', AskTemplateViewSet)
+router.register(r'consulttypes', ConsultationTypeViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),

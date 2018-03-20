@@ -1589,16 +1589,22 @@ var consultone = new Vue({
      items: [ { 'message': 'Foo' }]
    },
    methods: {
-
+       say: function(msg) {
+          alert('hi '+msg);
+       },
+       reset_price: function (event) {
+          alert(this.consultancytype);
+          alert($("#consultancy-type-"+this.consultancytype).val());
+       },
        submitone: function (event) {
-
-             
 
            $.get('https://divorcesus.com/consulttypes', function(msg) {
                      let result = "<div>";
                      for(var i=0;i<msg.length;i++) {
-                         str = "<div style='float:left;width:5%;margin-bottom:1.2em;'><input type='radio' v-model='consultancytype'  name='consultancytype' value='"+
-                               msg[i].title+"'></div><div style='float:left;width:94%;margin-bottom:1.2em;'>"+msg[i].description+"</div><div class='clear'></div>";
+                         str = "<div style='float:left;width:5%;margin-bottom:1.2em;'>";
+                         str = str + "<input type='hidden' id='consultancy-type-"+msg[i].id+"' value='"+msg[i].price+"' />";
+                         str= str + "<input type='radio' onclick='resetprice("+msg[i].price+","+msg[i].id+")'  v-model='consultancytype'  name='consultancytype' value='"+
+                               msg[i].id+"'></div><div style='float:left;width:94%;margin-bottom:1.2em;'>"+msg[i].description+"</div><div class='clear'></div>";
                          result = result + str
                      }
                      result = result + "</div>";
@@ -1686,6 +1692,13 @@ var consulttwo = new Vue({
      items: []
   },
    methods: {
+       say: function(msg) {
+          alert('hi '+msg);
+       },
+       reset_price: function (event) {
+          alert(this.consultancytype);
+          alert($("#consultancy-type-"+this.consultancytype).val());
+       },
 
        submitone: function (event) {
        },
@@ -1749,6 +1762,11 @@ var consultthree = new Vue({
    },
    methods: {
 
+       reset_price: function (event) {
+          alert(this.consultancytype);
+          alert($("#consultancy-type-"+this.consultancytype).val());
+       },
+
        submitone: function (event) {
        },
 
@@ -1804,6 +1822,11 @@ var consulttfour = new Vue({
    },
    methods: {
 
+       reset_price: function (event) {
+          alert(this.consultancytype);
+          alert($("#consultancy-type-"+this.consultancytype).val());
+       },
+
        submitone: function (event) {
        },
 
@@ -1857,6 +1880,10 @@ var consultfive = new Vue({
      items: []
    },
    methods: {
+       reset_price: function (event) {
+          alert(this.consultancytype);
+          alert($("#consultancy-type-"+this.consultancytype).val());
+       },
 
        submitone: function (event) {
        },
@@ -1912,6 +1939,11 @@ var consultsix = new Vue({
    },
    methods: {
 
+       reset_price: function (event) {
+          alert(this.consultancytype);
+          alert($("#consultancy-type-"+this.consultancytype).val());
+       },
+
        submitone: function (event) {
        },
 
@@ -1965,6 +1997,11 @@ var consultseven = new Vue({
      items: []
    },
    methods: {
+
+       reset_price: function (event) {
+          alert(this.consultancytype);
+          alert($("#consultancy-type-"+this.consultancytype).val());
+       },
 
        submitone: function (event) {
        },

@@ -78,7 +78,7 @@ class ConsultationTypeViewSet(viewsets.ModelViewSet):
     """
     serializer_class = ConsultationTypeSerializer
     queryset = ConsultationType.objects.all()
-    filter_fields = ('id', 'title', 'description',)
+    filter_fields = ('id', 'price', 'title', 'description',)
 
 
 class AskTemplateViewSet(viewsets.ModelViewSet):

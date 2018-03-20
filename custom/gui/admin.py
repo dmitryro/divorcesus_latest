@@ -32,9 +32,9 @@ from suit_redactor.widgets import RedactorWidget
 
 class ConsultationTypeAdmin(admin.ModelAdmin):
     form =  ConsultationTypeForm
-    fieldsets = ((None, {'fields': ['title', 'description',]}),)
-    list_display = ('id', 'title', 'description',)
-    list_editable = ('title', 'description',)
+    fieldsets = ((None, {'fields': ['title', 'price', 'description',]}),)
+    list_display = ('id', 'title', 'price', 'description',)
+    list_editable = ('title', 'price', 'description',)
 
     class Meta:
          verbose_name = 'Consultation Type'

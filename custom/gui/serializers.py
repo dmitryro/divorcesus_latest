@@ -22,7 +22,7 @@ class AskTemplateSerializer(serializers.ModelSerializer):
 class ConsultationTypeSerializer(serializers.ModelSerializer):
    class Meta:
       model = ConsultationType
-      fields = ('id', 'title', 'description',)
+      fields = ('id', 'title', 'description', 'price',)
 
 
 class SlideSerializer(serializers.ModelSerializer):

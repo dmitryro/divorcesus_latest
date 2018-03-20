@@ -1841,4 +1841,7 @@ function consult_step_seven() {
             $("#consult-wizard :nth-child(6)").attr('class','visited');
 }
 
-
+function resetprice(price, type) {
+    //alert(price+" "+ type);
+    $('#consult_amount').attr('value', price);
+}

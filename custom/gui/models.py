@@ -199,6 +199,7 @@ class AskQuestion(models.Model):
 class ConsultationType(models.Model):
    title = models.CharField(max_length=400, null=True, blank=True)
    description = models.TextField(null=True, blank=True)
+   price = models.FloatField(default=0, null=True, blank=True)
 
    class Meta:
         verbose_name = 'Consultation Type'

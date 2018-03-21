@@ -1575,6 +1575,9 @@ var askfive = new Vue({
 var consultone = new Vue({
    el: '#consult-stepone',
    data: {
+     country: '',
+     state: '',
+     cardtype: '',
      is_verified: false,
      pre_verified: '',
      full_name:'',
@@ -1586,7 +1589,15 @@ var consultone = new Vue({
      agreed_note: '',
      agreed: false,
      consultancytype: '',
-     items: [ { 'message': 'Foo' }]
+     cardnumber: '',
+     day: '',
+     month: '',
+     year: '',
+     address1: '',
+     address2: '',
+     city: '',
+     phone: '',
+     zip: ''
    },
    methods: {
        say: function(msg) {
@@ -1612,7 +1623,7 @@ var consultone = new Vue({
             });
 
             $.get('https://divorcesus.com/cardtypes', function(msg) {
-                     let result = "<select id='select-card' class='styled-select slate' style='width:100%;' >";
+                     let result = "<select v-model='cardtype' id='select-card' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                          result =  result+'<option value="'+msg[i].id+'">'+msg[i].card+'</option>';
                      }
@@ -1621,7 +1632,7 @@ var consultone = new Vue({
             });
 
             $.get('https://divorcesus.com/states', function(msg) {
-                     let result = "<select id='select-state' class='styled-select slate' style='width:100%;' >";
+                     let result = "<select id='select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                          result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
                      }
@@ -1630,7 +1641,7 @@ var consultone = new Vue({
             });
 
             $.get('https://divorcesus.com/countries', function(msg) {
-                     let result = "<select id='select-country' class='styled-select slate' style='width:100%;' >";
+                     let result = "<select id='select-country' v-model='country' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                          result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
                      }
@@ -1678,6 +1689,9 @@ var consultone = new Vue({
 var consulttwo = new Vue({
    el: '#consult-steptwo',
    data: {
+     country: '',
+     state: '',
+     cardtype: '',
      is_verified: false,
      pre_verified: '',
      full_name:'',
@@ -1689,22 +1703,53 @@ var consulttwo = new Vue({
      agreed_note: '',
      agreed: false,
      consultancytype: '',
-     items: []
+     cardnumber: '',
+     cvv: '',
+     day: '',
+     month: '',
+     year: '',
+     address1: '',
+     address2: '',
+     city: '',
+     phone: '',
+     zip: ''
   },
    methods: {
-       say: function(msg) {
-          alert('hi '+msg);
-       },
-       reset_price: function (event) {
-          alert(this.consultancytype);
-          alert($("#consultancy-type-"+this.consultancytype).val());
-       },
 
        submitone: function (event) {
        },
 
        submittwo: function (event) {
-           consultthree.items = [ { 'message': 'Foo' }]
+         this.full_name = $('#consult_full_name').val();
+         this.cardtype = $('#select-card').val();
+         this.state = $('#select-state').val();
+         this.country = $('#select-country').val();
+         this.zip = $('#consult_zip').val();
+         this.phone = $('#consult_phone').val();         
+         this.address1 = $('#consult_address1').val();
+         this.address2 =  $('#consult_address2').val();
+         this.city = $('#consult_city').val();
+         this.year = $('#consult_year').val();
+         this.month = $('#consult_month').val();
+         this.day =  $('#consult_day').val();
+         this.cardnumber =  $('#consult_cardnumber').val();
+         this.cvv = $('#consult_cvv').val();
+
+         consultthree.full_name = this.full_name;
+         consultthree.cardtype = this.cardtype;
+         consultthree.state = this.state;
+         consultthree.country = this.country;
+         consultthree.zip = this.zip;
+         consultthree.phone = this.phone;
+         consultthree.address1 = this.address1;
+         consultthree.address2 = this.address2;
+         consultthree.city = this.city;
+         consultthree.year = this.year;
+         consultthree.month = this.month;
+         consultthree.day = this.day;
+         consultthree.cardnumbe = this.cardnumber; 
+         consultthree.cvv = this.cvv;
+
        },
 
        submitthree: function (event) {
@@ -1747,6 +1792,9 @@ var consulttwo = new Vue({
 var consultthree = new Vue({
    el: '#consult-stepthree',
    data: {
+     country: '',
+     state: '',
+     cardtype: '',
      is_verified: false,
      pre_verified: '',
      full_name:'',
@@ -1758,14 +1806,18 @@ var consultthree = new Vue({
      agreed_note: '',
      agreed: false,
      consultancytype: '',
-     items: []
+     cardnumber: '',
+     cvv: '',
+     day: '',
+     month: '',
+     year: '',
+     address1: '',
+     address2: '',
+     city: '',
+     phone: '',
+     zip: ''
    },
    methods: {
-
-       reset_price: function (event) {
-          alert(this.consultancytype);
-          alert($("#consultancy-type-"+this.consultancytype).val());
-       },
 
        submitone: function (event) {
        },
@@ -1774,7 +1826,20 @@ var consultthree = new Vue({
        },
 
        submitthree: function (event) {
-          alert("submit 3");
+         consultfour.full_name = this.full_name;
+         consultfour.cardtype = this.cardtype;
+         consultfour.state = this.state;
+         consultfour.country = this.country;
+         consultfour.zip = this.zip;
+         consultfour.phone = this.phone;
+         consultfour.address1 = this.address1;
+         consultfour.address2 = this.address2;
+         consultfour.city = this.city;
+         consultfour.year = this.year;
+         consultfour.month = this.month;
+         consultfour.day = this.day;
+         consultfour.cardnumbe = this.cardnumber;
+         consultfour.cvv = this.cvv;
        },
 
        submitfour: function (event) {
@@ -1807,6 +1872,9 @@ var consultthree = new Vue({
 var consulttfour = new Vue({
    el: '#consult-stepfour',
    data: {
+     country: '',
+     state: '',
+     cardtype: '',
      is_verified: false,
      pre_verified: '',
      full_name:'',
@@ -1818,14 +1886,18 @@ var consulttfour = new Vue({
      agreed_note: '',
      agreed: false,
      consultancytype: '',
-     items: []
+     cardnumber: '',
+     cvv: '',
+     day: '',
+     month: '',
+     year: '',
+     address1: '',
+     address2: '',
+     city: '',
+     phone: '',
+     zip: ''
    },
    methods: {
-
-       reset_price: function (event) {
-          alert(this.consultancytype);
-          alert($("#consultancy-type-"+this.consultancytype).val());
-       },
 
        submitone: function (event) {
        },
@@ -1837,6 +1909,20 @@ var consulttfour = new Vue({
        },
 
        submitfour: function (event) {
+         consultfive.full_name = this.full_name;
+         consultfive.cardtype = this.cardtype;
+         consultfive.state = this.state;
+         consultfive.country = this.country;
+         consultfive.zip = this.zip;
+         consultfive.phone = this.phone;
+         consultfive.address1 = this.address1;
+         consultfive.address2 = this.address2;
+         consultfive.city = this.city;
+         consultfive.year = this.year;
+         consultfive.month = this.month;
+         consultfive.day = this.day;
+         consultfive.cardnumbe = this.cardnumber;
+         consultfive.cvv = this.cvv;
        },
 
        submitfive: function (event) {
@@ -1866,6 +1952,9 @@ var consulttfour = new Vue({
 var consultfive = new Vue({
    el: '#consult-stepfive',
    data: {
+     country: '',
+     state: '',
+     cardtype: '',
      is_verified: false,
      pre_verified: '',
      full_name:'',
@@ -1877,13 +1966,18 @@ var consultfive = new Vue({
      agreed_note: '',
      agreed: false,
      consultancytype: '',
-     items: []
+     cardnumber: '',
+     cvv: '',
+     day: '',
+     month: '',
+     year: '',
+     address1: '',
+     address2: '',
+     city: '',
+     phone: '',
+     zip: ''
    },
    methods: {
-       reset_price: function (event) {
-          alert(this.consultancytype);
-          alert($("#consultancy-type-"+this.consultancytype).val());
-       },
 
        submitone: function (event) {
        },
@@ -1898,6 +1992,20 @@ var consultfive = new Vue({
        },
 
        submitfive: function (event) {
+         consultsix.full_name = this.full_name;
+         consultsix.cardtype = this.cardtype;
+         consultsix.state = this.state;
+         consultsix.country = this.country;
+         consultsix.zip = this.zip;
+         consultsix.phone = this.phone;
+         consultsix.address1 = this.address1;
+         consultsix.address2 = this.address2;
+         consultsix.city = this.city;
+         consultsix.year = this.year;
+         consultsix.month = this.month;
+         consultsix.day = this.day;
+         consultsix.cardnumbe = this.cardnumber;
+         consultsix.cvv = this.cvv;
        },
 
        submitsix: function (event) {
@@ -1924,6 +2032,9 @@ var consultfive = new Vue({
 var consultsix = new Vue({
    el: '#consult-stepsix',
    data: {
+     country: '',
+     state: '',
+     cardtype: '',
      is_verified: false,
      pre_verified: '',
      full_name:'',
@@ -1935,14 +2046,18 @@ var consultsix = new Vue({
      agreed_note: '',
      agreed: false,
      consultancytype: '',
-     items: []
+     cardnumber: '',
+     cvv: '',
+     day: '',
+     month: '',
+     year: '',
+     address1: '',
+     address2: '',
+     city: '',
+     phone: '',
+     zip: ''
    },
    methods: {
-
-       reset_price: function (event) {
-          alert(this.consultancytype);
-          alert($("#consultancy-type-"+this.consultancytype).val());
-       },
 
        submitone: function (event) {
        },
@@ -1960,6 +2075,20 @@ var consultsix = new Vue({
        },
 
        submitsix: function (event) {
+         consultseven.full_name = this.full_name;
+         consultseven.cardtype = this.cardtype;
+         consultseven.state = this.state;
+         consultseven.country = this.country;
+         consultseven.zip = this.zip;
+         consultseven.phone = this.phone;
+         consultseven.address1 = this.address1;
+         consultseven.address2 = this.address2;
+         consultseven.city = this.city;
+         consultseven.year = this.year;
+         consultseven.month = this.month;
+         consultseven.day = this.day;
+         consultseven.cardnumbe = this.cardnumber;
+         consultseven.cvv = this.cvv;
        },
 
        submitseven: function (event) {
@@ -1983,6 +2112,9 @@ var consultsix = new Vue({
 var consultseven = new Vue({
    el: '#consult-stepseven',
    data: {
+     country: '',
+     state: '',
+     cardtype: '',
      is_verified: false,
      pre_verified: '',
      full_name:'',
@@ -1994,14 +2126,18 @@ var consultseven = new Vue({
      agreed_note: '',
      agreed: false,
      consultancytype: '',
-     items: []
+     cardnumber: '',
+     cvv: '',
+     day: '',
+     month: '',
+     year: '',
+     address1: '',
+     address2: '',
+     city: '',
+     phone: '',
+     zip: ''
    },
    methods: {
-
-       reset_price: function (event) {
-          alert(this.consultancytype);
-          alert($("#consultancy-type-"+this.consultancytype).val());
-       },
 
        submitone: function (event) {
        },

@@ -3845,8 +3845,8 @@
                                                  <label style="padding-top:1.9em;">
                                                     <input type="text"
                                                            name="consult_security"
-                                                           id="consult_security"
-                                                           v-model="security"
+                                                           id="consult_cvv"
+                                                           v-model="cvv"
                                                            placeholder="Security Number*"
                                                            value="CVV Number (Digits Only, no dashes)..."
                                                            data-constraints="@NumbersOnly @NotEmpty"/>
@@ -3933,6 +3933,7 @@
                                                       <label style="padding-top:1.9em;">
                                                            <input type="text"
                                                                   name="phone"
+                                                                  id="consult_phone"
                                                                   v-model="phone"
                                                                   placeholder="Phone"
                                                                   value="{% if logout %} {% user_meta user_id 5 %} {% endif %}"
@@ -3962,7 +3963,7 @@
                                    </div>
 
 
-                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+                                   <div class="col-xs-12 col-sm-9" style="float:left;width:73%;">
 
 
                                           <form class='mailform contact-form' method="post">

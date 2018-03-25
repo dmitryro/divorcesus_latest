@@ -13,11 +13,14 @@ register = Library()
 """
 
 @register.simple_tag
-def services_meta(a, b,  *args, **kwargs):
+def services_meta(a, b, state, *args, **kwargs):
 
     try:
         try:
-            service = Service.objects.get(id=int(a))
+            if state:
+                Service.objects.get(state_id=state)
+            else:
+                service = Service.objects.get(id=int(a))
         except Exception, R:
             print R
 
@@ -61,6 +64,10 @@ def packages_meta(a, b,  *args, **kwargs):
 
         elif (b==3):
             return '' if package.price is None else package.price
+
+        elif (b==4):
+            return '' if package.description is None else package.description
+
 
     except TypeError:
         print "Invalid argument type"

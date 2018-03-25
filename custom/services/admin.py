@@ -1,6 +1,8 @@
 from django.contrib import admin
 
 from models import Package
+from models import PackageType
+from models import PackageNote
 from models import Service
 
 from forms import PackageForm
@@ -16,26 +18,43 @@ class ServiceAdmin(admin.ModelAdmin):
          verbose_name = 'Service'
          verbose_name_plural = 'Services'
 
+class PackageTypeAdmin(admin.ModelAdmin):
+    fieldsets = ((None, {'fields': ['package_type', 'code',]}),)
+    list_display = ('package_type', 'code',)
+    list_editable = ('package_type', 'code',)
+
+    class Meta:
+         verbose_name = 'Package Type'
+         verbose_name_plural = 'Package Types'
+
+
+class PackageNoteAdmin(admin.ModelAdmin):
+    fieldsets = ((None, {'fields': ['note', 'package',]}),)
+    list_display = ('note', 'package',)
+    list_editable = ('note', 'package',)
+
+    class Meta:
+         verbose_name = 'Package Note'
+         verbose_name_plural = 'Package Notes'
 
 
 class PackageAdmin(admin.ModelAdmin):
     form = PackageForm
-    fieldsets = ((None, {'fields': ['title','fees','price','is_available','services', 'description']}),)
-    list_display = ('title','fees','price',)
-    list_editable = ('title','fees','price')
+    fieldsets = ((None, {'fields': ['title', 'fees', 'price', 'is_available',
+                                    'services', 'description', 'state', 
+                                    'package_type',]}),)
+    list_display = ('title', 'fees', 'price','state', 'package_type',)
+    list_editable = ('title', 'fees', 'price', 'state', 'package_type',)
 
+    notes = (PackageNoteAdmin,)
     class Meta:
          verbose_name = 'Service Package'
          verbose_name_plural = 'Service Packages'
 
-
-
-
-
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Package, PackageAdmin)
-
-
+admin.site.register(PackageType, PackageTypeAdmin)
+admin.site.register(PackageNote, PackageNoteAdmin)
 
 
 

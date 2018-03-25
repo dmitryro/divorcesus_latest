@@ -88,6 +88,7 @@ from custom.payments.views import read_addresses_view
 from custom.payments.views import send_confiration_view
 from custom.services.views import ServiceViewSet
 from custom.services.views import PackageViewSet
+from custom.services.views import PackageTypeViewSet
 from custom.services.views import ServiceList
 from custom.services.views import PackageList
 from custom.users.views import StateProvinceList
@@ -168,6 +169,7 @@ router.register(r'notifications', NotificationViewSet)
 router.register(r'messages', MessageViewSet)
 router.register(r'allservices', ServiceViewSet)
 router.register(r'packages', PackageViewSet)
+router.register(r'packagetypes', PackageTypeViewSet)
 router.register(r'addresses', AddressViewSet)
 router.register(r'aboutprofiles', AboutUsViewSet)
 router.register(r'teammembers', TeamMemberViewSet)

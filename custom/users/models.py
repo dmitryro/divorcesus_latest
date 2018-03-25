@@ -125,7 +125,7 @@ class Address(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, blank=True, null=True)
+    user = models.OneToOneField(User, blank=True, null=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=250, blank=True, null=True)
     last_name = models.CharField(max_length=250, blank=True, null=True)
     email = models.CharField(max_length=250, blank=True, null=True)

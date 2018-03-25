@@ -1,14 +1,22 @@
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
+from serializers import PackageTypeSerializer
 from serializers import PackageSerializer
 from serializers import ServiceSerializer
 from models import Package
 from models import Service
+from models import PackageType
+from filters import PackageFilter
+
+class PackageTypeViewSet(viewsets.ModelViewSet):
+    serializer_class = PackageTypeSerializer
+    queryset = PackageType.objects.all()
 
 
 class PackageViewSet(viewsets.ModelViewSet):
@@ -17,6 +25,10 @@ class PackageViewSet(viewsets.ModelViewSet):
     """
     serializer_class = PackageSerializer
     queryset = Package.objects.all()
+    filter_class = PackageFilter
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id', 'title', 'fees', 'price', 'is_available', 'description', 'state', 'package_type', 'notes',)
+
 
 
 class ServiceViewSet(viewsets.ModelViewSet):

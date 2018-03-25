@@ -5,6 +5,12 @@ from models import Slide
 from models import Service
 from models import AskTemplate
 from models import ConsultationType
+from models import State
+
+class StateSerializer(serializers.ModelSerializer):
+   class Meta:
+      model = State
+      fields = ('id', 'state', 'code',)
 
 
 class CountrySerializer(serializers.ModelSerializer):

@@ -23,6 +23,7 @@ from custom.gui.models import Service
 from custom.gui.models import Article
 from custom.gui.models import AskTemplate
 from custom.gui.models import ConsultTemplate
+from custom.services.models import Package
 from custom.messaging.models import Message
 from custom.payments.models import CreditCard
 from custom.payments.models import Address

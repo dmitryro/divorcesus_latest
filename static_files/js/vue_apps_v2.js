@@ -7,18 +7,196 @@ var modal_submit_password = 'Reset Password';
 var modal_submit_login    = 'Login';
  // register modal component
 Vue.config.devtools = true;
+Vue.component('v-select', VueSelect.VueSelect);
+Vue.component('onload', {
+    props: [],
+    template: '<span>Start Now!</span>',
+    created: function () {
+        this.load();
+    },
+    methods: {
+        load() {
+            this.$emit('load');
+        }
+    }
+});
+
+var packages = new Hash();
+var states = {};
+states[2] = "New York";
+states[1] = "New Jersey";
+
+var divorcetypes = {};
+divorcetypes['Uncontested'] = 2;
+divorcetypes['Contested'] = 1;
+
+function Hash(){
+    var length=0;
+    this.add = function(key, val){
+         if(this[key] == undefined)
+         {
+           length++;
+         }
+         this[key]=val;
+    }; 
+    this.length = function(){
+        return length;
+    };
+}
+
+function qualify_step_zero(state) {
+   qvm.state = state;
+   $('#state-selected').attr('value', state);
+   $('#state-displayed').html(states[state]);
+}
+
+function toggle_service(service_id) {
+
+   if ($("#package_open_"+service_id).val() == 0) {
+       $("#package_open_"+service_id).attr('value', 1);
+       $("#services_"+service_id).css('display', 'block');
+       $("#toggle_"+service_id).html('x');
+   } else {
+       $("#package_open_"+service_id).attr('value', 0);
+       $("#services_"+service_id).css('display', 'none');
+       $("#toggle_"+service_id).html('v');
+   }
+
+   return false;
+}
+
+function price_changed(id, pack_id, price) {
+   $('#selected-package-id').attr('value', pack_id);
+   $('#selected-price').attr('value', price);
+   return false;
+}
+
+var featured = new Vue({
+  el: '#featured-packages',
+  data: {
+     package_selected: ''
+  },
+  created: function () {
+
+  },
+  methods: {
+
+  },
+  mounted:function() {
+
+         let url_ny = 'https://divorcesus.com/packages/?package_type!=3&state=2';
+         var pkg = {};
+
+         $.get(url_ny, function(msg) {
+             let result = "<h4> New York Packages </h4>"+
+                          "<table class='tables'>"+
+                          "<tr>"+
+                          "<th class='bg1 lg'>Package</th>"+
+                          "<th class='bg1 text-center'>Price</th>"+
+                          "</tr>";
+               
+             for(var i=0;i<msg.length;i++) {
+                   var str = "<tr>"+ 
+                             "<td class='lg'>"+msg[i].title+"</td>"+
+                             "<td class='text-center'><a href='#'>"+msg[i].price+"</a></td>"+
+                             "</tr>";
+                   result = result + str;
+             }
+             result = result + "</table>";
+             $("#new_york_packages").html(result);
+         });
+
+         let url_nj = 'https://divorcesus.com/packages/?package_type!=3&state=1';
+         var pkg = {};
+
+         $.get(url_nj, function(msg) {
+             let result = "<h4> New Jersey Packages </h4>"+
+                          "<table class='tables'>"+
+                          "<tr>"+
+                          "<th class='bg2 lg'>Package</th>"+
+                          "<th class='bg2 text-center'>Price</th>"+
+                          "</tr>";
+
+             for(var i=0;i<msg.length;i++) {
+                   var str = "<tr>"+
+                             "<td class='lg'>"+msg[i].title+"</td>"+
+                             "<td class='text-center'><a href='#'>"+msg[i].price+"</a></td>"+
+                             "</tr>";
+                   result = result + str;
+             }
+             result = result + "</table>";
+             $("#new_jersey_packages").html(result);
+         });
+
+
+
+
+
+         let url_other_ny = 'https://divorcesus.com/packages/?package_type=3&state=2';
+         var pkg = {};
+
+         $.get(url_other_ny, function(msg) {
+             let result = "<h4> New York Other Packages </h4>"+
+                          "<table class='tables'>"+
+                          "<tr>"+
+                          "<th class='bg3 lg'>Package</th>"+
+                          "<th class='bg3 text-center'>Price</th>"+
+                          "</tr>";
+
+             for(var i=0;i<msg.length;i++) {
+                   var str = "<tr>"+
+                             "<td class='lg'>"+msg[i].title+"</td>"+
+                             "<td class='text-center'><a href='#'>"+msg[i].price+"</a></td>"+
+                             "</tr>";
+                   result = result + str;
+             }
+             result = result + "</table>";
+             $("#new_york_other_packages").html(result);
+
+
+         });
+
+         let url_other_nj = 'https://divorcesus.com/packages/?package_type=3&state=1';
+         var pkg = {};
+
+         $.get(url_other_nj, function(msg) {
+             let result = "<h4> Other New Jersey Packages </h4>"+
+                          "<table class='tables'>"+
+                          "<tr>"+
+                          "<th class='bg4 lg'>Package</th>"+
+                          "<th class='bg4 text-center'>Price</th>"+
+                          "</tr>";
+
+             for(var i=0;i<msg.length;i++) {
+                   var str = "<tr>"+
+                             "<td class='lg'>"+msg[i].title+"</td>"+
+                             "<td class='text-center'><a href='#'>"+msg[i].price+"</a></td>"+
+                             "</tr>";
+                   result = result + str;
+             }
+             result = result + "</table>";
+             $("#new_jersey_other_packages").html(result);
+
+         });
+
+    
+ 
+  }
+});
 
 var qvm = new Vue({
   el: '#qualify-stepone',
   data: {
-    state:'',
+    options: ['Contested', 'Uncontested'],
+    state: '',
     user_id:'',
     is_spouse_location_known:'',
     are_there_children: '',
     does_spouse_agree:'',
-    package_type:'',
+    package_type: 1,
     package_location:'',
     package_price:'',
+    package_selected: '',
     email:'',
     phone:'',
     first:'',
@@ -26,11 +204,92 @@ var qvm = new Vue({
     fullname:'',
     is_military:'',
     user_id:'',
+    packages: new Hash(),
     showModal: false,
     showNewCommentModal: false
   },
+  created: function () {
+  },
   methods: {
+    packagechange: function (p) {
+         let divorce_type = divorcetypes[p];
+         this.state =  $('#state-selected').val();
+         this.package_type = divorce_type; 
+         let url = 'https://divorcesus.com/packages/?package_type='+this.package_type+'&state='+this.state;
+         var pkg = {};
+           $.get(url, function(msg) {
+                     let result = "<div style='width:100%;'>";
+                     for(var i=0;i<msg.length;i++) {
+
+                         packages.add(msg[i].id, msg[i].title); 
+                         var str = "<div style='float:left;width:4%;margin-bottom:1.2em;'>";
+                         str = str + "<input type='hidden' id='selected-package-id' name='selected-package-id' value='0'/>";
+                         str = str + "<input type='hidden' id='selected-price' name='selected-price' value='0'/>";
+                         str = str + "<input type='hidden' id='package_open_"+i+"' name='package_open_"+i+"' value='0'/>";
+                         str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' value='"+
+                                    msg[i].id+"'>";
+                         str = str + "</div>";
+                         str = str + "<div style='float:left;width:30%;margin-bottom:1.2em;'>"+msg[i].title+"</div>";
+                         str = str + "<div style='float:left;width:6%;margin-bottom:1.2em;'>"+msg[i].price+"</div>";
+                         str = str + "<div style='float:left;width:59%;margin-bottom:1.2em;'>"
+                         str = str + "<div style='width:100%;'>"+msg[i].description+"</div>";
+                         str = str + "<div class='clear'></div>";
+                         str = str + "<div style='width:80%; float:left;'>Services Included</div>";
+                         str = str + "<div style='width:15%; float:left;'>Price</div>";
+                         str = str + "<div id='toggle_"+i+"' style='width:4%; float:left;' onclick='toggle_service("+i+");'>v</div>";
+                         str = str + "<div class='clear'></div>";
+                         str = str + "<div id='services_"+i+"' style='width:100%; display: none;'>";
+                        
+                         for(var j=0; j<msg[i].services.length; j++) {
+                             str = str + "<div style='float:left;width:80%;'> - ";
+                             str = str + msg[i].services[j].title;
+                             str = str + "</div>";
+                             str = str + "<div style='float:left;width:19%;'>";
+                             str = str + msg[i].services[j].price;
+                             str = str + "</div>";
+                             str = str + "<div class='clear'></div>";
+                         }
+
+                         str = str + "</div>";
+                         str = str + "</div>";
+                         str = str + "</div>";      
+                         str = str + "<div class='clear'></div>";
+                         result = result + str;
+
+                     }
+                     result = result + "</div>";
+                     $("#packages-choices").html(result);
+                     this.packages = packages;
+
+                     $.get('https://divorcesus.com/states', function(msg) {
+                         let result = "<select id='select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
+                         for(var i=0;i<msg.length;i++) {
+                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                         }
+                         result = result + "</select>";
+                         $("#qualify-state-choices").html(result);
+                    });
+
+                    $.get('https://divorcesus.com/countries', function(msg) {
+                         let result = "<select id='select-country' v-model='country' class='styled-select slate' style='width:100%;' >";
+                         for(var i=0;i<msg.length;i++) {
+                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                         }
+                         result = result + "</select>";
+                         $("#qualify-country-choices").html(result);
+                    });
+
+
+            });
+    
+         
+    },
+
+
     submitone: function (event) {
+               this.package_price = $('#selected-price').val();
+               this.package_selected = $('#selected-package-id').val();
+  
                this.is_spouse_location_known = $('#is_spouse_location_known').is(":checked") ? 'yes' : 'no';
                this.are_there_children = $('#are_there_children').is(":checked") ? 'yes' : 'no';
                this.does_spouse_agree = $('#does_spouse_agree').is(":checked") ? 'yes' : 'no';
@@ -40,20 +299,17 @@ var qvm = new Vue({
                this.last = $('#last').val();
                this.email = $('#email').val();
                this.user_id = $("#current-user-id").val();    
+               qvm2.options = this.options;
                qvm2.user_id = this.user_id;
-               $("#final-qualify-state").html("<h4><strong>"+$('#state-selected').val()+"</strong></h4>");
+               qvm2.email = email;
+               qvm2.package_price = this.package_price;
+               qvm2.package_selected = this.package_selected;
+               qvm2.packages = packages;
+               $("#final-qualify-state").html("<h4><strong>State: "+states[this.state]+"</strong></h4>");
 
-               if(this.is_spouse_location_known == 'yes' && this.does_spouse_agree == 'yes') {
-                      $('#final_does_qualify').html("<h4><strong>Congratulations! You qualify to use our uncontested divorce package!</strong></h4>");
-                      this.package_type = 'uncontested';
-                      this.package_price = '159.00';
-               }          
-
-               else {
-                      $('#final_does_qualify').html("<h4><strong>Congratulations! You qualify to use our contested divorce package!</strong></h4>");
-                      this.package_type = 'contested';  
-                      this.package_price = '249.00';
-               }
+               $('#final-package-selected').html("<h4><strong>Package Selected: "+packages[this.package_selected]+"</strong></h4>");
+ 
+               $('#final-package-price').html("<h4><strong>Price: $"+this.package_price+"</strong></h4>");
 
     },
 
@@ -64,7 +320,6 @@ var qvm = new Vue({
     },
 
     submitfour: function (event) {
-         alert('submitfour 1');
     },
 
     submitfive: function (event) {
@@ -77,10 +332,8 @@ var qvm = new Vue({
     },
 
     successCallback: function(event) {
-            alert("SUCCESS");
     },
     errorCallback: function(event) {
-            alert("ERROR");
     },
 
     validConfirm: function(event) {
@@ -91,7 +344,6 @@ var qvm = new Vue({
         modal.active = which;
     },
     close: function (e) {
-        alert('closing it');
         this.$emit('close');
     },
     show: function() {
@@ -103,6 +355,7 @@ var qvm = new Vue({
     }
   },
   mounted:function() {
+      this.state = jQuery("#state-selected").val();
       this.is_spouse_location_known = 'yes';
       this.user_id = $("#current-user-id").val();
   }
@@ -114,6 +367,9 @@ var qvm2 = new Vue({
   el: '#qualify-steptwo',
 
   data: {
+    options: [],
+    package_price:'',
+    package_selected: '',
     user_id:'',
     state:'',
     does_qualify:'',
@@ -123,24 +379,28 @@ var qvm2 = new Vue({
     does_spouse_agree:'',
     is_military:'',
     package_type:'',
-    package_price:'',
     email:'',
     phone:'',
     first:'',
     last:'',
+    packages: {},
     fullname:'',
     showModal: false,
     showNewCommentModal: false,
-    active: null,
+    active: null
   },
 
   methods: {
+    submitzero: function (event) {
+    },
+
     submitone: function (event) {
            this.does_qualify = 'NO'
            this.state = $('#state-selected').val();
     },
     submittwo: function (event) {
            this.state = qvm.state;
+           this.package_selected = qvm.package_selected;
            this.package_price = qvm.package_price;
            this.package_type = qvm.package_type;
            this.is_spouse_location_known = qvm.is_spouse_location_known;
@@ -155,8 +415,9 @@ var qvm2 = new Vue({
            qvm3.user_id = this.user_id;
            qvm3.package_type = this.package_type;
            qvm3.package_price = this.package_price;
-           $("#step_three_package").html(this.package_type);
-           $("#step_three_state").html(this.state);
+           qvm3.package_selected = this.package_selected;
+           $("#step_three_package").html(this.packages[this.package_selected]);
+           $("#step_three_state").html(states[this.state]);
            $("#step_three_price").html(this.package_price);   
     },
 
@@ -231,12 +492,17 @@ var qvm3 = new Vue({
     is_military:'',
     package_type:'',
     package_price:'',
+    package_selected: '',
     package_location:'',
     first:'',
     last:'',
+    packages: {}
   },
 
   methods: {
+    submitzero: function (event) {
+    },
+
     submitone: function (event) {
            this.does_quualify = 'NO';
            this.state = $('#state-selected').val();
@@ -330,6 +596,7 @@ var qvm4 = new Vue({
     is_military:'',
     package_type:'',
     package_price:'',
+    package_selected: '',
     first:'',
     last:'',
     cardnumber:'',
@@ -338,6 +605,9 @@ var qvm4 = new Vue({
     expirationyear:'',
   },
   methods: {
+    submitzero: function (event) {
+    },
+
     submitone: function (event) {
     },
 
@@ -430,13 +700,17 @@ var qvm5 = new Vue({
     is_military:'',
     package_type:'',
     package_price:'',
+    package_selected: '',
     cardnumber:'',
     cardtype:'',
     expirationmonth:'',
-    expirationyear:'',
+    expirationyear:''
   },
 
   methods: {
+    submitzero: function (event) {
+    },
+
     submitone: function (event) {
     },
 
@@ -539,13 +813,17 @@ var qvm6 = new Vue({
     is_military:'',
     package_type:'',
     package_price:'',
+    package_selected: '',
     cardnumber:'',
     cardtype:'',
     expirationmonth:'',
-    expirationyear:'',
+    expirationyear:''
   },
 
   methods: {
+    submitzero: function (event) {
+    },
+
     submitone: function (event) {
     },
 
@@ -611,6 +889,35 @@ var qvm7 = new Vue({
   el: '#qualify-stepseven',
 
   data: {
+    user_id:'',
+    email:'',
+    phone:'',
+    state:'',
+    city:'',
+    zip:'',
+    address1:'',
+    address2:'',
+    fullname: '',
+    first:'',
+    last:'',
+    year:'',
+    state: '',
+    month: '',
+    day: '',
+    does_qualify:'',
+    agree_to_start: '',
+    is_spouse_location_known:'',
+    are_there_children: '',
+    does_spouse_agree:'',
+    is_military:'',
+    package_type:'',
+    package_price:'',
+    package_selected: '',
+    cardnumber:'',
+    cardtype:'',
+    expirationmonth:'',
+    expirationyear:'',
+
   },
 
   methods: {
@@ -1600,12 +1907,7 @@ var consultone = new Vue({
      zip: ''
    },
    methods: {
-       say: function(msg) {
-          alert('hi '+msg);
-       },
        reset_price: function (event) {
-          alert(this.consultancytype);
-          alert($("#consultancy-type-"+this.consultancytype).val());
        },
        submitone: function (event) {
 

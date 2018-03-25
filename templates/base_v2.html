@@ -65,6 +65,7 @@
                <script src="/static/js/perfect-scrollbar.min.js"></script>
                <script src="https://unpkg.com/vue-scrollto"></script>
                <script src="https://unpkg.com/vue-scroll"></script>
+               <script src="https://unpkg.com/vue-select@latest"></script>
     <!--
                <link type="text/css" href="https://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
     -->
@@ -960,7 +961,7 @@
                       <div class="col-xs-4">
                         <div class="box">
                             <div class="box_aside">
-                              <a onclick="on_mobile_domestic_violence();"><img height="100" width="100" src="/media/images/domestic_violence.jpg" alt=""/></a>
+                              <a v-scroll-to="{el: '#page', offset: 200,}" onclick="on_mobile_domestic_violence();"><img height="100" width="100" src="/media/images/domestic_violence.jpg" alt=""/></a>
                             </div>
                             <div class="box_cnt__no-flow">
                               <h3 class="mod"><a onclick="on_mobile_domestic_violence();">Domestic Violence</a></h3> 
@@ -986,17 +987,19 @@
                   <div class="container wow fadeIn" style="padding-top:3.4em;">
                     <h2><span style="padding-top:-1.6em;"> Start Your Case with US Today</span> </h2>
                     <h4>Get the expert assistance with your most intimate and important life matters from the leading professional attorneys.</h4>
-                    <a href="#" onclick="on_mobile_qualify(0);return false;" class="btn4">Start</a>
+
+                    <a href="#" onclick="on_mobile_qualify(0);qualify_step_zero(0);return false;" class="btn4">Start</a>
                   </div>
                 </section>
                 <section class="well4">
                   <div class="container">
+                   <div>
                     <h3><span>Featured</span> Packages</h3>
                     <div class="row">
                       <div class="col-xs-6 wow fadeInLeft ">
                         <div class="box">
                           <div class="box_aside3">
-                            <div class="icon2 service-package-ny" onclick="on_mobile_qualify(1);return false;">
+                            <div class="icon2 service-package-ny" onclick="on_mobile_qualify(2);qualify_step_zero(2);return false;">
     <!--
                               <h5>New York</h5>
     -->
@@ -1014,9 +1017,7 @@
 
                                            &nbsp;&nbsp;
                                                   {% if logout %}
-                                                          <a class="btn5" href="#" v-scroll-to="{el: '#page', offset: 320,}" onclick="on_mobile_qualify(1);return false;">Start Now!</a>
-
-
+                                                          <a class="btn5" href="#" v-scroll-to="{el: '#page', offset: 320,}"  onclick="on_mobile_qualify(2);qualify_step_zero(2);return false;"><onload v-on:load="on_mobile_qualify(1)">Start Now!</onload></a>
                                                  {% elif not logout %}
                                                       <a class="btn5" id="show-modal"  @click="showModal = true">Start Now</a>
                                                  {% endif %}
@@ -1038,7 +1039,7 @@
                       <div class="col-xs-6 wow fadeInRight">
                         <div class="box">
                           <div class="box_aside3">
-                            <div class="icon2 service-package-nj" onclick="on_mobile_qualify(2);return false;">
+                            <div class="icon2 service-package-nj" onclick="on_mobile_qualify(1);qualify_step_zero(1);return false;">
     <!--
                               <h5>New Jersey</h5>
     -->
@@ -1056,11 +1057,10 @@
 
                                            &nbsp;&nbsp;
                                                   {% if logout %}
-                                                          <a class="btn5" href="#" v-scroll-to="{el: '#page', offset: 320,}" onclick="on_mobile_qualify(2);return false;">Start Now!</a>
-
+                                                          <a class="btn5" href="#" v-scroll-to="{el: '#page', offset: 320,}"  onclick="on_mobile_qualify(1);qualify_step_zero(1);return false;">Start Now!</a>
 
                                                  {% elif not logout %}
-                                                      <a class="btn5" id="show-modal"  @click="showModal = true">Start Now</a>
+                                                      <a class="btn5" id="show-modal" @click="showModal = true">Start Now</a>
                                                  {% endif %}
 
                                          {% if not user.is_authenticated %}
@@ -1071,7 +1071,7 @@
                                            </modal>
                                          {% endif %}
 
-
+                           </div>
                           </div>
                         </div>
                       </div>
@@ -2861,618 +2861,25 @@
                 </section>
                 <section class="well5">
                   <h3><span>Our Featured Packages</span></h3>
-                  <div class="container mt1">
+                  <div class="container mt1" id="featured-packages">
                     <div class="row">
                       <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInLeft ">
-                        <h4> {% packages_meta 5 1 %} </h4>
-                        <table class="tables">
-                          <tr>
-                              <th class="bg1 text-center">Hits</th>
-                              <th class="bg1 text-center">Rating</th>
-                              <th class="bg1 text-center">Votes</th>
-                              <th class="bg1 lg">Scripts</th>
-                          </tr>
-                          <tr>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                          </tr>
-                          <tr>
-                              <td>2101</td>
-                              <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa fa-star"></a>
-                              </td>
-                              <td>23</td>
-                              <td class="lg"><a href="#">LiveAdmin Lite</a></td>
-                          </tr>
-                          <tr>
-                              <td>3654</td>
-                              <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                              </td>
-                              <td>8</td>
-                              <td class="lg"><a href="#">Bulk Pagerank Checker Script</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>3658</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa  fa-star"></a>
-                                  <a href="#" class="fa fa-star"></a>
-                              </td>
-                              <td>8</td>
-                              <td class="lg"><a href="#">nxControl</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>4569</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                              </td>
-                              <td>42</td>
-                              <td class="lg"><a href="#">CrazyStat</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1069</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa fa-star"></a>
-                              </td>
-                              <td>34</td>
-                              <td class="lg"><a href="#">MatPo Image Hosting Script</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1568</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa  fa-star"></a>
-                                  <a href="#" class="fa fa-star"></a>
-                              </td>
-                              <td>11</td>
-                              <td class="lg"><a href="#">Easy Poll Creator Script</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1069</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa  act fa-star"></a>
-                              </td>
-                              <td>26</td>
-                              <td class="lg"><a href="#">phpLDAPadmin</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1069</td>
-                              <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                              </td>
-                              <td>30</td>
-                              <td class="lg"><a href="#">Wordpress Amazon Theme</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1069</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                              </td>
-                              <td>11</td>
-                              <td class="lg"><a href="#">Resizable XML Photo Gallery</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1069</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa fa-star"></a>
-                              </td>
-                              <td>14</td>
-                              <td class="lg"><a href="#">SFS NamesDatabase</a></td>
-                          </tr>
-
-                          <tr>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                          </tr>
-                        </table>
-
+                        <div id="new_york_packages">
+                        </div>
                       </div>
                       <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInRight">
-                        <h4>{% packages_meta 7 1 %}</h4>
-                        <table class="tables">
-                           <tr>
-                               <th class="bg2 text-center">Hits</th>
-                               <th class="bg2 text-center">Rating</th>
-                               <th class="bg2 text-center">Votes</th>
-                               <th class="bg2 lg">Scripts</th>
-                           </tr>
-                           <tr>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                           </tr>
-                           <tr>
-                               <td>2101</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>23</td>
-                               <td class="lg"><a href="#">LiveAdmin Lite</a></td>
-                           </tr>
-                           <tr>
-                               <td>3654</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>8</td>
-                               <td class="lg"><a href="#">Bulk Pagerank Checker Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>3658</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>8</td>
-                               <td class="lg"><a href="#">nxControl</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>4569</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>42</td>
-                               <td class="lg"><a href="#">CrazyStat</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>34</td>
-                               <td class="lg"><a href="#">MatPo Image Hosting Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1568</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>11</td>
-                               <td class="lg"><a href="#">Easy Poll Creator Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  act fa-star"></a>
-                               </td>
-                               <td>26</td>
-                               <td class="lg"><a href="#">phpLDAPadmin</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>30</td>
-                               <td class="lg"><a href="#">Wordpress Amazon Theme</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>11</td>
-                               <td class="lg"><a href="#">Resizable XML Photo Gallery</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>14</td>
-                               <td class="lg"><a href="#">SFS NamesDatabase</a></td>
-                           </tr>
-
-                           <tr>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                           </tr>
-                        </table>
+                        <div id="new_jersey_packages">
+                        </div>
                       </div>
                     </div>
                     <div class="row mt1">
                       <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInLeft ">
-                         <h4>{% packages_meta 4 1 %}</h4>
-                         <table class="tables">
-                           <tr>
-                               <th class="bg3 text-center">Hits</th>
-                               <th class="bg3 text-center">Rating</th>
-                               <th class="bg3 text-center">Votes</th>
-                               <th class="bg3 lg">Scripts</th>
-                           </tr>
-                           <tr>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                           </tr>
-                           <tr>
-                               <td>2101</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>23</td>
-                               <td class="lg"><a href="#">LiveAdmin Lite</a></td>
-                           </tr>
-                           <tr>
-                               <td>3654</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>8</td>
-                               <td class="lg"><a href="#">Bulk Pagerank Checker Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>3658</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>8</td>
-                               <td class="lg"><a href="#">nxControl</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>4569</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>42</td>
-                               <td class="lg"><a href="#">CrazyStat</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>34</td>
-                               <td class="lg"><a href="#">MatPo Image Hosting Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1568</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>11</td>
-                               <td class="lg"><a href="#">Easy Poll Creator Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  act fa-star"></a>
-                               </td>
-                               <td>26</td>
-                               <td class="lg"><a href="#">phpLDAPadmin</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>30</td>
-                               <td class="lg"><a href="#">Wordpress Amazon Theme</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>11</td>
-                               <td class="lg"><a href="#">Resizable XML Photo Gallery</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>14</td>
-                               <td class="lg"><a href="#">SFS NamesDatabase</a></td>
-                           </tr>
-
-                           <tr>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                           </tr>
-                       </table>
+                        <div id="new_york_other_packages">
+                        </div>
                      </div>
                      <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInRight">
-                         <h4>{% packages_meta 6 1 %}</h4>
-                         <table class="tables">
-                             <tr>
-                                 <th class="bg4 text-center">Hits</th>
-                                 <th class="bg4 text-center">Rating</th>
-                                 <th class="bg4 text-center">Votes</th>
-                                 <th class="bg4 lg">Scripts</th>
-                             </tr>
-                             <tr>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                             </tr>
-                             <tr>
-                                 <td>2101</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa fa-star"></a>
-                                 </td>
-                                 <td>23</td>
-                                 <td class="lg"><a href="#">LiveAdmin Lite</a></td>
-                             </tr>
-                             <tr>
-                                 <td>3654</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                 </td>
-                                 <td>8</td>
-                                 <td class="lg"><a href="#">Bulk Pagerank Checker Script</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>3658</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa  fa-star"></a>
-                                     <a href="#" class="fa fa-star"></a>
-                                 </td>
-                                 <td>8</td>
-                                 <td class="lg"><a href="#">nxControl</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>4569</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                 </td>
-                                 <td>42</td>
-                                 <td class="lg"><a href="#">CrazyStat</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1069</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa fa-star"></a>
-                                 </td>
-                                 <td>34</td>
-                                 <td class="lg"><a href="#">MatPo Image Hosting Script</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1568</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa  fa-star"></a>
-                                     <a href="#" class="fa fa-star"></a>
-                                 </td>
-                                 <td>11</td>
-                                 <td class="lg"><a href="#">Easy Poll Creator Script</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1069</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa  act fa-star"></a>
-                                 </td>
-                                 <td>26</td>
-                                 <td class="lg"><a href="#">phpLDAPadmin</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1069</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                 </td>
-                                 <td>30</td>
-                                 <td class="lg"><a href="#">Wordpress Amazon Theme</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1069</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                 </td>
-                                 <td>11</td>
-                                 <td class="lg"><a href="#">Resizable XML Photo Gallery</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1069</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa fa-star"></a>
-                                 </td>
-                                 <td>14</td>
-                                 <td class="lg"><a href="#">SFS NamesDatabase</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                             </tr>
-                         </table>
+                        <div id="new_jersey_other_packages">
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -4388,66 +3795,78 @@
            <br/><br/>
             </div>
     -->
-            <div id="qualify-stepone" style="font-size:1.3em;">
-                    <!-- qsigninapp -->
-                    <div id="qsigninapp">
 
-                        <form class='mailform contact-form' method="post">
-                             {% csrf_token %}
+                            <div id="qualify-stepone">
 
-
-                          <input type="hidden" name="counter" id="counter" value=""/>
-
-                                <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
-                                    Your State
-                                </div>
-
-                                <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                    <input type="radio" v-model="state" id="state"  name="qualify-state" value="New York" checked>New York
-                                </div>
-
-                                <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                    <input type="radio" v-model="state" id="state"  name="qualify-state" value="New Jersey">New Jersey
-                                </div>
-
-                                <div class="clear"></div>
-
-
-                                <input type="hidden" name="state-selected" id="state-selected" v-model="state"  value="{{ state }}"/>
-
-                         {% for q in qualifying %}
-                                <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
-                                    {{ q.question }} 
-                                </div>
-                                <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                    <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="yes" v-model="{{ q.html_id }}" checked> Yes<br>
-                                </div>
-                                <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                    <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="no"  v-model="{{ q.html_id }}"> No<br>
-                                </div>
-                                <div class="clear"></div> 
-                        {% endfor %}
+                                   <div class="col-xs-12 col-sm-3" style="float:left;">
+                                         &nbsp;
+                                   </div>
 
 
 
-   
 
-                              <div style="float:left;padding-top:1.9em;">
-                                  <button class="btn4" v-on:click="submitone"  id="qualify_next_one">Next</button>
-                              </div>
-                              <div class="clear"></div>
+                                   <div class="col-xs-12 col-sm-8" style="float:left;">
 
-                        </form>
-                 </div> <!-- qsignupapp ends -->
-            </div> <!-- qualify-stepone ends -->
+                                   <form class='mailform contact-form' method="post">
+                                           {% csrf_token %}
+
+                                           <input type="hidden" name="counter" id="counter" value=""/>
+                                           <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
+                                                Your State
+                                           </div>
+                                           <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
+                                                <input type="hidden" v-model="state" id="state-selected" />
+                                                <div id="state-displayed"></div>
+                                           </div>
+                                           <div class="clear"></div>
+
+                                           <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
+                                                 Divorce Type 
+                                           </div>
+                                           <div style="float:left;width:37%;padding-top:1.2em;padding-bottom:1.2em;">
+                                                 <v-select :on-change="packagechange" label="Divorce Type..." :options="options" :searchable="false" ></v-select>
+                                           </div>
+                                           <div class="clear"></div>
+                                           
+
+                                           <div id="packages-choices" style="width:100%;;padding-top:1.2em;float:left;"></div>  
+                                           <div class="clear"></div>   
+
+                                           <br />
+                                           <div style="float:left;padding-top:1.9em;">
+                                               <button class="btn4" v-on:click="submitone"  id="qualify_next_one">Next</button>
+                                           </div>
+                                      </form>
+                                   </div>
+                                   <div class="clear"></div>
+
+
+                            </div>
+
+
             <!-- qualify-steptwo -->
             <div id="qualify-steptwo" style="font-size:1.3em;">
-                          <div>
+
+                                   <div class="col-xs-12 col-sm-3" style="float:left;">
+                                         &nbsp;
+                                   </div>
+
+
+
+
+                                   <div class="col-xs-12 col-sm-8" style="float:left;">
+
+
                         <form class='mailform contact-form' method="post">
                          {% csrf_token %}
 
                          <div id="final_does_qualify"></div>
                          <div id="final_ready_start"></div>
+
+                         <div id="final-qualify-state"></div>
+                         <div id="final-package-selected"></div> 
+                         <div id="final-package-price"></div>
+
                                           <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/> 
                           <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
                           <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
@@ -4474,7 +3893,7 @@
 
                           {% if logout %}
 
-                                  <div style="float:left;padding-top:1.9em;">
+                              <div style="float:left;padding-top:1.9em;">
                               <button class="btn4" v-on:click="submittwo"  id="qualify_next_two">Next</button>
                               </div>
 
@@ -4515,7 +3934,7 @@
 
                           <input type="hidden" name="counter" id="counter" value=""/>
                           <fieldset>
-                              <label>
+                              <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="first"
                                   id="stepthree_first"
@@ -4525,7 +3944,7 @@
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
 
-                              <label>
+                              <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="last"
                                   id="stepthree_last"
@@ -4556,6 +3975,57 @@
                                   data-constraints="@Phone @NotEmpty"/>
                               </label>
 
+
+                              <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="address1"
+                                                          id="qualify_address1"
+                                                          v-model="address1"
+                                                          placeholder="Address 1*"
+                                                          value="{% if logout %}{% billing_meta user_id 1 %}{% endif %}"
+                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                              </label>
+
+                              <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="address2"
+                                                          id="qualify_address2"
+                                                          v-model="address2"
+                                                          placeholder="Address 2"
+                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"
+                                                          data-constraints="@LettersOnly"/>
+                              </label>
+
+
+                              <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="city"
+                                                          id="qualify_city"
+                                                          v-model="city"
+                                                          placeholder="City *"
+                                                          value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
+                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                              </label>
+
+                              <label class="mfInput" style="padding-top:1.9em;">
+                                                       <div id="qualify-state-choices">
+                                                       </div>
+                              </label>
+
+                              <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="zip"
+                                                          id="qualify_zip"
+                                                          v-model="zip"
+                                                          placeholder="Zip *"
+                                                          value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
+                                                          data-constraints="@NotEmpty"/>
+                              </label>
+
+                              <label class="mfInput" style="padding-top:1.9em;">
+                                                       <div id="qualify-country-choices">
+                                                       </div>
+                              </label>
 
                               <div style="float:left;padding-top:1.9em;">
                                   <button class="btn4" v-on:click="submitthree"  id="qualify_next_three">Next</button>
@@ -5516,13 +4986,13 @@
                       <p>
                          <a onclick="on_mobile_home();return false;"  href="#">Home</a>&nbsp; >>&nbsp;
                          <a onclick="on_mobile_services();return false;"  href="#">Services</a>&nbsp; >>&nbsp;
-                         <span>{% service_meta 2 1 %}</span>
+                         <span>{% service_meta 2 1 1 %}</span>
                       </p>
 
                     <div class="container wow fadeInUp">
                        {% autoescape off %}
 
-                      {% service_meta 2 3 %}
+                      {% service_meta 2 3 1%}
                        {% endautoescape %}
                     </div>
 
@@ -5695,13 +5165,13 @@
                       <p>
                          <a onclick="on_mobile_home();return false;" href="#">Home</a>&nbsp; >>&nbsp;
                          <a onclick="on_mobile_services();return false;"  href="#">Services</a>&nbsp; >>&nbsp;
-                         <span> {% service_meta 10 1 %}</span>
+                         <span> {% service_meta 10 1 2 %}</span>
                       </p>
                       <div class="container wow fadeInUp">
                       <h4>{% service_meta 10 1 %}</h4>
                        {% autoescape off %}
 
-                      {% service_meta 10 3 %}
+                      {% service_meta 10 3 2 %}
                        {% endautoescape %}
                       </div>
                   </div>
@@ -7974,7 +7444,7 @@
                     <div class="col-md-2 col-sm-6 col-xs-6 pt">
                       <h4>Contact Us</h4>
                       <ul class="list">
-                          <li><a href="#">Phone (212) 202 0342</a></li>
+                          <li><a href="#">Phone {% contact_meta 1 8 %}</a></li>
                           <li><a href="#">Fax 212 202 0342</a></li>
                           <li><a href="#">info@myattorneyusa.com</a></li>
                           <li><a href="#">76 Beaver Street, 10th Floor</a></li>

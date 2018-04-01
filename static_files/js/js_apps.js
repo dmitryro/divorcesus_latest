@@ -920,10 +920,82 @@
       return false;
   }
 
+  function on_mobile_select_package(state, pack) {
+      if  (state==2) {
 
+      //       jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+      //       jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+       //      jQuery("#qualify-state").html("<h4><strong>New York</strong></h4>");
+             jQuery('input[id="state"][value="New York"]').prop("checked",true);
+             jQuery("#state-selected").attr("value","New York");
+      }
+      else
+      if  (state==1) {
+   //          jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+   //          jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
+    //         jQuery("#qualify-state").html("<h4><strong>New Jersey</strong></h4>");
+             jQuery('input[id="state"][value="New Jersey"]').prop("checked",true);
+             jQuery("#state-selected").attr("value","New Jersey");
+      }
+      else
+      if  (state==0) {
+             jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
+             jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
+             jQuery("#qualify_progress_stepone").click();
+             jQuery('input[id="state"][value="New York"]').prop("checked",true);
+             jQuery("#state-selected").attr("value","New York");
+
+      }
+
+
+      document.getElementById('search_block').style.display='none';
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      document.getElementById('qualify_block').style.display='block';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
+      $("#qualify-stepone").attr('class','active');
+      $("#qualify-steptwo").attr("style","display:none;");
+      $("#qualify-stepthree").attr("style","display:none;");
+      $("#qualify-stepfour").attr("style","display:none;");
+      $("#qualify-stepfive").attr("style","display:none;");
+      $("#qualify-stepsix").attr("style","display:none;");
+      $("#qualify-stepseven").attr("style","display:none;");
+
+      if (isMobile()) {
+          jQuery('body').scrollTop(500);
+      } else {
+          jQuery('body').scrollTop(100);
+      }
+
+      return false;
+
+
+
+  }
 
   function on_mobile_qualify(state) {
       if  (state==1) {
+                
       //       jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
       //       jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
        //      jQuery("#qualify-state").html("<h4><strong>New York</strong></h4>");
@@ -940,6 +1012,7 @@
       }
       else
       if  (state==0) {
+             jQuery("#qualify-no-state").attr("style", "display:block;");
              jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
              jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
              jQuery("#qualify_progress_stepone").click();

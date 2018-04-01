@@ -21,14 +21,20 @@ Vue.component('onload', {
     }
 });
 
+var packages_featured = new Hash();
 var packages = new Hash();
 var states = {};
 states[2] = "New York";
 states[1] = "New Jersey";
 
 var divorcetypes = {};
+var divorcetypes_index = {};
+divorcetypes['Other'] = 3;
 divorcetypes['Uncontested'] = 2;
 divorcetypes['Contested'] = 1;
+divorcetypes_index[1]= 'Contested';
+divorcetypes_index[2] = 'Uncontested';
+divorcetypes_index[3] = 'Other';
 
 function Hash(){
     var length=0;
@@ -71,16 +77,48 @@ function price_changed(id, pack_id, price) {
    return false;
 }
 
+function package_selected(state, pack) {
+    $('#state-selected').attr('value', state);
+    featured.state = state;
+    qvm.state = state;
+    on_mobile_select_package(state, pack);
+    qualify_step_zero(state);
+    return false;
+}
+
 var featured = new Vue({
   el: '#featured-packages',
   data: {
-     package_selected: ''
+    package_selected: '',
+    options: ['Contested', 'Uncontested', 'Other'],
+    states: ["New York", "New Jersey"],
+    state: '',
+    user_id:'',
+    is_spouse_location_known:'',
+    are_there_children: '',
+    does_spouse_agree:'',
+    package_type: 1,
+    package_location:'',
+    package_price:'',
+    package_selected: '',
+    email:'',
+    phone:'',
+    first:'',
+    last:'',
+    fullname:'',
+    is_military:'',
+    user_id:'',
+    packages: new Hash(),
+    showModal: false,
+    showNewCommentModal: false,
+    packages_featured: new Hash()
   },
   created: function () {
 
   },
   methods: {
-
+      packageselected: function (p) {
+      } 
   },
   mounted:function() {
 
@@ -98,9 +136,10 @@ var featured = new Vue({
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+ 
                              "<td class='lg'>"+msg[i].title+"</td>"+
-                             "<td class='text-center'><a href='#'>"+msg[i].price+"</a></td>"+
+                             "<td class='text-center'><a href='#' onclick='package_selected(2, "+msg[i].id+")'>"+msg[i].price+"</a></td>"+
                              "</tr>";
                    result = result + str;
+                   packages_featured.add(msg[i].id, msg[i].title);
              }
              result = result + "</table>";
              $("#new_york_packages").html(result);
@@ -120,17 +159,14 @@ var featured = new Vue({
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+
                              "<td class='lg'>"+msg[i].title+"</td>"+
-                             "<td class='text-center'><a href='#'>"+msg[i].price+"</a></td>"+
+                             "<td class='text-center'><a href='#' onclick='package_selected(1, "+msg[i].id+")' >"+msg[i].price+"</a></td>"+
                              "</tr>";
                    result = result + str;
+                   packages_featured.add(msg[i].id, msg[i].title);
              }
              result = result + "</table>";
              $("#new_jersey_packages").html(result);
          });
-
-
-
-
 
          let url_other_ny = 'https://divorcesus.com/packages/?package_type=3&state=2';
          var pkg = {};
@@ -146,9 +182,10 @@ var featured = new Vue({
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+
                              "<td class='lg'>"+msg[i].title+"</td>"+
-                             "<td class='text-center'><a href='#'>"+msg[i].price+"</a></td>"+
+                             "<td class='text-center'><a href='#' onclick='package_selected(2, "+msg[i].id+")' >"+msg[i].price+"</a></td>"+
                              "</tr>";
                    result = result + str;
+                   packages_featured.add(msg[i].id, msg[i].title);
              }
              result = result + "</table>";
              $("#new_york_other_packages").html(result);
@@ -170,10 +207,13 @@ var featured = new Vue({
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+
                              "<td class='lg'>"+msg[i].title+"</td>"+
-                             "<td class='text-center'><a href='#'>"+msg[i].price+"</a></td>"+
+                             "<td class='text-center'><a href='#' onclick='package_selected(1, "+msg[i].id+")' >"+msg[i].price+"</a></td>"+
                              "</tr>";
                    result = result + str;
+                   packages_featured.add(msg[i].id, msg[i].title);
              }
+             this.packages = packages_featured;
+             this.packages_featured = packages_featured;
              result = result + "</table>";
              $("#new_jersey_other_packages").html(result);
 
@@ -187,7 +227,8 @@ var featured = new Vue({
 var qvm = new Vue({
   el: '#qualify-stepone',
   data: {
-    options: ['Contested', 'Uncontested'],
+    options: ['Contested', 'Uncontested', 'Other'],
+    states: ["New Jersey", "New York"],
     state: '',
     user_id:'',
     is_spouse_location_known:'',
@@ -285,6 +326,18 @@ var qvm = new Vue({
          
     },
 
+    statechange: function(s) {
+         let state;
+         if (s=='New Jersey') {
+             state = 1;
+         } else {
+             state = 2;
+         }
+         $('#state-selected').attr('value', state);
+         qvm.state = state;
+         qvm.packagechange(divorcetypes_index[qvm.package_type]);
+    },
+
 
     submitone: function (event) {
                this.package_price = $('#selected-price').val();
@@ -367,7 +420,8 @@ var qvm2 = new Vue({
   el: '#qualify-steptwo',
 
   data: {
-    options: [],
+    options: ['Contested', 'Uncontested', 'Other'],
+    states: ["New York", "New Jersey"],
     package_price:'',
     package_selected: '',
     user_id:'',
@@ -383,7 +437,7 @@ var qvm2 = new Vue({
     phone:'',
     first:'',
     last:'',
-    packages: {},
+    packages: new Hash(),
     fullname:'',
     showModal: false,
     showNewCommentModal: false,
@@ -412,6 +466,8 @@ var qvm2 = new Vue({
            this.last = qvm.last;
            this.email = qvm.email;
            this.user_id = qvm.user_id;   
+           qvm3.packages = this.packages;
+           qvm3.state = this.state;
            qvm3.user_id = this.user_id;
            qvm3.package_type = this.package_type;
            qvm3.package_price = this.package_price;
@@ -422,7 +478,7 @@ var qvm2 = new Vue({
     },
 
     submitthree: function (event) {
-               $("#step_four_package").html(this.package_type);
+               $("#step_four_package").html(this.packages[this.package_selected]);
                $("#step_four_state").html(this.state);
                $("#step_four_price").html(this.package_price);//this.package_price);
                $("#step_four_email").html(this.email);
@@ -480,6 +536,7 @@ var qvm3 = new Vue({
   el: '#qualify-stepthree',
 
   data: {
+    states: ["New York", "New Jersey"],
     user_id:'',
     email:'',
     phone:'',
@@ -496,7 +553,7 @@ var qvm3 = new Vue({
     package_location:'',
     first:'',
     last:'',
-    packages: {}
+    packages: new Hash()
   },
 
   methods: {
@@ -518,16 +575,18 @@ var qvm3 = new Vue({
                this.fullname = $('#qnameoncard').val();
                this.state = qvm2.state;
                this.package_price = qvm2.package_price;
-               this.package_type = qvm2.package_type;
+               this.package_type = this.package_selected;
                this.first = $('#stepthree_first').val();
                this.last = $('#stepthree_last').val(); 
                qvm4.user_id = this.user_id;               
                qvm4.fullname = this.fullname;
-               qvm4.package_type = this.package_type;
+               qvm4.package_selected = this.package_selected
+               qvm4.package_type = this.package_selected;
                qvm4.package_price = this.package_price;              
+               qvm4.packages = this.packages;
 
-               $("#step_four_package").html(this.package_type);
-               $("#step_four_state").html(this.state);
+               $("#step_four_package").html(this.packages[this.package_selected]);
+               $("#step_four_state").html(states[this.state]);
                $("#step_four_price").html(this.package_price);//this.package_price);
                $("#step_four_email").html(this.email);
                $("#step_four_first").html(this.first);
@@ -603,6 +662,7 @@ var qvm4 = new Vue({
     cardtype:'',
     expirationmonth:'',
     expirationyear:'',
+    packages: new Hash()
   },
   methods: {
     submitzero: function (event) {
@@ -648,9 +708,11 @@ var qvm4 = new Vue({
                qvm5.phone = this.phone;
                qvm5.user_id = this.user_id;
                qvm5.fullname = this.fullname;
+               qvm5.packages = this.packages;
+               qvm5.package_selected = this.package_selected;
 
-               $("#step_five_package").html(this.package_type);
-               $("#step_five_state").html(this.state);
+               $("#step_five_package").html(this.packages[this.package_selected]);
+               $("#step_five_state").html(states[this.state]);
                $("#step_five_price").html(this.package_price);//this.package_price);
                $("#step_five_email").html(this.email);
                $("#step_five_first").html(this.first);
@@ -704,7 +766,8 @@ var qvm5 = new Vue({
     cardnumber:'',
     cardtype:'',
     expirationmonth:'',
-    expirationyear:''
+    expirationyear:'',
+    packages: new Hash()
   },
 
   methods: {
@@ -740,12 +803,14 @@ var qvm5 = new Vue({
                qvm6.zip = this.zip;
                qvm6.phone = this.phone;
                qvm6.user_id = this.user_id;
+               qvm6.package_selected = this.package_selected;
+               qvm6.packages = this.packages;
                qvm6.package_type = this.package_type;
                qvm6.package_price = this.package_price;
 
                $("#step_six_phone").attr("value",this.phone.toString());
                $("#step_six_city").attr("value",this.city.toString());
-               $("#step_six_state").attr("value",this.state.toString());
+               $("#step_six_state").attr("value",states[this.state]);
                $("#step_six_zip").attr("value",this.zip.toString());
                $("#step_six_month").attr("value",this.expirationmonth.toString());
                $("#step_six_year").attr("value",this.expirationyear.toString());
@@ -758,6 +823,9 @@ var qvm5 = new Vue({
                $("#step_six_address1").attr("value",this.address1.toString());
                $("#step_six_address2").attr("value",this.address2.toString());
 
+               $("#qualify_final_package").html("<p><strong>Package: "+this.packages[this.package_selected]+"</strong></p>");
+               $("#qualify_final_state").html("<p><strong>State: "+states[this.state]+"</strong></p>");
+               $("#qualify_final_price").html("<p><strong>Price: "+this.package_price+"</strong></p>");
                $("#qualify_final_email").html("<p><strong>Email: "+this.email.toString()+"</strong></p>");
                $("#qualify_final_phone").html("<p><strong>Phone: "+this.phone.toString()+"</strong></p>");
                $("#qualify_final_fullname").html("<p><strong>Full Name: "+this.fullname.toString()+"</strong></p>");
@@ -770,7 +838,7 @@ var qvm5 = new Vue({
                $("#qualify_final_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");
                $("#qualify_final_address2").html("<p><strong>Address 2: "+this.address2.toString()+"</strong></p>");
                $("#qualify_final_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
-               $("#qualify_final_state").html("<p><strong>State: "+this.state.toString()+"</strong></p>");
+               $("#qualify_final_state").html("<p><strong>State: "+states[this.state]+"</strong></p>");
                $("#qualify_final_zip").html("<p><strong>Zip Code: "+this.zip.toString()+"</strong></p>");
 
     },
@@ -858,7 +926,6 @@ var qvm6 = new Vue({
 		"month": this.expirationmonth,
 		"year": this.expirationyear,
                 "city": this.city};
-             alert('here:'+this.package_type+' and '+this.package_price);
 	     $.ajax({
 		    type: "POST",
 		    url: "https://divorcesus.com/paymentconfirm/",

@@ -635,6 +635,7 @@
 
                         <li>
                           <a onclick="on_mobile_pricing();return false;" id="pricing"  href="#">Pricing</a>
+<!--
                          <ul>
                             <li>
                               <a onclick="on_mobile_pricing();">New York Packages</a>
@@ -643,7 +644,7 @@
                               <a onclick="on_mobile_pricing();">New Jersey Packages</a>
                             </li>
                          </ul>
-
+-->
                         </li>
 
                         <li>
@@ -2851,7 +2852,7 @@
                   </div>
                 </section>
                 <section class="parallax" data-url="/media/images/family_banner.jpg" id="bring-change">
-                  <div class="container wow fadeIn">
+                  <div class="container wow fadeIn" style="color: #2c3f4c; text-shadow: 1px 1px 1px rgba(15, 8, 8, 1);" id="bring-change-banner">
                     <h2> {% article_meta 1 1 %}  </h2>
                     <h4> {% article_meta 1 2 %}  </h4>
                     <input type="hidden" name="full-article-1" id="full-article-1" value="{% article_meta 1 3 %}" />
@@ -3658,7 +3659,7 @@
                        
                           <input type="hidden" name="form-type" value="contact"/> 
                           <fieldset> 
-                              <label> 
+                              <label style="padding-top:1.9em;"> 
                                   <input type="text" 
                                   name="name"
                                   v-model="name"
@@ -3667,7 +3668,7 @@
                                   data-constraints="@LettersOnly @NotEmpty"/> 
                               </label> 
 
-                              <label> 
+                              <label style="padding-top:1.9em;"> 
                                   <input type="text" 
                                   name="phone" 
                                   v-model="phone"
@@ -3677,7 +3678,7 @@
                               </label> 
                               <label>
 
-                              <label>
+                              <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="email" 
                                   v-model="email"
@@ -3687,7 +3688,7 @@
                               </label>
                               </label> 
 
-                              <label class="label_message"> 
+                              <label class="label_message"  style="padding-top:1.9em;"> 
                                   <textarea name="message*"   placeholder="Message" 
                                   v-model="message"
                                   data-constraints="@NotEmpty"></textarea> 
@@ -3798,7 +3799,7 @@
 
                             <div id="qualify-stepone">
 
-                                   <div class="col-xs-12 col-sm-3" style="float:left;">
+                                   <div class="col-xs-12 col-sm-2" style="float:left;">
                                          &nbsp;
                                    </div>
 
@@ -3814,8 +3815,11 @@
                                            <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
                                                 Your State
                                            </div>
-                                           <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
+                                           <div style="float:left;width:37%;height:5%;padding-top:1.2em;padding-bottom:1.2em;">
                                                 <input type="hidden" v-model="state" id="state-selected" />
+                                                <div id="qualify-no-state" style="display:none;float: left; width:100%;padding-top: 1.2em; padding-bottom: 1.2em;">
+                                                     <v-select :on-change="statechange" label="Select State" :options="states" :searchable="false" ></v-select>
+                                                </div>
                                                 <div id="state-displayed"></div>
                                            </div>
                                            <div class="clear"></div>
@@ -3823,7 +3827,7 @@
                                            <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
                                                  Divorce Type 
                                            </div>
-                                           <div style="float:left;width:37%;padding-top:1.2em;padding-bottom:1.2em;">
+                                           <div style="float:left;width:37%;height:1.6em;padding-top:1.2em;padding-bottom:1.2em;">
                                                  <v-select :on-change="packagechange" label="Divorce Type..." :options="options" :searchable="false" ></v-select>
                                            </div>
                                            <div class="clear"></div>
@@ -3847,14 +3851,14 @@
             <!-- qualify-steptwo -->
             <div id="qualify-steptwo" style="font-size:1.3em;">
 
-                                   <div class="col-xs-12 col-sm-3" style="float:left;">
+                        <div class="col-xs-12 col-sm-2" style="float:left;">
                                          &nbsp;
-                                   </div>
+                        </div>
 
 
 
 
-                                   <div class="col-xs-12 col-sm-8" style="float:left;">
+                        <div class="col-xs-12 col-sm-8" style="float:left;">
 
 
                         <form class='mailform contact-form' method="post">
@@ -3913,7 +3917,15 @@
 
                 <div id="qualify-stepthree">
                     {% if logout %}
-                    <div class="col-xs-12 col-sm-8">
+                    <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                    </div>
+
+
+
+
+
+                    <div class="col-xs-12 col-sm-5" style="float:left;">
                     <p>
                 Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
                       </p>
@@ -4058,13 +4070,24 @@
                                    Email {% user_meta user_id 4 %}
                                </div> 
                          </div>
+                         <div class="clear"></div>
                          {% endif %}
 
 
             </div>
             <div id="qualify-stepfour">
                         {% if logout %}
-                        <div class="col-xs-12 col-sm-8">
+
+                    <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                    </div>
+
+
+
+
+
+                    <div class="col-xs-12 col-sm-5" style="float:left;">
+
                         <form class='mailform contact-form' method="post">
                              {% csrf_token %}
                           <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/>
@@ -4196,13 +4219,23 @@
 
 
                                </div>
-
+                   <div class="clear"></div>
                   {% endif %} 
             </div>
 
 
             <div id="qualify-stepfive">
-                       <div class="col-xs-12 col-sm-8"> 
+
+                      <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                      </div>
+
+
+
+
+
+                       <div class="col-xs-12 col-sm-5" style="float:left;">
+
                         <form class='mailform contact-form' method="post">
                              {% csrf_token %}
 
@@ -4337,14 +4370,28 @@
 
 
                          </div>
+                         <div class="clear"></div>
 
             </div>
+                        <div class="clear"></div>
                         </div>
 
-            <div id="qualify-stepsix"> 
+            <div id="qualify-stepsix">
+               <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+               </div>
+
+
+
+
                <div class="col-xs-12 col-sm-8">
                   <form class='mailform contact-form' method="post">
                              {% csrf_token %}
+                             <div><h4><strong>Package Details</strong></h4></div>
+                             <div id="qualify_final_package"></div>
+                             <div id="qualify_final_state"></div>
+                             <div id="qualify_final_price"></div>
+                             <div>--------------------------------------------------------------------------------------------</div>
                              <div><h4><strong>Individual Details</strong></h4></div>
                              <div id="qualify_final_email"></div>
                              <div id="qualify_final_phone"></div>   
@@ -4394,6 +4441,7 @@
               </form>
 
                </div>
+               <div class="clear"></div>
         </div>
             <div id="qualify-stepseven">
               <form class='mailform contact-form' method="post">
@@ -4513,7 +4561,9 @@
              <!-- stepone -->
             <div id="stepone">
 
-                 <div class="col-xs-12 col-sm-8">
+                 <div class="col-xs-12 col-sm-2" style="float:left;">
+                 </div>
+                 <div class="col-xs-12 col-sm-5" style="float:left;">
 
                     <p>
             Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
@@ -4524,7 +4574,7 @@
 
                           <input type="hidden" name="counter" id="counter" value=""/>
                           <fieldset>
-                              <label>
+                              <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="first"
                                   id="first_payments"
@@ -4534,7 +4584,7 @@
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
 
-                              <label>
+                              <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="last"
                                   id="last_payments"
@@ -4619,12 +4669,13 @@
                                    Email {% user_meta user_id 4 %}
                                </div>
                          </div>
-
+                         <div class="clear"></div>
             </div>
 
             <!-- steptwo -->
             <div id="steptwo">
-                 <div class="col-xs-12 col-sm-8">
+                 <div class="col-xs-12 col-sm-2" style="float:left;"></div>
+                 <div class="col-xs-12 col-sm-5" style="float:left;">
                         <form class='mailform contact-form' method="post">
                              {% csrf_token %}
                           <input type="hidden" name="phone" id="st-phone" v-model="phone"  value="{{ phone }}"/>
@@ -4745,12 +4796,13 @@
 
                                </div>
                          </div>
-
+                         <div class="clear"></div>
             </div>
 
             <!-- #stepthree -->
             <div id="stepthree">
-                  <div class="col-xs-12 col-sm-8">
+                  <div class="col-xs-12 col-sm-2" style="float:left;"></div>
+                  <div class="col-xs-12 col-sm-5" style="float:left;">
                         <form class='mailform contact-form' method="post">
                              {% csrf_token %}
 
@@ -4884,11 +4936,12 @@
 
                                </div>
                          </div>
-
+                         <div class="clear"></div>
             </div>
 
             <div id="stepfour">
-                  <div class="col-xs-12 col-sm-8">
+                  <div class="col-xs-12 col-sm-2" style="float:left;"></div>
+                  <div class="col-xs-12 col-sm-5" style="float:left;">
 
                   <form class='mailform contact-form' method="post">
                              {% csrf_token %}
@@ -4937,9 +4990,11 @@
 
               </form>
               </div>
+              <div class="clear"></div>
             </div>
             <div id="stepfive">
-                <div class="col-xs-12 col-sm-8">
+                <div class="col-xs-12 col-sm-2" style="float:left;"></div>
+                <div class="col-xs-12 col-sm-5" style="float:left;">
                 <form class='mailform contact-form' method="post">
                              {% csrf_token %}
 
@@ -4954,7 +5009,7 @@
 
             </form>
             </div>
-
+            <div class="clear"></div>
 
 
 
@@ -7403,8 +7458,10 @@
                           <li><a href="#">Family Law</a></li>
                           <li><a href="#">Immigration Law</a></li>
                           <li><a href="#">Patent Law</a></li>
+<!--
                           <li><a href="#">Business Law</a></li>
                           <li><a href="#">Other Areas</a></li>
+-->
                       </ul>
                     </div>
 

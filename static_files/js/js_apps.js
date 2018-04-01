@@ -995,18 +995,13 @@
 
   function on_mobile_qualify(state) {
       if  (state==1) {
-                
-      //       jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
-      //       jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
-       //      jQuery("#qualify-state").html("<h4><strong>New York</strong></h4>");
+             jQuery("#qualify-no-state").attr("style", "display:none;");
              jQuery('input[id="state"][value="New York"]').prop("checked",true);
              jQuery("#state-selected").attr("value","New York");
       }
       else 
       if  (state==2) {
-   //          jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
-   //          jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
-    //         jQuery("#qualify-state").html("<h4><strong>New Jersey</strong></h4>");
+             jQuery("#qualify-no-state").attr("style", "display:none;");
              jQuery('input[id="state"][value="New Jersey"]').prop("checked",true);
              jQuery("#state-selected").attr("value","New Jersey");      
       }

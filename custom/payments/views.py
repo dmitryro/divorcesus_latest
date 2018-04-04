@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import stripe
 from django.shortcuts import render
 
 from django.shortcuts import render
@@ -8,6 +9,7 @@ from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from django.core.exceptions import ObjectDoesNotExist
 from restless.views import Endpoint
+
 from custom.users.models import Contact
 from custom.users.models import StateProvince
 from custom.utils.models import Logger
@@ -298,11 +300,6 @@ class PastPaymentsList(Endpoint):
         except Exception, R:
             return {"payments":str(R)}
 
-####################################
-## Subscribe News Letter Endpoint ##
-## METHOD : GET, POST ##############
-## RETURNED: SUCCESS/FAILUTRE ######
-####################################
 
 @api_view(['POST'])
 @renderer_classes((JSONRenderer,))
@@ -400,6 +397,21 @@ def send_confiration_view(request):
            log.save()
 
            return Response({'message': 'failure', 'cause':str(R)})
+
+@api_view(['POST', 'GET'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def save_payment_method_view(request):
+    return Response({'message': 'failure', 'cause': ""})
+
+
+@api_view(['POST', 'GET'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def read_payment_methods_view(request):
+    return Response({'message': 'failure', 'cause': ""})
+
+
 
 
 payment_send_confirmation_email.connect(payment_send_confirmation_email_handler)

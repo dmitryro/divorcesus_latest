@@ -71,6 +71,12 @@ function toggle_service(service_id) {
    return false;
 }
 
+function mask_card(card) {
+    var suffix = card.substring(card.length-4);
+    var result = "**** **** **** "+suffix;
+    return result;
+}
+
 function price_changed(id, pack_id, price) {
    $('#selected-package-id').attr('value', pack_id);
    $('#selected-price').attr('value', price);
@@ -85,6 +91,36 @@ function package_selected(state, pack) {
     qualify_step_zero(state);
     return false;
 }
+
+var paymentmethod = new Vue({
+  el: '#paymentmethod',
+  data: {
+    credit_card: '',
+    expiration: '',
+    cvc: '',
+    name_on_card: '',
+    make_default: ''
+  },
+  created: function () {
+  },
+  mounted:function() {
+  },
+  methods: {
+    submitpayment: function(e) {
+        alert("time to save");
+    },
+    close: function (e) {
+        this.$emit('close');
+    },
+    show: function() {
+        this.$emit('show');
+    },
+
+    submit: function(which, e) {
+            e.preventDefault();
+    }
+  }
+});
 
 var featured = new Vue({
   el: '#featured-packages',
@@ -488,7 +524,6 @@ var qvm2 = new Vue({
     },
 
     submitfour: function (event) {
-       alert('submitfour 2');
     },
 
     submitfive: function (event) {
@@ -642,8 +677,6 @@ var qvm4 = new Vue({
     state:'',
     city:'',
     zip:'',
-    year: '',
-    month: '',
     address1:'',
     address2:'',
     fullname: '',
@@ -660,8 +693,8 @@ var qvm4 = new Vue({
     last:'',
     cardnumber:'',
     cardtype:'',
-    expirationmonth:'',
-    expirationyear:'',
+    expiration:'',
+    cvc: '',
     packages: new Hash()
   },
   methods: {
@@ -678,7 +711,16 @@ var qvm4 = new Vue({
     },
 
     submitfour: function (event) {
-               
+
+               var cardType = $.payment.cardType($('#cardnumber-q').val());
+               $('#cardnumber-q').toggleInputError(!$.payment.validateCardNumber($('#cardnumber-q').val()));
+               $('#expiration-q').toggleInputError(!$.payment.validateCardExpiry($('#expiration-q').payment('cardExpiryVal')));
+               $('#cvc-q').toggleInputError(!$.payment.validateCardCVC($('#cvc-q').val(), cardType));
+               $('.cc-brand').text(cardType);
+               $('.validation').removeClass('text-danger text-success');
+               $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
+               alert("card type"+cardType); 
+               this.cvc = $('#cvc-q').val();
                this.phone = qvm3.phone;
                this.email = qvm3.email;
                this.state = qvm2.state;
@@ -686,11 +728,11 @@ var qvm4 = new Vue({
                this.package_type = qvm2.package_type;
                this.first = qvm3.first;
                this.last = qvm3.last;
-               this.cardnumber = $('#cardnumber').val();
-               this.cardtype = $('#cardtype').val();
-               this.expirationmonth = $('#expirationmonth').val();
-               this.expirationyear = $('#expirationyear').val();
+               this.cardnumber = mask_card($('#cardnumber-q').val());
+               this.cardtype = cardType;
+               this.expiration = $('#expiration-q').val();
 
+               qvm5.cvc = this.cvc;
                qvm5.package_price = this.package_price;
                qvm5.package_type = this.package_type;
                qvm5.email = this.email;
@@ -698,8 +740,7 @@ var qvm4 = new Vue({
                qvm5.last = this.last;
                qvm5.cardtype = this.cardtype;
                qvm5.cardnumber = this.cardnumber;
-               qvm5.expirationmonth = this.expirationmonth;
-               qvm5.expirationyear = this.expirationyear;
+               qvm5.expiration = this.expiration;
                qvm5.address1 = this.address1;
                qvm5.address2 = this.address2;
                qvm5.city = this.city;
@@ -711,6 +752,15 @@ var qvm4 = new Vue({
                qvm5.packages = this.packages;
                qvm5.package_selected = this.package_selected;
 
+               $.get('https://divorcesus.com/states', function(msg) {
+                         let result = "<select id='select-state-stepfive' v-model='state' class='styled-select slate' style='width:100%;' >";
+                         for(var i=0;i<msg.length;i++) {
+                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                         }
+                         result = result + "</select>";
+                         $("#qualify-state-stepfive-choices").html(result);
+               });
+
                $("#step_five_package").html(this.packages[this.package_selected]);
                $("#step_five_state").html(states[this.state]);
                $("#step_five_price").html(this.package_price);//this.package_price);
@@ -720,7 +770,7 @@ var qvm4 = new Vue({
                $("#step_five_phone").html(this.phone);
                $("#step_five_cardnumber").html(this.cardnumber);
                $("#step_five_card_type").html(this.cardtype);
-               $("#step_five_expiration").html(this.expirationmonth+'/'+this.expirationyear);
+               $("#step_five_expiration").html(this.expiration);
                
     },
 
@@ -752,8 +802,6 @@ var qvm5 = new Vue({
     fullname: '',
     first:'',
     last:'',
-    year: '',
-    month: '',
     does_qualify:'',
     agree_to_start: '',
     is_spouse_location_known:'',
@@ -764,9 +812,9 @@ var qvm5 = new Vue({
     package_price:'',
     package_selected: '',
     cardnumber:'',
+    cvc: '',
     cardtype:'',
-    expirationmonth:'',
-    expirationyear:'',
+    expiration:'',
     packages: new Hash()
   },
 
@@ -788,14 +836,14 @@ var qvm5 = new Vue({
 
     submitfive: function (event) {
                this.phone = qvm4.phone;
+               qvm6.cvc = this.cvc;
                qvm6.email = this.email;
                qvm6.fullname = this.fullname;
                qvm6.first = this.first;
                qvm6.last = this.last;
                qvm6.cardtype = this.cardtype;
                qvm6.cardnumber = this.cardnumber;
-               qvm6.expirationmonth = this.expirationmonth;
-               qvm6.expirationyear = this.expirationyear;
+               qvm6.expiration = this.expiration;
                qvm6.address1 = this.address1;
                qvm6.address2 = this.address2;
                qvm6.city = this.city;
@@ -812,8 +860,7 @@ var qvm5 = new Vue({
                $("#step_six_city").attr("value",this.city.toString());
                $("#step_six_state").attr("value",states[this.state]);
                $("#step_six_zip").attr("value",this.zip.toString());
-               $("#step_six_month").attr("value",this.expirationmonth.toString());
-               $("#step_six_year").attr("value",this.expirationyear.toString());
+               $("#step_six_expiration").attr("value",this.expiration.toString());
                $("#step_six_email").attr("value",this.email.toString());
                $("#step_six_fullname").attr("value",this.fullname.toString());
                $("#step_six_first").attr("value",this.first.toString());
@@ -833,8 +880,7 @@ var qvm5 = new Vue({
                $("#qualify_final_last").html("<p><strong>Last Name: "+this.last.toString()+"</strong></p>");
                $("#qualify_final_cardtype").html("<p><strong>Card Type: "+this.cardtype.toString()+"</strong></p>");
                $("#qualify_final_cardnumber").html("<p><strong>Card Number: "+this.cardnumber.toString()+"</strong></p>");
-               $("#qualify_final_expirationmonth").html("<p><strong>Expiration Month: "+this.expirationmonth.toString()+"</strong></p>");
-               $("#qualify_final_expirationyear").html("<p><strong>Expiration Year: "+this.expirationyear.toString()+"</strong></p>");
+               $("#qualify_final_expiration").html("<p><strong>Expiration: "+this.expiration.toString()+"</strong></p>");
                $("#qualify_final_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");
                $("#qualify_final_address2").html("<p><strong>Address 2: "+this.address2.toString()+"</strong></p>");
                $("#qualify_final_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
@@ -869,10 +915,7 @@ var qvm6 = new Vue({
     fullname: '',
     first:'',
     last:'',
-    year:'',
     state: '',
-    month: '',
-    day: '',
     does_qualify:'',
     agree_to_start: '',
     is_spouse_location_known:'',
@@ -884,8 +927,8 @@ var qvm6 = new Vue({
     package_selected: '',
     cardnumber:'',
     cardtype:'',
-    expirationmonth:'',
-    expirationyear:''
+    expiration:'',
+    cvc: '',
   },
 
   methods: {
@@ -916,6 +959,7 @@ var qvm6 = new Vue({
 		"cardtype": this.cardtype,
 		"cardnumber": this.cardnumber,
 		"phone": this.phone,
+                "cvc": this.cvc,
 		"address1": this.address1,
 		"address2": this.address2,
 		"state": this.state,
@@ -923,10 +967,10 @@ var qvm6 = new Vue({
                 "package_type": this.package_type,
                 "package_price": this.package_price,
 		"user_id": $("#current-user-id").val(),
-		"month": this.expirationmonth,
-		"year": this.expirationyear,
+		"expiration": this.expiration,
                 "city": this.city};
-	     $.ajax({
+                alert("zip"+$("#qualify-zip").val())
+	        $.ajax({
 		    type: "POST",
 		    url: "https://divorcesus.com/paymentconfirm/",
 		    crossDomain: true,
@@ -939,7 +983,7 @@ var qvm6 = new Vue({
 		    error: function(data){
 		      alert("failure"+data);
 		   }
-	      });
+	        });
 
 
     },
@@ -967,9 +1011,7 @@ var qvm7 = new Vue({
     fullname: '',
     first:'',
     last:'',
-    year:'',
     state: '',
-    month: '',
     day: '',
     does_qualify:'',
     agree_to_start: '',
@@ -982,9 +1024,8 @@ var qvm7 = new Vue({
     package_selected: '',
     cardnumber:'',
     cardtype:'',
-    expirationmonth:'',
-    expirationyear:'',
-
+    cvc: '',
+    expiration:'',
   },
 
   methods: {
@@ -1022,8 +1063,7 @@ var vm = new Vue({
     last:  '',
     phone: '',
     state: '',
-    month: '',
-    year: '',
+    expiration: '',
     fullname: ''
   },
   methods: {
@@ -1097,32 +1137,39 @@ var vm2 = new Vue({
     fullname: '',
     cardtype:'',
     cardnumber:'',
-    expirationmonth:'',
-    expirationyear:'',
+    expiration:'',
   },
   methods: {
     submitone: function (event) {
 
     },
     submittwo: function (event) {
+           var cardType = $.payment.cardType($('.cc-number').val());
+           $('.cc-number').toggleInputError(!$.payment.validateCardNumber($('.cc-number').val()));
+           $('.cc-exp').toggleInputError(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal')));
+           $('.cc-cvc').toggleInputError(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType));
+           $('.cc-brand').text(cardType);
+           $('.validation').removeClass('text-danger text-success');
+           $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
+
+
            vm3.first = this.fist;
            vm3.last = this.last;
            vm3.state = this.state;
            vm3.email = this.email;
            vm3.fullname = this.fullname;
-           vm3.cardtype = this.cardtype;
+           vm3.cardtype = cardType;
            vm3.cardnumber = this.cardnumber;
-           vm3.expirationmonth = this.expirationmonth;
-           vm3.expirationyear = this.expirationyear;
+           vm3.expiration = this.expiration;
            $("#step_three_phone").html(this.phone.toString());
            $("#step_three_state").html(this.state.toString());
            $("#step_three_email").html(this.email.toString());
            $("#step_three_first").html(this.first.toString());
            $("#step_three_last").html(this.last.toString());
-           $("#step_three_cardtype").html(this.cardtype.toString());
-           $("#step_three_cardnumber").html(this.cardnumber.toString());
+           $("#step_three_cardtype").html(cardType);
+           $("#step_three_cardnumber").html(mask_card(this.cardnumber.toString()));
            $("#step_three_nameoncard").html(this.fullname.toString());
-           $("#step_three_expiration").html(this.expirationmonth.toString()+'/'+this.expirationyear.toString());
+           $("#step_three_expiration").html(this.expiration.toString());
     },
 
     submitthree: function (event) {
@@ -1159,8 +1206,7 @@ var vm3 = new Vue({
     phone: '2222',
     cardtype: '',
     cardnumber: '',
-    expirationmonth: '',
-    expirationyear: '',
+    expiration: '',
   },
   methods: {
     submitone: function (event) {
@@ -1175,8 +1221,7 @@ var vm3 = new Vue({
                vm4.fullname = this.fullname;
                vm4.cardtype = this.cardtype;
                vm4.cardnumber = this.cardnumber;
-               vm4.expirationmonth = this.expirationmonth;
-               vm4.expirationyear = this.expirationyear;
+               vm4.expiration = this.expiration;
                vm4.address1 = this.address1;
                vm4.address2 = this.address2; 
                vm4.city = this.city;
@@ -1188,8 +1233,7 @@ var vm3 = new Vue({
                $("#city").attr("value",this.city.toString());  
                $("#state").attr("value",this.state.toString());
                $("#zip").attr("value",this.zip.toString());
-               $("#month").attr("value",this.expirationmonth.toString());
-               $("#year").attr("value",this.expirationyear.toString());
+               $("#expiration").attr("value",this.expiration.toString());
                $("#email").attr("value",this.email.toString());
                $("#fullname").attr("value",this.fullname.toString());
                $("#cardtype").attr("value",this.cardtype.toString());
@@ -1201,9 +1245,8 @@ var vm3 = new Vue({
                $("#final_phone").html("<p><strong>Phone: "+this.phone.toString()+"</strong></p>");
                $("#final_fullname").html("<p><strong>Full Name: "+this.fullname.toString()+"</strong></p>");   
                $("#final_cardtype").html("<p><strong>Card Type: "+this.cardtype.toString()+"</strong></p>");  
-               $("#final_cardnumber").html("<p><strong>Card Number: "+this.cardnumber.toString()+"</strong></p>");   
-               $("#final_expirationmonth").html("<p><strong>Expiration Month: "+this.expirationmonth.toString()+"</strong></p>");
-               $("#final_expirationyear").html("<p><strong>Expiration Year: "+this.expirationyear.toString()+"</strong></p>");   
+               $("#final_cardnumber").html("<p><strong>Card Number: "+mask_card(this.cardnumber.toString())+"</strong></p>");   
+               $("#final_expiration").html("<p><strong>Expiration: "+this.expiration.toString()+"</strong></p>");
                $("#final_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");   
                $("#final_address2").html("<p><strong>Address 2: "+this.address2.toString()+"</strong></p>"); 
                $("#final_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
@@ -1212,17 +1255,13 @@ var vm3 = new Vue({
     },
 
     submitfour: function (event) {
-           alert('hi hi hi hi hi');
     },
 
     successCallback: function(event) {
-           alert("SUCCESS");
     },
     errorCallback: function(event) {
-           alert("ERROR");
     },
     validConfirm: function(event) {
-           alert("VALID");
     }
 
   },
@@ -1246,8 +1285,7 @@ var vm4 = new Vue({
     phone: '393-342-4232',
     cardtype: vm3.cardtype,
     cardnumber: vm3.cardnumber,
-    expirationmonth: vm3.expirationmonth,
-    expirationyear: vm3.expirationyear,
+    expiration: vm3.expiration,
   },
   // define methods under the `methods` object
   methods: {
@@ -1278,8 +1316,7 @@ var vm4 = new Vue({
         "state": this.state,
         "zip": this.zip,
         "user_id": this.user_id,
-        "month": this.expirationmonth,
-        "year": this.expirationyear};
+        "expiration": this.expiration};
 
      $.ajax({
             type: "POST",
@@ -1325,8 +1362,7 @@ var vm5 = new Vue({
     zip:  '',
     cardtype: '',
     cardnumber: '',
-    expirationmonth: '',
-    expirationyear: '',
+    expiration: '',
   },
   // define methods under the `methods` object
   methods: {
@@ -1965,8 +2001,7 @@ var consultone = new Vue({
      consultancytype: '',
      cardnumber: '',
      day: '',
-     month: '',
-     year: '',
+     expiration: '',
      address1: '',
      address2: '',
      city: '',
@@ -1991,14 +2026,6 @@ var consultone = new Vue({
                      $("#service-choices").html(result);
             });
 
-            $.get('https://divorcesus.com/cardtypes', function(msg) {
-                     let result = "<select v-model='cardtype' id='select-card' class='styled-select slate' style='width:100%;' >";
-                     for(var i=0;i<msg.length;i++) {
-                         result =  result+'<option value="'+msg[i].id+'">'+msg[i].card+'</option>';
-                     }
-                     result = result + "</select>";
-                     $("#card-choices").html(result);
-            });
 
             $.get('https://divorcesus.com/states', function(msg) {
                      let result = "<select id='select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
@@ -2074,9 +2101,7 @@ var consulttwo = new Vue({
      consultancytype: '',
      cardnumber: '',
      cvv: '',
-     day: '',
-     month: '',
-     year: '',
+     expiration: '',
      address1: '',
      address2: '',
      city: '',
@@ -2089,8 +2114,17 @@ var consulttwo = new Vue({
        },
 
        submittwo: function (event) {
+
+         var cardType = $.payment.cardType($('.cc-number').val());
+         $('.cc-number').toggleInputError(!$.payment.validateCardNumber($('.cc-number').val()));
+         $('.cc-exp').toggleInputError(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal')));
+         $('.cc-cvc').toggleInputError(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType));
+         $('.cc-brand').text(cardType);
+         $('.validation').removeClass('text-danger text-success');
+         $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
+
          this.full_name = $('#consult_full_name').val();
-         this.cardtype = $('#select-card').val();
+         this.cardtype = cardType;
          this.state = $('#select-state').val();
          this.country = $('#select-country').val();
          this.zip = $('#consult_zip').val();
@@ -2098,9 +2132,7 @@ var consulttwo = new Vue({
          this.address1 = $('#consult_address1').val();
          this.address2 =  $('#consult_address2').val();
          this.city = $('#consult_city').val();
-         this.year = $('#consult_year').val();
-         this.month = $('#consult_month').val();
-         this.day =  $('#consult_day').val();
+         this.expiration = $('#consult_expiration').val();
          this.cardnumber =  $('#consult_cardnumber').val();
          this.cvv = $('#consult_cvv').val();
 
@@ -2113,8 +2145,7 @@ var consulttwo = new Vue({
          consultthree.address1 = this.address1;
          consultthree.address2 = this.address2;
          consultthree.city = this.city;
-         consultthree.year = this.year;
-         consultthree.month = this.month;
+         consultthree.expiration = this.expiration;
          consultthree.day = this.day;
          consultthree.cardnumbe = this.cardnumber; 
          consultthree.cvv = this.cvv;
@@ -2151,8 +2182,6 @@ var consulttwo = new Vue({
    data() {
       return {
          items: [
-              {name: 'apple', price: '7'},
-              {name: 'orange', price: '12'}
          ]
    }
 }
@@ -2177,9 +2206,7 @@ var consultthree = new Vue({
      consultancytype: '',
      cardnumber: '',
      cvv: '',
-     day: '',
-     month: '',
-     year: '',
+     expiration: '',
      address1: '',
      address2: '',
      city: '',
@@ -2204,10 +2231,9 @@ var consultthree = new Vue({
          consultfour.address1 = this.address1;
          consultfour.address2 = this.address2;
          consultfour.city = this.city;
-         consultfour.year = this.year;
-         consultfour.month = this.month;
+         consultfour.expiration = this.expiration;
          consultfour.day = this.day;
-         consultfour.cardnumbe = this.cardnumber;
+         consultfour.cardnumber= this.cardnumber;
          consultfour.cvv = this.cvv;
        },
 
@@ -2257,9 +2283,7 @@ var consulttfour = new Vue({
      consultancytype: '',
      cardnumber: '',
      cvv: '',
-     day: '',
-     month: '',
-     year: '',
+     expiration: '',
      address1: '',
      address2: '',
      city: '',
@@ -2287,10 +2311,8 @@ var consulttfour = new Vue({
          consultfive.address1 = this.address1;
          consultfive.address2 = this.address2;
          consultfive.city = this.city;
-         consultfive.year = this.year;
-         consultfive.month = this.month;
-         consultfive.day = this.day;
-         consultfive.cardnumbe = this.cardnumber;
+         consultfive.expiration = this.expiration;
+         consultfive.cardnumber = this.cardnumber;
          consultfive.cvv = this.cvv;
        },
 
@@ -2337,9 +2359,7 @@ var consultfive = new Vue({
      consultancytype: '',
      cardnumber: '',
      cvv: '',
-     day: '',
-     month: '',
-     year: '',
+     expiration: '',
      address1: '',
      address2: '',
      city: '',
@@ -2370,10 +2390,8 @@ var consultfive = new Vue({
          consultsix.address1 = this.address1;
          consultsix.address2 = this.address2;
          consultsix.city = this.city;
-         consultsix.year = this.year;
-         consultsix.month = this.month;
-         consultsix.day = this.day;
-         consultsix.cardnumbe = this.cardnumber;
+         consultsix.expiration = this.expiration;
+         consultsix.cardnumber = this.cardnumber;
          consultsix.cvv = this.cvv;
        },
 
@@ -2417,9 +2435,7 @@ var consultsix = new Vue({
      consultancytype: '',
      cardnumber: '',
      cvv: '',
-     day: '',
-     month: '',
-     year: '',
+     expiration: '',
      address1: '',
      address2: '',
      city: '',
@@ -2453,10 +2469,8 @@ var consultsix = new Vue({
          consultseven.address1 = this.address1;
          consultseven.address2 = this.address2;
          consultseven.city = this.city;
-         consultseven.year = this.year;
-         consultseven.month = this.month;
-         consultseven.day = this.day;
-         consultseven.cardnumbe = this.cardnumber;
+         consultseven.expiration = this.expiration;
+         consultseven.cardnumber = this.cardnumber;
          consultseven.cvv = this.cvv;
        },
 
@@ -2497,9 +2511,7 @@ var consultseven = new Vue({
      consultancytype: '',
      cardnumber: '',
      cvv: '',
-     day: '',
-     month: '',
-     year: '',
+     expiration: '',
      address1: '',
      address2: '',
      city: '',
@@ -2549,10 +2561,5 @@ jQuery(document).ready(function() {
            jQuery('#add-billing-address-body').css('display','block');
     });
 
-//    vm.$el = document.getElementById('stepone');
-//    vm2.$el = document.getElementById('steptwo');
- //   vm3.$el = document.getElementById('stepthree');
- //   vm4.$el = document.getElementById('stepfour');
-  //  vm5.$el = document.getElementById('stepfive');
-  //  news.$el = document.getElementById('newsletter');
+    $('input.cc-num').payment('formatCardNumber');
 });

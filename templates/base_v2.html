@@ -50,6 +50,8 @@
               <!-- Include jQuery Mobile stylesheets -->
               <!-- Include the jQuery library -->
               <script src="/static/js/jquery.js"></script>
+              <script src="/static/js/jquery-migrate-1.2.1.js"></script>
+              <script src="/static/js/jquery.payment.min.js"></script>
               <!-- Include the jQuery Mobile library -->
     <!--
               <script src="/static/js/jssor.slider.min.js"></script>
@@ -76,7 +78,7 @@
                <link type="text/css" href="/static/js/themes/overcast/theme.css" rel="stylesheet" />
     -->
                <script type="text/javascript" src="/static/js/jquery.ui.chatbox.min.js"></script> 
-
+               <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
 
               <!--[if lt IE 9]> 
               <html class="lt-ie9">
@@ -3180,12 +3182,6 @@
                                                      <span class="fieldset-legend">Billing Information</span>
                                                  </legend>
 
-                                                 <div style="margin-bottom:1.9em;">
-                                                  <label class="mfInput" style="padding-top:1.9em;">
-                                                       <div id="card-choices">
-                                                       </div>
-                                                  </label>
-                                                 </div>
 
                                                 <div>
                                                 <label>
@@ -3199,65 +3195,55 @@
                                                  </label>
                                                  </div>
 
+                                                
                                                  <div>
                                                  <label style="padding-top:1.9em;">
-                                                    <input type="text"
-                                                           name="consult_cardnumber"
-                                                           id="consult_cardnumber"
-                                                           v-model="cardnumber"
-                                                           placeholder="Card Number*"
-                                                           value="Your Card Number (Digits Only, no dashes)..."
-                                                           data-constraints="@NumbersOnly @NotEmpty"/>
-                                                 </label>
-                                                 </div>
-                                                 
-                                                 <div>
-                                                 <label style="padding-top:1.9em;">
-                                                    <div style="float:left;width:19%;">
                                                         <input type="text"
-                                                               style="width:90%;"
-                                                               name="consult_month"
-                                                               id="consult_month"
-                                                               v-model="month"
-                                                               placeholder="Month*"
-                                                               value="Month"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                    </div>
-                                                 
-                                                    <div style="float:left;width:19%;">
-                                                        <input type="text"
-                                                               style="width:90%;"
-                                                               name="consult_day"
-                                                               id="consult_day"
-                                                               v-model="day"
-                                                               placeholder="Day*"
-                                                               value="Day"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                     </div>
-                                                     <div style="float:left;width:19%;">
-                                                        <input type="text"
-                                                               style="width:91%;"
-                                                               name="consult_year"
-                                                               id="consult_year"
-                                                               v-model="year"
-                                                               placeholder="Year*"
-                                                               value="Year"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                      </div>
+                                                               type="tel"
+                                                               class="input-lg form-control cc-number"
+                                                               autocomplete="cc-number"
+                                                               placeholder="•••• •••• •••• ••••" required
+                                                               name="consult_cardnumber"
+                                                               id="consult_cardnumber"
+                                                               v-model="cardnumber"
+                                                               data-constraints="@NotEmpty"/>
+
                                                       <div class="clear"></div>
 
                                                  </label>
                                                  </div>
 
+ 
                                                  <div>
                                                  <label style="padding-top:1.9em;">
-                                                    <input type="text"
-                                                           name="consult_security"
-                                                           id="consult_cvv"
-                                                           v-model="cvv"
-                                                           placeholder="Security Number*"
-                                                           value="CVV Number (Digits Only, no dashes)..."
-                                                           data-constraints="@NumbersOnly @NotEmpty"/>
+                                                        <input type="text"
+                                                               type="tel" 
+                                                               class="input-lg form-control cc-exp" 
+                                                               autocomplete="cc-exp" 
+                                                               placeholder="•• / ••" required
+                                                               name="consult_expiration"
+                                                               id="consult_expiration"
+                                                               v-model="expiration"
+                                                               data-constraints="@NotEmpty"/>
+                                                 
+                                                      <div class="clear"></div>
+
+                                                 </label>
+                                                 </div>
+
+                                                 <label style="padding-top:1.9em;">
+                                                        <input type="text"
+                                                               type="tel"
+                                                               class="input-lg form-control cc-cvc"
+                                                               autocomplete="off"
+                                                               placeholder="•••" required
+                                                               name="consult_security"
+                                                               id="consult_security"
+                                                               v-model="expiration"
+                                                               data-constraints="@NumbersOnly @NotEmpty"/>
+
+                                                      <div class="clear"></div>
+
                                                  </label>
                                                  </div>
 
@@ -3329,12 +3315,6 @@
                                                  </label>
                                                  </div>
 
-                                                 <div>
-                                                  <label class="mfInput" style="padding-top:1.9em;">
-                                                       <div id="country-choices">
-                                                       </div>
-                                                  </label>
-                                                 </div>
 
                                                  <div>
 
@@ -3377,7 +3357,7 @@
                                           <form class='mailform contact-form' method="post">
                                                {% csrf_token %}
 
-                                                <div>
+                                                <div class="form-group">
                                                 <label>
                                                    <input type="text"
                                                           name="full_name"
@@ -3389,7 +3369,7 @@
                                                  </label>
                                                  </div>
                                                  
-                                                 <div>
+                                                 <div class="form-group">
 
                                                      <label class="label_message" style="padding-top:1.9em;">
                                                           <textarea name="address" cols="20"  placeholder="Address"
@@ -3397,7 +3377,7 @@
                                                                 data-constraints="@NotEmpty"></textarea>
                                                      </label>
                                                   </div>
-                                                  <div>
+                                                  <div class="form-group">
 
                                                       <label style="padding-top:1.9em;">
                                                            <input type="text"
@@ -3410,53 +3390,32 @@
 
                                                     </div>
 
-                                                  <div>
-                                                    <label style="padding-top:1.9em;">
-                                                            <input type="text"
-                                                                   id="consult_email"
-                                                                   name="email"
-                                                                   v-model="email"
-                                                                   value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
-                                                                   placeholder="Email"
-                                                                   data-constraints="@Email @NotEmpty"/>
-                                                    </label>
+                                                  <div class="form-group">
+
+                              <label style="padding-top:1.9em;">
+                                  <input type="text"
+                                  id="consult_email"
+                                  name="email"
+                                  v-model="email"
+                                  value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
+                                  placeholder="Email"
+                                  data-constraints="@Email @NotEmpty"/>
+                              </label>
 
                                                  </div>
 
 
-                                                 <div>
+                                                 <div class="form-group">
                                                  <label style="padding-top:1.9em;">
-                                                    <div style="float:left;width:19%;">
                                                         <input type="text"
                                                                style="width:90%;"
-                                                               name="consult_month"
-                                                               id="consult_month"
-                                                               v-model="month"
-                                                               placeholder="Month*"
-                                                               value="Month"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                    </div>
-
-
-                                                    <div style="float:left;width:19%;">
-                                                        <input type="text"
-                                                               style="width:90%;"
-                                                               name="consult_day"
-                                                               id="consult_day"
-                                                               v-model="day"
-                                                               placeholder="Day*"
-                                                               value="Day"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                     </div>
-                                                     <div style="float:left;width:19%;">
-                                                        <input type="text"
-                                                               style="width:91%;"
-                                                               name="consult_year"
-                                                               id="consult_year"
-                                                               v-model="year"
-                                                               placeholder="Year*"
-                                                               value="Year"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
+                                                               name="consult_expiration"
+                                                               id="consult_expiration"
+                                                               v-model="expiration"
+                                                               placeholder="Expiration*"
+                                                               value="Expiration"
+                                                               data-constraints="@NotEmpty"/>
+                                                     </label>
                                                       </div>
                                                       <div class="clear"></div>
 
@@ -3467,8 +3426,8 @@
                                                       <div class="clear"></div>
 
 
-                                                 </label>
-                                                 </div>
+                                                 
+                                                
 
 
 
@@ -3565,8 +3524,8 @@
                                    <div class="clear"></div>
 
                             </div>
-
-                       </div>
+                    
+                    
                   </section>
                  </main>
             </div>
@@ -3871,18 +3830,18 @@
                          <div id="final-package-selected"></div> 
                          <div id="final-package-price"></div>
 
-                                          <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/> 
-                          <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
-                          <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
-                          <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
-                          <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
-                          <input type="hidden" name="package_price" id="package_price" v-model="package_price"  value="{{ package_price }}"/>
-                          <input type="hidden" name="package_type" id="package_type" v-model="package_type"  value="{{ package_type }}"/>
-                          <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
-                          <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
-                          <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
-                          <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
-                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
+                         <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/> 
+                         <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
+                         <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
+                         <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
+                         <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
+                         <input type="hidden" name="package_price" id="package_price" v-model="package_price"  value="{{ package_price }}"/>
+                         <input type="hidden" name="package_type" id="package_type" v-model="package_type"  value="{{ package_type }}"/>
+                         <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
+                         <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
+                         <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
+                         <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
+                         <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
 
                       <input type="hidden" name="counter" id="counter" value=""/>
 
@@ -4034,10 +3993,6 @@
                                                           data-constraints="@NotEmpty"/>
                               </label>
 
-                              <label class="mfInput" style="padding-top:1.9em;">
-                                                       <div id="qualify-country-choices">
-                                                       </div>
-                              </label>
 
                               <div style="float:left;padding-top:1.9em;">
                                   <button class="btn4" v-on:click="submitthree"  id="qualify_next_three">Next</button>
@@ -4088,7 +4043,7 @@
 
                     <div class="col-xs-12 col-sm-5" style="float:left;">
 
-                        <form class='mailform contact-form' method="post">
+                        <form novalidate autocomplete="on" class='mailform contact-form' method="post">
                              {% csrf_token %}
                           <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/>
                           <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
@@ -4107,70 +4062,70 @@
 
 
                           <fieldset>
-                              <div> 
-                              <label style="padding-top:1.9em;">
-                                  <input type="text"
-                                  name="cardtype"
-                                  id="cardtype"
-                                  v-model="cardtype"
-                                  placeholder="Card Type*"
-                                  value="Visa,AMEX,MasterCard,Discover..."
-                                  data-constraints="@LettersOnly @NotEmpty"/>
-                              </label>
-                              </div>
 
-
-                              <div>
+                              <div class="form-group">
                               <label style="padding-top:1.9em;">
-                                  <input type="text"
+                                  <input 
                                   name="cardnumber"
-                                  id="cardnumber"
+                                  type="tel" 
+                                  name="cardnumber"
+                                  id="cardnumber-q"
                                   v-model="cardnumber"
+                                  class="input-lg form-control cc-number" 
+                                  autocomplete="cc-number" 
+                                  placeholder="•••• •••• •••• ••••" 
+                                  required
                                   placeholder="Card Number*"
-                                  value="Your Card Number (Digits Only, no dashes)..."
-                                  data-constraints="@NumbersOnly @NotEmpty"/>
+                                  data-constraints="@NotEmpty"/>
                               </label>
                               </div>
 
 
 
-                              <div>
+                              <div class="form-group">
                               <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="fullname"
-                                  id="qnameoncard"
+                                  id="nameoncard-q"
                                   v-model="fullname"
                                   placeholder="Name on Card*"
                                   value="Your Full Name the way it appears on Your Card ..."
                                   data-constraints="@NotEmpty"/>
                               </label>
                               </div>
+                      
 
-                                 <div style="width:20.5%;float:left;">
-                                    <label style="padding-top:1.9em;"> 
-                                      <input type="text"
-                                             id="expirationmonth"
-                                             name="expirationmonth"
-                                             v-model="expirationmonth"
-                                             style="width:96%;"
-                                             value=""
-                                             placeholder="Expiration Month"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
+                               <div class="form-group">
+
+
+                                    <label style="padding-top:1.9em;">
+                                      <input type="tel"
+                                             class="input-lg form-control cc-exp"
+                                             autocomplete="cc-exp" 
+                                             id="expiration-q"
+                                             name="expiration"
+                                             v-model="expiration"
+                                              placeholder="Expiration Date •• / ••"
+                                             data-constraints="@NotEmpty" required/>
                                              &nbsp;&nbsp;
                                       </label>
+
                                  </div>
-                                 <div style="width:20.5%;float:left;">  
-                                   <label style="padding-top:1.9em;">
-                                      <input type="text"
-                                             id="expirationyear"
-                                             name="expirationyear"
-                                             v-model="expirationyear"
-                                             style="width:96%;"
-                                             value=""
-                                             placeholder="Expiration Year"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
-                                   </label>
+
+                                 <div class="form-group">                     
+                                     <label style="padding-top:1.9em;">
+                                          <input type="text"
+                                                 name="cvc"
+                                                 id="cvc-q"
+                                                 v-model="cvc"
+                                                 class="input-lg form-control cc-cvc"
+                                                 autocomplete="off"
+                                                 placeholder="•••" required
+                                                 value="Card CVC formatting"
+                                                 data-constraints="@NumbersOnly @NotEmpty"/>
+                                     </label>
                                  </div>
+
                                  <div class="clear"></div>
 
                               <div style="float:left;padding-top:1.9em;">
@@ -4253,15 +4208,18 @@
 
                           <input type="hidden" name="counter" id="counter" value=""/>
                           <fieldset>
-                              <label style="padding-top:1.9em;">
-                                  <input type="text"
-                                  name="address1"
-                                  v-model="address1"
-                                  placeholder="Address 1*"
-                                  value="Address 1 ..."
-                                  data-constraints="@NotEmpty"/>
-                              </label>
+                              <div>
+                                  <label style="padding-top:1.9em;">
+                                     <input type="text"
+                                            name="address1"
+                                            v-model="address1"
+                                            placeholder="Address 1*"
+                                            value="Address 1 ..."
+                                            data-constraints="@NotEmpty"/>
+                                  </label>
+                              </div>
 
+                              <div>  
                               <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="address2"
@@ -4270,8 +4228,9 @@
                                   value="Address 2 ..."
                                   data-constraints=""/>
                               </label>
+                              </div>
 
-
+                              <div>
                               <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="city"
@@ -4280,31 +4239,30 @@
                                   value="City..."
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
+                              </div>
+                                              
+                              <div>
+                                 <label class="mfInput" style="padding-top:1.9em;">
+                                     <div id="qualify-state-stepfive-choices">
+                                     </div>
+                                 </label>
+                              </div>
 
-                                 <div style="width:20.5%;float:left;">
-                                    <label style="padding-top:1.9em;">
-                                      <input type="text"
-                                             name="state"
-                                             v-model="state"
-                                             style="width:96%;"
-                                             value="State..."
-                                             placeholder="State"
-                                             data-constraints="@LettersOnly @NotEmpty"/>
-                                             &nbsp;&nbsp;
-                                      </label>
-                                 </div>
-                                 <div style="width:20.5%;float:left;">
-                                   <label style="padding-top:1.9em;">
+                                                
+                              <div>
+                                  <label style="padding-top:1.9em;">
                                       <input type="text"
                                              name="zip"
+                                             id="qualify-zip"
                                              v-model="zip"
-                                             style="width:96%;"
-                                             value="Zip Code..."
-                                             placeholder="Zip"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
-                                   </label>
-                                 </div>
-                                 <div class="clear"></div>
+                                             placeholder="Zip *"
+                                             value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
+                                             data-constraints="@NotEmpty"/>
+                                  </label>
+                              </div>
+
+
+                              <div class="clear"></div>
 
                               <div style="float:left;padding-top:1.9em;">
                                   <button class="btn4" v-on:click="submitfive"  id="qualify_next_five">Next</button>
@@ -4401,8 +4359,7 @@
                              <div><h4><strong>Payment Card Details</strong></h4></div>  
                              <div id="qualify_final_cardtype"></div>  
                              <div id="qualify_final_cardnumber"></div>
-                             <div id="qualify_final_expirationmonth"></div>
-                             <div id="qualify_final_expirationyear"></div>
+                             <div id="qualify_final_expiration"></div>
                              <div>--------------------------------------------------------------------------------------------</div>
                              <div><h4><strong>Billing Address Details</strong></h4></div>
                              <div id="qualify_final_address1"></div>
@@ -4425,8 +4382,7 @@
                              <input type="hidden" name="city" id="step_six_city" v-model="city"  />  
                              <input type="hidden" name="state" id="step_six_state" v-model="state"  />
                              <input type="hidden" name="zip" id="step_six_zip" v-model="zip"  />
-                             <input type="hidden" name="month" id="step_six_month" v-model="month"  />
-                             <input type="hidden" name="year" id="step_six_year" v-model="year"  />  
+                             <input type="hidden" name="expiration" id="step_six_expiration" v-model="expiration"  />
                              <input type="hidden" name="counter" id="counter" value=""/>
 
 
@@ -4643,17 +4599,17 @@
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">First:</div><div id="step_one_first" style="float:left;"></div>
+                                   <div style="float:left;">First:</div><div id="step_one_first" style="float:left;">{% user_meta user_id 1 %}</div>
                                    <div class="clear"></div>
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">Last:</div><div id="step_one_last" style="float:left;"></div>
+                                   <div style="float:left;">Last:</div><div id="step_one_last" style="float:left;">{% user_meta user_id 2 %}</div>
                                    <div class="clear"></div>
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">Email:</div><div id="step_one_email" style="float:left;"></div>
+                                   <div style="float:left;">Email:</div><div id="step_one_email" style="float:left;">{% user_meta user_id 4 %}</div>
                                    <div class="clear"></div>
                                    </div>
 
@@ -4662,11 +4618,6 @@
                                    <div class="clear"></div>
                                    </div>
 
-
-
-                                   First: {% user_meta user_id 1 %}<br/>
-                                   Last: {% user_meta user_id 2 %}<br/>
-                                   Email {% user_meta user_id 4 %}
                                </div>
                          </div>
                          <div class="clear"></div>
@@ -4689,7 +4640,8 @@
                           {{ email }} <br/>
                           {{ phone }}
 
-                          <fieldset> 
+                          <fieldset>
+                              <div class="form-group"> 
                               <label>
                                   <input type="text"
                                   name="fullname"
@@ -4699,51 +4651,47 @@
                                   value="{{ first }} {{ last }}"
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
+                              </div>
 
+
+                              <div class="form-group">
                               <label style="padding-top:1.9em;">
                                   <input type="text"
-                                  name="cardtype"
-                                  id="cardtype"
-                                  v-model="cardtype"
-                                  placeholder="Card Type*"
-                                  value="Visa,AMEX,MasterCard,Discover..."
-                                  data-constraints="@LettersOnly @NotEmpty"/>
-                              </label>
-
-                              <label style="padding-top:1.9em;">
-                                  <input type="text"
-                                  name="cardnumber"
-                                  id="cardnumber"
-                                  v-model="cardnumber"
-                                  placeholder="Card Number*"
-                                  value="Your Card Number (Digits Only, no dashes)..."
+                                  name="cvc"
+                                  id="cvc"
+                                  v-model="cvc"
+                                  class="input-lg form-control cc-cvc" 
+                                  autocomplete="off" 
+                                  placeholder="•••" required
+                                  placeholder="***"
+                                  value="Card CVC formatting"
                                   data-constraints="@NumbersOnly @NotEmpty"/>
                               </label>
+                              </div>
 
-                                 <div style="width:20.5%;float:left;">
+                              <div class="form-group">
+                              <label style="padding-top:1.9em;">
+                                  <input
+                                  name="cardnumber"
+                                  id="cardnumber"
+                                  type="tel" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required
+                                  v-model="cardnumber"
+                                  data-constraints="@NotEmpty"/>
+                              </label>
+                              </div>
+                                
+                              <div class="form-group">
                                     <label style="padding-top:1.9em;"> 
-                                      <input type="text"
-                                             id="expirationmonth"
-                                             name="expirationmonth"
-                                             v-model="expirationmonth"
+                                      <input type="tel" 
+                                             class="input-lg form-control cc-exp" 
+                                             autocomplete="cc-exp" placeholder="•• / ••"
+                                             id="expiration"
+                                             name="expiration"
+                                             v-model="expiration"
                                              style="width:96%;"
-                                             value=""
-                                             placeholder="Expiration Month"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
+                                             data-constraints="@NotEmpty" required/>
                                              &nbsp;&nbsp;
                                       </label>
-                                 </div>
-                                 <div style="width:20.5%;float:left;">  
-                                   <label style="padding-top:1.9em;">
-                                      <input type="text"
-                                             id="expirationyear"
-                                             name="expirationyear"
-                                             v-model="expirationyear"
-                                             style="width:96%;"
-                                             value=""
-                                             placeholder="Expiration Year"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
-                                   </label>
                                  </div>
                                  <div class="clear"></div>
 
@@ -4953,8 +4901,7 @@
                              <div><h4><strong>Payment Card Details</strong></h4></div>  
                              <div id="final_cardtype"></div>  
                              <div id="final_cardnumber"></div>
-                             <div id="final_expirationmonth"></div>
-                             <div id="final_expirationyear"></div>
+                             <div id="final_expiration"></div>
                              <div>--------------------------------------------------------------------------------------------</div>
                              <div><h4><strong>Billing Address Details</strong></h4></div>
                              <div id="final_address1"></div>
@@ -4975,8 +4922,7 @@
                              <input type="hidden" name="city" id="city" v-model="city"  />  
                              <input type="hidden" name="state" id="state" v-model="state"  />
                              <input type="hidden" name="zip" id="zip" v-model="zip"  />
-                             <input type="hidden" name="month" id="month" v-model="month"  />
-                             <input type="hidden" name="year" id="year" v-model="year"  />  
+                             <input type="hidden" name="expiration" id="expiration" v-model="expiration"  />
                              <input type="hidden" name="counter" id="counter" value=""/>
 
 
@@ -7864,47 +7810,6 @@ drift.load('4rmkw4ymhfay');
             </body>
             <script src="/static/js/vue_apps_v2.js"></script>
             <script>
-                 Vue.use(SocialSharing);
-                 new Vue({
-                   el: '#shareapp',
-                   data: {
-                      overriddenNetworks: {
-                        "test": {
-                              "sharer": "https://google.com",
-                              "type": "popup"
-                         },
-                      }
-                    }
-              });
-
-              Vue.use(VueScrollTo)
- 
-             // You can also pass in the default options
-             Vue.use(VueScrollTo, {
-                 container: "body",
-                 duration: 500,
-                 easing: "ease",
-                 offset: 0,
-                 cancelable: true,
-                 onStart: false,
-                 onDone: false,
-                 onCancel: false,
-                 x: false,
-                y: true
-            });
-
-            VueScrollTo.setDefaults({
-                container: "body",
-                duration: 500,
-                easing: "ease",
-                offset: 0,
-                cancelable: true,
-                onStart: false,
-                onDone: false,
-                onCancel: false,
-                x: false,
-                y: true
-           });
 
             </script>
             </html>

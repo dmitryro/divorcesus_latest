@@ -3912,7 +3912,7 @@
                                   id="stepthree_first"
                                   v-model="first"
                                   placeholder="First Name*"
-                                  value="{% if logout %}{% user_meta user_id 1 %}{% endif %}" 
+                                  value="{% user_meta user_id 1 %}" 
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
 
@@ -3922,7 +3922,7 @@
                                   id="stepthree_last"
                                   v-model="last"
                                   placeholder="Last Name*"
-                                  value="{% if logout %}{% user_meta user_id 2 %}{% endif %}"
+                                  value="{% user_meta user_id 2 %}"
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
 
@@ -3932,7 +3932,7 @@
                                   id="stepthree_email"
                                   name="email"
                                   v-model="email"
-                                  value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
+                                  value="{% user_meta user_id 4 %}"
                                   placeholder="Email"
                                   data-constraints="@Email @NotEmpty"/>
                               </label>
@@ -4090,7 +4090,7 @@
                                   id="nameoncard-q"
                                   v-model="fullname"
                                   placeholder="Name on Card*"
-                                  value="Your Full Name the way it appears on Your Card ..."
+                                  value='{% user_meta user_id 1 %} {% user_meta user_id 2 %}'
                                   data-constraints="@NotEmpty"/>
                               </label>
                               </div>
@@ -7786,6 +7786,9 @@
 
 
             <form>
+                <input type="hidden" name="payment-first" id="payment-first" value="{% user_meta user_id 1 %}" />
+                <input type="hidden" name="payment-last" id="payment-last" value="{% user_meta user_id 2 %}" />
+                <input type="hidden" name="payment-email" id="payment-email" value="{% user_meta user_id 4 %}" />
                 <input type="hidden" name="price-to-pay" id="price-to-pay" value="0.0" />
                 <input type="hidden" name="payment-token" id="payment-token" value="" />
                 <input type="hidden" name="current-user-id" id="current-user-id" value="{{ user_id }}" />

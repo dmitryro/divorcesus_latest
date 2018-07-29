@@ -1,31 +1,3 @@
-// Create a Stripe client.
-var stripe = Stripe('pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV');
-
-// Create an instance of Elements.
-var elements = stripe.elements();
-
-// Custom styling can be passed to options when creating an Element.
-// (Note that this demo uses a wider set of styles than the guide below.)
-var style = {
-  base: {
-    color: '#32325d',
-    lineHeight: '18px',
-    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-    fontSmoothing: 'antialiased',
-    fontSize: '16px',
-    '::placeholder': {
-      color: '#aab7c4'
-    }
-  },
-  invalid: {
-    color: '#fa755a',
-    iconColor: '#fa755a'
-  }
-};
-
-// Create an instance of the card Element.
-var card = elements.create('card', {style: style});
-
 var counter = 0;
 var first_name = '';
 var fullname = '';
@@ -404,6 +376,7 @@ var qvm = new Vue({
 
 
     submitone: function (event) {
+                
                this.package_price = $('#selected-price').val();
                this.package_selected = $('#selected-package-id').val();
   
@@ -412,10 +385,13 @@ var qvm = new Vue({
                this.does_spouse_agree = $('#does_spouse_agree').is(":checked") ? 'yes' : 'no';
                this.is_military = $('#is_military').is(":checked") ? 'yes' : 'no';
                this.state = $('#state-selected').val();
-               this.first = $('#first').val();
-               this.last = $('#last').val();
-               this.email = $('#email').val();
+               this.first = $('#payment-first').val();
+               this.last = $('#payment-last').val();
+               this.email = $('#payment-email').val();
                this.user_id = $("#current-user-id").val();    
+               qvm2.last = this.last;
+               qvm2.first = this.first;
+               qvm2.email = this.email;
                qvm2.options = this.options;
                qvm2.user_id = this.user_id;
                qvm2.email = email;
@@ -533,6 +509,9 @@ var qvm2 = new Vue({
            this.email = qvm.email;
            this.user_id = qvm.user_id;   
            qvm3.packages = this.packages;
+           qvm3.first = this.first;
+           qvm3.last = this.last;
+           qvm3.email = this.email;
            qvm3.state = this.state;
            qvm3.user_id = this.user_id;
            qvm3.package_type = this.package_type;
@@ -745,7 +724,6 @@ var qvm4 = new Vue({
     },
 
     submitfour: function (event) {
-               alert("PACK AGE TYPE "+this.packages[this.package_selected]);
                $('.validation').removeClass('text-danger text-success');
                $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
                this.cvc = $('#cvc-q').val();

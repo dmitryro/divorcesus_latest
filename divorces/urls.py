@@ -85,7 +85,10 @@ from custom.payments.views import CardTypeViewSet
 from custom.payments.views import add_address_view
 from custom.payments.views import delete_address_view
 from custom.payments.views import read_addresses_view
-from custom.payments.views import send_confiration_view
+from custom.payments.views import send_confirmation_view
+from custom.payments.views import save_payment_method_view
+from custom.payments.views import read_payment_methods_view
+from custom.payments.views import checkout
 from custom.services.views import ServiceViewSet
 from custom.services.views import PackageViewSet
 from custom.services.views import PackageTypeViewSet
@@ -221,8 +224,8 @@ urlpatterns = [
     url(r'^subscribe/$',SubscribeView.as_view()),
     url(r'^addcomment',AddCommentView.as_view()),
     url(r'^search/', include('haystack.urls')),
-    url(r'^qualifyconfirm/$', send_confiration_view),
-    url(r'^paymentconfirm/$', send_confiration_view),
+    url(r'^qualifyconfirm/$', send_confirmation_view),
+    url(r'^paymentconfirm/$', send_confirmation_view),
     url(r'^deletecomment/',DeleteCommentView.as_view()),
     url(r'^savecomment/$',SaveCommentView.as_view()),
     url(r'^sendmessage/',SendMessageView.as_view()),
@@ -241,8 +244,7 @@ urlpatterns = [
     url(r'^packagelist/$', PackageList.as_view()),
     url(r'^servicelist/$', ServiceList.as_view()),
     url(r'^incoming/$',IncomingMessagesList.as_view()),
-
-
+    url(r'^checkout/$', checkout),
     url(r'^accounts/login/?next=/signout/$',custom.gui.views.home),
     url(r'^accounts/login/$',custom.gui.views.home),
     url(r'^login/linkedin/$',custom.gui.views.home),
@@ -290,7 +292,8 @@ urlpatterns = [
     url(r'^qualify/',custom.gui.views.check_qualify),
     url(r'^contacts/', custom.gui.views.contact, name='contacts'),
     url(r'^contact/', custom.gui.views.contact, name='contact'),
-    url(r'^payments/', custom.gui.views.payment),
+    url(r"^payments/", include("pinax.stripe.urls")),
+    #url(r'^payments/', custom.gui.views.payment),
     url(r'^payment/', custom.gui.views.payment),
     url(r'^pricing/', custom.gui.views.pricing),
     url(r'^prices/', custom.gui.views.pricing),  
@@ -310,9 +313,11 @@ urlpatterns = [
     url(r'^sendmessage/$',SendMessageView.as_view()),
     url(r'^updatemessage/',UpdateMessageView.as_view()),
     url(r'^deletemessage/',DeleteMessageView.as_view()),
-
+    url(r'^savepaymentmethod/$', save_payment_method_view),
+    url(r'^readpaymentmethods/$', read_payment_methods_view),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'zebra/',   include('zebra.urls',  namespace="zebra",  app_name='zebra') ),
    # url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps':

@@ -4,7 +4,7 @@
     }
 
     jQuery(document).ready(function(){
-              
+           $('.ElementsApp').attr("id","payment-form"); 
            var box = null;
            
            $(function(){
@@ -61,6 +61,7 @@
             $("#resend").bind("click", function() {
                   resend();
             });
+            $('.ElementsApp').attr("id","payment-form");
             document.getElementById('property_block').style.display='none';
             document.getElementById('protection_block').style.display='none';
             document.getElementById('agreements_block').style.display='none';
@@ -233,7 +234,8 @@
         });
 
         $("#qualify_progress_stepthree").bind("click",function() {
-
+            $('.ElementsApp').attr("id","payment-form-two");
+            setup_stripe_two();
             counter = 2;
 
             $("#qualify-stepone").css("display","none");
@@ -468,7 +470,8 @@
         });
 
         $("#next_one").bind("click",function() {  
- 
+            $('.ElementsApp').attr("id","payment-form"); 
+            setup_stripe();
             var counter = eval($("#counter").val());            
 
             $("#stepone").css("display","none");
@@ -486,7 +489,6 @@
 
 
         $("#next_two").bind("click",function() {
-
             var counter = eval($("#counter").val());
 
             $("#stepone").css("display","none");
@@ -522,7 +524,15 @@
         $("#next_four").bind("click",function() {
 
             var counter = eval($("#counter").val());
+            $.ajax({
+                method: "POST",
+                url: "https://divorcesus.com/checkout/",
+                data: {'token':$('#payment-token').val(), 'amount': $('#price-to-pay').val()}
+            }).done(function( msg ) {
+                alert(msg);
+            });
 
+            
             $("#stepone").css("display","none");
             $("#steptwo").css("display","none");
             $("#stepthree").css("display","none");
@@ -580,7 +590,8 @@
         });
 
         $("#qualify_next_three").bind("click",function() {
-
+            $('.ElementsApp').attr("id","payment-form-two");
+            setup_stripe_two();
             $("#qualify-stepone").css("display","none");
             $("#qualify-steptwo").css("display","none");
             $("#qualify-stepthree").css("display","none");
@@ -645,6 +656,15 @@
         });
 
         $("#qualify_next_six").bind("click",function() {
+            $.ajax({
+                method: "POST",
+                url: "https://divorcesus.com/checkout/",
+                data: {'token':$('#payment-token').val(), 'amount': $('#price-to-pay').val()}
+            }).done(function( msg ) {
+                alert(msg);
+                $('#price-to-pay').attr('value', 0);
+            });
+
             $("#qualify-stepone").css("display","none");
             $("#qualify-steptwo").css("display","none");
             $("#qualify-stepthree").css("display","none");
@@ -1029,7 +1049,7 @@
           $('.comments-link').bind('click',handleComments);
 
 
-          $('#qualify_next_six').bind('click',processPaymentQualify);
+        //  $('#qualify_next_six').bind('click',processPaymentQualify);
 
           if  (service=='contact')  {
                on_mobile_contact();

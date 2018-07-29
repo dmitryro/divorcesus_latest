@@ -145,7 +145,7 @@ class CreditCard(models.Model):
     card_icon_url  =  models.CharField(max_length=500,blank=True,null=True)
     is_default = models.NullBooleanField(default=False,blank=True,null=True)
     image_url = models.CharField(max_length=300,blank=True,null=True)
-     
+ 
     class Meta:
         verbose_name = 'Custom Credit Card'
         verbose_name_plural = 'Custom Cards'
@@ -210,7 +210,6 @@ class Transaction(MerchantActivity):
     def __str__(self):
         return self.transaction_id
 
-
 class Payment(models.Model):
     user = models.ForeignKey(User,blank=True,null=True) 
     first_name = models.CharField(max_length=100, blank=True, null=True)
@@ -240,14 +239,14 @@ class Payment(models.Model):
 
 
 class CustomerProfile(models.Model):
-    customer_id = models.IntegerField(blank=True,null=True)
-    token = models.CharField(max_length=1500,blank=False,null=False)
-    ssn = models.CharField(max_length=100,blank=False,null=False)
+    customer_id = models.CharField(max_length=100, blank=True, null=True)
+    token = models.CharField(max_length=1500,blank=True,null=True)
+    ssn = models.CharField(max_length=100,blank=True,null=True)
     address = models.ForeignKey(Address,blank=True,null=True)
-    first_name = models.CharField(max_length=100,blank=False,null=False)
-    last_name = models.CharField(max_length=100,blank=False,null=False)
-    email = models.EmailField(max_length=100,blank=False)
-    phone = models.CharField(max_length=100,blank=True,null=True)
+    first_name = models.CharField(max_length=100,blank=True, null=True)
+    last_name = models.CharField(max_length=100,blank=True, null=True)
+    email = models.EmailField(max_length=100,blank=True, null=True)
+    phone = models.CharField(max_length=100,blank=True, null=True)
     customer_cards =  models.ManyToManyField(CreditCard,related_name='customer_cards',blank=True)
     profile = models.OneToOneField(Profile,related_name='customer_profle',blank=True,null=True)
     transactions = models.ManyToManyField(MerchantActivity,related_name='customer_transactions',blank=True)

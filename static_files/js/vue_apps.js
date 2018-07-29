@@ -151,7 +151,6 @@ var qvm2 = new Vue({
 
   methods: {
     submitone: function (event) {
-           console.log("SUBMIT ONE");
            this.$set('does_qualify','NO');
            this.$set('state',$('#state-selected').val());
     },

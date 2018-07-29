@@ -1117,7 +1117,20 @@
   }
 
    function processPaymentQualify() {
-    
+/*
+      var arr = {
+           'token':$('#payment-token').val(),
+           'amount': $('#price-to-pay').val()
+      };
+      $.ajax({
+                method: "POST",
+                url: "https://divorcesus.com/checkout/",
+                data: arr
+      }).done(function( msg ) {
+                alert(msg);
+                $('#price-to-pay').attr('value', 0);
+      });
+  */  
 /*
      var arr = {
         "email": $("#step_six_email").val(),

@@ -32,13 +32,9 @@ class AddressAdmin(admin.ModelAdmin):
          verbose_name = 'Billing Address'
          verbose_name_plural = 'Billing Addresses'
     
-
 class CustomerProfileAdmin(admin.ModelAdmin):
-
     fieldsets = ((None, {'fields': ['customer_id',
                                     'token',
-                                    'ssn',
-                                    'city',
                                     'address',
                                     'first_name',
                                     'last_name',
@@ -48,10 +44,8 @@ class CustomerProfileAdmin(admin.ModelAdmin):
                                     'profile',
                                     'transactions',
                                     'orders',
-                                    'stats',
-                                    'payment_processing_number',]}),)
-    #list_display = ('id','header','address1','address2','city','state','zipcode','tollfree','phone','fax','email','statement')
-    #list_editable = ('id','','address1','address2','city','state','zipcode','tollfree','phone','fax','email','statement')
+                                    'stats',]}),)
+    list_display = ('id', 'token', 'address', 'first_name', 'last_name', 'email', 'profile',)
 
     class Meta:
          verbose_name = 'Customer Profile'
@@ -65,7 +59,22 @@ class CardTypeAdmin(admin.ModelAdmin):
          verbose_name = 'Card Type'
          verbose_name_plural = 'Card Types'
 
+class CreditCardAdmin(admin.ModelAdmin):
+    fieldsets = ((None, {'fields': ['is_defailt', 
+                                    'first_name', 
+                                    'last_name',
+                                    'token', 
+                                    'card_cvv', 
+                                    'card_name', 
+                                    'last_4', 
+                                    'card_type', 
+                                    'owner',]}),)
 
+    class Meta:
+         verbose_name = 'Credit Card'
+         verbose_name_plural = 'Credit Cards'
+
+admin.site.register(CreditCard, CreditCardAdmin)
 admin.site.register(CardType, CardTypeAdmin)
 admin.site.register(CustomerProfile, CustomerProfileAdmin)
 admin.site.register(Address, AddressAdmin)

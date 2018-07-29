@@ -772,7 +772,7 @@ def new_account_notify(instance, email):
     except ObjectDoesNotExist:
         pass
     except Exception, R:
-        log = Logger(log='SOME SHIT PREVENTED US FROM SENDING '+str(R))
+        log = Logger(log='Something prevented us from sending '+str(R))
         log.save()
 
 
@@ -783,7 +783,7 @@ def reset_password(sender, instance, request, email, password, **kwargs):
 
     try:
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = 'Art Revolution <info@artrevolution.com>'
+        FROM = 'Divorces US <info@divorcesus.com>'
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port

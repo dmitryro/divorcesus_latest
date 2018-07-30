@@ -594,15 +594,15 @@ rows="5"></textarea>
 					</div>
 					<div class="form-group" style="margin-bottom:1.5em;">
 					    <label for="cc-exp" class="control-label">Card expiry formatting</label>
-					    <input id="cc-exp" type="tel" class="input-lg form-control cc-exp" autocomplete="cc-exp" placeholder="•• / ••" required>
+					    <input id="cc-exp" v-model="expiration" type="tel" class="input-lg form-control cc-exp" autocomplete="cc-exp" placeholder="•• / ••" required>
 					</div>
 					<div class="form-group" style="margin-bottom:1.5em;">
 					    <label for="cc-cvc" class="control-label">Card CVC formatting</label>
-					    <input id="cc-cvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="•••" required>
+					    <input id="cc-cvc" v-model="cvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="•••" required>
 					</div>
 					<div class="form-group" style="margin-bottom:1.5em;">
 					    <label for="name_on_card" class="control-label">Name On Card (Full Name)</label>
-					    <input id="name_on_card" type="tel" class="input-lg form-control" data-numeric>
+					    <input id="name_on_card" v-model="name_on_card" type="tel" class="input-lg form-control" data-numeric>
 					</div>
 					<div class="form-group" style="margin-bottom:1.5em;">
 						<div>
@@ -618,8 +618,7 @@ rows="5"></textarea>
 						<div class="clear"></div>
 					</div>
 
-					<button type="submit" class="button button2">Submit</button>
-
+                                         <button class="button button2" v-on:click="submitpayment"  id="submint-payment">Submit</button>
 					 <h2 class="validation"></h2>
 
 				    </form>

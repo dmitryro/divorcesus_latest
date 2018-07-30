@@ -343,6 +343,11 @@ var qvm = new Vue({
     options: ['Contested', 'Uncontested', 'Other'],
     states: ["New Jersey", "New York"],
     state: '',
+    package_state: '',
+    billing_state: '',
+    address_state: '',
+    state_code: '',
+    state_name: '',
     user_id:'',
     is_spouse_location_known:'',
     are_there_children: '',
@@ -463,7 +468,7 @@ var qvm = new Vue({
 
 
     submitone: function (event) {
-                
+               
                this.package_price = $('#selected-price').val();
                this.package_selected = $('#selected-package-id').val();
                 
@@ -558,6 +563,11 @@ var qvm2 = new Vue({
     package_selected: '',
     user_id:'',
     state:'',
+    package_state: '',
+    billing_state: '',
+    address_state: '',
+    state_code: '',
+    state_name: '',
     does_qualify:'',
     agree_to_start: '',
     is_spouse_location_known:'',
@@ -594,14 +604,18 @@ var qvm2 = new Vue({
            this.does_spouse_agree = qvm.does_spouse_agree;
            this.is_military = qvm.is_military;
            this.state = qvm.state;
+           this.address_state = $('#select-state').val();
            this.first = qvm.first;
            this.last = qvm.last;
            this.email = qvm.email;
            this.user_id = qvm.user_id;   
+           this.package_state = this.state;
            qvm3.packages = this.packages;
            qvm3.first = this.first;
            qvm3.last = this.last;
            qvm3.email = this.email;
+           qvm3.address_state = this.address_state;
+           qvm3.package_state = this.package_state;
            qvm3.state = this.state;
            qvm3.user_id = this.user_id;
            qvm3.package_type = this.package_type;
@@ -614,6 +628,7 @@ var qvm2 = new Vue({
     },
 
     submitthree: function (event) {
+               qvm3.package_state = this.package_state;
                qvm3.package_type = this.packages[this.package_selected];
                $("#step_four_package").html(this.packages[this.package_selected]);
                $("#step_four_state").html(this.state);
@@ -675,6 +690,11 @@ var qvm3 = new Vue({
   data: {
     states: ["New York", "New Jersey"],
     user_id:'',
+    state_code: '',
+    state_name: '',
+    package_state: '',
+    billing_state: '',
+    address_state: '',
     email:'',
     phone:'',
     nameoncard: '',
@@ -715,9 +735,11 @@ var qvm3 = new Vue({
                this.package_price = qvm2.package_price;
                this.package_type = this.package_selected;
                this.first = $('#stepthree_first').val();
-               this.last = $('#stepthree_last').val(); 
+               this.last = $('#stepthree_last').val();
+               qvm4.address_state = this.address_state; 
                qvm4.user_id = this.user_id;               
                qvm4.nameoncard = this.nameoncard;
+               qvm4.package_state = this.package_state;
                qvm4.package_selected = this.package_selected
                qvm4.package_type = this.package_selected;
                qvm4.package_price = this.package_price;              
@@ -779,6 +801,11 @@ var qvm4 = new Vue({
     email:'',
     phone:'',
     state:'',
+    package_state: '',
+    billing_state: '',
+    address_state: '',
+    state_code: '',
+    state_name: '',
     city:'',
     zip:'',
     address1:'',
@@ -837,6 +864,8 @@ var qvm4 = new Vue({
                qvm5.address1 = this.address1;
                qvm5.address2 = this.address2;
                qvm5.city = this.city;
+               qvm5.address_state = this.address_state;
+               qvm5.package_state = this.package_state;
                qvm5.state = this.state;
                qvm5.zip = this.zip;
                qvm5.phone = this.phone;
@@ -854,7 +883,7 @@ var qvm4 = new Vue({
                });
 
                $("#step_five_package").html(this.packages[this.package_selected]);
-               $("#step_five_state").html(states[this.state]);
+               $("#step_five_state").html(states[this.package_state]);
                $("#step_five_price").html(qvm3.package_price);//this.package_price);
                $("#step_five_email").html(qvm3.email);
                $("#step_five_first").html(qvm3.first);
@@ -887,6 +916,11 @@ var qvm5 = new Vue({
     email:'',
     phone:'',
     state:'',
+    billing_state:'',
+    package_state: '',
+    address_state: '',
+    state_code: '',
+    state_name: '',
     city:'',
     zip:'',
     address1:'',
@@ -928,6 +962,7 @@ var qvm5 = new Vue({
 
     submitfive: function (event) {
                this.phone = qvm4.phone;
+               this.billing_state = $('#select-state-stepfive').val();
                qvm6.cvc = this.cvc;
                qvm6.email = this.email;
                qvm6.nameoncard = this.nameoncard;
@@ -940,6 +975,9 @@ var qvm5 = new Vue({
                qvm6.address2 = this.address2;
                qvm6.city = this.city;
                qvm6.state = this.state;
+               qvm6.address_state = this.address_state;
+               qvm6.package_state = this.package_state;
+               qvm6.billing_state = $('#select-state-stepfive').val()
                qvm6.zip = this.zip;
                qvm6.phone = this.phone;
                qvm6.user_id = this.user_id;
@@ -947,6 +985,17 @@ var qvm5 = new Vue({
                qvm6.packages = this.packages;
                qvm6.package_type = this.package_type;
                qvm6.package_price = this.package_price;
+               $.get('https://divorcesus.com/states/?id='+this.billing_state, function(data) {
+                  // $("#state").attr("value",data[0].name.toString());
+                   qvm6.billing_state = data[0].name;
+                   $("#qualify_final_billing_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
+               });
+
+               $.get('https://divorcesus.com/states/?id='+this.address_state, function(data) {
+                   qvm6.address_state = data[0].name;
+                   $("#qualify_final_address_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
+               });
+
 
                $("#step_six_phone").attr("value",this.phone.toString());
                $("#step_six_city").attr("value",this.city.toString());
@@ -977,7 +1026,7 @@ var qvm5 = new Vue({
                $("#qualify_final_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");
                $("#qualify_final_address2").html("<p><strong>Address 2: "+this.address2.toString()+"</strong></p>");
                $("#qualify_final_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
-               $("#qualify_final_state").html("<p><strong>State: "+states[this.state]+"</strong></p>");
+               //$("#qualify_final_state").html("<p><strong>State: "+states[this.state]+"</strong></p>");
                $("#qualify_final_zip").html("<p><strong>Zip Code: "+this.zip.toString()+"</strong></p>");
 
     },
@@ -1001,6 +1050,11 @@ var qvm6 = new Vue({
     email:'',
     phone:'',
     state:'',
+    billing_state:'',
+    package_state: '',
+    address_state: '',
+    state_code: '',
+    state_name: '',
     city:'',
     zip:'',
     address1:'',
@@ -1099,6 +1153,11 @@ var qvm7 = new Vue({
     email:'',
     phone:'',
     state:'',
+    package_state: '',
+    billing_state: '',
+    address_state: '',
+    state_code: '',
+    state_name: '',
     city:'',
     zip:'',
     address1:'',
@@ -1159,6 +1218,8 @@ var vm = new Vue({
     nameoncard: '',
     phone: '',
     state: '',
+    state_code: '',
+    state_name: '',
     expiration: '',
     nameoncard: '',
     amount: '',
@@ -1235,6 +1296,8 @@ var vm2 = new Vue({
     last: '',
     nameoncard: '',
     state: '',
+    state_code: '',
+    state_name: '',
     amount: '', 
     token: '',
     nameoncard: '',
@@ -1307,6 +1370,8 @@ var vm3 = new Vue({
     address2: '',
     city: '',
     state: '',
+    state_code: '',
+    state_name: '',
     zip:  '',
     phone: '2222',
     cardtype: '',
@@ -1320,6 +1385,8 @@ var vm3 = new Vue({
     },
 
     submitthree: function (event) {
+
+
                $("#step_three_payments_name_on_card").html(this.nameoncard);
                this.phone = vm.phone;
                this.email = vm.email;
@@ -1337,13 +1404,19 @@ var vm3 = new Vue({
                vm4.address2 = this.address2; 
                vm4.city = this.city;
                vm4.state = this.state;
+               vm4.state_code = this.state_code;
+               vm4.state_name = this.state_name;
                vm4.zip = this.zip;
                vm4.phone = vm.phone;  
                vm4.amount = this.amount;
 
+               $.get('https://divorcesus.com/states/?id='+this.state, function(data) {
+                   $("#state").attr("value",data[0].name.toString());
+                   $("#final_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
+               });
                $("#phone").attr("value",this.phone.toString());
                $("#city").attr("value",this.city.toString());  
-               $("#state").attr("value",this.state.toString());
+               //$("#state").attr("value",current_state);
                $("#zip").attr("value",this.zip.toString());
                $("#expiration").attr("value",this.expiration.toString());
                $("#email").attr("value",this.email.toString());
@@ -1357,7 +1430,7 @@ var vm3 = new Vue({
                $("#final_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");   
                $("#final_address2").html("<p><strong>Address 2: "+this.address2.toString()+"</strong></p>"); 
                $("#final_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
-               $("#final_state").html("<p><strong>State: "+this.state.toString()+"</strong></p>");  
+               //$("#final_state").html("<p><strong>State: "+current_state+"</strong></p>");  
                $("#final_zip").html("<p><strong>Zip Code: "+this.zip.toString()+"</strong></p>");
     },
 
@@ -1954,6 +2027,7 @@ var askthree = new Vue({
            askfour.email = this.email;
            askfour.message = this.message;
            askfour.subject = this.subject;
+
            $.get('https://divorcesus.com/asktemplates/1/', function(data){
                $("#ask-agreement-container").html(data.agreement);
            });

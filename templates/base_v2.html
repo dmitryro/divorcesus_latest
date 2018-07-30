@@ -67,6 +67,7 @@
                <script src="/static/js/perfect-scrollbar.min.js"></script>
                <script src="https://unpkg.com/vue-scrollto"></script>
                <script src="https://unpkg.com/vue-scroll"></script>
+               <!-- use the latest release -->
                <script src="https://unpkg.com/vue-select@latest"></script>
                <script src="https://js.stripe.com/v3/"></script>
     <!--
@@ -3149,7 +3150,7 @@
 
 
                                    <div class="col-xs-12 col-sm-9" style="float:left;">
-                                      <form class='mailform contact-form' method="post">
+                                      <form class='mailform contact-form' method="post" id="payment-form-three">
                                           {% csrf_token %}
 
 
@@ -3195,8 +3196,13 @@
                                                           data-constraints="@LettersOnly @NotEmpty"/>
                                                  </label>
                                                  </div>
+             
+             
+                                                 <div class="form-group" id="card-element-three" style="width:55.5%;border:2px #D0CECE solid;height:3.9em;margin-top:1.75em;padding-top:1.0em;padding-left:0.4em;">
+                               <!-- A Stripe Element will be inserted here. -->
+                                                 </div>
 
-                                                
+                                                <!--
                                                  <div>
                                                  <label style="padding-top:1.9em;">
                                                         <input type="text"
@@ -3247,7 +3253,7 @@
 
                                                  </label>
                                                  </div>
-
+-->
                                                  <div>
                                                      <label style="padding-top:1.9em;">
                                                          <input type="text"
@@ -3768,7 +3774,7 @@
 
                                    <div class="col-xs-12 col-sm-8" style="float:left;">
 
-                                   <form class='mailform contact-form' method="post">
+                                   <form  method="post">
                                            {% csrf_token %}
 
                                            <input type="hidden" name="counter" id="counter" value=""/>
@@ -3788,7 +3794,19 @@
                                                  Divorce Type 
                                            </div>
                                            <div style="float:left;width:37%;height:1.6em;padding-top:1.2em;padding-bottom:1.2em;">
-                                                 <v-select :on-change="packagechange" label="Divorce Type..." :options="options" :searchable="false" ></v-select>
+                                                <div class="form-group">
+                                                <label>
+                                                    <select  id='select-package' class='styled-select slate' style='width:80%;background:#f3f3f3;height:1.6em;' onchange='packageChange(this.value);'>
+                                                         <option value="Contested">Contested Divorce</option>
+                                                         <option value="Uncontested" selected="selected">Uncontested Divorce</option>
+                                                         <option value="Other">Other Packages</option>
+                                                    </select>
+                                                </label>
+                                                </div>
+
+<!--
+                                           <v-select :options="['Contested', 'Uncontested', 'Other']"  :on-change="packagechange"></v-select>
+-->
                                            </div>
                                            <div class="clear"></div>
                                            
@@ -3806,6 +3824,7 @@
 
 
                             </div>
+
 
 
             <!-- qualify-steptwo -->
@@ -3842,7 +3861,7 @@
                          <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
                          <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
                          <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
-                         <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
+                         <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
 
                       <input type="hidden" name="counter" id="counter" value=""/>
 
@@ -3902,7 +3921,7 @@
                           <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
                           <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
                           <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
-                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
+                          <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
 
                           <input type="hidden" name="counter" id="counter" value=""/>
                           <fieldset>
@@ -4086,9 +4105,9 @@
                               <div class="form-group">
                               <label style="padding-top:1.9em;">
                                   <input type="text"
-                                  name="fullname"
+                                  name="nameoncard"
                                   id="nameoncard-q"
-                                  v-model="fullname"
+                                  v-model="nameoncard"
                                   placeholder="Name on Card*"
                                   value='{% user_meta user_id 1 %} {% user_meta user_id 2 %}'
                                   data-constraints="@NotEmpty"/>
@@ -4209,7 +4228,7 @@
 
                           <input type="hidden" name="phone" id="phone" v-model="phone"  value=""/>
                           <input type="hidden" name="email" id="email" v-model="email"  value=""/>
-                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
+                          <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  value=""/>
 
                           <input type="hidden" name="counter" id="counter" value=""/>
                           <fieldset>
@@ -4317,10 +4336,14 @@
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">Card Type:</div><div id="step_five_card_type" style="float:left;"></div>
+                                   <div style="float:left;">Card Token:</div><div id="step_five_card_type" style="float:left;">fetched</div>
                                    <div class="clear"></div>
                                    </div>
 
+                                   <div id="name_on_card_by_state">
+                                   </div>
+
+<!--
                                    <div>
                                    <div style="float:left;">Card:</div><div id="step_five_cardnumber" style="float:left;"></div>
                                    <div class="clear"></div>
@@ -4330,7 +4353,7 @@
                                    <div style="float:left;">Expiration:</div><div id="step_five_expiration" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
-
+-->
 
                          </div>
                          <div class="clear"></div>
@@ -4361,10 +4384,10 @@
                              <div id="qualify_final_first"></div>  
                              <div id="qualify_final_last"></div>
                              <div>--------------------------------------------------------------------------------------------</div>
-                             <div><h4><strong>Payment Card Details</strong></h4></div>  
-                             <div id="qualify_final_cardtype"></div>  
-                             <div id="qualify_final_cardnumber"></div>
-                             <div id="qualify_final_expiration"></div>
+                             <div><h4><strong>Payment Card Details</strong></h4></div> 
+                             <div id="qualify_final_nameoncard"></div> 
+                             <div id="qualify_final_cardnumber">**** **** **** ****</div>
+                             <div id="qualify_final_expiration">** / ** / **</div>
                              <div>--------------------------------------------------------------------------------------------</div>
                              <div><h4><strong>Billing Address Details</strong></h4></div>
                              <div id="qualify_final_address1"></div>
@@ -4378,7 +4401,7 @@
                              <input type="hidden" name="email" id="step_six_email" v-model="email"  />
                              <input type="hidden" name="first" id="step_six_first" v-model="first"  />
                              <input type="hidden" name="last" id="step_six_last" v-model="last"  />
-                             <input type="hidden" name="fullname" id="step_six_fullname" v-model="fullname"  />
+                             <input type="hidden" name="nameoncard" id="step_six_nameoncard" v-model="nameoncard"  />
                              <input type="hidden" name="cardtype" id="step_six_cardtype" v-model="cardtype"  />
                              <input type="hidden" name="cardtype" id="step_six_cardnumber" v-model="cardnumber"  />
                              <input type="hidden" name="address1" id="step_six_address1" v-model="address1"  />
@@ -4413,10 +4436,19 @@
 
              {% csrf_token %}
 
+               <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+               </div>
 
+
+
+
+               <div class="col-xs-12 col-sm-8">
+
+           
               Your payment info has been processed. Please check your email.
 
-
+              </div>
             </form>
             </div>
 
@@ -4638,10 +4670,10 @@
                           <input type="hidden" name="email" id="st-email" v-model="email"  value="{{ email }}"/>
                           <input type="hidden" name="first" id="st-first" v-model="first"  value="{{ first }}"/>
                           <input type="hidden" name="last" id="st-last" v-model="last"  value="{{ last }}"/>
-                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{{ fullname }}"/>
+                          <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  value="{{ nameoncard }}"/>
                           <input type="hidden" name="counter" id="counter" value=""/>
 
-                          {{ fullname }}<br/>
+                          {{ nameoncard }}<br/>
                           {{ email }} <br/>
                           {{ phone }}
 
@@ -4649,9 +4681,9 @@
                               <div class="form-group"> 
                               <label>
                                   <input type="text"
-                                  name="fullname"
-                                  id="fullname"
-                                  v-model="fullname"
+                                  name="nameoncard"
+                                  id="nameoncard"
+                                  v-model="nameoncard"
                                   placeholder="Name on card*"
                                   value="{{ first }} {{ last }}"
                                   data-constraints="@LettersOnly @NotEmpty"/>
@@ -4763,7 +4795,7 @@
 
                           <input type="hidden" name="phone" id="phone" v-model="phone"  value=""/>
                           <input type="hidden" name="email" id="email" v-model="email"  value=""/>
-                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
+                          <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  value=""/>
 
                           <input type="hidden" name="counter" id="counter" value=""/>
                           <fieldset>
@@ -4868,12 +4900,18 @@
                                    <div class="clear"></div>
                                    </div>
 
+                                   <div id="name_on_card">
+                                   </div>
+
 
                                    <div>
-                                   <div style="float:left;">Card Type:</div><div id="step_three_payments_cardtype" style="float:left;"></div>
+                                   <div style="float:left;">Card Token:</div><div id="step_three_payments_cardtype" style="float:left;">fetched</div>
                                    <div class="clear"></div>
                                    </div>
 
+
+
+<!--
                                    <div>
                                    <div style="float:left;">Card No.:</div><div id="step_three_payments_cardnumber" style="float:left;"></div>
                                    <div class="clear"></div>
@@ -4889,7 +4927,7 @@
                                    <div style="float:left;">Expiration:</div><div id="step_three_payments_expiration" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
-
+-->
                                </div>
                          </div>
                          <div class="clear"></div>
@@ -4904,12 +4942,11 @@
                              <div><h4><strong>Individual Details</strong></h4></div>
                              <div id="final_email"></div>
                              <div id="final_phone"></div>   
-                             <div id="final_fullname"></div>  
                              <div>--------------------------------------------------------------------------------------------</div>
                              <div><h4><strong>Payment Card Details</strong></h4></div>  
-                             <div id="final_cardtype"></div>  
-                             <div id="final_cardnumber"></div>
-                             <div id="final_expiration"></div>
+                             <div id="final_nameoncard"></div>  
+                             <div id="final_cardnumber">**** **** **** ****</div>
+                             <div id="final_expiration">** / ** / **</div>
                              <div>--------------------------------------------------------------------------------------------</div>
                              <div><h4><strong>Billing Address Details</strong></h4></div>
                              <div id="final_address1"></div>
@@ -4921,7 +4958,7 @@
                              <input type="hidden" name="user_id" id="user_id" v-model="user_id" value="{{ user.id }}" />
                              <input type="hidden" name="phone" id="phone" v-model="phone"  />
                              <input type="hidden" name="email" id="email" v-model="email"  />
-                             <input type="hidden" name="fullname" id="fullname" v-model="fullname"  />
+                             <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  />
                              <input type="hidden" name="cardtype" id="cardtype" v-model="cardtype"  />
                              <input type="hidden" name="cardtype" id="cardnumber" v-model="cardnumber"  />
                              <input type="hidden" name="address1" id="address1" v-model="address1"  />
@@ -7823,5 +7860,4 @@ drift.load('4rmkw4ymhfay');
             </body>
             <script src="/static/js/vue_apps_v2.js"></script>
             <script src="/static/js/stripe_apps.js"></script>
-
             </html>

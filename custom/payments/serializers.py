@@ -15,6 +15,7 @@ from models import TransactionStatus
 from models import TransactionType
 from models import Transaction
 from models import CustomerProfile
+from custom.payments.models import CustomerPayment
 from custom.users.models import StateProvince
 
 
@@ -43,6 +44,14 @@ class AddressSerializer(serializers.ModelSerializer):
                   'address2', 'city', 'state_province', 'country',
                   'zip_or_postal', 'user', 'is_default',
                   'is_active', 'nickname',)
+
+class CustomerPaymentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = CustomerPayment
+        fields = ('id', 'user', 'amount', 'is_successful',)
+
 
 class CreditCardSerializer(serializers.ModelSerializer):
     class Meta:

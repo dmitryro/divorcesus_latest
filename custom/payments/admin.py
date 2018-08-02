@@ -13,6 +13,18 @@ from models import MerchantActivity
 from models import MerchantActivityStats
 from models import CustomerActivityStats
 from models import CustomerProfile
+from models import CustomerPayment
+
+class CustomerPaymentAdmin(admin.ModelAdmin):
+    fieldsets = ((None, {'fields': ['user',
+                                    'amount',
+                                    'is_successful',]}),)
+
+    list_display = ('id', 'user', 'amount', 'is_successful',)
+
+    class Meta:
+         verbose_name = 'Customer Payment'
+         verbose_name_plural = 'Customer Payments'
 
 
 class AddressAdmin(admin.ModelAdmin):
@@ -74,6 +86,7 @@ class CreditCardAdmin(admin.ModelAdmin):
          verbose_name = 'Credit Card'
          verbose_name_plural = 'Credit Cards'
 
+admin.site.register(CustomerPayment, CustomerPaymentAdmin)
 admin.site.register(CreditCard, CreditCardAdmin)
 admin.site.register(CardType, CardTypeAdmin)
 admin.site.register(CustomerProfile, CustomerProfileAdmin)

@@ -7,6 +7,17 @@ from custom.users.models import Profile
 from custom.users.models import StateProvince
 from taggit.managers import TaggableManager
 
+class CustomerPayment(models.Model):
+    time_posted = models.DateTimeField(default=datetime.now, blank=True)
+    amount = models.FloatField(default=0.0, blank=True, null=True)
+    user = models.ForeignKey(User, blank=True, null=True)
+    is_successful = models.NullBooleanField(default=True,blank=True,null=True)
+
+    class Meta:
+        verbose_name = 'Customer Payment'
+        verbose_name_plural = 'Customer Payments'
+
+
 class State(models.Model):
     name = models.CharField(max_length=150,blank=True,null=True)
     abbreviation = models.CharField(max_length=150,blank=True,null=True)

@@ -36,6 +36,8 @@ class ConsultationAdmin(admin.ModelAdmin):
                                     'marital_status',
                                     'number_of_children',
                                     'invoice',
+                                    'amount',
+                                    'payment',
                                     'name_on_card', 
                                     'full_name', 
                                     'phone', 
@@ -48,7 +50,8 @@ class ConsultationAdmin(admin.ModelAdmin):
                                     'date_of_birth', 
                                     'time_responded',]}),)
     list_display = ('id', 'user', 'status', 'full_name', 
-                    'email', 'phone', 'time_responded',)
+                    'email', 'phone', 'time_responded', 
+                    'amount', 'invoice',)
     class Meta:
          verbose_name = 'Consultation'
          verbose_name_plural = 'Consultations'

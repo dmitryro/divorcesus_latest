@@ -47,19 +47,13 @@ def checkout(request):
 
 @csrf_exempt
 def send_confirmation_view_old(request):
-    log = Logger(log="WITHIN AND {}".format(request.method))
-    log.save()
 
     if request.method == "POST":
         try:
-            log = Logger(log="LET US SEE WHAT HAPPENS {} vs {}".format(request.POST, request.data))
-            log.save()
 
             token = request.POST.get("token")
             amount = 100*int(request.POST.get("amount")) 
 
-            log = Logger(log="AMOUNT {} TOKEN {}".format(amount, token))
-            log.save()
 
             if token:
                 try:

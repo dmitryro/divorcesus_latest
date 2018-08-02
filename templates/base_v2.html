@@ -51,7 +51,9 @@
               <!-- Include the jQuery library -->
               <script src="/static/js/jquery.js"></script>
               <script src="/static/js/jquery-migrate-1.2.1.js"></script>
+<!--
               <script src="/static/js/jquery.payment.min.js"></script>
+-->
               <!-- Include the jQuery Mobile library -->
     <!--
               <script src="/static/js/jssor.slider.min.js"></script>
@@ -3150,13 +3152,13 @@
 
 
                                    <div class="col-xs-12 col-sm-9" style="float:left;">
-                                      <form class='mailform contact-form' method="post" id="payment-form-three">
+                                      <form class='mailform contact-form' method="post">
                                           {% csrf_token %}
 
 
                                           {% consult_meta 1 1 %}                        
  
-                                          <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                          <div style="float:left;padding-top:1.9em;margin-left:0em;">
                                                   <button class="btn4" v-on:click="submitone"  id="consult_step_one">Next</button>
                                           </div>
                                        </form>
@@ -3172,7 +3174,7 @@
 
 
                                    <div class="col-xs-12 col-sm-9" style="float:left;">
-                                       <form class='mailform contact-form' method="post">
+                                       <form class='mailform contact-form' method="post" id="payment-form-three">
                                           {% csrf_token %}
                                             <div id="service-choices">
                                             </div>
@@ -3305,10 +3307,11 @@
 
                                                  <div>
                                                   <label class="mfInput" style="padding-top:1.9em;">
-                                                       <div id="state-choices">
+                                                       <div id="consult-state-choices">
                                                        </div>
                                                   </label>
                                                  </div>
+
 
                                                 <div>
                                                 <label style="padding-top:1.9em;">
@@ -3320,6 +3323,14 @@
                                                           value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
                                                           data-constraints="@NotEmpty"/>
                                                  </label>
+                                                 </div>
+
+
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+                                                       <div id="consult-country-choices">
+                                                       </div>
+                                                  </label>
                                                  </div>
 
 
@@ -3364,32 +3375,98 @@
                                           <form class='mailform contact-form' method="post">
                                                {% csrf_token %}
 
+                                            <fieldset class="billing-fieldset">
+
+                                                 <legend>
+                                                     <span class="fieldset-legend">Individual Information</span>
+                                                 </legend>
+
+
                                                 <div class="form-group">
                                                 <label>
                                                    <input type="text"
                                                           name="full_name"
                                                           id="consult_full_name"
-                                                          v-model="full_name"
+                                                          v-model="individual_full_name"
                                                           placeholder="Full Name *"
                                                           value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %}{% endif %}"
                                                           data-constraints="@LettersOnly @NotEmpty"/>
                                                  </label>
                                                  </div>
-                                                 
-                                                 <div class="form-group">
 
-                                                     <label class="label_message" style="padding-top:1.9em;">
-                                                          <textarea name="address" cols="20"  placeholder="Address"
-                                                                v-model="address"
-                                                                data-constraints="@NotEmpty"></textarea>
-                                                     </label>
-                                                  </div>
+                                                <div>
+                                                <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="address1"
+                                                          id="consult_individual_address1"
+                                                          v-model="individual_address1"
+                                                          placeholder="Address 1*"
+                                                          value="{% if logout %}{% billing_meta user_id 1 %}{% endif %}"
+                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                 </label>
+                                                 </div>
+
+                                                <div>
+                                                <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="address2"
+                                                          id="consult_individual_address2"
+                                                          v-model="individual_address2"
+                                                          placeholder="Address 2"
+                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"
+                                                          data-constraints="@LettersOnly"/>
+                                                 </label>
+                                                 </div>
+
+                                                <div>
+                                                <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="city"
+                                                          id="consult_individual_city"
+                                                          v-model="individual_city"
+                                                          placeholder="City *"
+                                                          value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
+                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                 </label>
+                                                 </div>
+                                                
+
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+                                                       <div id="consult-individual-state-choices">
+                                                       </div>
+                                                  </label>
+                                                 </div>
+
+
+                                                <div>
+                                                <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="zip"
+                                                          id="consult_individual_zip"
+                                                          v-model="individual_zip"
+                                                          placeholder="Zip *"
+                                                          value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
+                                                          data-constraints="@NotEmpty"/>
+                                                 </label>
+                                                 </div>
+
+
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+                                                       <div id="consult-individual-country-choices">
+                                                       </div>
+                                                  </label>
+                                                 </div>
+
+
+ 
                                                   <div class="form-group">
 
                                                       <label style="padding-top:1.9em;">
                                                            <input type="text"
                                                                   name="phone"
-                                                                  v-model="phone"
+                                                                  v-model="individual_phone"
                                                                   placeholder="Phone"
                                                                   value="{% if logout %} {% user_meta user_id 5 %} {% endif %}"
                                                                   data-constraints="@Phone"/>
@@ -3399,31 +3476,19 @@
 
                                                   <div class="form-group">
 
-                              <label style="padding-top:1.9em;">
-                                  <input type="text"
-                                  id="consult_email"
-                                  name="email"
-                                  v-model="email"
-                                  value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
-                                  placeholder="Email"
-                                  data-constraints="@Email @NotEmpty"/>
-                              </label>
+                                                    <label style="padding-top:1.9em;">
+                                                       <input type="text"
+                                                              id="consult_email"
+                                                              name="email"
+                                                              v-model="individual_email"
+                                                              value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
+                                                              placeholder="Email"
+                                                              data-constraints="@Email @NotEmpty"/>
+                                                    </label>
 
                                                  </div>
 
 
-                                                 <div class="form-group">
-                                                 <label style="padding-top:1.9em;">
-                                                        <input type="text"
-                                                               style="width:90%;"
-                                                               name="consult_expiration"
-                                                               id="consult_expiration"
-                                                               v-model="expiration"
-                                                               placeholder="Expiration*"
-                                                               value="Expiration"
-                                                               data-constraints="@NotEmpty"/>
-                                                     </label>
-                                                      </div>
                                                       <div class="clear"></div>
 
                                                       <div style="float:left;padding-top:1.9em;">
@@ -3437,7 +3502,7 @@
                                                 
 
 
-
+                                            </fieldset>
                                           </form>
                                    </div>
                                    <div class="clear"></div>
@@ -3454,11 +3519,58 @@
 
                                        <form class='mailform contact-form' method="post">
                                            {% csrf_token %}
+                                            <fieldset class="billing-fieldset">
+
+                                                 <legend>
+                                                     <span class="fieldset-legend">Additional Information</span>
+                                                 </legend>
 
 
-                                         <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
-                                               <button class="btn4" v-on:click="submitfour"  id="consult_step_four">Next</button>
-                                         </div>
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+
+                                                       <h6>Country of Citizenship</h6>
+                                                       <div id="consult-additional-country-choices">
+                                                       </div>
+                                                  </label>
+                                                 </div>
+
+
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+                                                        <h6>Number of Children</h6>
+                                                       <div id="consult-additional-children-choices">
+                                                       </div>
+                                                  </label>
+                                                 </div>
+
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+                                                       <h6>Marital Status</h6>
+                                                       <div id="consult-additional-marital-choices">
+                                                       </div>
+                                                  </label>
+                                                 </div>
+
+
+                                                <div>
+                                                <label style="padding-top:1.9em;">
+                                                   <h6>Manner of Entry</h6>
+                                                   <input type="text"
+                                                          name="manner_of_entry"
+                                                          id="manner_of_entry"
+                                                          v-model="manner_of_entry"
+                                                          placeholder="Manner of entry *"
+                                                          value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
+                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                 </label>
+                                                 </div>
+
+
+                                                 <div style="float:left;padding-top:1.9em;margin-left:0em;">
+                                                       <button class="btn4" v-on:click="submitfour"  id="consult_step_four">Next</button>
+                                                 </div>
+                                          </fieldset>
                                        </form>
                                    </div>
                                    <div class="clear"></div>
@@ -3471,16 +3583,30 @@
                                    </div>
 
 
-                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+                                   <div class="col-xs-12 col-sm-8" style="float:left;">
 
                                        <form class='mailform contact-form' method="post">
                                               {% csrf_token %}
 
+                                              <fieldset class="billing-fieldset">
+
+                                                 <legend>
+                                                     <span class="fieldset-legend">Purpose of the consultation</span>
+                                                 </legend>
+
+                                            
+                                             <label class="label_message">
+                                                <textarea name="purpose*"   placeholder="Purpose"
+                                                     v-model="purpose"
+                                                      data-constraints="@NotEmpty"></textarea>
+                                              </label>
 
 
-                                           <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
-                                               <button class="btn4" v-on:click="submitfive"  id="consult_step_five">Next</button>
+
+                                           <div style="float:left;padding-top:1.9em;margin-left:0em;">
+                                              <button class="btn4" v-on:click="submitfive"  id="consult_step_five">Next</button>
                                            </div>
+                                          </fieldset>
                                        </form>
                                   </div>
                                   <div class="clear"></div>
@@ -3499,8 +3625,52 @@
                                        <form class='mailform contact-form' method="post">
                                           {% csrf_token %}
 
+                                              <fieldset class="billing-fieldset">
+                                                 <div style="color:#1C1C1C;">
+                                                 <legend>
+                                                     <span class="fieldset-legend"><h4>Verify:</h4></span>
+                                                 </legend>
 
-                                          <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                                 <div><h4><strong>Consultation Type</strong></h4></div>
+                                                 <div id="final_consultation_consultancy_type"></div>
+                                                 <div id="final_consultation_consultancy_price"></div>
+
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Billing Information</strong></h4></div>
+                                                 <div id="final_consultation_billing_name_on_card"></div>
+                                                 <div id="final_consultation_billing_address1"></div>
+                                                 <div id="final_consultation_billing_address2"></div>
+                                                 <div id="final_consultation_billing_city"></div>
+                                                 <div id="final_consultation_billing_state"></div>
+                                                 <div id="final_consultation_billing_country"></div>     
+                                                 <div id="final_consultation_billing_phone"></div>   
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Individual Information</strong></h4></div>
+                                                 <div id="final_consultation_individual_fullname"></div>
+                                                 <div id="final_consultation_individual_email"></div>
+                                                 <div id="final_consultation_individual_address1"></div>
+                                                 <div id="final_consultation_individual_address2"></div>
+                                                 <div id="final_consultation_individual_city"></div>
+                                                 <div id="final_consultation_individual_zip"></div>                              
+                                                 <div id="final_consultation_individual_state"></div>
+                                                 <div id="final_consultation_individual_country"></div>
+                                                 <div id="final_consultation_individual_phone"></div>
+
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Additional Information</strong></h4></div>
+                                                 <div id="final_consultation_country_of_citizenship"></div>
+                                                 <div id="final_consultation_number_of_children"></div>
+                                                 <div id="final_consultation_marital_status"></div>
+                                                 <div id="final_consultation_manner_of_entry"></div>
+
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Purpose of Consultation</strong></h4></div>
+                                                 <div id="final_consultation_purpose"></div>
+                                                 </div>
+                                             </fieldset>
+
+
+                                          <div style="float:left;padding-top:1.9em;margin-left:0em;">
                                               <button class="btn4" v-on:click="submitsix"  id="consult_step_six">Next</button>
                                           </div>
                                        </form>
@@ -3519,11 +3689,28 @@
                                    <div class="col-xs-12 col-sm-9" style="float:left;">
 
                                          <form class='mailform contact-form' method="post">
+
                                             {% csrf_token %}
+<!--
+                                              <fieldset class="billing-fieldset">
+
+                                                 <legend>
+                                                     <span class="fieldset-legend"><h4>Verify:</h4></span>
+                                                 </legend>
+
+                                                 <div><h4><strong>Consultation Type</strong></h4></div>
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Basic Information</strong></h4></div>
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Additional Information</strong></h4></div>
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Purpose of Consultation</strong></h4></div>
 
 
+                                             </fieldset>
+-->
 
-                                            <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                            <div style="float:left;padding-top:1.9em;margin-left:0px">
                                                 <button class="btn4" v-on:click="submitseven"  id="cosnult_step_seven">Consult</button>
                                             </div>
                                          </form>

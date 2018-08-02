@@ -4,6 +4,7 @@ from enum import Enum
 from django.contrib.auth.models import User
 from django.db import models
 from custom.payments.models import Address
+from custom.payments.models import CustomerPayment
 
 class Country(models.Model):
     name = models.CharField(max_length=150,blank=True,null=True)
@@ -44,6 +45,8 @@ class Consultation(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     time_placed = models.DateTimeField(default=datetime.now, blank=True)
     status = models.ForeignKey(StatusChoice, blank=True, null=True)
+    payment = models.ForeignKey(CustomerPayment, blank=True, null=True)
+    amount = models.FloatField(default=0.0, blank=True, null=True)
     manner_of_entry = models.CharField(max_length=200, blank=True, null=True)
     marital_status = models.ForeignKey(MaritalStatus, blank=True, null=True)
     number_of_children = models.ForeignKey(Children, blank=True, null=True)

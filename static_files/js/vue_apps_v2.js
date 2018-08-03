@@ -2154,12 +2154,12 @@ var askfive = new Vue({
 var consultone = new Vue({
    el: '#consult-stepone',
    data: {
-     country: '',
-     state: '',
+     billing_country: '',
+     billing_state: '',
      is_verified: false,
      pre_verified: '',
-     full_name:'',
-     email:'',
+     billing_full_name:'',
+     billing_email:'',
      message: '',
      subject: '',
      time_asked: '',
@@ -2169,11 +2169,11 @@ var consultone = new Vue({
      agreed_note: '',
      agreed: false,
      consultancy_type: 3,
-     address1: '',
-     address2: '',
-     city: '',
-     phone: '',
-     zip: '',
+     billing_address1: '',
+     billing_address2: '',
+     billing_city: '',
+     billing_phone: '',
+     billing_zip: '',
      individual_full_name: '',
      individual_address1: '',
      individual_address2: '',
@@ -2193,6 +2193,7 @@ var consultone = new Vue({
        reset_price: function (event) {
        },
        submitone: function (event) {
+           consulttwo.price = this.price;
            consulttwo.consultancy_type = this.consultancy_type;
            $.get('https://divorcesus.com/consulttypes', function(msg) {
                      let result = "<div>";
@@ -2265,12 +2266,12 @@ var consultone = new Vue({
 var consulttwo = new Vue({
    el: '#consult-steptwo',
    data: {
-     country: '',
-     state: '',
+     billing_country: '',
+     billing_state: '',
      is_verified: false,
      pre_verified: '',
-     full_name:'',
-     email:'',
+     billing_full_name:'',
+     billing_email:'',
      message: '',
      subject: '',
      time_asked: '',
@@ -2280,11 +2281,11 @@ var consulttwo = new Vue({
      consultancy_type: '',
      price: '',
      payment_token: '',
-     address1: '',
-     address2: '',
-     city: '',
-     phone: '',
-     zip: '',
+     billing_address1: '',
+     billing_address2: '',
+     billing_city: '',
+     billing_phone: '',
+     billing_zip: '',
      individual_full_name: '',
      individual_address1: '',
      individual_address2: '',
@@ -2306,6 +2307,8 @@ var consulttwo = new Vue({
        },
 
        submittwo: function (event) {
+            this.price = $('#consult_amount').val();
+           
             consultthree.consultancy_type = this.consultancy_type;
             consultthree.price = this.price;
             consultthree.payment_token = this.payment_token;
@@ -2329,23 +2332,25 @@ var consulttwo = new Vue({
             });
 
 
-         this.full_name = $('#consult_full_name').val();
-         this.state = $('#consult-individual-select-state').val();
-         this.country = $('#consult-individual-select-country').val();
-         this.zip = $('#consult_zip').val();
-         this.phone = $('#consult_phone').val();         
-         this.address1 = $('#consult_address1').val();
-         this.address2 =  $('#consult_address2').val();
-         this.city = $('#consult_city').val();
+         this.billing_full_name = $('#consult_full_name').val();
+         this.billing_state = $('#consult-select-state').val();
+         this.billing_country = $('#consult-select-country').val();
+         this.billing_zip = $('#consult_zip').val();
+         this.billing_phone = $('#consult_phone').val();         
+         this.billing_address1 = $('#consult_address1').val();
+         this.billing_address2 =  $('#consult_address2').val();
+         this.billing_city = $('#consult_city').val();
+         this.billing_email = $('#consult_email').val(); 
+         consultthree.billing_full_name = this.billing_full_name;
+         consultthree.billing_state = this.billing_state;
+         consultthree.billing_country = this.billing_country;
+         consultthree.billing_zip = this.billing_zip;
+         consultthree.billing_phone = this.billing_phone;
+         consultthree.billing_email = this.billing_email;
+         consultthree.billing_address1 = this.billing_address1;
+         consultthree.billing_address2 = this.billing_address2;
+         consultthree.billing_city = this.billing_city;
 
-         consultthree.full_name = this.full_name;
-         consultthree.state = this.state;
-         consultthree.country = this.country;
-         consultthree.zip = this.zip;
-         consultthree.phone = this.phone;
-         consultthree.address1 = this.address1;
-         consultthree.address2 = this.address2;
-         consultthree.city = this.city;
          consultthree.individual_full_name = this.individual_full_name;
          consultthree.individual_address1 = this.individual_address1;
          consultthree.individual_address2 = this.individual_address2;
@@ -2398,12 +2403,12 @@ var consulttwo = new Vue({
 var consultthree = new Vue({
    el: '#consult-stepthree',
    data: {
-     country: '',
-     state: '',
+     billing_country: '',
+     billing_state: '',
      cardtype: '',
      is_verified: false,
      pre_verified: '',
-     full_name: '',
+     billing_full_name: '',
      individual_full_name: '',
      individual_address1: '',
      individual_address2: '',
@@ -2413,7 +2418,7 @@ var consultthree = new Vue({
      individual_country: '',
      individual_phone: '',
      individual_email: '',
-     email:'',
+     billing_email:'',
      message: '',
      subject: '',
      time_asked: '',
@@ -2423,11 +2428,11 @@ var consultthree = new Vue({
      consultancy_type: '',
      payment_token: '',
      price: '',
-     address1: '',
-     address2: '',
-     city: '',
-     phone: '',
-     zip: '',
+     billing_address1: '',
+     billing_address2: '',
+     billing_city: '',
+     billing_phone: '',
+     billing_zip: '',
      country_of_citizenship: '',
      number_of_children: '',
      manner_of_entry: '',
@@ -2444,18 +2449,20 @@ var consultthree = new Vue({
 
        submitthree: function (event) {
            this.individual_state = $('#consult-individual-select-state').val();
-           this.individual_country = $('#consult-individual-select-state').val();
+           this.individual_country = $('#consult-individual-select-country').val();
            this.payment_token = $("#payment-token").val();
 
-           consultfour.full_name = this.full_name;
-           consultfour.state = this.state;
-           consultfour.country = this.country;
-           consultfour.zip = this.zip;
-           consultfour.phone = this.phone;
-           consultfour.address1 = this.address1;
-           consultfour.address2 = this.address2;
-           consultfour.city = this.city;
-           consultfour.day = this.day;
+           consultfour.billing_full_name = this.billing_full_name;
+           consultfour.billing_state = this.billing_state;
+           consultfour.billing_country = this.billing_country;
+           consultfour.billing_zip = this.billing_zip;
+           consultfour.billing_phone = this.billing_phone;
+           consultfour.billing_address1 = this.billing_address1;
+           consultfour.billing_address2 = this.billing_address2;
+           consultfour.billing_city = this.billing_city;
+           consultfour.billing_phone = this.billing_phone;
+           consultfour.billing_email = this.billing_email;
+
            consultfour.consultancy_type = this.consultancy_type;
            consultfour.price = this.price;
            consultfour.payment_token = this.payment_token;
@@ -2530,13 +2537,13 @@ var consultthree = new Vue({
 var consultfour = new Vue({
    el: '#consult-stepfour',
    data: {
-     country: '',
-     state: '',
-     cardtype: '',
+     billing_country: '',
+     billing_state: '',
+     billing_cardtype: '',
      is_verified: false,
      pre_verified: '',
-     full_name:'',
-     email:'',
+     billing_full_name:'',
+     billing_email:'',
      message: '',
      subject: '',
      time_asked: '',
@@ -2555,11 +2562,11 @@ var consultfour = new Vue({
      individual_country: '',
      individual_phone: '',
      individual_email: '',
-     address1: '',
-     address2: '',
-     city: '',
-     phone: '',
-     zip: '',
+     billing_address1: '',
+     billing_address2: '',
+     billing_city: '',
+     billing_phone: '',
+     billing_zip: '',
      country_of_citizenship: '',
      number_of_children: '',
      manner_of_entry: '',
@@ -2582,18 +2589,19 @@ var consultfour = new Vue({
          this.marital_status = $('#consult-select-marital').val();
          this.number_of_children = $('#consult-select-children').val();
              
-         consultfive.full_name = this.full_name;
-         consultfive.state = this.state;
-         consultfive.country = this.country;
-         consultfive.zip = this.zip;
+         consultfive.billing_full_name = this.billing_full_name;
+         consultfive.billing_state = this.billing_state;
+         consultfive.billing_country = this.billing_country;
+         consultfive.billing_zip = this.billing_zip;
          consultfive.number_of_children = this.number_of_children;
          consultfive.manner_of_entry = this.manner_of_entry;
          consultfive.marital_status = this.marital_status;
          consultfive.country_of_citizenship = this.country_of_citizenship;
-         consultfive.phone = this.phone;
-         consultfive.address1 = this.address1;
-         consultfive.address2 = this.address2;
-         consultfive.city = this.city;
+         consultfive.billing_phone = this.billing_phone;
+         consultfive.billing_email = this.billing_email;
+         consultfive.billing_address1 = this.billing_address1;
+         consultfive.billing_address2 = this.billing_address2;
+         consultfive.billing_city = this.billing_city;
          consultfive.consultancy_type = this.consultancy_type;
          consultfive.price = this.price;
          consultfive.payment_token = this.payment_token;
@@ -2637,13 +2645,12 @@ var consultfour = new Vue({
 var consultfive = new Vue({
    el: '#consult-stepfive',
    data: {
-     country: '',
-     state: '',
-     cardtype: '',
+     billing_country: '',
+     billing_state: '',
      is_verified: false,
      pre_verified: '',
-     full_name:'',
-     email:'',
+     billing_full_name:'',
+     billing_email:'',
      message: '',
      subject: '',
      time_asked: '',
@@ -2662,11 +2669,11 @@ var consultfive = new Vue({
      individual_country: '',
      individual_phone: '',
      individual_email: '',
-     address1: '',
-     address2: '',
-     city: '',
-     phone: '',
-     zip: '',
+     billing_address1: '',
+     billing_address2: '',
+     billing_city: '',
+     billing_phone: '',
+     billing_zip: '',
      country_of_citizenship: '',
      number_of_children: '',
      manner_of_entry: '',
@@ -2688,18 +2695,22 @@ var consultfive = new Vue({
        },
 
        submitfive: function (event) {
-         consultsix.full_name = this.full_name;
-         consultsix.state = this.state;
-         consultsix.country = this.country;
-         consultsix.zip = this.zip;
-         consultsix.phone = this.phone;
-         consultsix.address1 = this.address1;
-         consultsix.address2 = this.address2;
-         consultsix.city = this.city;
+         consultsix.billing_full_name = this.billing_full_name;
+         consultsix.billing_state = this.billing_state;
+         consultsix.billing_country = this.billing_country;
+         consultsix.billing_zip = this.billing_zip;
+         consultsix.billing_phone = this.billing_phone;
+         consultsix.billing_address1 = this.billing_address1;
+         consultsix.billing_address2 = this.billing_address2;
+         consultsix.billing_city = this.billing_city;
          consultsix.consultancy_type = this.consultancy_type;
          consultsix.price = this.price;
          consultsix.purpose = this.purpose;
          consultsix.payment_token = this.payment_token;
+         consultsix.number_of_children = this.number_of_children;
+         consultsix.marital_status = this.marital_status;
+         consultsix.manner_of_entry = this.manner_of_entry;
+         consultsix.country_of_citizenship = this.country_of_citizenship;
          consultsix.individual_full_name = this.individual_full_name;
          consultsix.individual_address1 = this.individual_address1;
          consultsix.individual_address2 = this.individual_address2;
@@ -2711,38 +2722,39 @@ var consultfive = new Vue({
          consultsix.individual_email = this.individual_email;
         
  
-         $.get('https://divorcesus.com/countries/'+this.country+"/", function(data) {
+         $.get('https://divorcesus.com/countries/'+this.billing_country+"/", function(data) {
                $("#final_consultation_billing_country").html("<p><strong>Country: "+data.name.toString()+"</strong></p>");
          })
-         $.get('https://divorcesus.com/states?id='+this.state+"/", function(data) {
-               $("#final_consultation_billing_state").html("<p><strong>State: "+data.name.toString()+"</strong></p>");
+         $.get('https://divorcesus.com/states/?id='+this.billing_state, function(data) {
+               $("#final_consultation_billing_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
          })
 
-         $("#final_consultation_billing_name_on_card").html("<p><strong>Full Name: "+this.full_name.toString()+"</strong></p>");
-         $("#final_consultation_billing_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");
-         $("#final_consultation_billing_address2").html("<p><strong>Address 2: "+this.address2.toString()+"</strong></p>");
-         $("#final_consultation_billing_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
-         $("#final_consultation_billing_phone").html("<p><strong>Phone: "+this.phone.toString()+"</strong></p>");
+         $("#final_consultation_billing_name_on_card").html("<p><strong>Full Name: "+this.billing_full_name+"</strong></p>");
+         $("#final_consultation_billing_address1").html("<p><strong>Address 1: "+this.billing_address1+"</strong></p>");
+         $("#final_consultation_billing_address2").html("<p><strong>Address 2: "+this.billing_address2+"</strong></p>");
+         $("#final_consultation_billing_city").html("<p><strong>City: "+this.billing_city+"</strong></p>");
+         $("#final_consultation_billing_phone").html("<p><strong>Phone: "+this.billing_phone+"</strong></p>");
+         $("#final_consultation_billing_email").html("<p><strong>Email: "+this.billing_email+"</strong></p>");
 
-         $("#final_consultation_individual_fullname").html("<p><strong>Full Name: "+this.individual_full_name.toString()+"</strong></p>");
-         $("#final_consultation_individual_address1").html("<p><strong>Address 1: "+this.individual_address1.toString()+"</strong></p>");
-         $("#final_consultation_individual_address2").html("<p><strong>Address 2: "+this.individual_address2.toString()+"</strong></p>"); 
-         $("#final_consultation_individual_city").html("<p><strong>City: "+this.individual_address2.toString()+"</strong></p>");
-         $("#final_consultation_individual_zip").html("<p><strong>Zip(Postal): "+this.individual_zip.toString()+"</strong></p>");
-         $("#final_consultation_individual_phone").html("<p><strong>Phone: "+this.individual_phone.toString()+"</strong></p>");
-         $("#final_consultation_individual_email").html("<p><strong>Email: "+this.individual_email.toString()+"</strong></p>");
+         $("#final_consultation_individual_fullname").html("<p><strong>Full Name: "+this.individual_full_name+"</strong></p>");
+         $("#final_consultation_individual_address1").html("<p><strong>Address 1: "+this.individual_address1+"</strong></p>");
+         $("#final_consultation_individual_address2").html("<p><strong>Address 2: "+this.individual_address2+"</strong></p>"); 
+         $("#final_consultation_individual_city").html("<p><strong>City: "+this.individual_address2+"</strong></p>");
+         $("#final_consultation_individual_zip").html("<p><strong>Zip(Postal): "+this.individual_zip+"</strong></p>");
+         $("#final_consultation_individual_phone").html("<p><strong>Phone: "+this.individual_phone+"</strong></p>");
+         $("#final_consultation_individual_email").html("<p><strong>Email: "+this.individual_email+"</strong></p>");
           
          $.get('https://divorcesus.com/consulttypes/'+this.consultancy_type, function(msg) {
-               $("#final_consultation_consultancy_type").html("<p><strong>Consultancy Type: "+msg.description.toString()+"</strong></p>");
-               $("#final_consultation_consultancy_price").html("<p><strong>Consultancy Price: "+msg.price.toString()+"</strong></p>");
+               $("#final_consultation_consultancy_type").html("<p><strong>Consultancy Type: "+msg.description+"</strong></p>");
+               $("#final_consultation_consultancy_price").html("<p><strong>Consultancy Price: "+msg.price+"</strong></p>");
          });
         
  
-         $.get('https://divorcesus.com/countries/'+this.number_of_children+"/", function(data) {
+         $.get('https://divorcesus.com/countries/'+this.individual_country+"/", function(data) {
                $("#final_consultation_individual_country").html("<p><strong>Country: "+data.name.toString()+"</strong></p>");
          })
-         $.get('https://divorcesus.com/states?id='+this.individual_state+"/", function(data) {
-               $("#final_consultation_individual_state").html("<p><strong>State: "+data.name.toString()+"</strong></p>");
+         $.get('https://divorcesus.com/states/?id='+this.individual_state, function(data) {
+               $("#final_consultation_individual_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
          })
 
 
@@ -2787,12 +2799,12 @@ var consultfive = new Vue({
 var consultsix = new Vue({
    el: '#consult-stepsix',
    data: {
-     country: '',
-     state: '',
+     billing_country: '',
+     billing_state: '',
      is_verified: false,
      pre_verified: '',
-     full_name:'',
-     email:'',
+     billing_full_name:'',
+     billing_email:'',
      message: '',
      subject: '',
      time_asked: '',
@@ -2811,11 +2823,11 @@ var consultsix = new Vue({
      individual_country: '',
      individual_phone: '',
      individual_email: '',
-     address1: '',
-     address2: '',
-     city: '',
-     phone: '',
-     zip: '',
+     billing_address1: '',
+     billing_address2: '',
+     billing_city: '',
+     billing_phone: '',
+     billing_zip: '',
      country_of_citizenship: '',
      number_of_children: '',
      manner_of_entry: '',
@@ -2840,17 +2852,68 @@ var consultsix = new Vue({
        },
 
        submitsix: function (event) {
-         consultseven.full_name = this.full_name;
-         consultseven.state = this.state;
-         consultseven.country = this.country;
-         consultseven.zip = this.zip;
-         consultseven.phone = this.phone;
-         consultseven.address1 = this.address1;
-         consultseven.address2 = this.address2;
-         consultseven.city = this.city;
-         consultseven.consultancy_type = this.consultancy_type;
-         consultseven.price = this.price;
-         consultseven.payment_token = this.payment_token;
+             consultseven.billing_full_name = this.billing_full_name;
+             consultseven.billing_state = this.billing_state;
+             consultseven.billing_country = this.billing_country;
+             consultseven.billing_zip = this.billing_zip;
+             consultseven.billing_phone = this.billing_phone;
+             consultseven.billing_city = this.billing_city;
+             consultseven.billing_email = this.billing_email;
+             consultseven.billing_address1 = this.billing_address1;
+             consultseven.billing_address2 = this.billing_address2;
+             consultseven.consultancy_type = this.consultancy_type;
+             consultseven.price = this.price;
+             consultseven.payment_token = this.payment_token;
+
+
+             var arr = {
+                   "billing_address1": this.billing_address1,
+                   "billing_address2": this.billing_address2,
+                   "billing_city" : this.billing_city,
+                   "billing_country": this.billing_country,
+                   "billing_state": this.billing_state,
+                   "billing_full_name": this.billing_full_name, 
+                   "billing_phone": this.billing_phone,
+                   "billing_email": this.billing_email,
+                   "billing_zip": this.billing_zip,
+
+                   "individual_address1": this.individual_address1,
+                   "individual_address2": this.individual_address2,
+                   "individual_city": this.individual_city,
+                   "individual_country": this.individual_country,
+                   "individual_state": this.individual_state,
+                   "individual_full_name": this.individual_full_name,
+                   "individual_phone": this.individual_phone,
+                   "individual_zip": this.individual_zip,
+                   "individual_email": this.individual_email,
+
+                   "payment_token": this.payment_token,
+                   "price": this.price,
+                   "consultancy_type": this.consultancy_type,
+                   "purpose": this.purpose,
+                   "marital_status": this.marital_status,
+                   "country_of_citizenship": this.country_of_citizenship,
+                   "number_of_children": this.number_of_children,
+                   "manner_of_entry": this.manner_of_entry
+             };
+
+             $.ajax({
+                    type: "POST",
+                    url: "https://divorcesus.com/consult/",
+                    crossDomain: true,
+                    data: JSON.stringify(arr),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function(data) {
+                         if (data.message =='success')  {
+                               $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
+                         }
+                    },
+                    error: function(data){
+                      alert("failure:"+data.message);
+                   }
+             });
+
        },
 
        submitseven: function (event) {

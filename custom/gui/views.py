@@ -1069,8 +1069,6 @@ def divorce(request):
            profile_image_path = profile.profile_image_path
         except Exception, R:
 
-           log = Logger(log='WE GOT SOME ERROR'+str(R))
-           log.save()
            user_id = -1
            username = ''
            first_name = ''
@@ -1144,8 +1142,6 @@ def check_qualify(request):
            last_name = request.user.last_name
            profile_image_path = ''
         except Exception, R:
-           log = Logger(log='WE GOT SOME ERROR'+str(R))
-           log.save()
            user_id = -1
            username = ''
            first_name = ''

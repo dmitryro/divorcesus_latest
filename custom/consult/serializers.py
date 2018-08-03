@@ -2,17 +2,17 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework import generics
 
-from custom.consult.models import Country
+#from custom.consult.models import Country
 from custom.consult.models import Children
 from custom.consult.models import Consultation
 from custom.consult.models import MaritalStatus
 from custom.consult.models import StatusChoice
 from custom.payments.serializers import CustomerPaymentSerializer
 
-class CountrySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Country
-        fields = ('id','name','abbreviation')
+#class CountrySerializer(serializers.ModelSerializer):
+#    class Meta:
+#        model = Country
+#        fields = ('id','name','abbreviation')
 
 
 class ChildrenSerializer(serializers.ModelSerializer):
@@ -47,7 +47,8 @@ class ConsultationSerializer(serializers.ModelSerializer):
         fields = ('id','payment','amount', 'user',
                   'status', 'manner_of_entry',
                   'marital_status', 'number_of_children',
-                  'invoice', 'name_on_card', 'full_name',
-                  'phone', 'email', 'purpose', 'billing_address',
+                  'invoice', 'individual_full_name', 'billing_full_name',
+                  'billing_phone', 'individual_email', 'individual_phone',
+                  'purpose', 'billing_address',
                   'country_of_citizenship', 'individual_address',
                   'use_billing', 'date_of_birth', 'time_responded',)

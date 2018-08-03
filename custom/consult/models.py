@@ -5,14 +5,16 @@ from django.contrib.auth.models import User
 from django.db import models
 from custom.payments.models import Address
 from custom.payments.models import CustomerPayment
+from custom.gui.models import Country
 
-class Country(models.Model):
-    name = models.CharField(max_length=150,blank=True,null=True)
-    abbreviation = models.CharField(max_length=150,blank=True,null=True)
 
-    class Meta:
-        verbose_name = 'Country'
-        verbose_name_plural = 'Countries'
+#class Country(models.Model):
+#    name = models.CharField(max_length=150,blank=True,null=True)
+#    abbreviation = models.CharField(max_length=150,blank=True,null=True)
+
+#    class Meta:
+#        verbose_name = 'Country'
+#        verbose_name_plural = 'Countries'
 
 class Children(models.Model):
     number = models.CharField(max_length=150, blank=True, null=True)
@@ -51,10 +53,11 @@ class Consultation(models.Model):
     marital_status = models.ForeignKey(MaritalStatus, blank=True, null=True)
     number_of_children = models.ForeignKey(Children, blank=True, null=True)
     invoice = models.CharField(max_length=200, blank=True, null=True)
-    name_on_card = models.CharField(max_length=200, blank=True, null=True)
-    full_name = models.CharField(max_length=200, blank=True, null=True)
-    phone = models.CharField(max_length=200, blank=True, null=True)
-    email = models.CharField(max_length=200, blank=True, null=True)
+    billing_full_name = models.CharField(max_length=200, blank=True, null=True)
+    billing_phone = models.CharField(max_length=200, blank=True, null=True)
+    individual_full_name = models.CharField(max_length=200, blank=True, null=True)
+    individual_email = models.CharField(max_length=200, blank=True, null=True)
+    individual_phone = models.CharField(max_length=200, blank=True, null=True)
     purpose = models.TextField(blank=True, null=True) 
     billing_address = models.ForeignKey(Address, related_name='billing_address', blank=True, null=True)
     country_of_citizenship = models.ForeignKey(Country, blank=True, null=True)

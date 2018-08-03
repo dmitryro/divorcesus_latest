@@ -11,7 +11,8 @@ class CustomerPayment(models.Model):
     time_posted = models.DateTimeField(default=datetime.now, blank=True)
     amount = models.FloatField(default=0.0, blank=True, null=True)
     user = models.ForeignKey(User, blank=True, null=True)
-    is_successful = models.NullBooleanField(default=True,blank=True,null=True)
+    is_successful = models.NullBooleanField(default=True, blank=True, null=True)
+    charge = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Customer Payment'

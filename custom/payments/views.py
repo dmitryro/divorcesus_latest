@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-import stripe
 from django.shortcuts import render
 
 from django.shortcuts import render
@@ -351,8 +350,6 @@ def send_confirmation_view(request):
         package_type = request.data.get('package_type', '')
         package_price = request.data.get('amount', '')
 
-        log = Logger(log="TOKEN {} AND AMOUNT {}".format(token, amount))
-        log.save()
 
         if token:
                 try:

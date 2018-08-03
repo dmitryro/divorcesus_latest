@@ -30,6 +30,9 @@ from rest_framework import generics
 from rest_framework import viewsets, routers
 from rest_framework.authtoken import views as drf_views
 
+from custom.consult.views import ChildrenViewSet
+from custom.consult.views import MaritalStatusViewSet
+from custom.consult.views import process_consultation_view
 from custom.gui.models import Service, FAQ
 from custom.gui.sitemaps import StaticViewSitemap
 from custom.gui.views import resend_activation_view
@@ -160,6 +163,8 @@ router = routers.DefaultRouter()
 
 admin.autodiscover()
 #router.register(r'bushwick',BushwickArtistViewSet)
+router.register(r'marital', MaritalStatusViewSet)
+router.register(r'children', ChildrenViewSet)
 router.register(r'countries', CountryViewSet)
 router.register(r'states', StateProvinceViewSet)
 router.register(r'cardtypes', CardTypeViewSet)
@@ -223,6 +228,7 @@ urlpatterns = [
     url(r'^savepost',SavePostView.as_view()),
     url(r'^subscribe/$',SubscribeView.as_view()),
     url(r'^addcomment',AddCommentView.as_view()),
+    url(r'^consult/', process_consultation_view),
     url(r'^search/', include('haystack.urls')),
     url(r'^qualifyconfirm/$', send_confirmation_view),
     url(r'^paymentconfirm/$', send_confirmation_view),

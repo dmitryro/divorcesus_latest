@@ -51,9 +51,22 @@ function packageChange(p) {
                          str = str + "<input type='hidden' id='selected-package-id' name='selected-package-id' value='0'/>";
                          str = str + "<input type='hidden' id='selected-price' name='selected-price' value='0'/>";
                          str = str + "<input type='hidden' id='package_open_"+i+"' name='package_open_"+i+"' value='0'/>";
-                         str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' value='"+
+                   
+//                         str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' value='"+
+//                                    msg[i].id+"'>";
+                         if (i===0) {
+                            str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' checked=\"checked\"  value='"+
                                     msg[i].id+"'>";
+                                    qvm.default_id = 0;
+                                    qvm.default_pack_id = msg[i].id;
+                                    qvm.default_price = msg[i].price;
+                                    price_changed(0, +msg[i].id, msg[i].price);
+                         } else {
+                            str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' value='"+
+                                    msg[i].id+"'>";
+                         }
                          str = str + "</div>";
+
                          str = str + "<div style='float:left;width:30%;margin-bottom:1.2em;'>"+msg[i].title+"</div>";
                          str = str + "<div style='float:left;width:6%;margin-bottom:1.2em;'>"+msg[i].price+"</div>";
                          str = str + "<div style='float:left;width:59%;margin-bottom:1.2em;'>"
@@ -170,9 +183,6 @@ function package_selected(state, pack) {
 var paymentmethod = new Vue({
   el: '#paymentmethod',
   data: {
-    credit_card: '',
-    expiration: '',
-    cvc: '',
     name_on_card: '',
     make_default: ''
   },
@@ -365,7 +375,11 @@ var qvm = new Vue({
     user_id:'',
     packages: new Hash(),
     showModal: false,
-    showNewCommentModal: false
+    showNewCommentModal: false,
+    default_id: 0,
+    default_pack_id : '',
+    default_price: '',  
+
   },
   created: function () {
                          let ch = document.getElementsByClassName("dropdown-toggle").firstChild;
@@ -378,6 +392,7 @@ var qvm = new Vue({
                          result = result + "</select>";
                          $("#qualify-package-choices").html(result);
                          packageChange('Uncontested');
+                         price_changed(this.default_id, this.default_pack_id, this.default_price);
   },
   methods: {
     packagechange: function (p) {
@@ -468,10 +483,14 @@ var qvm = new Vue({
 
 
     submitone: function (event) {
-               
                this.package_price = $('#selected-price').val();
                this.package_selected = $('#selected-package-id').val();
-                
+ 
+               if (this.package_price==0) {
+                    this.package_price = this.default_price;
+                    this.package_selected = this.default_pack_id;
+               }                
+
                this.is_spouse_location_known = $('#is_spouse_location_known').is(":checked") ? 'yes' : 'no';
                this.are_there_children = $('#are_there_children').is(":checked") ? 'yes' : 'no';
                this.does_spouse_agree = $('#does_spouse_agree').is(":checked") ? 'yes' : 'no';
@@ -542,6 +561,11 @@ var qvm = new Vue({
     }
   },
   mounted:function() {
+      price_changed(this.default_id, this.default_pack_id, this.default_price);
+      $('#selected-price').attr('value', this.default_price);
+      $('#selected-package-id').attr('value', this.default_pack_id);
+          //     this.package_selected = $('#selected-package-id').val();
+
       let ch = document.getElementsByClassName("dropdown-toggle").firstChild;
       ch.remove();
       packageChange('Uncontested');
@@ -686,7 +710,6 @@ var qvm2 = new Vue({
 
 var qvm3 = new Vue({
   el: '#qualify-stepthree',
-
   data: {
     states: ["New York", "New Jersey"],
     user_id:'',
@@ -854,9 +877,6 @@ var qvm4 = new Vue({
                qvm5.email = this.email;
                qvm5.first = this.first;
                qvm5.last = this.last;
-               qvm5.cardtype = this.cardtype;
-               qvm5.cardnumber = this.cardnumber;
-               qvm5.expiration = this.expiration;
                qvm5.address1 = this.address1;
                qvm5.address2 = this.address2;
                qvm5.city = this.city;
@@ -885,9 +905,6 @@ var qvm4 = new Vue({
                $("#step_five_first").html(qvm3.first);
                $("#step_five_last").html(qvm3.last);
                $("#step_five_phone").html(qvm3.phone);
-               $("#step_five_cardnumber").html(qvm3.cardnumber);
-               $("#step_five_card_type").html(qvm3.cardtype);
-               $("#step_five_expiration").html(qvm3.expiration);
                
     },
 
@@ -989,7 +1006,6 @@ var qvm5 = new Vue({
                $("#step_six_city").attr("value",this.city.toString());
                $("#step_six_state").attr("value",states[this.state]);
                $("#step_six_zip").attr("value",this.zip.toString());
-               $("#step_six_expiration").attr("value",this.expiration.toString());
                $("#step_six_email").attr("value",this.email.toString());
                $("#step_six_nameoncard").attr("value",this.nameoncard.toString());
                $("#step_six_first").attr("value",this.first.toString());
@@ -1006,13 +1022,9 @@ var qvm5 = new Vue({
                $("#qualify_final_nameoncard").html("<p><strong>Name on Card: "+this.nameoncard.toString()+"</strong></p>");
                $("#qualify_final_first").html("<p><strong>First Name: "+this.first.toString()+"</strong></p>");
                $("#qualify_final_last").html("<p><strong>Last Name: "+this.last.toString()+"</strong></p>");
-               $("#qualify_final_cardtype").html("<p><strong>Card Type: "+this.cardtype.toString()+"</strong></p>");
-               $("#qualify_final_cardnumber").html("<p><strong>Card Number: **** **** **** **** </strong></p>");
-               $("#qualify_final_expiration").html("<p><strong>Expiration: **/**/**</strong></p>");
                $("#qualify_final_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");
                $("#qualify_final_address2").html("<p><strong>Address 2: "+this.address2.toString()+"</strong></p>");
                $("#qualify_final_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
-               //$("#qualify_final_state").html("<p><strong>State: "+states[this.state]+"</strong></p>");
                $("#qualify_final_zip").html("<p><strong>Zip Code: "+this.zip.toString()+"</strong></p>");
 
     },
@@ -1084,18 +1096,15 @@ var qvm6 = new Vue({
 		"email": this.email,
 		"first": this.first,
 		"last": this.last,
-		"nameoncard": this.nameoncard,
-		"cardtype": this.cardtype,
-		"cardnumber": this.cardnumber,
+		"fullname": this.nameoncard,
 		"phone": this.phone,
 		"address1": this.address1,
 		"address2": this.address2,
 		"state": this.state,
 		"zip": this.zip,
-                "package_type": this.package_type,
+                "package_type": this.packages[this.package_selected],
                 "package_price":  $('#price-to-pay').val(),
 		"user_id": $("#current-user-id").val(),
-		"expiration": this.expiration,
                 'token':$('#payment-token').val(),
                 'amount': eval($('#price-to-pay').val()),
                 "city": this.city};
@@ -1108,7 +1117,7 @@ var qvm6 = new Vue({
 		    dataType: 'json',
 		    contentType: "application/json; charset=utf-8",
 		    success: function(data) {
-                      alert('success');
+                         $( "div.success" ).fadeIn( 300 ).delay( 2500 ).fadeOut( 400 );
 		    },
 		    error: function(data){
 		      alert("failure"+data);
@@ -1157,10 +1166,6 @@ var qvm7 = new Vue({
     package_type:'',
     package_price:'',
     package_selected: '',
-    cardnumber:'',
-    cardtype:'',
-    cvc: '',
-    expiration:'',
   },
 
   methods: {
@@ -1201,7 +1206,6 @@ var vm = new Vue({
     state: '',
     state_code: '',
     state_name: '',
-    expiration: '',
     nameoncard: '',
     amount: '',
     token: '',
@@ -1282,9 +1286,6 @@ var vm2 = new Vue({
     amount: '', 
     token: '',
     nameoncard: '',
-    cardtype:'',
-    cardnumber:'',
-    expiration:'',
     token: '',
   },
   methods: {
@@ -1355,9 +1356,6 @@ var vm3 = new Vue({
     state_name: '',
     zip:  '',
     phone: '2222',
-    cardtype: '',
-    cardnumber: '',
-    expiration: '',
   },
   methods: {
     submitone: function (event) {
@@ -1378,9 +1376,6 @@ var vm3 = new Vue({
                vm4.first = this.first;
                vm4.last = this.last;
                vm4.nameoncard = this.nameoncard;
-               vm4.cardtype = this.cardtype;
-               vm4.cardnumber = this.cardnumber;
-               vm4.expiration = this.expiration;
                vm4.address1 = this.address1;
                vm4.address2 = this.address2; 
                vm4.city = this.city;
@@ -1399,7 +1394,6 @@ var vm3 = new Vue({
                $("#city").attr("value",this.city.toString());  
                //$("#state").attr("value",current_state);
                $("#zip").attr("value",this.zip.toString());
-               $("#expiration").attr("value",this.expiration.toString());
                $("#email").attr("value",this.email.toString());
                $("#nameoncard").attr("value",this.nameoncard.toString());
                $("#address1").attr("value",this.address1.toString());  
@@ -1446,9 +1440,6 @@ var vm4 = new Vue({
     state: vm3.state,
     zip:  vm3.zip,
     phone: '393-342-4232',
-    cardtype: vm3.cardtype,
-    cardnumber: vm3.cardnumber,
-    expiration: vm3.expiration,
     amount: vm3.amount,
     token: vm3.token,
   },
@@ -1468,12 +1459,11 @@ var vm4 = new Vue({
      this.user_id = +$('#current-user-id').val();
      var arr = {
         "amount": eval(this.amount),
+        "package_type": "Generatl Payment",
         "email": this.email,
         "first": this.first,
         "last": this.last,
         "fullname": this.nameoncard,
-        "cardtype": this.cardtype,
-        "cardnumber": this.cardnumber,
         "phone": this.phone,
         "address1": this.address1,
         "address2": this.address2,
@@ -1481,8 +1471,7 @@ var vm4 = new Vue({
         "state": this.state,
         "zip": this.zip,
         "token": $('#payment-token').val(),
-        "user_id": this.user_id,
-        "expiration": this.expiration};
+        "user_id": this.user_id};
 
      $.ajax({
             type: "POST",
@@ -1492,6 +1481,7 @@ var vm4 = new Vue({
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             success: function(data) {
+                  $( "div.success" ).fadeIn( 300 ).delay( 1200 ).fadeOut( 400 );
             },
             error: function(data){
               alert("failure"+data.message);
@@ -1528,9 +1518,6 @@ var vm5 = new Vue({
     city: '',
     state: '',
     zip:  '',
-    cardtype: '',
-    cardnumber: '',
-    expiration: '',
   },
   // define methods under the `methods` object
   methods: {
@@ -2188,21 +2175,37 @@ var consultone = new Vue({
      manner_of_entry: '',
      marital_status: '',
      purpose: '',
+     errors: [],
    },
    methods: {
        reset_price: function (event) {
        },
        submitone: function (event) {
+           this.errors = [];      
+   
            consulttwo.price = this.price;
            consulttwo.consultancy_type = this.consultancy_type;
+
            $.get('https://divorcesus.com/consulttypes', function(msg) {
                      let result = "<div>";
                      for(var i=0;i<msg.length;i++) {
                          str = "<div style='float:left;width:5%;margin-bottom:1.2em;'>";
-                         str = str + "<input type='hidden' id='consultancy-type-"+msg[i].id+"' value='"+msg[i].price+"' />";
-                         str= str + "<input type='radio' onclick='resetprice("+msg[i].price+","+msg[i].id+")'  v-model='consultancy_type'  name='consultancy_type' value='"+
+                         str = str + "<input type='hidden' id='consult-steptwo-valid' value='0' /> ";
+                         if (eval(i)==0) {
+                             str = str + "<input type='hidden' id='consultancy-type-"+msg[i].id+"' value='"+msg[i].price+"' checked=\"checked\"  />";
+                         } else {
+                             str = str + "<input type='hidden' id='consultancy-type-"+msg[i].id+"' value='"+msg[i].price+"' />";
+                         }
+                         if (i===0) {
+                               str = str + "<input type='radio' onclick='resetprice("+msg[i].price+","+msg[i].id+")'  v-model='consultancy_type' checked='checked'  name='consultancy_type' value='"+
                                msg[i].id+"'></div><div style='float:left;width:94%;margin-bottom:1.2em;'>"+msg[i].description+"</div><div class='clear'></div>";
-                         result = result + str
+                         } else {
+                               str = str + "<input type='radio' onclick='resetprice("+msg[i].price+","+msg[i].id+")'  v-model='consultancy_type' name='consultancy_type' value='"+
+                               msg[i].id+"'></div><div style='float:left;width:94%;margin-bottom:1.2em;'>"+msg[i].description+"</div><div class='clear'></div>";
+ 
+
+                         }
+                              result = result + str
                      }
                      result = result + "</div>";
                      $("#service-choices").html(result);
@@ -2228,7 +2231,6 @@ var consultone = new Vue({
             });
         
  
-    
        },
 
        submittwo: function (event) {
@@ -2300,6 +2302,7 @@ var consulttwo = new Vue({
      manner_of_entry: '',
      marital_status: '',
      purpose: '',
+     errors: [],
   },
    methods: {
 
@@ -2307,8 +2310,9 @@ var consulttwo = new Vue({
        },
 
        submittwo: function (event) {
+            this.errors = [];
             this.price = $('#consult_amount').val();
-           
+            let payment_token_error = $('#payment-token-error').val();
             consultthree.consultancy_type = this.consultancy_type;
             consultthree.price = this.price;
             consultthree.payment_token = this.payment_token;
@@ -2330,8 +2334,8 @@ var consulttwo = new Vue({
                      result = result + "</select>";
                      $("#consult-individual-country-choices").html(result);
             });
-
-
+         
+         this.payment_token =  $("#payment-token").val();
          this.billing_full_name = $('#consult_full_name').val();
          this.billing_state = $('#consult-select-state').val();
          this.billing_country = $('#consult-select-country').val();
@@ -2341,6 +2345,53 @@ var consulttwo = new Vue({
          this.billing_address2 =  $('#consult_address2').val();
          this.billing_city = $('#consult_city').val();
          this.billing_email = $('#consult_email').val(); 
+         
+
+         if (!this.payment_token) {
+             this.errors.push('Payment token is required.');
+         }
+
+         if (!this.billing_full_name) {
+             this.errors.push('Full name is required.');
+         }
+
+         if (!this.billing_state) {
+             this.errors.push('State is required.');
+         }
+ 
+         if (!this.billing_country) {
+             this.errors.push('Country required.');
+         }
+
+         if (!this.billing_address1) {
+             this.errors.push('Address 1 is required.');
+         }
+
+         if (!this.billing_zip) {
+             this.errors.push('Zip required.');
+         }
+
+         if (!this.billing_phone) {
+             this.errors.push('Phone required.');
+         }
+
+         if (!this.billing_city) {
+             this.errors.push('City required.');
+         }
+
+       //  if (!this.billing_email) {
+       //      this.errors.push('Email required.');
+       //  }
+
+
+         if (this.errors.length > 0 ) {
+             $('#consult-steptwo-valid').attr('value', 0);
+             return;
+         } else {
+             $('#consult-steptwo-valid').attr('value', 1);
+         }
+
+
          consultthree.billing_full_name = this.billing_full_name;
          consultthree.billing_state = this.billing_state;
          consultthree.billing_country = this.billing_country;
@@ -2361,7 +2412,7 @@ var consulttwo = new Vue({
          consultthree.individual_phone = this.individual_phone;
          consultthree.individual_email = this.individual_email;
 
-
+         consult_step_two();
        },
 
        submitthree: function (event) {
@@ -2405,7 +2456,6 @@ var consultthree = new Vue({
    data: {
      billing_country: '',
      billing_state: '',
-     cardtype: '',
      is_verified: false,
      pre_verified: '',
      billing_full_name: '',
@@ -2539,7 +2589,6 @@ var consultfour = new Vue({
    data: {
      billing_country: '',
      billing_state: '',
-     billing_cardtype: '',
      is_verified: false,
      pre_verified: '',
      billing_full_name:'',
@@ -2939,7 +2988,6 @@ var consultseven = new Vue({
    data: {
      country: '',
      state: '',
-     cardtype: '',
      is_verified: false,
      pre_verified: '',
      full_name:'',

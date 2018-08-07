@@ -223,7 +223,7 @@ class Transaction(MerchantActivity):
         return self.transaction_id
 
 class Payment(models.Model):
-    user = models.ForeignKey(User,blank=True,null=True) 
+    payment = models.ForeignKey(CustomerPayment, blank=True,null=True) 
     first_name = models.CharField(max_length=100, blank=True, null=True)
     last_name = models.CharField(max_length=100, blank=True, null=True)
     fullname = models.CharField(max_length=100, blank=True, null=True)
@@ -232,17 +232,11 @@ class Payment(models.Model):
     address2 = models.CharField(max_length=100, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
     state = models.CharField(max_length=100, blank=True, null=True)
-    cardtype = models.CharField(max_length=100, blank=True, null=True)
-    cardnumber = models.CharField(max_length=100, blank=True, null=True)
-    month = models.CharField(max_length=100, blank=True, null=True)
-    year = models.CharField(max_length=100, blank=True, null=True)
     zipcode = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=100, blank=True, null=True)
     package_type = models.CharField(max_length=100, blank=True, null=True)
     package_price = models.CharField(max_length=100, blank=True, null=True) 
     message = models.CharField(max_length=100, blank=True, null=True)
-    transaction = models.ForeignKey(Transaction,blank=True,null=True)
-    payment_processing_number = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Payment'

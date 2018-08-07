@@ -42,10 +42,10 @@ def payment_send_confirmation_email_handler(sender,**kwargs):
      except Exception, R:
         task = TaskLog.objects.create(user_id=contact.id, job='sending_payment_email', is_complete=False)
         payment = kwargs['payment']
-        process_payment_confirmation_email(payment)
+        process_payment_confirmation_email(payment, contact)
 
 
-def process_payment_confirmation_email(payment):
+def process_payment_confirmation_email(payment, contact):
 
     try:
         timeNow = datetime.now()
@@ -56,7 +56,7 @@ def process_payment_confirmation_email(payment):
         PASSWORD = profile.password
         PORT = profile.smtp_port
         SERVER = profile.smtp_server
-        TO = payment.email
+        TO = contact.email
 
         log = Logger(log = 'We are sending email to {}'.format(payment))
         log.save()
@@ -66,7 +66,6 @@ def process_payment_confirmation_email(payment):
             path = "templates/payment_message.html"
 
             f = codecs.open(path, 'r')
-            log = Logger(log=" EMAIL {} ".format(str(payment.email)))
             m = f.read()
             mess = m
             mess = string.replace(m, '[fullname]', str(payment.fullname))
@@ -76,10 +75,6 @@ def process_payment_confirmation_email(payment):
             mess = string.replace(mess, '[city]', str(payment.city))
             mess = string.replace(mess, '[state]', str(payment.state))
             mess = string.replace(mess, '[zip]', str(payment.zipcode))
-            mess = string.replace(mess, '[cardtype]', str(payment.cardtype))
-            mess = string.replace(mess, '[cardnumber]', str(payment.cardnumber))
-            mess = string.replace(mess, '[month]', str(payment.month))
-            mess = string.replace(mess, '[year]', str(payment.year))
             mess = string.replace(mess, '[phone]', str(payment.phone))
             mess = string.replace(mess, '[email]', str(payment.email))
             mess = string.replace(mess, '[package_type]', str(payment.package_type))

@@ -5,6 +5,7 @@ from imagekit.admin import AdminThumbnail
 from models import Post
 from models import Comment
 from models import Category
+from models import FilePost
 from ckeditor.widgets import CKEditorWidget
 from wymeditor.models import WYMEditorField
 from wymeditor.widgets import AdminWYMEditorArea
@@ -30,6 +31,16 @@ class PostAdmin(admin.ModelAdmin):
          verbose_name_plural = 'Posts'
 
 
+class FilePostAdmin(admin.ModelAdmin):
+    fieldsets = ((None, {'fields': ['post','file_name', 'author']}),)
+    list_display = ('id','post','file_name','author')
+    list_editable = ('file_name','author',)
+
+    class Meta:
+         verbose_name = 'File Post'
+         verbose_name_plural = 'File Posts'
+    
+
 class CommentAdmin(admin.ModelAdmin):
 
     fieldsets = ((None, {'fields': ['post','title','body','author']}),)
@@ -52,6 +63,7 @@ class CategoryAdmin(admin.ModelAdmin):
          verbose_name_plural = 'Categories'
 
 
-admin.site.register(Post,PostAdmin)
-admin.site.register(Comment,CommentAdmin)
-admin.site.register(Category,CategoryAdmin)
+admin.site.register(FilePost, FilePostAdmin)
+admin.site.register(Post, PostAdmin)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Category, CategoryAdmin)

@@ -10,6 +10,20 @@ from django.conf import settings
 from django.db.models import Q,Min,Max
 from django.shortcuts import render
 from rest_framework import viewsets
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+from django.conf import settings
+
+from rest_framework import filters
+from rest_framework import viewsets
+from rest_framework.parsers import JSONParser
+from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, renderer_classes, permission_classes
+from rest_framework import generics
+
 
 # Restless Endpoints 
 from restless.views import Endpoint
@@ -26,6 +40,12 @@ from serializers import CommentSerializer
 
 import logging
 logger = logging.getLogger(__name__)
+
+@api_view(['POST', 'GET'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def publish_view(request):
+    return Response({'message':'success'})    
 
 class PostViewSet(viewsets.ModelViewSet):
     """

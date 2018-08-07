@@ -12,11 +12,15 @@ from restless.views import Endpoint
 from custom.users.models import Contact
 from custom.users.models import StateProvince
 from custom.utils.models import Logger
+from custom.services.models import PackageType
+from custom.services.models import Package
 from custom.payments.models import CardType
 from custom.payments.models import CreditCard
 from custom.payments.models import Payment
 from custom.payments.models import Address
 from custom.payments.models import State
+from custom.payments.models import CustomerPayment
+
 from django.contrib.auth import logout
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view, renderer_classes, permission_classes
@@ -40,41 +44,24 @@ from utils import getPaymentProcessing
 import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-@csrf_exempt
-def checkout(request):
-    pass
-
-@csrf_exempt
-def send_confirmation_view_old(request):
-
-    if request.method == "POST":
-        try:
-
-            token = request.POST.get("token")
-            amount = 100*int(request.POST.get("amount")) 
+def get_or_create_user(fullname, email):
+    try:
+        name = fullname.split(" ")
+        user = User.objects.get(first_name=name[0], last_name=name[1], email=email)
+        return user
+    except Exception as e:
 
 
-            if token:
-                try:
-                    charge  = stripe.Charge.create(
-                        amount      = amount,
-                        currency    = "usd",
-                        source      = token,
-                        description = "Customer payment"
-                    )
-                    log = Logger(log="CHARGE IS {}".format(charge.id))
-                    log.save()
+        name = fullname.split(" ")
 
-                except stripe.error.CardError as ce:
-                    log = Logger("Something went wrong with payment {}".format(ce))
-                    log.save()
-                    return False, ce
-        except Exception as e:
-            log = Logger("Something went wrong {}".format(e))
-            log.save()
-            return e
-    else:
-        return redirect("thank_you_page")        
+        username = "{}{}".format(name[0], name[1]).decode('utf-8').lower()
+        user = User.objects.create(username=username, first_name=name[0], last_name=name[1], email=email)
+        user.save()
+        #profile = Profile.objects.create(user=user, username=username, first_name=name[0], last_name=name[1], email=email)
+
+        return user
+
+    return None
 
 
 class AddressList(generics.ListAPIView):
@@ -181,7 +168,6 @@ def add_address_view(request):
             return Response({'result':'error'})
 
     try:
-        state_id  = int(state_id)
         state = StateProvince.objects.get(id=int(state_id))
     except Exception as e:
         return Response({'result':'error {}'.format(e)})
@@ -341,85 +327,68 @@ class PastPaymentsList(Endpoint):
 def send_confirmation_view(request):
     try:
         contact = None
-        month = str(request.data.get('month', ''))
-        year = str(request.data.get('year', ''))
+        full_name = request.data.get("fullname", '')
         email = request.data['email']
         city = request.data['city']
         token = request.data.get("token", None)
         amount = request.data.get("amount", None)
-        package_type = request.data.get('package_type', '')
         package_price = request.data.get('amount', '')
+        address1 = request.data.get("address1", "")
+        address2 = request.data.get("address2", "")
+        phone = request.data['phone']
+        state_id = request.data['state']
+        zipcode = request.data['zip']
+        package_type = request.data.get('package_type', "General Payment")
 
+        state = StateProvince.objects.get(id=int(state_id))
 
-        if token:
-                try:
-                    charge  = stripe.Charge.create(
+        try:
+            contact = Contact.objects.get(email=email)
+        except Exception as e:
+            contact = Contact.objects.create(name=full_name, email=email)
+
+        charge  = stripe.Charge.create(
                         amount      = 100*int(amount),
                         currency    = "usd",
                         source      = token,
                         description = "Customer payment"
-                    )
-                    log = Logger(log="CHARGE IS {}".format(charge.id))
-                    log.save()
-
-                except stripe.error.CardError as ce:
-                    log = Logger(log="stripe failed {}".format(ce))
-                    log.save()
-
+        )
 
         if request.user.is_authenticated():
             user = request.user
         else:
-            try:
-                user_id = request.data['user_id']
-                user = User.objects.get(id=int(user_id))
-            except Exception as e:
-                log = Logger(log='Could not read user {}'.format(e))
-                log.save()
-                return Response({'result':'error'})
+            user = get_or_create_user(full_name, email)
 
-        try:
-           email = request.data['email']
-
-           if not email or len(email) < 1:
-              return {'message':'email is a mandatory'}
-
-           fullname = request.data['fullname']
-
-           
-           if not fullname or len(fullname) < 1:
-              full_name = request.data['first']+' '+request.data['last']
-
-              if not fullname or len(fullname) < 1:
-                  return {'message':'fullname is a mandatory'}
-           cardtype = request.data['cardtype']
-           cardnumber = request.data['cardnumber']
-
-           address1 = request.data.get("address1", "")
-           address2 = request.data.get("address2", "")
-           phone = request.data['phone']
-           state = request.data['state']
-           zipcode = request.data['zip']
-
-           if not cardtype or len(cardtype) < 1:
-              return Response({'message':'card type is a mandatory'})
+        customer_payment = CustomerPayment.objects.create(user=user,
+                                                          charge=str(charge.id),
+                                                          amount=float(package_price),
+                                                          is_successful=True)
 
 
+        payment = Payment.objects.create(payment=customer_payment, 
+                                         fullname=full_name, 
+                                         email=email,
+                                         first_name=full_name.split(" ")[0],
+                                         last_name=full_name.split(" ")[0],
+                                         address1=address1,
+                                         address2=address2,
+                                         city=city,
+                                         phone=phone,
+                                         state=state.name,
+                                         zipcode=zipcode,
+                                         package_type=package_type,                             
+                                         package_price=package_price,
+                                         message="Customer Payment")
 
-           try:
-               contact = Contact.objects.get(email=email)
-           except Exception as R:
-               contact = Contact.objects.create(name=fullname, email=email)
 
+        payment_send_confirmation_email.send(sender=User, contact=contact, payment=payment)
 
-
-#           if contact:
- #              payment_send_confirmation_email.send(sender=User, contact=contact, payment=payment)
-           return Response({'message':'success','s3_base_url':"blablabla"})
-        except Exception as e:
-           return Response({'message': 'failure', 'cause':str(e)})
+        return Response({'message':'success'}) 
     except Exception as e:
-       return Response({'message':'card processing error {}'.format(e)})
+        log = Logger(log="Something went wrong {}".format(e))
+        log.save()
+
+        return Response({'message':'card processing error {}'.format(e)})
 
 @api_view(['POST', 'GET'])
 @renderer_classes((JSONRenderer,))

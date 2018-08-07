@@ -3192,7 +3192,7 @@
                                                    <input type="text"
                                                           name="full_name"
                                                           id="consult_full_name"
-                                                          v-model="full_name"
+                                                          v-model="billing_full_name"
                                                           placeholder="Full Name on Card *"
                                                           value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %}{% endif %}"
                                                           data-constraints="@LettersOnly @NotEmpty"/>
@@ -3261,7 +3261,7 @@
                                                          <input type="text"
                                                                 name="consult_amount"
                                                                 id="consult_amount"
-                                                                v-model="amount"
+                                                                v-model="price"
                                                                 placeholder="Amount*"
                                                                 value="Amount"
                                                                 data-constraints="@NumbersOnly @NotEmpty"/>
@@ -3274,7 +3274,7 @@
                                                    <input type="text"
                                                           name="address1"
                                                           id="consult_address1"
-                                                          v-model="address1"
+                                                          v-model="billing_address1"
                                                           placeholder="Address 1*"
                                                           value="{% if logout %}{% billing_meta user_id 1 %}{% endif %}"
                                                           data-constraints="@LettersOnly @NotEmpty"/>
@@ -3286,7 +3286,7 @@
                                                    <input type="text"
                                                           name="address2"
                                                           id="consult_address2"
-                                                          v-model="address2"
+                                                          v-model="billing_address2"
                                                           placeholder="Address 2"
                                                           value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"
                                                           data-constraints="@LettersOnly"/>
@@ -3298,7 +3298,7 @@
                                                    <input type="text"
                                                           name="city"
                                                           id="consult_city"
-                                                          v-model="city"
+                                                          v-model="billing_city"
                                                           placeholder="City *"
                                                           value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
                                                           data-constraints="@LettersOnly @NotEmpty"/>
@@ -3318,7 +3318,7 @@
                                                    <input type="text"
                                                           name="zip"
                                                           id="consult_zip"
-                                                          v-model="zip"
+                                                          v-model="billing_zip"
                                                           placeholder="Zip *"
                                                           value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
                                                           data-constraints="@NotEmpty"/>
@@ -3340,7 +3340,7 @@
                                                            <input type="text"
                                                                   name="phone"
                                                                   id="consult_phone"
-                                                                  v-model="phone"
+                                                                  v-model="billing_phone"
                                                                   placeholder="Phone"
                                                                   value="{% if logout %} {% user_meta user_id 5 %} {% endif %}"
                                                                   data-constraints="@Phone"/>
@@ -3643,7 +3643,8 @@
                                                  <div id="final_consultation_billing_city"></div>
                                                  <div id="final_consultation_billing_state"></div>
                                                  <div id="final_consultation_billing_country"></div>     
-                                                 <div id="final_consultation_billing_phone"></div>   
+                                                 <div id="final_consultation_billing_phone"></div>  
+                                                 <div id="final_consultation_billing_email"></div> 
                                                  <div>--------------------------------------------------------------------------------------------</div>
                                                  <div><h4><strong>Individual Information</strong></h4></div>
                                                  <div id="final_consultation_individual_fullname"></div>
@@ -3691,27 +3692,13 @@
                                          <form class='mailform contact-form' method="post">
 
                                             {% csrf_token %}
-<!--
-                                              <fieldset class="billing-fieldset">
 
-                                                 <legend>
-                                                     <span class="fieldset-legend"><h4>Verify:</h4></span>
-                                                 </legend>
-
-                                                 <div><h4><strong>Consultation Type</strong></h4></div>
-                                                 <div>--------------------------------------------------------------------------------------------</div>
-                                                 <div><h4><strong>Basic Information</strong></h4></div>
-                                                 <div>--------------------------------------------------------------------------------------------</div>
-                                                 <div><h4><strong>Additional Information</strong></h4></div>
-                                                 <div>--------------------------------------------------------------------------------------------</div>
-                                                 <div><h4><strong>Purpose of Consultation</strong></h4></div>
-
-
-                                             </fieldset>
--->
+                                                             <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
+                                                                 <div style="margin-top:-15px;margin-bottom:150px;">Your request for consultation has been placed! Please check your email.</div>
+                                                             </div>
 
                                             <div style="float:left;padding-top:1.9em;margin-left:0px">
-                                                <button class="btn4" v-on:click="submitseven"  id="cosnult_step_seven">Consult</button>
+                                                <button class="btn4" v-on:click="submitseven"  id="cosnult_step_seven">Home</button>
                                             </div>
                                          </form>
                                    </div>
@@ -4633,8 +4620,11 @@
 
                <div class="col-xs-12 col-sm-8">
 
-           
-              Your payment info has been processed. Please check your email.
+                                                             <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
+                                                                 <div style="margin-top:-15px;">Your payment info has been processed. Please check your email!</div>
+                                                             </div>
+          
+ 
 
               </div>
             </form>
@@ -8046,6 +8036,6 @@ drift.load('4rmkw4ymhfay');
 <!-- End of Async Drift Code -->
 
             </body>
-            <script src="/static/js/vue_apps_v2.js"></script>
             <script src="/static/js/stripe_apps.js"></script>
+            <script src="/static/js/vue_apps_v2.js"></script>
             </html>

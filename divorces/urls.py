@@ -91,7 +91,6 @@ from custom.payments.views import read_addresses_view
 from custom.payments.views import send_confirmation_view
 from custom.payments.views import save_payment_method_view
 from custom.payments.views import read_payment_methods_view
-from custom.payments.views import checkout
 from custom.services.views import ServiceViewSet
 from custom.services.views import PackageViewSet
 from custom.services.views import PackageTypeViewSet
@@ -250,7 +249,6 @@ urlpatterns = [
     url(r'^packagelist/$', PackageList.as_view()),
     url(r'^servicelist/$', ServiceList.as_view()),
     url(r'^incoming/$',IncomingMessagesList.as_view()),
-    url(r'^checkout/$', checkout),
     url(r'^accounts/login/?next=/signout/$',custom.gui.views.home),
     url(r'^accounts/login/$',custom.gui.views.home),
     url(r'^login/linkedin/$',custom.gui.views.home),

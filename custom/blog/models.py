@@ -79,6 +79,21 @@ class Post(models.Model):
     def get_absolute_url(self):
         return "/posts/%i/" % self.id
 
+
+class FilePost(models.Model):
+    post = models.ForeignKey(Post, related_name='file_post', db_column="file_post", blank=True, null=True)
+    file_name = models.CharField(max_length=1500,blank=True,null=True)
+    time_published = models.DateTimeField(auto_now_add=True)
+    author = models.CharField(max_length=200,blank=True,null=True)
+
+    class Meta:
+        verbose_name = 'FilePost'
+        verbose_name_plural = 'FilePosts'
+
+    def __str__(self):
+        return self.file_name
+
+
 class Comment(models.Model):
 
     title = models.CharField(max_length=200,blank=True,null=True)

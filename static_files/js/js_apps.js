@@ -1504,6 +1504,7 @@ function confirm_info() {
             user_id: document.getElementById('user-id').value, 
             email: document.getElementById('email').value, 
             phone: document.getElementById('phone').value};
+
   $.ajax(
 
             {

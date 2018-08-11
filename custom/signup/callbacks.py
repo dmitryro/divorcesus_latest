@@ -445,8 +445,6 @@ def send_activation_link(instance):
     try:
         activation_key = utils.create_activation_key(instance)
         link = settings.BASE_URL+'/activate/%s'%activation_key
-        log = Logger(log='USER ACTIVATION KEY IS {}'.format(activation_key))
-        log.save()
         user_profile = instance.profile
         user_profile.activation_key = activation_key
         user_profile.save()
@@ -470,19 +468,27 @@ def send_activation_link(instance):
                 Your mail reader does not support the report format.
                 Please visit us <a href="http://www.divorcesus.com">online</a>!"""
  
-        path = "templates/activate_inline.html"
+        path = "templates/activate_template.html"
 
         f = codecs.open(path, 'r')
 
         m = f.read()
-        mess = string.replace(m, '[First Name]', instance.first_name+' '+instance.last_name)
-        mess = string.replace(mess, '[message]', 'Account Activation')
-        mess = string.replace(mess, '[phone]', instance.profile.phone)
+
+        mess = string.replace(m, '[first]', instance.first_name)
+        mess = string.replace(mess, '[last]', instance.profile.last_name)
+        mess = string.replace(mess, '[greeting]', 'Dear')
+
+        mess = string.replace(mess, '[greeting_statement]', 'Thank You for registering with <br/><strong>Grinberg and Segal Matrimonial Division</strong>')
+        mess = string.replace(mess, '[greeting_sent]', 'This email was sent to ')
+        mess = string.replace(mess, 'email_address@email.com', instance.profile.email)
+        mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+        mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
+        mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
+
+        mess = string.replace(mess, '[greeting_link]','Activate your account')   
         mess = string.replace(mess,'email_address@email.com', instance.profile.email)
         mess = string.replace(mess,'[link]', link)
 
-        log = Logger(log='WE ARE PREPARING ACTIVATION')
-        log.save()
 
         
         message = mess

@@ -146,7 +146,7 @@ def confirm_account_view(request):
     try:
  #      data = json.loads(request.body).encode('utf-8')
        data = JSONParser().parse(request)
-       log = Logger(log='DATA WAS {}'.format(data))
+       log = Logger(log='DATA TO CONFIRM WAS {}'.format(data))
        log.save()
        
        user_id = data['user_id'].encode('utf-8')

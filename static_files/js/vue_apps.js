@@ -1,3 +1,4 @@
+var payment_visited = new Array(false, false, false, false, false);
 var counter = 0;
 var first_name = '';
 var fullname = '';

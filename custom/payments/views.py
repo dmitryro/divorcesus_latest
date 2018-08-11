@@ -340,13 +340,17 @@ def send_confirmation_view(request):
         zipcode = request.data['zip']
         package_type = request.data.get('package_type', "General Payment")
 
-        state = StateProvince.objects.get(id=int(state_id))
+        try:
+            state = StateProvince.objects.get(id=int(state_id))
+        except Exception as e:
+            state = StateProvince.objects.get(name=state_id)
 
         try:
             contact = Contact.objects.get(email=email)
         except Exception as e:
             contact = Contact.objects.create(name=full_name, email=email)
 
+        
         charge  = stripe.Charge.create(
                         amount      = 100*int(amount),
                         currency    = "usd",

@@ -46,7 +46,6 @@ from custom.users.models import Profile
 
 from signals import facebook_strategy_used
 from signals import twitter_strategy_used
-from signals import linkedin_strategy_used 
 from signals import facebook_authenticated
 from signals import googleplus_strategy_used 
 from signals import user_account_activated
@@ -64,7 +63,6 @@ from signals import log_new_user
 from signals import facebook_strategy_new_user 
 from signals import facebook_strategy_existing_user
 from signals import facebook_strategy_used 
-from signals import twitter_strategy_used 
 from signals import linkedin_strategy_used 
 from signals import facebook_authenticated 
 from signals import googleplus_strategy_used 
@@ -271,6 +269,37 @@ def facebook_profile(sender, instance, is_new, email, facebook_id, request):
 
 
 
+@receiver(linkedin_strategy_used, sender=User)
+def linkedin_profile_handler(sender, instance, is_new, email,  request,  **kwargs):
+    try:
+        task = TaskLog.objects.get(user_id=instance.id,job='linkedin_profile_created',is_complete=False)
+        task = TaskLog.objects.get(user_id=instance.id,
+                                   job='linkedin_profile_created')
+        task.is_complete=True
+        task.save()()
+
+    except Exception as e:
+        task = TaskLog.objects.create(user_id=instance.id,
+                                      username=instance.username,
+                                      job='linkedin_profile_created',
+                                      is_complete=False)
+        task.save()
+        linkedin_profile(sender, instance, is_new, email, request)
+
+
+def linkedin_profile(sender, instance, is_new, email, request):
+    try:
+        profile = Profile.objects.get(email=email)
+
+        if profile.is_linkedin_signup_used and not profile.is_notification_sent:
+            new_account_created(instance=instance)
+            profile.is_notification_sent = True
+            profile.save()
+    except Exception as e:
+        pass
+
+
+
 @receiver(twitter_strategy_used, sender=User)
 def twitter_profile_handler(sender, instance, is_new, email, profile_picture, **kwargs):
     try:
@@ -279,7 +308,7 @@ def twitter_profile_handler(sender, instance, is_new, email, profile_picture, **
 
         task.is_complete=True
         task.save()
-    except Exception,R:
+    except Exception as e:
         task = TaskLog.objects.create(user_id=instance.id,
                                       username=instance.username,
                                       job='twitter_profile_created',

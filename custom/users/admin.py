@@ -20,6 +20,7 @@ from models import AboutUs
 from models import Advantage
 from models import AdvantageLink
 from models import MileStone
+from models import StateProvince
 from forms import  MileStoneModelForm
 from forms import MileStoneForm
 from forms import AboutUsModelForm
@@ -124,6 +125,13 @@ class AdvantageAdmin(admin.ModelAdmin):
     list_editable = ('title',)
 
 
+class StateProvinceAdmin(admin.ModelAdmin):
+
+    fieldsets = ((None, {'fields': ['abbreviation','name',]}),)
+    list_display = ('id', 'abbreviation', 'name',)
+    list_editable = ('abbreviation','name',)
+
+
 class AdvantageLinkAdmin(admin.ModelAdmin):
 
     fieldsets = ((None, {'fields': ['advantage','title','link']}),)
@@ -131,8 +139,9 @@ class AdvantageLinkAdmin(admin.ModelAdmin):
     list_editable = ('advantage','title','link')
 
 
-admin.site.register(Advantage,AdvantageAdmin)
-admin.site.register(AdvantageLink,AdvantageLinkAdmin)
+admin.site.register(StateProvince, StateProvinceAdmin)
+admin.site.register(Advantage, AdvantageAdmin)
+admin.site.register(AdvantageLink, AdvantageLinkAdmin)
 admin.site.register(TeamMember, TeamMemberAdmin)
 
 #admin.site.register(ProfileStats,ProfileStatsAdmin)

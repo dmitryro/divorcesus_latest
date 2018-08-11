@@ -886,6 +886,7 @@
 
 
   function on_mobile_consult() {
+      setup_stripe_three();
       document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
@@ -944,7 +945,6 @@
              jQuery("#qualify_progress_stepone").click();
              jQuery('input[id="state"][value="New York"]').prop("checked",true);
              jQuery("#state-selected").attr("value","New York");
-
       }
 
 
@@ -1016,10 +1016,11 @@
              jQuery("#qualify_progress_stepone").click();
              jQuery('input[id="state"][value="New York"]').prop("checked",true);
              jQuery("#state-selected").attr("value","New York");
+             jQuery("#package-state").attr("value","New York");
                            
       }
 
-
+      $("#qualify_progress_stepone").click();
       document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
@@ -1117,52 +1118,6 @@
   }
 
    function processPaymentQualify() {
-/*
-      var arr = {
-           'token':$('#payment-token').val(),
-           'amount': $('#price-to-pay').val()
-      };
-      $.ajax({
-                method: "POST",
-                url: "https://divorcesus.com/checkout/",
-                data: arr
-      }).done(function( msg ) {
-                alert(msg);
-                $('#price-to-pay').attr('value', 0);
-      });
-  */  
-/*
-     var arr = {
-        "email": $("#step_six_email").val(),
-        "first": $("#step_six_first").val(),
-        "last": $("#step_six_last").val(),
-        "fullname": $("#step_six_first").val()+" "+$("#step_six_last").val(),
-        "cardtype": $("#step_six_cardtype").val(),
-        "cardnumber": $("#step_six_cardnumber").val(),
-        "phone": $("#step_six_phone").val(),
-        "address1": $("#step_six_address1").val(),
-        "address2": +$("#step_six_address2").val(),
-        "city": +$("#step_six_city").val(),
-        "state": $("#step_six_state").val(),
-        "zip": $("#step_six_zip").val(),
-        "user_id": $("#current-user-id").val(),
-        "month": $("#step_six_month").val(),
-        "year": $("#step_six_year").val()};
-
-     $.ajax({
-            type: "POST",
-            url: "https://divorcesus.com/paymentconfirm/",
-            crossDomain: true,
-            data: JSON.stringify(arr),
-            dataType: 'json',
-            contentType: "application/json; charset=utf-8",
-            success: function(data) {
-            },
-            error: function(data){
-              alert("failure"+data);
-           }
-      });
- */
 
    }
 
@@ -1925,7 +1880,687 @@ function consult_step_seven() {
             $("#consult-wizard :nth-child(6)").attr('class','visited');
 }
 
+function qualify_progress_step_one() {
+
+    $("#qualify-stepone").css("display","block");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','current');
+    $("#qualify-wizard :nth-child(2)").removeAttr('class');
+    $("#qualify-wizard :nth-child(3)").removeAttr('class');
+    $("#qualify-wizard :nth-child(4)").removeAttr('class');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+    return false;
+}
+
+function qualify_progress_step_two() {
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","block");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','current');
+    $("#qualify-wizard :nth-child(3)").removeAttr('class');
+    $("#qualify-wizard :nth-child(4)").removeAttr('class');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+    return false;
+}
+
+function qualify_progress_step_three() {
+    $('.ElementsApp').attr("id","payment-form-two");
+    setup_stripe_two();
+
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","block");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','current');
+    $("#qualify-wizard :nth-child(4)").removeAttr('class');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function qualify_progress_step_four() {
+
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","block");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','current');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function qualify_progress_step_five() {
+
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","block");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','current');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function qualify_progress_step_six() {
+
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","block");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','visited');
+    $("#qualify-wizard :nth-child(6)").attr('class','current');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function qualify_progress_step_seven() {
+
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","block");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','visited');
+    $("#qualify-wizard :nth-child(6)").attr('class','visited');
+    $("#qualify-wizard :nth-child(7)").attr('class','current');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function qualify_progress_step_eight() {
+
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","block");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','visited');
+    $("#qualify-wizard :nth-child(6)").attr('class','visited');
+    $("#qualify-wizard :nth-child(7)").attr('class','visited');
+    $("#qualify-wizard :nth-child(8)").attr('class','current');
+
+    return false;
+}
+
+function qualify_next_one() {
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","block");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','current');
+    $("#qualify-wizard :nth-child(3)").removeAttr('class');
+    $("#qualify-wizard :nth-child(4)").removeAttr('class');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+    return false;
+}
+
+function qualify_next_two() {
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","block");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','current');
+    $("#qualify-wizard :nth-child(4)").removeAttr('class');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+    return false;
+}
+
+function qualify_next_three() {
+    $('.ElementsApp').attr("id","payment-form-two");
+    setup_stripe_two();
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","block");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','current');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function qualify_next_four() {
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","block");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','current');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function qualify_next_five() {
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","block");
+    $("#qualify-stepseven").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','visited');
+    $("#qualify-wizard :nth-child(6)").attr('class','current');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function qualify_next_six() {
+/*
+    $.ajax({
+        method: "POST",
+        url: "https://divorcesus.com/checkout/",
+        data: {'token':$('#payment-token').val(), 'amount': $('#price-to-pay').val()}
+    }).done(function( msg ) {
+        $('#price-to-pay').attr('value', 0);
+    });
+*/
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","block");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','visited');
+    $("#qualify-wizard :nth-child(6)").attr('class','visited');
+    $("#qualify-wizard :nth-child(7)").attr('class','current');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function qualify_next_seven() {
+    return false;
+}
+
+function qualify_next_eight() {
+    return false;
+}
+
+function makepayment_step_one() {
+    $('.ElementsApp').attr("id","payment-form");
+
+    $("#stepone").css("display","block");
+    $("#steptwo").css("display","none");
+    $("#stepthree").css("display","none");
+    $("#stepfour").css("display","none");
+    $("#stepfive").css("display","none");
+
+    $("#wizard :nth-child(1)").attr('class','current');
+    $("#wizard :nth-child(2)").removeAttr('class');
+    $("#wizard :nth-child(3)").removeAttr('class');
+    $("#wizard :nth-child(4)").removeAttr('class');
+    $("#wizard :nth-child(5)").removeAttr('class');
+
+    return false;
+}
+
+function makepayment_step_two() {
+    $("#stepone").css("display","none");
+    $("#steptwo").css("display","block");
+    $("#stepthree").css("display","none");
+    $("#stepfour").css("display","none");
+    $("#stepfive").css("display","none");
+
+    $("#wizard :nth-child(1)").attr('class','visited');
+    $("#wizard :nth-child(2)").attr('class','current');
+    $("#wizard :nth-child(3)").removeAttr('class');
+    $("#wizard :nth-child(4)").removeAttr('class');
+    $("#wizard :nth-child(5)").removeAttr('class');
+
+    return false;
+}
+
+function makepayment_step_three() {
+    $("#stepone").css("display","none");
+    $("#steptwo").css("display","none");
+    $("#stepthree").css("display","block");
+    $("#stepfour").css("display","none");
+    $("#stepfive").css("display","none");
+
+    $("#wizard :nth-child(1)").attr('class','visited');
+    $("#wizard :nth-child(2)").attr('class','visited');
+    $("#wizard :nth-child(3)").attr('class','current');
+    $("#wizard :nth-child(4)").removeAttr('class');
+    $("#wizard :nth-child(5)").removeAttr('class');
+
+    return false;
+}
+
+function makepayment_step_four() {
+    $("#stepone").css("display","none");
+    $("#steptwo").css("display","none");
+    $("#stepthree").css("display","none");
+    $("#stepfour").css("display","block");
+    $("#stepfive").css("display","none");
+
+    $("#wizard :nth-child(1)").attr('class','visited');
+    $("#wizard :nth-child(2)").attr('class','visited');
+    $("#wizard :nth-child(3)").attr('class','visited');
+    $("#wizard :nth-child(4)").attr('class','current');
+    $("#wizard :nth-child(5)").removeAttr('class');
+
+    return false;
+}
+
+function makepayment_step_five() {
+    $("#stepone").css("display","none");
+    $("#steptwo").css("display","none");
+    $("#stepthree").css("display","none");
+    $("#stepfour").css("display","none");
+    $("#stepfive").css("display","block");
+
+    $("#wizard :nth-child(1)").attr('class','visited');
+    $("#wizard :nth-child(2)").attr('class','visited');
+    $("#wizard :nth-child(3)").attr('class','visited');
+    $("#wizard :nth-child(4)").attr('class','visited');
+    $("#wizard :nth-child(5)").attr('class','current');
+
+    return false;
+}
+
+function makepayment_next_one() {
+    $('.ElementsApp').attr("id","payment-form");
+    var counter = eval($("#counter").val());
+
+    $("#stepone").css("display","none");
+    $("#steptwo").css("display","block");
+    $("#stepthree").css("display","none");
+    $("#stepfour").css("display","none");
+    $("#stepfive").css("display","none");
+
+    $("#wizard :nth-child(1)").attr('class','visited');
+    $("#wizard :nth-child(2)").attr('class','current');
+    $("#wizard :nth-child(3)").removeAttr('class');
+    $("#wizard :nth-child(4)").removeAttr('class');
+    $("#wizard :nth-child(5)").removeAttr('class');
+
+    return false;
+}
+
+function makepayment_next_two() {
+    var counter = eval($("#counter").val());
+
+    $("#stepone").css("display","none");
+    $("#steptwo").css("display","none");
+    $("#stepthree").css("display","block");
+    $("#stepfour").css("display","none");
+    $("#stepfive").css("display","none");
+
+    $("#wizard :nth-child(1)").attr('class','visited');
+    $("#wizard :nth-child(2)").attr('class','visited');
+    $("#wizard :nth-child(3)").attr('class','current');
+    $("#wizard :nth-child(4)").removeAttr('class');
+    $("#wizard :nth-child(5)").removeAttr('class');
+
+    return false;
+}
+
+function makepayment_next_three() {
+    var counter = eval($("#counter").val());
+
+    $("#stepone").css("display","none");
+    $("#steptwo").css("display","none");
+    $("#stepthree").css("display","none");
+    $("#stepfour").css("display","block");
+    $("#stepfive").css("display","none");
+
+    $("#wizard :nth-child(1)").attr('class','visited');
+    $("#wizard :nth-child(2)").attr('class','visited');
+    $("#wizard :nth-child(3)").attr('class','visited');
+    $("#wizard :nth-child(4)").attr('class','current');
+    $("#wizard :nth-child(5)").removeAttr('class');
+
+    return false;
+}
+
+function makepayment_next_four() {
+    var counter = eval($("#counter").val());
+
+/*
+    $.ajax({
+        method: "POST",
+        url: "https://divorcesus.com/checkout/",
+        data: {'token':$('#payment-token').val(), 'amount': $('#price-to-pay').val()}
+    }).done(function( msg ) {
+        alert(msg);
+    });
+
+*/
+    $("#stepone").css("display","none");
+    $("#steptwo").css("display","none");
+    $("#stepthree").css("display","none");
+    $("#stepfour").css("display","none");
+    $("#stepfive").css("display","block");
+
+    $("#wizard :nth-child(1)").attr('class','visited');
+    $("#wizard :nth-child(2)").attr('class','visited');
+    $("#wizard :nth-child(3)").attr('class','visited');
+    $("#wizard :nth-child(4)").attr('class','visited');
+    $("#wizard :nth-child(5)").attr('class','current');
+
+    return false;
+}
+
+function makepayment_next_five() {
+    return false;
+}
+
+
+function package_step_one() {
+    $("#qualify-stepone").css("display","block");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','current');
+    $("#qualify-wizard :nth-child(2)").removeAttr('class');
+    $("#qualify-wizard :nth-child(3)").removeAttr('class');
+    $("#qualify-wizard :nth-child(4)").removeAttr('class');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function package_step_two() {
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","block");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','current');
+    $("#qualify-wizard :nth-child(3)").removeAttr('class');
+    $("#qualify-wizard :nth-child(4)").removeAttr('class');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function package_step_three() {
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","block");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");   
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','current');
+    $("#qualify-wizard :nth-child(4)").removeAttr('class');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function package_step_four() {
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","block");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','current');
+    $("#qualify-wizard :nth-child(5)").removeAttr('class');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function package_step_five() {
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","block");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','current');
+    $("#qualify-wizard :nth-child(6)").removeAttr('class');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function package_step_six() {
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","block");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','visited');
+    $("#qualify-wizard :nth-child(6)").attr('class','current');
+    $("#qualify-wizard :nth-child(7)").removeAttr('class');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function package_step_seven() {
+
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","block");
+    $("#qualify-stepeight").css("display","none");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','visited');
+    $("#qualify-wizard :nth-child(6)").attr('class','visited');
+    $("#qualify-wizard :nth-child(7)").attr('class','current');
+    $("#qualify-wizard :nth-child(8)").removeAttr('class');
+
+    return false;
+}
+
+function package_step_eight() {
+
+    $("#qualify-stepone").css("display","none");
+    $("#qualify-steptwo").css("display","none");
+    $("#qualify-stepthree").css("display","none");
+    $("#qualify-stepfour").css("display","none");
+    $("#qualify-stepfive").css("display","none");
+    $("#qualify-stepsix").css("display","none");
+    $("#qualify-stepseven").css("display","none");
+    $("#qualify-stepeight").css("display","block");
+
+    $("#qualify-wizard :nth-child(1)").attr('class','visited');
+    $("#qualify-wizard :nth-child(2)").attr('class','visited');
+    $("#qualify-wizard :nth-child(3)").attr('class','visited');
+    $("#qualify-wizard :nth-child(4)").attr('class','visited');
+    $("#qualify-wizard :nth-child(5)").attr('class','visited');
+    $("#qualify-wizard :nth-child(6)").attr('class','visited');
+    $("#qualify-wizard :nth-child(7)").attr('class','visited');
+    $("#qualify-wizard :nth-child(8)").attr('class','current');
+
+    return false;
+}
+
+
+ 
+
+
 function resetprice(price, type) {
     //alert(price+" "+ type);
     $('#consult_amount').attr('value', price);
+    consulttwo.consultancy_type = type; 
 }

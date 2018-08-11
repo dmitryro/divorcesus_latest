@@ -4,9 +4,15 @@
     }
 
     jQuery(document).ready(function(){
+           setup_stripe_three();
+           $("span.mfValidation.show.error").css("color","red");
+           $("span.mfValidation.show.error").css("font-size","1.2em");
+           $("span.mfValidation.show.error").css("position","relative");
+           $("span.mfValidation.show.error").css("margin-left","30em;");
+           $("span.mfValidation.show.error").css("margin-top","-2.2em;");
            $('.ElementsApp').attr("id","payment-form"); 
            var box = null;
-           
+                      
            $(function(){
                   $(".ui-chatbox")
                         .draggable()
@@ -164,525 +170,39 @@
 
 
         $("#ask_step_one").bind("click", ask_step_one);
-     //   $("#ask_progress_step_one").bind("click", ask_step_zero);
 
         $("#ask_step_two").bind("click", ask_step_two);
-     //   $("#ask_progress_step_two").bind("click", ask_step_one);
 
         $("#ask_step_three").bind("click", ask_step_three);
-     //   $("#ask_progress_step_three").bind("click", ask_step_two);
     
         $("#ask_step_four").bind("click", ask_step_four);
-   //     $("#ask_progress_step_four").bind("click",  ask_step_three);
 
         $("#ask_step_five").bind("click", ask_step_five);
- //       $("#ask_progress_step_five").bind("click", ask_step_four);
 
 
-        $("#consult_step_one").bind("click", consult_step_one);
-        $("#consult_step_two").bind("click", consult_step_two);
-        $("#consult_step_three").bind("click", consult_step_three);
-        $("#consult_step_four").bind("click", consult_step_four);
-        $("#consult_step_five").bind("click", consult_step_five);
-        $("#consult_step_six").bind("click", consult_step_six);
-        $("#consult_step_seven").bind("click", consult_step_seven);
 
+  //      var pcounter = $("#payment-counter").val();
+   //     $("#progress_stepone").bind("click", );
+   //     $("#progress_steptwo").bind("click", function() {  alert(payment_visited[1];});
+   //     $("#progress_stepthree").bind("click",function() {  alert(payment_visited[2]);} );
+   //     $("#progress_stepfour").bind("click", function() { alert(payment_visited[3]); } );
+   //     $("#progress_stepfive").bind("click", function() {alert(payment_visited[4]); });
+          //{ if (pcounter>=0) { makepayment_step_one();} });
 
-        $("#qualify_progress_stepone").bind("click",function() {
-            counter = 0;
-          
-            $("#qualify-stepone").css("display","block");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","none");
-            $("#qualify-stepeight").css("display","none");
+  //      $("#progress_steptwo").bind("click", function () { if (pcounter>=1) { makepayment_step_two();} });
 
-            $("#qualify-wizard :nth-child(1)").attr('class','current');
-            $("#qualify-wizard :nth-child(2)").removeAttr('class');
-            $("#qualify-wizard :nth-child(3)").removeAttr('class');
-            $("#qualify-wizard :nth-child(4)").removeAttr('class');
-            $("#qualify-wizard :nth-child(5)").removeAttr('class');
-            $("#qualify-wizard :nth-child(6)").removeAttr('class');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
+  //      $("#progress_stepthree").bind("click", function () { if (pcounter>=2) {makepayment_step_three(); }} );
 
-        });
+   //     $("#progress_stepfour").bind("click", function () {  if (pcounter>=3) { makepayment_step_four(); }});
 
-        $("#qualify_progress_steptwo").bind("click",function() {
+        //$("#progress_stepfive").bind("click", function () { alert(pcounter); makepayment_step_five(); });
 
-            counter = 1;
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","block");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","none");
-            $("#qualify-stepeight").css("display","none");
+        $("#qualify_next_one").bind("click", qualify_next_one);
 
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','current');
-            $("#qualify-wizard :nth-child(3)").removeAttr('class');
-            $("#qualify-wizard :nth-child(4)").removeAttr('class');
-            $("#qualify-wizard :nth-child(5)").removeAttr('class');
-            $("#qualify-wizard :nth-child(6)").removeAttr('class');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-        });
+        $("#qualify_next_two").bind("click", qualify_next_two);
 
-        $("#qualify_progress_stepthree").bind("click",function() {
-            $('.ElementsApp').attr("id","payment-form-two");
-            setup_stripe_two();
-            counter = 2;
 
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","block");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","none");   
-            $("#qualify-stepeight").css("display","none");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','current');
-            $("#qualify-wizard :nth-child(4)").removeAttr('class');
-            $("#qualify-wizard :nth-child(5)").removeAttr('class');
-            $("#qualify-wizard :nth-child(6)").removeAttr('class');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-
-        });
-
-        $("#qualify_progress_stepfour").bind("click",function() {
-
-            counter = 3;
-
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","block");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","none");
-            $("#qualify-stepeight").css("display","none");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','visited');
-            $("#qualify-wizard :nth-child(4)").attr('class','current');
-            $("#qualify-wizard :nth-child(5)").removeAttr('class');
-            $("#qualify-wizard :nth-child(6)").removeAttr('class');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-
-        });
-
-        $("#qualify_progress_stepfive").bind("click",function() {
-
-            counter = 4;
-
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","block");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","none");
-            $("#qualify-stepeight").css("display","none");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','visited');
-            $("#qualify-wizard :nth-child(4)").attr('class','visited');
-            $("#qualify-wizard :nth-child(5)").attr('class','current');
-            $("#qualify-wizard :nth-child(6)").removeAttr('class');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-
-        });
-
-        $("#qualify_progress_stepsix").bind("click",function() {
-
-            counter = 5;
-
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","block");
-            $("#qualify-stepseven").css("display","none");
-            $("#qualify-stepeight").css("display","none");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','visited');
-            $("#qualify-wizard :nth-child(4)").attr('class','visited');
-            $("#qualify-wizard :nth-child(5)").attr('class','visited');
-            $("#qualify-wizard :nth-child(6)").attr('class','current');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-
-        });
-
-        $("#qualify_progress_stepseven").bind("click",function() {
-
-            counter = 6;
-
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","block");
-            $("#qualify-stepeight").css("display","none");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','visited');
-            $("#qualify-wizard :nth-child(4)").attr('class','visited');
-            $("#qualify-wizard :nth-child(5)").attr('class','visited');
-            $("#qualify-wizard :nth-child(6)").attr('class','visited');
-            $("#qualify-wizard :nth-child(7)").attr('class','current');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-
-        });
-
-
-        $("#qualify_progress_stepeight").bind("click",function() {
-
-            counter = 7;
-
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","none");
-            $("#qualify-stepeight").css("display","block");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','visited');
-            $("#qualify-wizard :nth-child(4)").attr('class','visited');
-            $("#qualify-wizard :nth-child(5)").attr('class','visited');
-            $("#qualify-wizard :nth-child(6)").attr('class','visited');
-            $("#qualify-wizard :nth-child(7)").attr('class','visited');
-            $("#qualify-wizard :nth-child(8)").attr('class','current');
-
-        });
-
-
-
-        $("#progress_stepone").bind("click",function() {
-                     
-            counter = 0;
-            
-            $("#stepone").css("display","block");
-            $("#steptwo").css("display","none");
-            $("#stepthree").css("display","none");
-            $("#stepfour").css("display","none");
-            $("#stepfive").css("display","none");
-
-            $("#wizard :nth-child(1)").attr('class','current');
-            $("#wizard :nth-child(2)").removeAttr('class');
-            $("#wizard :nth-child(3)").removeAttr('class');
-            $("#wizard :nth-child(4)").removeAttr('class');
-            $("#wizard :nth-child(5)").removeAttr('class');
-
-        });
-
-        $("#progress_steptwo").bind("click",function() {
-        
-            counter = 1;
-
-            $("#stepone").css("display","none");
-            $("#steptwo").css("display","block");
-            $("#stepthree").css("display","none");
-            $("#stepfour").css("display","none");
-            $("#stepfive").css("display","none");
-
-            $("#wizard :nth-child(1)").attr('class','visited');
-            $("#wizard :nth-child(2)").attr('class','current');
-            $("#wizard :nth-child(3)").removeAttr('class');
-            $("#wizard :nth-child(4)").removeAttr('class');
-            $("#wizard :nth-child(5)").removeAttr('class');
-        });
-
-        $("#progress_stepthree").bind("click",function() {
-                     
-            counter = 2;
-            
-            $("#stepone").css("display","none");
-            $("#steptwo").css("display","none");
-            $("#stepthree").css("display","block");
-            $("#stepfour").css("display","none");
-            $("#stepfive").css("display","none");
-
-            $("#wizard :nth-child(1)").attr('class','visited');
-            $("#wizard :nth-child(2)").attr('class','visited');
-            $("#wizard :nth-child(3)").attr('class','current');
-            $("#wizard :nth-child(4)").removeAttr('class');
-            $("#wizard :nth-child(5)").removeAttr('class');
-        });
-
-        $("#progress_stepfour").bind("click",function() {
-       
-            counter = 4;
-            
-            $("#stepone").css("display","none");
-            $("#steptwo").css("display","none");
-            $("#stepthree").css("display","none");
-            $("#stepfour").css("display","block");
-            $("#stepfive").css("display","none");
-
-            $("#wizard :nth-child(1)").attr('class','visited');
-            $("#wizard :nth-child(2)").attr('class','visited');
-            $("#wizard :nth-child(3)").attr('class','visited');
-            $("#wizard :nth-child(4)").attr('class','current');
-            $("#wizard :nth-child(5)").removeAttr('class');
-
-        });
-
-        $("#progress_stepfive").bind("click",function() {
-   
-            counter = 5;
-            
-            $("#stepone").css("display","none");
-            $("#steptwo").css("display","none");
-            $("#stepthree").css("display","none");
-            $("#stepfour").css("display","none");
-            $("#stepfive").css("display","block");
-
-            $("#wizard :nth-child(1)").attr('class','visited');
-            $("#wizard :nth-child(2)").attr('class','visited');
-            $("#wizard :nth-child(3)").attr('class','visited');
-            $("#wizard :nth-child(4)").attr('class','visited');   
-            $("#wizard :nth-child(5)").attr('class','current');
-
-        });
-
-        $("#next_one").bind("click",function() {  
-            $('.ElementsApp').attr("id","payment-form"); 
-            setup_stripe();
-            var counter = eval($("#counter").val());            
-
-            $("#stepone").css("display","none");
-            $("#steptwo").css("display","block");
-            $("#stepthree").css("display","none");
-            $("#stepfour").css("display","none");
-            $("#stepfive").css("display","none"); 
-
-            $("#wizard :nth-child(1)").attr('class','visited');
-            $("#wizard :nth-child(2)").attr('class','current');
-            $("#wizard :nth-child(3)").removeAttr('class');
-            $("#wizard :nth-child(4)").removeAttr('class');
-            $("#wizard :nth-child(5)").removeAttr('class');
-        });
-
-
-        $("#next_two").bind("click",function() {
-            var counter = eval($("#counter").val());
-
-            $("#stepone").css("display","none");
-            $("#steptwo").css("display","none");
-            $("#stepthree").css("display","block");
-            $("#stepfour").css("display","none");
-            $("#stepfive").css("display","none");    
-
-            $("#wizard :nth-child(1)").attr('class','visited');
-            $("#wizard :nth-child(2)").attr('class','visited');
-            $("#wizard :nth-child(3)").attr('class','current');
-            $("#wizard :nth-child(4)").removeAttr('class');
-            $("#wizard :nth-child(5)").removeAttr('class');  
-        });
-
-        $("#next_three").bind("click",function() {
-
-            var counter = eval($("#counter").val());
-
-            $("#stepone").css("display","none");
-            $("#steptwo").css("display","none");
-            $("#stepthree").css("display","none");
-            $("#stepfour").css("display","block");
-            $("#stepfive").css("display","none");
-
-            $("#wizard :nth-child(1)").attr('class','visited');
-            $("#wizard :nth-child(2)").attr('class','visited');
-            $("#wizard :nth-child(3)").attr('class','visited');
-            $("#wizard :nth-child(4)").attr('class','current');
-            $("#wizard :nth-child(5)").removeAttr('class');
-        });
-
-        $("#next_four").bind("click",function() {
-
-            var counter = eval($("#counter").val());
-            $.ajax({
-                method: "POST",
-                url: "https://divorcesus.com/checkout/",
-                data: {'token':$('#payment-token').val(), 'amount': $('#price-to-pay').val()}
-            }).done(function( msg ) {
-                alert(msg);
-            });
-
-            
-            $("#stepone").css("display","none");
-            $("#steptwo").css("display","none");
-            $("#stepthree").css("display","none");
-            $("#stepfour").css("display","none");
-            $("#stepfive").css("display","block");
-
-            $("#wizard :nth-child(1)").attr('class','visited');
-            $("#wizard :nth-child(2)").attr('class','visited');
-            $("#wizard :nth-child(3)").attr('class','visited');
-            $("#wizard :nth-child(4)").attr('class','visited');
-            $("#wizard :nth-child(5)").attr('class','current');
-        });
-
-
-        $("#qualify_next_one").bind("click",function() {
-
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","block");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","none");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','current');
-            $("#qualify-wizard :nth-child(3)").removeAttr('class');
-            $("#qualify-wizard :nth-child(4)").removeAttr('class');
-            $("#qualify-wizard :nth-child(5)").removeAttr('class');
-            $("#qualify-wizard :nth-child(6)").removeAttr('class');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
- 
-        });
-
-        $("#qualify_next_two").bind("click",function() {
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","block");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","none");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','current');
-            $("#qualify-wizard :nth-child(4)").removeAttr('class');
-            $("#qualify-wizard :nth-child(5)").removeAttr('class');
-            $("#qualify-wizard :nth-child(6)").removeAttr('class');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-
-
-        });
-
-        $("#qualify_next_three").bind("click",function() {
-            $('.ElementsApp').attr("id","payment-form-two");
-            setup_stripe_two();
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","block");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","none");
-
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','visited');
-            $("#qualify-wizard :nth-child(4)").attr('class','current');
-            $("#qualify-wizard :nth-child(5)").removeAttr('class');
-            $("#qualify-wizard :nth-child(6)").removeAttr('class');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-
-        });
-
-        $("#qualify_next_four").bind("click",function() {
-
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","block");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","none");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','visited');
-            $("#qualify-wizard :nth-child(4)").attr('class','visited');
-            $("#qualify-wizard :nth-child(5)").attr('class','current');
-            $("#qualify-wizard :nth-child(6)").removeAttr('class');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-
-
-        });
-
-        $("#qualify_next_five").bind("click",function() {
-
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","block");
-            $("#qualify-stepseven").css("display","none");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','visited');
-            $("#qualify-wizard :nth-child(4)").attr('class','visited');
-            $("#qualify-wizard :nth-child(5)").attr('class','visited');
-            $("#qualify-wizard :nth-child(6)").attr('class','current');
-            $("#qualify-wizard :nth-child(7)").removeAttr('class');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-
-        });
-
-        $("#qualify_next_six").bind("click",function() {
-            $.ajax({
-                method: "POST",
-                url: "https://divorcesus.com/checkout/",
-                data: {'token':$('#payment-token').val(), 'amount': $('#price-to-pay').val()}
-            }).done(function( msg ) {
-                alert(msg);
-                $('#price-to-pay').attr('value', 0);
-            });
-
-            $("#qualify-stepone").css("display","none");
-            $("#qualify-steptwo").css("display","none");
-            $("#qualify-stepthree").css("display","none");
-            $("#qualify-stepfour").css("display","none");
-            $("#qualify-stepfive").css("display","none");
-            $("#qualify-stepsix").css("display","none");
-            $("#qualify-stepseven").css("display","block");
-
-            $("#qualify-wizard :nth-child(1)").attr('class','visited');
-            $("#qualify-wizard :nth-child(2)").attr('class','visited');
-            $("#qualify-wizard :nth-child(3)").attr('class','visited');
-            $("#qualify-wizard :nth-child(4)").attr('class','visited');
-            $("#qualify-wizard :nth-child(5)").attr('class','visited');
-            $("#qualify-wizard :nth-child(6)").attr('class','visited');
-            $("#qualify-wizard :nth-child(7)").attr('class','current');
-            $("#qualify-wizard :nth-child(8)").removeAttr('class');
-
-        });
+        $("#qualify_next_six").bind("click", qualify_next_six);
 
 
 
@@ -1193,23 +713,22 @@
           });
 
           jQuery(function($) {
-                  $('[data-numeric]').payment('restrictNumeric');
-                  $('.cc-number').payment('formatCardNumber');
-                  $('.cc-exp').payment('formatCardExpiry');
-                  $('.cc-cvc').payment('formatCardCVC');
+//                  $('[data-numeric]').payment('restrictNumeric');
+////                  $('.cc-number').payment('formatCardNumber');
+ //                 $('.cc-exp').payment('formatCardExpiry');
+  //                $('.cc-cvc').payment('formatCardCVC');
                   $.fn.toggleInputError = function(erred) {
                      this.parent('.form-group').toggleClass('has-error', erred);
                      return this;
                   };
                   $('form').submit(function(e) {
                      e.preventDefault();
-                     var cardType = $.payment.cardType($('.cc-number').val());
-                     $('.cc-number').toggleInputError(!$.payment.validateCardNumber($('.cc-number').val()));
-                     $('.cc-exp').toggleInputError(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal')));
-                     $('.cc-cvc').toggleInputError(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType));
-                     $('.cc-brand').text(cardType);
-                     $('.validation').removeClass('text-danger text-success');
-                     $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
+                     //$('.cc-number').toggleInputError(!$.payment.validateCardNumber($('.cc-number').val()));
+                    // $('.cc-exp').toggleInputError(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal')));
+                    // $('.cc-cvc').toggleInputError(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType));
+                    // $('.cc-brand').text(cardType);
+                    // $('.validation').removeClass('text-danger text-success');
+                    // $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
                   });
            });
 

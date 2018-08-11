@@ -32,6 +32,7 @@
             <link rel="stylesheet" href="https://divorcesus.com/static/css/main-v1.css"/>
             <link rel="stylesheet" href="/static/css/bread.css"/>
             <link rel="stylesheet" href="/static/css/perfect-scrollbar.css"/>
+            <link rel="stylesheet" href="https://divorcesus.com/static/css/misc-v1.css"/>
       <!--
               <link rel="stylesheet" href="/static/css/grid.css">
               <link rel="stylesheet" href="/static/css/mailform.css"/>
@@ -50,6 +51,13 @@
               <!-- Include jQuery Mobile stylesheets -->
               <!-- Include the jQuery library -->
               <script src="/static/js/jquery.js"></script>
+              <script src="/static/js/jquery-migrate-1.2.1.js"></script>
+              <script src="https://js.stripe.com/v3/"></script>
+              <script src="/static/js/stripe_apps.js"></script>
+
+<!--
+              <script src="/static/js/jquery.payment.min.js"></script>
+-->
               <!-- Include the jQuery Mobile library -->
     <!--
               <script src="/static/js/jssor.slider.min.js"></script>
@@ -65,6 +73,8 @@
                <script src="/static/js/perfect-scrollbar.min.js"></script>
                <script src="https://unpkg.com/vue-scrollto"></script>
                <script src="https://unpkg.com/vue-scroll"></script>
+               <!-- use the latest release -->
+               <script src="https://unpkg.com/vue-select@latest"></script>
     <!--
                <link type="text/css" href="https://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
     -->
@@ -75,7 +85,7 @@
                <link type="text/css" href="/static/js/themes/overcast/theme.css" rel="stylesheet" />
     -->
                <script type="text/javascript" src="/static/js/jquery.ui.chatbox.min.js"></script> 
-
+               <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
 
               <!--[if lt IE 9]> 
               <html class="lt-ie9">
@@ -182,6 +192,11 @@
                  height: 200px;
                }
 
+               .mfValidation .show .error {
+                 font-size:1.4em;
+                 color:red;
+                 margin-top:3.6em;
+               }
             </style>
             <script>
                   var ps = new PerfectScrollbar('.scroll-container');
@@ -634,6 +649,7 @@
 
                         <li>
                           <a onclick="on_mobile_pricing();return false;" id="pricing"  href="#">Pricing</a>
+<!--
                          <ul>
                             <li>
                               <a onclick="on_mobile_pricing();">New York Packages</a>
@@ -642,7 +658,7 @@
                               <a onclick="on_mobile_pricing();">New Jersey Packages</a>
                             </li>
                          </ul>
-
+-->
                         </li>
 
                         <li>
@@ -987,7 +1003,7 @@
                     <h2><span style="padding-top:-1.6em;"> Start Your Case with US Today</span> </h2>
                     <h4>Get the expert assistance with your most intimate and important life matters from the leading professional attorneys.</h4>
 
-                    <a href="#" onclick="on_mobile_qualify(0);qualify_step_zero(0);return false;" class="btn4">Start</a>
+                    <a href="#" onclick="on_mobile_qualify(0);qualify_step_zero(2);return false;" class="btn4">Start</a>
                   </div>
                 </section>
                 <section class="well4">
@@ -998,7 +1014,7 @@
                       <div class="col-xs-6 wow fadeInLeft ">
                         <div class="box">
                           <div class="box_aside3">
-                            <div class="icon2 service-package-ny" onclick="on_mobile_qualify(1);qualify_step_zero(1);return false;">
+                            <div class="icon2 service-package-ny" onclick="on_mobile_qualify(2);qualify_step_zero(2);return false;">
     <!--
                               <h5>New York</h5>
     -->
@@ -1016,7 +1032,7 @@
 
                                            &nbsp;&nbsp;
                                                   {% if logout %}
-                                                          <a class="btn5" href="#" v-scroll-to="{el: '#page', offset: 320,}"  onclick="on_mobile_qualify(1);qualify_step_zero(1);return false;"><onload v-on:load="qualify(1)">Start Now!</onload></a>
+                                                          <a class="btn5" href="#" v-scroll-to="{el: '#page', offset: 320,}"  onclick="on_mobile_qualify(2);qualify_step_zero(2);return false;"><onload v-on:load="on_mobile_qualify(1)">Start Now!</onload></a>
                                                  {% elif not logout %}
                                                       <a class="btn5" id="show-modal"  @click="showModal = true">Start Now</a>
                                                  {% endif %}
@@ -1038,7 +1054,7 @@
                       <div class="col-xs-6 wow fadeInRight">
                         <div class="box">
                           <div class="box_aside3">
-                            <div class="icon2 service-package-nj" onclick="on_mobile_qualify(2);qualify_step_zero(2);return false;">
+                            <div class="icon2 service-package-nj" onclick="on_mobile_qualify(1);qualify_step_zero(1);return false;">
     <!--
                               <h5>New Jersey</h5>
     -->
@@ -1056,7 +1072,7 @@
 
                                            &nbsp;&nbsp;
                                                   {% if logout %}
-                                                          <a class="btn5" href="#" v-scroll-to="{el: '#page', offset: 320,}"  onclick="on_mobile_qualify(2);qualify_step_zero(2);return false;">Start Now!</a>
+                                                          <a class="btn5" href="#" v-scroll-to="{el: '#page', offset: 320,}"  onclick="on_mobile_qualify(1);qualify_step_zero(1);return false;">Start Now!</a>
 
                                                  {% elif not logout %}
                                                       <a class="btn5" id="show-modal" @click="showModal = true">Start Now</a>
@@ -1979,7 +1995,7 @@
                          <span>Services</span>
                       </p>
                   </div>
-                </secttion>
+                </section>
                 <section class="well2 bg-secondary">
                   <div class="container">
                     <div class="row">
@@ -2850,7 +2866,7 @@
                   </div>
                 </section>
                 <section class="parallax" data-url="/media/images/family_banner.jpg" id="bring-change">
-                  <div class="container wow fadeIn">
+                  <div class="container wow fadeIn" style="color: #2c3f4c; text-shadow: 1px 1px 1px rgba(15, 8, 8, 1);" id="bring-change-banner">
                     <h2> {% article_meta 1 1 %}  </h2>
                     <h4> {% article_meta 1 2 %}  </h4>
                     <input type="hidden" name="full-article-1" id="full-article-1" value="{% article_meta 1 3 %}" />
@@ -2860,618 +2876,25 @@
                 </section>
                 <section class="well5">
                   <h3><span>Our Featured Packages</span></h3>
-                  <div class="container mt1">
+                  <div class="container mt1" id="featured-packages">
                     <div class="row">
                       <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInLeft ">
-                        <h4> {% packages_meta 5 1 %} </h4>
-                        <table class="tables">
-                          <tr>
-                              <th class="bg1 text-center">Hits</th>
-                              <th class="bg1 text-center">Rating</th>
-                              <th class="bg1 text-center">Votes</th>
-                              <th class="bg1 lg">Scripts</th>
-                          </tr>
-                          <tr>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                          </tr>
-                          <tr>
-                              <td>2101</td>
-                              <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa fa-star"></a>
-                              </td>
-                              <td>23</td>
-                              <td class="lg"><a href="#">LiveAdmin Lite</a></td>
-                          </tr>
-                          <tr>
-                              <td>3654</td>
-                              <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                              </td>
-                              <td>8</td>
-                              <td class="lg"><a href="#">Bulk Pagerank Checker Script</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>3658</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa  fa-star"></a>
-                                  <a href="#" class="fa fa-star"></a>
-                              </td>
-                              <td>8</td>
-                              <td class="lg"><a href="#">nxControl</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>4569</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                              </td>
-                              <td>42</td>
-                              <td class="lg"><a href="#">CrazyStat</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1069</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa fa-star"></a>
-                              </td>
-                              <td>34</td>
-                              <td class="lg"><a href="#">MatPo Image Hosting Script</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1568</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa  fa-star"></a>
-                                  <a href="#" class="fa fa-star"></a>
-                              </td>
-                              <td>11</td>
-                              <td class="lg"><a href="#">Easy Poll Creator Script</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1069</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa  act fa-star"></a>
-                              </td>
-                              <td>26</td>
-                              <td class="lg"><a href="#">phpLDAPadmin</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1069</td>
-                              <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                              </td>
-                              <td>30</td>
-                              <td class="lg"><a href="#">Wordpress Amazon Theme</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1069</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                              </td>
-                              <td>11</td>
-                              <td class="lg"><a href="#">Resizable XML Photo Gallery</a></td>
-                          </tr>
-
-                          <tr>
-                              <td>1069</td>
-                               <td class="text-left">
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa act fa-star"></a>
-                                  <a href="#" class="fa fa-star"></a>
-                              </td>
-                              <td>14</td>
-                              <td class="lg"><a href="#">SFS NamesDatabase</a></td>
-                          </tr>
-
-                          <tr>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                              <td class="pd-add"></td>
-                          </tr>
-                        </table>
-
+                        <div id="new_york_packages">
+                        </div>
                       </div>
                       <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInRight">
-                        <h4>{% packages_meta 7 1 %}</h4>
-                        <table class="tables">
-                           <tr>
-                               <th class="bg2 text-center">Hits</th>
-                               <th class="bg2 text-center">Rating</th>
-                               <th class="bg2 text-center">Votes</th>
-                               <th class="bg2 lg">Scripts</th>
-                           </tr>
-                           <tr>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                           </tr>
-                           <tr>
-                               <td>2101</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>23</td>
-                               <td class="lg"><a href="#">LiveAdmin Lite</a></td>
-                           </tr>
-                           <tr>
-                               <td>3654</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>8</td>
-                               <td class="lg"><a href="#">Bulk Pagerank Checker Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>3658</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>8</td>
-                               <td class="lg"><a href="#">nxControl</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>4569</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>42</td>
-                               <td class="lg"><a href="#">CrazyStat</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>34</td>
-                               <td class="lg"><a href="#">MatPo Image Hosting Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1568</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>11</td>
-                               <td class="lg"><a href="#">Easy Poll Creator Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  act fa-star"></a>
-                               </td>
-                               <td>26</td>
-                               <td class="lg"><a href="#">phpLDAPadmin</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>30</td>
-                               <td class="lg"><a href="#">Wordpress Amazon Theme</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>11</td>
-                               <td class="lg"><a href="#">Resizable XML Photo Gallery</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>14</td>
-                               <td class="lg"><a href="#">SFS NamesDatabase</a></td>
-                           </tr>
-
-                           <tr>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                           </tr>
-                        </table>
+                        <div id="new_jersey_packages">
+                        </div>
                       </div>
                     </div>
                     <div class="row mt1">
                       <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInLeft ">
-                         <h4>{% packages_meta 4 1 %}</h4>
-                         <table class="tables">
-                           <tr>
-                               <th class="bg3 text-center">Hits</th>
-                               <th class="bg3 text-center">Rating</th>
-                               <th class="bg3 text-center">Votes</th>
-                               <th class="bg3 lg">Scripts</th>
-                           </tr>
-                           <tr>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                           </tr>
-                           <tr>
-                               <td>2101</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>23</td>
-                               <td class="lg"><a href="#">LiveAdmin Lite</a></td>
-                           </tr>
-                           <tr>
-                               <td>3654</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>8</td>
-                               <td class="lg"><a href="#">Bulk Pagerank Checker Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>3658</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>8</td>
-                               <td class="lg"><a href="#">nxControl</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>4569</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>42</td>
-                               <td class="lg"><a href="#">CrazyStat</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>34</td>
-                               <td class="lg"><a href="#">MatPo Image Hosting Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1568</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>11</td>
-                               <td class="lg"><a href="#">Easy Poll Creator Script</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa  act fa-star"></a>
-                               </td>
-                               <td>26</td>
-                               <td class="lg"><a href="#">phpLDAPadmin</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>30</td>
-                               <td class="lg"><a href="#">Wordpress Amazon Theme</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                               </td>
-                               <td>11</td>
-                               <td class="lg"><a href="#">Resizable XML Photo Gallery</a></td>
-                           </tr>
-
-                           <tr>
-                               <td>1069</td>
-                               <td class="text-left">
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa act fa-star"></a>
-                                   <a href="#" class="fa fa-star"></a>
-                               </td>
-                               <td>14</td>
-                               <td class="lg"><a href="#">SFS NamesDatabase</a></td>
-                           </tr>
-
-                           <tr>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                               <td class="pd-add"></td>
-                           </tr>
-                       </table>
+                        <div id="new_york_other_packages">
+                        </div>
                      </div>
                      <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInRight">
-                         <h4>{% packages_meta 6 1 %}</h4>
-                         <table class="tables">
-                             <tr>
-                                 <th class="bg4 text-center">Hits</th>
-                                 <th class="bg4 text-center">Rating</th>
-                                 <th class="bg4 text-center">Votes</th>
-                                 <th class="bg4 lg">Scripts</th>
-                             </tr>
-                             <tr>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                             </tr>
-                             <tr>
-                                 <td>2101</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa fa-star"></a>
-                                 </td>
-                                 <td>23</td>
-                                 <td class="lg"><a href="#">LiveAdmin Lite</a></td>
-                             </tr>
-                             <tr>
-                                 <td>3654</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                 </td>
-                                 <td>8</td>
-                                 <td class="lg"><a href="#">Bulk Pagerank Checker Script</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>3658</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa  fa-star"></a>
-                                     <a href="#" class="fa fa-star"></a>
-                                 </td>
-                                 <td>8</td>
-                                 <td class="lg"><a href="#">nxControl</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>4569</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                 </td>
-                                 <td>42</td>
-                                 <td class="lg"><a href="#">CrazyStat</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1069</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa fa-star"></a>
-                                 </td>
-                                 <td>34</td>
-                                 <td class="lg"><a href="#">MatPo Image Hosting Script</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1568</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa  fa-star"></a>
-                                     <a href="#" class="fa fa-star"></a>
-                                 </td>
-                                 <td>11</td>
-                                 <td class="lg"><a href="#">Easy Poll Creator Script</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1069</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa  act fa-star"></a>
-                                 </td>
-                                 <td>26</td>
-                                 <td class="lg"><a href="#">phpLDAPadmin</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1069</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                 </td>
-                                 <td>30</td>
-                                 <td class="lg"><a href="#">Wordpress Amazon Theme</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1069</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                 </td>
-                                 <td>11</td>
-                                 <td class="lg"><a href="#">Resizable XML Photo Gallery</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td>1069</td>
-                                 <td class="text-left">
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa act fa-star"></a>
-                                     <a href="#" class="fa fa-star"></a>
-                                 </td>
-                                 <td>14</td>
-                                 <td class="lg"><a href="#">SFS NamesDatabase</a></td>
-                             </tr>
-
-                             <tr>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                                 <td class="pd-add"></td>
-                             </tr>
-                         </table>
+                        <div id="new_jersey_other_packages">
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -3743,7 +3166,7 @@
 
                                           {% consult_meta 1 1 %}                        
  
-                                          <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                          <div style="float:left;padding-top:1.9em;margin-left:0em;">
                                                   <button class="btn4" v-on:click="submitone"  id="consult_step_one">Next</button>
                                           </div>
                                        </form>
@@ -3759,7 +3182,7 @@
 
 
                                    <div class="col-xs-12 col-sm-9" style="float:left;">
-                                       <form class='mailform contact-form' method="post">
+                                       <form class='mailform contact-form' method="post" id="payment-form-three">
                                           {% csrf_token %}
                                             <div id="service-choices">
                                             </div>
@@ -3771,106 +3194,96 @@
                                                      <span class="fieldset-legend">Billing Information</span>
                                                  </legend>
 
-                                                 <div style="margin-bottom:1.9em;">
-                                                  <label class="mfInput" style="padding-top:1.9em;">
-                                                       <div id="card-choices">
-                                                       </div>
-                                                  </label>
-                                                 </div>
 
                                                 <div>
                                                 <label>
                                                    <input type="text"
                                                           name="full_name"
                                                           id="consult_full_name"
-                                                          v-model="full_name"
+                                                          v-model="billing_full_name"
                                                           placeholder="Full Name on Card *"
                                                           value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %}{% endif %}"
                                                           data-constraints="@LettersOnly @NotEmpty"/>
                                                  </label>
                                                  </div>
-
-                                                 <div>
-                                                 <label style="padding-top:1.9em;">
-                                                    <input type="text"
-                                                           name="consult_cardnumber"
-                                                           id="consult_cardnumber"
-                                                           v-model="cardnumber"
-                                                           placeholder="Card Number*"
-                                                           value="Your Card Number (Digits Only, no dashes)..."
-                                                           data-constraints="@NumbersOnly @NotEmpty"/>
-                                                 </label>
+             
+                                                 <div id="card-errors-three"></div> 
+                                                 <div class="form-group" id="card-element-three" style="width:55.5%;border:2px #D0CECE solid;height:3.9em;margin-top:1.75em;padding-top:1.0em;padding-left:0.4em;">
+                               <!-- A Stripe Element will be inserted here. -->
                                                  </div>
-                                                 
+
+                                                <!--
                                                  <div>
                                                  <label style="padding-top:1.9em;">
-                                                    <div style="float:left;width:19%;">
                                                         <input type="text"
-                                                               style="width:90%;"
-                                                               name="consult_month"
-                                                               id="consult_month"
-                                                               v-model="month"
-                                                               placeholder="Month*"
-                                                               value="Month"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                    </div>
-                                                 
-                                                    <div style="float:left;width:19%;">
-                                                        <input type="text"
-                                                               style="width:90%;"
-                                                               name="consult_day"
-                                                               id="consult_day"
-                                                               v-model="day"
-                                                               placeholder="Day*"
-                                                               value="Day"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                     </div>
-                                                     <div style="float:left;width:19%;">
-                                                        <input type="text"
-                                                               style="width:91%;"
-                                                               name="consult_year"
-                                                               id="consult_year"
-                                                               v-model="year"
-                                                               placeholder="Year*"
-                                                               value="Year"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                      </div>
+                                                               type="tel"
+                                                               class="input-lg form-control cc-number"
+                                                               autocomplete="cc-number"
+                                                               placeholder="•••• •••• •••• ••••" required
+                                                               name="consult_cardnumber"
+                                                               id="consult_cardnumber"
+                                                               v-model="cardnumber"
+                                                               data-constraints="@NotEmpty"/>
+
                                                       <div class="clear"></div>
 
                                                  </label>
                                                  </div>
 
+ 
                                                  <div>
                                                  <label style="padding-top:1.9em;">
-                                                    <input type="text"
-                                                           name="consult_security"
-                                                           id="consult_cvv"
-                                                           v-model="cvv"
-                                                           placeholder="Security Number*"
-                                                           value="CVV Number (Digits Only, no dashes)..."
-                                                           data-constraints="@NumbersOnly @NotEmpty"/>
+                                                        <input type="text"
+                                                               type="tel" 
+                                                               class="input-lg form-control cc-exp" 
+                                                               autocomplete="cc-exp" 
+                                                               placeholder="•• / ••" required
+                                                               name="consult_expiration"
+                                                               id="consult_expiration"
+                                                               v-model="expiration"
+                                                               data-constraints="@NotEmpty"/>
+                                                 
+                                                      <div class="clear"></div>
+
                                                  </label>
                                                  </div>
 
+                                                 <label style="padding-top:1.9em;">
+                                                        <input type="text"
+                                                               type="tel"
+                                                               class="input-lg form-control cc-cvc"
+                                                               autocomplete="off"
+                                                               placeholder="•••" required
+                                                               name="consult_security"
+                                                               id="consult_security"
+                                                               v-model="expiration"
+                                                               data-constraints="@NumbersOnly @NotEmpty"/>
+
+                                                      <div class="clear"></div>
+
+                                                 </label>
+                                                 </div>
+-->
+<!--
                                                  <div>
                                                      <label style="padding-top:1.9em;">
                                                          <input type="text"
                                                                 name="consult_amount"
                                                                 id="consult_amount"
-                                                                v-model="amount"
+                                                                v-model="price"
                                                                 placeholder="Amount*"
                                                                 value="Amount"
                                                                 data-constraints="@NumbersOnly @NotEmpty"/>
                                                  </label>
                                                  </div>
-
+-->
 
                                                 <div>
                                                 <label style="padding-top:1.9em;">
                                                    <input type="text"
                                                           name="address1"
                                                           id="consult_address1"
-                                                          v-model="address1"
+                                                          v-model="billing_address1"
                                                           placeholder="Address 1*"
                                                           value="{% if logout %}{% billing_meta user_id 1 %}{% endif %}"
                                                           data-constraints="@LettersOnly @NotEmpty"/>
@@ -3882,7 +3295,7 @@
                                                    <input type="text"
                                                           name="address2"
                                                           id="consult_address2"
-                                                          v-model="address2"
+                                                          v-model="billing_address2"
                                                           placeholder="Address 2"
                                                           value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"
                                                           data-constraints="@LettersOnly"/>
@@ -3894,7 +3307,7 @@
                                                    <input type="text"
                                                           name="city"
                                                           id="consult_city"
-                                                          v-model="city"
+                                                          v-model="billing_city"
                                                           placeholder="City *"
                                                           value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
                                                           data-constraints="@LettersOnly @NotEmpty"/>
@@ -3903,29 +3316,32 @@
 
                                                  <div>
                                                   <label class="mfInput" style="padding-top:1.9em;">
-                                                       <div id="state-choices">
+                                                       <div id="consult-state-choices">
                                                        </div>
                                                   </label>
                                                  </div>
+
 
                                                 <div>
                                                 <label style="padding-top:1.9em;">
                                                    <input type="text"
                                                           name="zip"
                                                           id="consult_zip"
-                                                          v-model="zip"
+                                                          v-model="billing_zip"
                                                           placeholder="Zip *"
                                                           value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
                                                           data-constraints="@NotEmpty"/>
                                                  </label>
                                                  </div>
 
+
                                                  <div>
                                                   <label class="mfInput" style="padding-top:1.9em;">
-                                                       <div id="country-choices">
+                                                       <div id="consult-country-choices">
                                                        </div>
                                                   </label>
                                                  </div>
+
 
                                                  <div>
 
@@ -3933,7 +3349,7 @@
                                                            <input type="text"
                                                                   name="phone"
                                                                   id="consult_phone"
-                                                                  v-model="phone"
+                                                                  v-model="billing_phone"
                                                                   placeholder="Phone"
                                                                   value="{% if logout %} {% user_meta user_id 5 %} {% endif %}"
                                                                   data-constraints="@Phone"/>
@@ -3968,32 +3384,98 @@
                                           <form class='mailform contact-form' method="post">
                                                {% csrf_token %}
 
-                                                <div>
+                                            <fieldset class="billing-fieldset">
+
+                                                 <legend>
+                                                     <span class="fieldset-legend">Individual Information</span>
+                                                 </legend>
+
+
+                                                <div class="form-group">
                                                 <label>
                                                    <input type="text"
                                                           name="full_name"
                                                           id="consult_full_name"
-                                                          v-model="full_name"
+                                                          v-model="individual_full_name"
                                                           placeholder="Full Name *"
                                                           value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %}{% endif %}"
                                                           data-constraints="@LettersOnly @NotEmpty"/>
                                                  </label>
                                                  </div>
-                                                 
-                                                 <div>
 
-                                                     <label class="label_message" style="padding-top:1.9em;">
-                                                          <textarea name="address" cols="20"  placeholder="Address"
-                                                                v-model="address"
-                                                                data-constraints="@NotEmpty"></textarea>
-                                                     </label>
-                                                  </div>
-                                                  <div>
+                                                <div>
+                                                <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="address1"
+                                                          id="consult_individual_address1"
+                                                          v-model="individual_address1"
+                                                          placeholder="Address 1*"
+                                                          value="{% if logout %}{% billing_meta user_id 1 %}{% endif %}"
+                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                 </label>
+                                                 </div>
+
+                                                <div>
+                                                <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="address2"
+                                                          id="consult_individual_address2"
+                                                          v-model="individual_address2"
+                                                          placeholder="Address 2"
+                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"
+                                                          data-constraints="@LettersOnly"/>
+                                                 </label>
+                                                 </div>
+
+                                                <div>
+                                                <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="city"
+                                                          id="consult_individual_city"
+                                                          v-model="individual_city"
+                                                          placeholder="City *"
+                                                          value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
+                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                 </label>
+                                                 </div>
+                                                
+
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+                                                       <div id="consult-individual-state-choices">
+                                                       </div>
+                                                  </label>
+                                                 </div>
+
+
+                                                <div>
+                                                <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="zip"
+                                                          id="consult_individual_zip"
+                                                          v-model="individual_zip"
+                                                          placeholder="Zip *"
+                                                          value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
+                                                          data-constraints="@NotEmpty"/>
+                                                 </label>
+                                                 </div>
+
+
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+                                                       <div id="consult-individual-country-choices">
+                                                       </div>
+                                                  </label>
+                                                 </div>
+
+
+ 
+                                                  <div class="form-group">
 
                                                       <label style="padding-top:1.9em;">
                                                            <input type="text"
                                                                   name="phone"
-                                                                  v-model="phone"
+                                                                  v-model="individual_phone"
                                                                   placeholder="Phone"
                                                                   value="{% if logout %} {% user_meta user_id 5 %} {% endif %}"
                                                                   data-constraints="@Phone"/>
@@ -4001,54 +3483,21 @@
 
                                                     </div>
 
-                                                  <div>
+                                                  <div class="form-group">
+
                                                     <label style="padding-top:1.9em;">
-                                                            <input type="text"
-                                                                   id="consult_email"
-                                                                   name="email"
-                                                                   v-model="email"
-                                                                   value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
-                                                                   placeholder="Email"
-                                                                   data-constraints="@Email @NotEmpty"/>
+                                                       <input type="text"
+                                                              id="consult_email"
+                                                              name="email"
+                                                              v-model="individual_email"
+                                                              value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
+                                                              placeholder="Email"
+                                                              data-constraints="@Email @NotEmpty"/>
                                                     </label>
 
                                                  </div>
 
 
-                                                 <div>
-                                                 <label style="padding-top:1.9em;">
-                                                    <div style="float:left;width:19%;">
-                                                        <input type="text"
-                                                               style="width:90%;"
-                                                               name="consult_month"
-                                                               id="consult_month"
-                                                               v-model="month"
-                                                               placeholder="Month*"
-                                                               value="Month"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                    </div>
-
-
-                                                    <div style="float:left;width:19%;">
-                                                        <input type="text"
-                                                               style="width:90%;"
-                                                               name="consult_day"
-                                                               id="consult_day"
-                                                               v-model="day"
-                                                               placeholder="Day*"
-                                                               value="Day"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                     </div>
-                                                     <div style="float:left;width:19%;">
-                                                        <input type="text"
-                                                               style="width:91%;"
-                                                               name="consult_year"
-                                                               id="consult_year"
-                                                               v-model="year"
-                                                               placeholder="Year*"
-                                                               value="Year"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-                                                      </div>
                                                       <div class="clear"></div>
 
                                                       <div style="float:left;padding-top:1.9em;">
@@ -4058,11 +3507,11 @@
                                                       <div class="clear"></div>
 
 
-                                                 </label>
-                                                 </div>
+                                                 
+                                                
 
 
-
+                                            </fieldset>
                                           </form>
                                    </div>
                                    <div class="clear"></div>
@@ -4079,11 +3528,58 @@
 
                                        <form class='mailform contact-form' method="post">
                                            {% csrf_token %}
+                                            <fieldset class="billing-fieldset">
+
+                                                 <legend>
+                                                     <span class="fieldset-legend">Additional Information</span>
+                                                 </legend>
 
 
-                                         <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
-                                               <button class="btn4" v-on:click="submitfour"  id="consult_step_four">Next</button>
-                                         </div>
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+
+                                                       <h6>Country of Citizenship</h6>
+                                                       <div id="consult-additional-country-choices">
+                                                       </div>
+                                                  </label>
+                                                 </div>
+
+
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+                                                        <h6>Number of Children</h6>
+                                                       <div id="consult-additional-children-choices">
+                                                       </div>
+                                                  </label>
+                                                 </div>
+
+                                                 <div>
+                                                  <label class="mfInput" style="padding-top:1.9em;">
+                                                       <h6>Marital Status</h6>
+                                                       <div id="consult-additional-marital-choices">
+                                                       </div>
+                                                  </label>
+                                                 </div>
+
+
+                                                <div>
+                                                <label style="padding-top:1.9em;">
+                                                   <h6>Manner of Entry</h6>
+                                                   <input type="text"
+                                                          name="manner_of_entry"
+                                                          id="manner_of_entry"
+                                                          v-model="manner_of_entry"
+                                                          placeholder="Manner of entry *"
+                                                          value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
+                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                 </label>
+                                                 </div>
+
+
+                                                 <div style="float:left;padding-top:1.9em;margin-left:0em;">
+                                                       <button class="btn4" v-on:click="submitfour"  id="consult_step_four">Next</button>
+                                                 </div>
+                                          </fieldset>
                                        </form>
                                    </div>
                                    <div class="clear"></div>
@@ -4096,16 +3592,30 @@
                                    </div>
 
 
-                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+                                   <div class="col-xs-12 col-sm-8" style="float:left;">
 
                                        <form class='mailform contact-form' method="post">
                                               {% csrf_token %}
 
+                                              <fieldset class="billing-fieldset">
+
+                                                 <legend>
+                                                     <span class="fieldset-legend">Purpose of the consultation</span>
+                                                 </legend>
+
+                                            
+                                             <label class="label_message">
+                                                <textarea name="purpose*"   placeholder="Purpose"
+                                                     v-model="purpose"
+                                                      data-constraints="@NotEmpty"></textarea>
+                                              </label>
 
 
-                                           <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
-                                               <button class="btn4" v-on:click="submitfive"  id="consult_step_five">Next</button>
+
+                                           <div style="float:left;padding-top:1.9em;margin-left:0em;">
+                                              <button class="btn4" v-on:click="submitfive"  id="consult_step_five">Next</button>
                                            </div>
+                                          </fieldset>
                                        </form>
                                   </div>
                                   <div class="clear"></div>
@@ -4124,8 +3634,53 @@
                                        <form class='mailform contact-form' method="post">
                                           {% csrf_token %}
 
+                                              <fieldset class="billing-fieldset">
+                                                 <div style="color:#1C1C1C;">
+                                                 <legend>
+                                                     <span class="fieldset-legend"><h4>Verify:</h4></span>
+                                                 </legend>
 
-                                          <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
+                                                 <div><h4><strong>Consultation Type</strong></h4></div>
+                                                 <div id="final_consultation_consultancy_type"></div>
+                                                 <div id="final_consultation_consultancy_price"></div>
+
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Billing Information</strong></h4></div>
+                                                 <div id="final_consultation_billing_name_on_card"></div>
+                                                 <div id="final_consultation_billing_address1"></div>
+                                                 <div id="final_consultation_billing_address2"></div>
+                                                 <div id="final_consultation_billing_city"></div>
+                                                 <div id="final_consultation_billing_state"></div>
+                                                 <div id="final_consultation_billing_country"></div>     
+                                                 <div id="final_consultation_billing_phone"></div>  
+                                                 <div id="final_consultation_billing_email"></div> 
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Individual Information</strong></h4></div>
+                                                 <div id="final_consultation_individual_fullname"></div>
+                                                 <div id="final_consultation_individual_email"></div>
+                                                 <div id="final_consultation_individual_address1"></div>
+                                                 <div id="final_consultation_individual_address2"></div>
+                                                 <div id="final_consultation_individual_city"></div>
+                                                 <div id="final_consultation_individual_zip"></div>                              
+                                                 <div id="final_consultation_individual_state"></div>
+                                                 <div id="final_consultation_individual_country"></div>
+                                                 <div id="final_consultation_individual_phone"></div>
+
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Additional Information</strong></h4></div>
+                                                 <div id="final_consultation_country_of_citizenship"></div>
+                                                 <div id="final_consultation_number_of_children"></div>
+                                                 <div id="final_consultation_marital_status"></div>
+                                                 <div id="final_consultation_manner_of_entry"></div>
+
+                                                 <div>--------------------------------------------------------------------------------------------</div>
+                                                 <div><h4><strong>Purpose of Consultation</strong></h4></div>
+                                                 <div id="final_consultation_purpose"></div>
+                                                 </div>
+                                             </fieldset>
+
+
+                                          <div style="float:left;padding-top:1.9em;margin-left:0em;">
                                               <button class="btn4" v-on:click="submitsix"  id="consult_step_six">Next</button>
                                           </div>
                                        </form>
@@ -4144,20 +3699,23 @@
                                    <div class="col-xs-12 col-sm-9" style="float:left;">
 
                                          <form class='mailform contact-form' method="post">
+
                                             {% csrf_token %}
 
+                                                             <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
+                                                                 <div style="margin-top:-15px;margin-bottom:150px;">Your request for consultation has been placed! Please check your email.</div>
+                                                             </div>
 
-
-                                            <div style="float:left;padding-top:1.9em;margin-left:-1.6em;">
-                                                <button class="btn4" v-on:click="submitseven"  id="cosnult_step_seven">Consult</button>
+                                            <div style="float:left;padding-top:1.9em;margin-left:0px">
+                                                <button class="btn4" v-on:click="submitseven"  id="cosnult_step_seven">Home</button>
                                             </div>
                                          </form>
                                    </div>
                                    <div class="clear"></div>
 
                             </div>
-
-                       </div>
+                          </div> 
+                    
                   </section>
                  </main>
             </div>
@@ -4250,7 +3808,7 @@
                        
                           <input type="hidden" name="form-type" value="contact"/> 
                           <fieldset> 
-                              <label> 
+                              <label style="padding-top:1.9em;"> 
                                   <input type="text" 
                                   name="name"
                                   v-model="name"
@@ -4259,7 +3817,7 @@
                                   data-constraints="@LettersOnly @NotEmpty"/> 
                               </label> 
 
-                              <label> 
+                              <label style="padding-top:1.9em;"> 
                                   <input type="text" 
                                   name="phone" 
                                   v-model="phone"
@@ -4269,7 +3827,7 @@
                               </label> 
                               <label>
 
-                              <label>
+                              <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="email" 
                                   v-model="email"
@@ -4279,7 +3837,7 @@
                               </label>
                               </label> 
 
-                              <label class="label_message"> 
+                              <label class="label_message"  style="padding-top:1.9em;"> 
                                   <textarea name="message*"   placeholder="Message" 
                                   v-model="message"
                                   data-constraints="@NotEmpty"></textarea> 
@@ -4387,141 +3945,114 @@
            <br/><br/>
             </div>
     -->
-            <div id="qualify-stepone" style="font-size:1.3em;">
-                    <!-- qsigninapp -->
-                    <div id="qsigninapp">
 
-                        <form class='mailform contact-form' method="post">
-                             {% csrf_token %}
+                            <div id="qualify-stepone">
 
-
-                          <input type="hidden" name="counter" id="counter" value=""/>
-
-
-
-                                   <div class="col-xs-12 col-sm-3" style="float:left;">
+                                   <div class="col-xs-12 col-sm-2" style="float:left;">
                                          &nbsp;
                                    </div>
 
 
+
+
                                    <div class="col-xs-12 col-sm-8" style="float:left;">
 
+                                   <form  method="post">
+                                           {% csrf_token %}
 
+                                           <input type="hidden" name="counter" id="counter" value=""/>
                                            <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
                                                 Your State
                                            </div>
-                                           <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
+                                           <div style="float:left;width:37%;height:5%;padding-top:1.2em;padding-bottom:1.2em;">
+<!--
+                                                <input type="hidden" v-model="state" id="state-selected" />
+-->
+                                                <div id="qualify-no-state" style="display:none;float: left; width:100%;padding-top: 1.2em; padding-bottom: 1.2em;">
+<!--
+                                                     <v-select :on-change="statechange" label="Select State" :options="states" :searchable="false" ></v-select>
+-->
+                                                     <select v-model="package_state" v-on:change="stateupdate" id='state-selected' class='styled-select slate' style='width:80%;background:#f3f3f3;height:1.6em;'>
+                                                           <option selected value="2">New York</option>
+                                                           <option value="1">New Jersey</option>
+                                                     </select>
+                                                </div>
                                                 <div id="state-displayed"></div>
                                            </div>
                                            <div class="clear"></div>
 
+                                           <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
+                                                 Divorce Type 
+                                           </div>
+                                           <div style="float:left;width:37%;height:1.6em;padding-top:1.2em;padding-bottom:1.2em;">
+                                                <div class="form-group">
+                                                <label>
+                                                    <select  id='select-package' class='styled-select slate' style='width:80%;background:#f3f3f3;height:1.6em;' onchange='packageChange(this.value);'>
+                                                         <option value="Contested">Contested Divorce</option>
+                                                         <option selected value="Uncontested">Uncontested Divorce</option>
+                                                         <option value="Other">Other Packages</option>
+                                                    </select>
+                                                </label>
+                                                </div>
 
-                                <input type="hidden" name="state-selected" id="state-selected" v-model="state"  value="{{ state }}"/>
+<!--
+                                           <v-select :options="['Contested', 'Uncontested', 'Other']"  :on-change="packagechange"></v-select>
+-->
+                                           </div>
+                                           <div class="clear"></div>
+                                           
 
-                                <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">Package Type</div>
+                                           <div id="packages-choices" style="width:100%;;padding-top:1.2em;float:left;"></div>  
+                                           <div class="clear"></div>   
 
-                                <div style="float:left;width:38%;">
-
-
-                          <fieldset>
-                              <label>
-                                    <select id='select-divorce-type' v-model='package_type' v-on:click="packagechange" class='styled-select slate' style='width:100%;' >
-                                            <option value="1">Contested</option>
-                                            <option value="2">Uncontested</option>
-                                    </select>
-
-                              </label>
-
-
-                              <div class="clear"></div>
-                          </fieldset>
-
-
-
+                                           <br />
+                                           <div style="float:left;padding-top:1.9em;">
+                                               <button class="btn4" v-on:click="submitone"  id="qualify_next_one">Next</button>
+                                           </div>
+                                      </form>
                                    </div>
                                    <div class="clear"></div>
 
-                            
 
-
-<!--
-                                <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                    <input type="radio" v-model="state" id="state"  name="qualify-state" value="New Jersey">New Jersey
-                                </div>
--->
-
-
-                                <input type="hidden" name="state-selected" id="state-selected" v-model="state"  value="{{ state }}"/>
-
-                                <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">Package Type</div>
-
-                                <div style="float:left;width:38%;">
-
-
-                          <fieldset>
-                              <label>
-                                    <select id='select-divorce-type' v-model='package_type' v-on:click="packagechange" class='styled-select slate' style='width:100%;' >
-                                            <option value="1">Contested</option>
-                                            <option value="2">Uncontested</option>
-                                    </select>
-
-                              </label>
-
-
-                              <div class="clear"></div>
-                          </fieldset>
+                            </div>
 
 
 
-                                </div>
-                                
-                                <div class="clear"></div>
-
-                         {% for q in qualifying %}
-                                <div style="float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;">
-                                    {{ q.question }} 
-                                </div>
-                                <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                    <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="yes" v-model="{{ q.html_id }}" checked> Yes<br>
-                                </div>
-                                <div style="float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;">
-                                    <input type="radio" id="{{ q.html_id }}"  name="{{ q.html_id }}" value="no"  v-model="{{ q.html_id }}"> No<br>
-                                </div>
-                                <div class="clear"></div> 
-                        {% endfor %}
-
-
-
-   
-
-                              <div style="float:left;padding-top:1.9em;">
-                                  <button class="btn4" v-on:click="submitone"  id="qualify_next_one">Next</button>
-                              </div>
-                              <div class="clear"></div>
-
-                        </form>
-                 </div> <!-- qsignupapp ends -->
-            </div> <!-- qualify-stepone ends -->
             <!-- qualify-steptwo -->
             <div id="qualify-steptwo" style="font-size:1.3em;">
-                          <div>
+
+                        <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                        </div>
+
+
+
+
+                        <div class="col-xs-12 col-sm-8" style="float:left;">
+
+
                         <form class='mailform contact-form' method="post">
                          {% csrf_token %}
 
                          <div id="final_does_qualify"></div>
                          <div id="final_ready_start"></div>
-                                          <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/> 
-                          <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
-                          <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
-                          <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
-                          <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
-                          <input type="hidden" name="package_price" id="package_price" v-model="package_price"  value="{{ package_price }}"/>
-                          <input type="hidden" name="package_type" id="package_type" v-model="package_type"  value="{{ package_type }}"/>
-                          <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
-                          <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
-                          <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
-                          <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
-                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
+
+                         <div id="final-qualify-state"></div>
+                         <div id="final-package-selected"></div> 
+                         <div id="final-package-price"></div>
+
+                         <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/> 
+                         <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
+                         <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
+                         <input type="hidden" name="does_spouse_agree" id="does_spouse_agree" v-model="does_spouse_agree"  value="{{ does_spouse_agree }}"/>
+                         <input type="hidden" name="is_spouse_location_known" id="is_spouse_location_known" v-model="is_spouse_location_known"  value="{{ is_spouse_location_known }}"/>
+                         <input type="hidden" name="package_price" id="package_price" v-model="package_price"  value="{{ package_price }}"/>
+                         <input type="hidden" name="package_type" id="package_type" v-model="package_type"  value="{{ package_type }}"/>
+                         <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
+                         <input type="hidden" name="email" id="email" v-model="email"  value="{{ email }}"/>
+                         <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
+                         <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
+                         <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
 
                       <input type="hidden" name="counter" id="counter" value=""/>
 
@@ -4536,7 +4067,7 @@
 
                           {% if logout %}
 
-                                  <div style="float:left;padding-top:1.9em;">
+                              <div style="float:left;padding-top:1.9em;">
                               <button class="btn4" v-on:click="submittwo"  id="qualify_next_two">Next</button>
                               </div>
 
@@ -4556,7 +4087,15 @@
 
                 <div id="qualify-stepthree">
                     {% if logout %}
-                    <div class="col-xs-12 col-sm-8">
+                    <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                    </div>
+
+
+
+
+
+                    <div class="col-xs-12 col-sm-5" style="float:left;">
                     <p>
                 Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
                       </p>
@@ -4573,27 +4112,27 @@
                           <input type="hidden" name="state" id="state" v-model="state"  value="{{ state }}"/>
                           <input type="hidden" name="first" id="first" v-model="first"  value="{% user_meta user_id 1 %}"/>
                           <input type="hidden" name="last" id="last" v-model="last"  value="{% user_meta user_id 2 %}"/>
-                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
+                          <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  value="{% if logout %}{% user_meta user_id 1 %}&nbsp;{% user_meta user_id 2 %}{% endif %}"/>
 
                           <input type="hidden" name="counter" id="counter" value=""/>
                           <fieldset>
-                              <label>
+                              <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="first"
                                   id="stepthree_first"
                                   v-model="first"
                                   placeholder="First Name*"
-                                  value="{% if logout %}{% user_meta user_id 1 %}{% endif %}" 
+                                  value="{% user_meta user_id 1 %}" 
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
 
-                              <label>
+                              <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="last"
                                   id="stepthree_last"
                                   v-model="last"
                                   placeholder="Last Name*"
-                                  value="{% if logout %}{% user_meta user_id 2 %}{% endif %}"
+                                  value="{% user_meta user_id 2 %}"
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
 
@@ -4603,7 +4142,7 @@
                                   id="stepthree_email"
                                   name="email"
                                   v-model="email"
-                                  value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
+                                  value="{% user_meta user_id 4 %}"
                                   placeholder="Email"
                                   data-constraints="@Email @NotEmpty"/>
                               </label>
@@ -4616,6 +4155,53 @@
                                   value="{% if logout %}{% user_meta user_id 5 %}{% endif %}"
                                   placeholder="Phone"
                                   data-constraints="@Phone @NotEmpty"/>
+                              </label>
+
+
+                              <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="address1"
+                                                          id="qualify_address1"
+                                                          v-model="address1"
+                                                          placeholder="Address 1*"
+                                                          value="{% if logout %}{% billing_meta user_id 1 %}{% endif %}"
+                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                              </label>
+
+                              <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="address2"
+                                                          id="qualify_address2"
+                                                          v-model="address2"
+                                                          placeholder="Address 2"
+                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"
+                                                          data-constraints="@LettersOnly"/>
+                              </label>
+
+
+                              <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="city"
+                                                          id="qualify_city"
+                                                          v-model="city"
+                                                          placeholder="City *"
+                                                          value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
+                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                              </label>
+
+                              <label class="mfInput" style="padding-top:1.9em;">
+                                                       <div id="qualify-state-choices">
+                                                       </div>
+                              </label>
+
+                              <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="zip"
+                                                          id="qualify_zip"
+                                                          v-model="zip"
+                                                          placeholder="Zip *"
+                                                          value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
+                                                          data-constraints="@NotEmpty"/>
                               </label>
 
 
@@ -4650,14 +4236,25 @@
                                    Email {% user_meta user_id 4 %}
                                </div> 
                          </div>
+                         <div class="clear"></div>
                          {% endif %}
 
 
             </div>
             <div id="qualify-stepfour">
                         {% if logout %}
-                        <div class="col-xs-12 col-sm-8">
-                        <form class='mailform contact-form' method="post">
+
+                    <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                    </div>
+
+
+
+
+
+                    <div class="col-xs-12 col-sm-5" style="float:left;">
+
+                        <form novalidate autocomplete="on" class='mailform contact-form' method="post" id="payment-form-two">
                              {% csrf_token %}
                           <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/>
                           <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
@@ -4676,70 +4273,74 @@
 
 
                           <fieldset>
-                              <div> 
+<!--
+                              <div class="form-group">
                               <label style="padding-top:1.9em;">
-                                  <input type="text"
-                                  name="cardtype"
-                                  id="cardtype"
-                                  v-model="cardtype"
-                                  placeholder="Card Type*"
-                                  value="Visa,AMEX,MasterCard,Discover..."
-                                  data-constraints="@LettersOnly @NotEmpty"/>
-                              </label>
-                              </div>
-
-
-                              <div>
-                              <label style="padding-top:1.9em;">
-                                  <input type="text"
+                                  <input 
                                   name="cardnumber"
-                                  id="cardnumber"
+                                  type="tel" 
+                                  name="cardnumber"
+                                  id="cardnumber-q"
                                   v-model="cardnumber"
+                                  class="input-lg form-control cc-number" 
+                                  autocomplete="cc-number" 
+                                  placeholder="•••• •••• •••• ••••" 
+                                  required
                                   placeholder="Card Number*"
-                                  value="Your Card Number (Digits Only, no dashes)..."
-                                  data-constraints="@NumbersOnly @NotEmpty"/>
-                              </label>
-                              </div>
-
-
-
-                              <div>
-                              <label style="padding-top:1.9em;">
-                                  <input type="text"
-                                  name="fullname"
-                                  id="qnameoncard"
-                                  v-model="fullname"
-                                  placeholder="Name on Card*"
-                                  value="Your Full Name the way it appears on Your Card ..."
                                   data-constraints="@NotEmpty"/>
                               </label>
                               </div>
+-->
 
-                                 <div style="width:20.5%;float:left;">
-                                    <label style="padding-top:1.9em;"> 
-                                      <input type="text"
-                                             id="expirationmonth"
-                                             name="expirationmonth"
-                                             v-model="expirationmonth"
-                                             style="width:96%;"
-                                             value=""
-                                             placeholder="Expiration Month"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
+
+                              <div class="form-group">
+                              <label style="padding-top:1.9em;">
+                                  <input type="text"
+                                  name="nameoncard"
+                                  id="nameoncard-q"
+                                  v-model="nameoncard"
+                                  placeholder="Name on Card*"
+                                  value='{% user_meta user_id 1 %} {% user_meta user_id 2 %}'
+                                  data-constraints="@NotEmpty"/>
+                              </label>
+                              </div>
+                              <div id="card-errors-two"></div> 
+                              <div class="form-group" id="card-element-two" style="border:2px #D0CECE solid;height:3.9em;margin-top:1.75em;padding-top:1.0em;padding-left:0.4em;">
+                               <!-- A Stripe Element will be inserted here. -->
+                              </div>
+                  
+<!--
+                               <div class="form-group">
+
+
+                                    <label style="padding-top:1.9em;">
+                                      <input type="tel"
+                                             class="input-lg form-control cc-exp"
+                                             autocomplete="cc-exp" 
+                                             id="expiration-q"
+                                             name="expiration"
+                                             v-model="expiration"
+                                              placeholder="Expiration Date •• / ••"
+                                             data-constraints="@NotEmpty" required/>
                                              &nbsp;&nbsp;
                                       </label>
+
                                  </div>
-                                 <div style="width:20.5%;float:left;">  
-                                   <label style="padding-top:1.9em;">
-                                      <input type="text"
-                                             id="expirationyear"
-                                             name="expirationyear"
-                                             v-model="expirationyear"
-                                             style="width:96%;"
-                                             value=""
-                                             placeholder="Expiration Year"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
-                                   </label>
+
+                                 <div class="form-group">                     
+                                     <label style="padding-top:1.9em;">
+                                          <input type="text"
+                                                 name="cvc"
+                                                 id="cvc-q"
+                                                 v-model="cvc"
+                                                 class="input-lg form-control cc-cvc"
+                                                 autocomplete="off"
+                                                 placeholder="•••" required
+                                                 value="Card CVC formatting"
+                                                 data-constraints="@NumbersOnly @NotEmpty"/>
+                                     </label>
                                  </div>
+-->
                                  <div class="clear"></div>
 
                               <div style="float:left;padding-top:1.9em;">
@@ -4788,13 +4389,23 @@
 
 
                                </div>
-
+                   <div class="clear"></div>
                   {% endif %} 
             </div>
 
 
             <div id="qualify-stepfive">
-                       <div class="col-xs-12 col-sm-8"> 
+
+                      <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+                      </div>
+
+
+
+
+
+                       <div class="col-xs-12 col-sm-5" style="float:left;">
+
                         <form class='mailform contact-form' method="post">
                              {% csrf_token %}
 
@@ -4808,19 +4419,22 @@
 
                           <input type="hidden" name="phone" id="phone" v-model="phone"  value=""/>
                           <input type="hidden" name="email" id="email" v-model="email"  value=""/>
-                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
+                          <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  value=""/>
 
                           <input type="hidden" name="counter" id="counter" value=""/>
                           <fieldset>
-                              <label style="padding-top:1.9em;">
-                                  <input type="text"
-                                  name="address1"
-                                  v-model="address1"
-                                  placeholder="Address 1*"
-                                  value="Address 1 ..."
-                                  data-constraints="@NotEmpty"/>
-                              </label>
+                              <div>
+                                  <label style="padding-top:1.9em;">
+                                     <input type="text"
+                                            name="address1"
+                                            v-model="address1"
+                                            placeholder="Address 1*"
+                                            value="Address 1 ..."
+                                            data-constraints="@NotEmpty"/>
+                                  </label>
+                              </div>
 
+                              <div>  
                               <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="address2"
@@ -4829,8 +4443,9 @@
                                   value="Address 2 ..."
                                   data-constraints=""/>
                               </label>
+                              </div>
 
-
+                              <div>
                               <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="city"
@@ -4839,31 +4454,30 @@
                                   value="City..."
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
+                              </div>
+                                              
+                              <div>
+                                 <label class="mfInput" style="padding-top:1.9em;">
+                                     <div id="qualify-state-stepfive-choices">
+                                     </div>
+                                 </label>
+                              </div>
 
-                                 <div style="width:20.5%;float:left;">
-                                    <label style="padding-top:1.9em;">
-                                      <input type="text"
-                                             name="state"
-                                             v-model="state"
-                                             style="width:96%;"
-                                             value="State..."
-                                             placeholder="State"
-                                             data-constraints="@LettersOnly @NotEmpty"/>
-                                             &nbsp;&nbsp;
-                                      </label>
-                                 </div>
-                                 <div style="width:20.5%;float:left;">
-                                   <label style="padding-top:1.9em;">
+                                                
+                              <div>
+                                  <label style="padding-top:1.9em;">
                                       <input type="text"
                                              name="zip"
+                                             id="qualify-zip"
                                              v-model="zip"
-                                             style="width:96%;"
-                                             value="Zip Code..."
-                                             placeholder="Zip"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
-                                   </label>
-                                 </div>
-                                 <div class="clear"></div>
+                                             placeholder="Zip *"
+                                             value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
+                                             data-constraints="@NotEmpty"/>
+                                  </label>
+                              </div>
+
+
+                              <div class="clear"></div>
 
                               <div style="float:left;padding-top:1.9em;">
                                   <button class="btn4" v-on:click="submitfive"  id="qualify_next_five">Next</button>
@@ -4913,10 +4527,14 @@
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">Card Type:</div><div id="step_five_card_type" style="float:left;"></div>
+                                   <div style="float:left;">Card Token:</div><div id="step_five_card_type" style="float:left;">fetched</div>
                                    <div class="clear"></div>
                                    </div>
 
+                                   <div id="name_on_card_by_state">
+                                   </div>
+
+<!--
                                    <div>
                                    <div style="float:left;">Card:</div><div id="step_five_cardnumber" style="float:left;"></div>
                                    <div class="clear"></div>
@@ -4926,34 +4544,48 @@
                                    <div style="float:left;">Expiration:</div><div id="step_five_expiration" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
-
+-->
 
                          </div>
+                         <div class="clear"></div>
 
             </div>
+                        <div class="clear"></div>
                         </div>
 
-            <div id="qualify-stepsix"> 
+            <div id="qualify-stepsix">
+               <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+               </div>
+
+
+
+
                <div class="col-xs-12 col-sm-8">
                   <form class='mailform contact-form' method="post">
                              {% csrf_token %}
+                             <div><h4><strong>Package Details</strong></h4></div>
+                             <div id="qualify_final_package"></div>
+                             <div id="qualify_final_state"></div>
+                             <div id="qualify_final_price"></div>
+                             <div>--------------------------------------------------------------------------------------------</div>
                              <div><h4><strong>Individual Details</strong></h4></div>
                              <div id="qualify_final_email"></div>
                              <div id="qualify_final_phone"></div>   
                              <div id="qualify_final_first"></div>  
                              <div id="qualify_final_last"></div>
+                             <div id="qualify_final_address_state"></div>
                              <div>--------------------------------------------------------------------------------------------</div>
-                             <div><h4><strong>Payment Card Details</strong></h4></div>  
-                             <div id="qualify_final_cardtype"></div>  
-                             <div id="qualify_final_cardnumber"></div>
-                             <div id="qualify_final_expirationmonth"></div>
-                             <div id="qualify_final_expirationyear"></div>
+                             <div><h4><strong>Payment Card Details</strong></h4></div> 
+                             <div id="qualify_final_nameoncard"></div> 
+                             <div id="qualify_final_cardnumber">**** **** **** ****</div>
+                             <div id="qualify_final_expiration">** / ** / **</div>
                              <div>--------------------------------------------------------------------------------------------</div>
                              <div><h4><strong>Billing Address Details</strong></h4></div>
                              <div id="qualify_final_address1"></div>
                              <div id="qualify_final_address2"></div>   
                              <div id="qualify_final_city"></div>
-                             <div id="qualify_final_state"></div>
+                             <div id="qualify_final_billing_state"></div>
                              <div id="qualify_final_zip"></div>
 
                              <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/>
@@ -4961,7 +4593,7 @@
                              <input type="hidden" name="email" id="step_six_email" v-model="email"  />
                              <input type="hidden" name="first" id="step_six_first" v-model="first"  />
                              <input type="hidden" name="last" id="step_six_last" v-model="last"  />
-                             <input type="hidden" name="fullname" id="step_six_fullname" v-model="fullname"  />
+                             <input type="hidden" name="nameoncard" id="step_six_nameoncard" v-model="nameoncard"  />
                              <input type="hidden" name="cardtype" id="step_six_cardtype" v-model="cardtype"  />
                              <input type="hidden" name="cardtype" id="step_six_cardnumber" v-model="cardnumber"  />
                              <input type="hidden" name="address1" id="step_six_address1" v-model="address1"  />
@@ -4970,8 +4602,7 @@
                              <input type="hidden" name="city" id="step_six_city" v-model="city"  />  
                              <input type="hidden" name="state" id="step_six_state" v-model="state"  />
                              <input type="hidden" name="zip" id="step_six_zip" v-model="zip"  />
-                             <input type="hidden" name="month" id="step_six_month" v-model="month"  />
-                             <input type="hidden" name="year" id="step_six_year" v-model="year"  />  
+                             <input type="hidden" name="expiration" id="step_six_expiration" v-model="expiration"  />
                              <input type="hidden" name="counter" id="counter" value=""/>
 
 
@@ -4986,6 +4617,7 @@
               </form>
 
                </div>
+               <div class="clear"></div>
         </div>
             <div id="qualify-stepseven">
               <form class='mailform contact-form' method="post">
@@ -4996,10 +4628,22 @@
 
              {% csrf_token %}
 
+               <div class="col-xs-12 col-sm-2" style="float:left;">
+                                         &nbsp;
+               </div>
 
-              Your payment info has been processed. Please check your email.
 
 
+
+               <div class="col-xs-12 col-sm-8">
+
+                                                             <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
+                                                                 <div style="margin-top:-15px;">Your payment info has been processed. Please check your email!</div>
+                                                             </div>
+          
+ 
+
+              </div>
             </form>
             </div>
 
@@ -5076,13 +4720,13 @@
                           <div  class="bread-main" id="paymentwizard">
 
                                  <h3><span>Make a </span> Payment</h3>
-
                     <ul class="cd-multi-steps text-bottom count" id="wizard">
-                            <li class="current"><em><a href="#" id="progress_stepone" href="#">Step 1 - Name and Email</a></em></li>
-                            <li><em><a href="#" id="progress_steptwo" href="#">Step 2 - Payment Info</a></em></li>
-                            <li><em><a href="#" id="progress_stepthree">Step 3 - Billing Address</a></em></li>
-                            <li><em><a href="#" id="progress_stepfour">Step 4 - Review and Conirm</a></em></li>
-                            <li><em><a href="#" id="progress_stepfive">Step 5 - Process Payment</a></em></li>
+                            <li class="current">
+                                <em><a href="#" v-on:click="stepone" id="progress_stepone" href="#">Step 1 - Name and Email</a></em></li>
+                            <li><em><a href="#" v-on:click="steptwo" id="progress_steptwo" href="#">Step 2 - Payment Info</a></em></li>
+                            <li><em><a href="#" v-on:click="stepthree" id="progress_stepthree">Step 3 - Billing Address</a></em></li>
+                            <li><em><a href="#" v-on:click="stefour" id="progress_stepfour">Step 4 - Review and Conirm</a></em></li>
+                            <li><em><a href="#" v-on:click="stepfive" id="progress_stepfive">Step 5 - Process Payment</a></em></li>
                     </ul>
 
     <!--
@@ -5105,7 +4749,9 @@
              <!-- stepone -->
             <div id="stepone">
 
-                 <div class="col-xs-12 col-sm-8">
+                 <div class="col-xs-12 col-sm-2" style="float:left;">
+                 </div>
+                 <div class="col-xs-12 col-sm-5" style="float:left;">
 
                     <p>
             Use this form to make a credit card payment. By using this form and accepting the agreement below you expressly confirm your understanding that once we provide services to you, the portion of the fee, which corresponds to the work done, becomes Non-Refundable. You further understand that fees are not dependent upon the outcome of your matter and no specific legal outcome may be promised. You further understand that fees paid for legal consultations are only refundable prior to the beginning of the consultation. Once the consultation begins, the consultation fee becomes Non-Refundable.
@@ -5116,7 +4762,7 @@
 
                           <input type="hidden" name="counter" id="counter" value=""/>
                           <fieldset>
-                              <label>
+                              <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="first"
                                   id="first_payments"
@@ -5126,7 +4772,7 @@
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
 
-                              <label>
+                              <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="last"
                                   id="last_payments"
@@ -5185,17 +4831,17 @@
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">First:</div><div id="step_one_first" style="float:left;"></div>
+                                   <div style="float:left;">First:</div><div id="step_one_first" style="float:left;">{% user_meta user_id 1 %}</div>
                                    <div class="clear"></div>
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">Last:</div><div id="step_one_last" style="float:left;"></div>
+                                   <div style="float:left;">Last:</div><div id="step_one_last" style="float:left;">{% user_meta user_id 2 %}</div>
                                    <div class="clear"></div>
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">Email:</div><div id="step_one_email" style="float:left;"></div>
+                                   <div style="float:left;">Email:</div><div id="step_one_email" style="float:left;">{% user_meta user_id 4 %}</div>
                                    <div class="clear"></div>
                                    </div>
 
@@ -5204,89 +4850,55 @@
                                    <div class="clear"></div>
                                    </div>
 
-
-
-                                   First: {% user_meta user_id 1 %}<br/>
-                                   Last: {% user_meta user_id 2 %}<br/>
-                                   Email {% user_meta user_id 4 %}
                                </div>
                          </div>
-
+                         <div class="clear"></div>
             </div>
 
             <!-- steptwo -->
             <div id="steptwo">
-                 <div class="col-xs-12 col-sm-8">
-                        <form class='mailform contact-form' method="post">
+                 <div class="col-xs-12 col-sm-2" style="float:left;"></div>
+                 <div class="col-xs-12 col-sm-5" style="float:left;">
+                        <form class='mailform contact-form'  method="post" id="payment-form-one">
                              {% csrf_token %}
                           <input type="hidden" name="phone" id="st-phone" v-model="phone"  value="{{ phone }}"/>
                           <input type="hidden" name="email" id="st-email" v-model="email"  value="{{ email }}"/>
                           <input type="hidden" name="first" id="st-first" v-model="first"  value="{{ first }}"/>
                           <input type="hidden" name="last" id="st-last" v-model="last"  value="{{ last }}"/>
-                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value="{{ fullname }}"/>
                           <input type="hidden" name="counter" id="counter" value=""/>
 
-                          {{ fullname }}<br/>
-                          {{ email }} <br/>
-                          {{ phone }}
 
-                          <fieldset> 
+                          <fieldset>
+                              <div class="form-group"> 
                               <label>
                                   <input type="text"
-                                  name="fullname"
-                                  id="fullname"
-                                  v-model="fullname"
+                                  name="nameoncard"
+                                  id="steptwo_nameoncard"
+                                  v-model="nameoncard"
+                                  v-on:change="clearwarnings_nameoncard"
                                   placeholder="Name on card*"
-                                  value="{{ first }} {{ last }}"
-                                  data-constraints="@LettersOnly @NotEmpty"/>
+                                  value="{% if logout %}{% user_meta user_id 1 %}er_meta user_id 2 %} {% endif %} " />
                               </label>
+                              </div>
+                             <div id="payment-name-on-card-error"></div>
+                              <div class="form-group" id="card-element-one" style="border:2px #D0CECE solid;height:3.9em;margin-top:1.75em;padding-top:1.0em;padding-left:0.4em;">
+                               <!-- A Stripe Element will be inserted here. -->
+                              </div>
+                               <div class="error" id="card-errors-one"></div>  
 
-                              <label style="padding-top:1.9em;">
-                                  <input type="text"
-                                  name="cardtype"
-                                  id="cardtype"
-                                  v-model="cardtype"
-                                  placeholder="Card Type*"
-                                  value="Visa,AMEX,MasterCard,Discover..."
-                                  data-constraints="@LettersOnly @NotEmpty"/>
-                              </label>
-
-                              <label style="padding-top:1.9em;">
-                                  <input type="text"
-                                  name="cardnumber"
-                                  id="cardnumber"
-                                  v-model="cardnumber"
-                                  placeholder="Card Number*"
-                                  value="Your Card Number (Digits Only, no dashes)..."
-                                  data-constraints="@NumbersOnly @NotEmpty"/>
-                              </label>
-
-                                 <div style="width:20.5%;float:left;">
-                                    <label style="padding-top:1.9em;"> 
-                                      <input type="text"
-                                             id="expirationmonth"
-                                             name="expirationmonth"
-                                             v-model="expirationmonth"
-                                             style="width:96%;"
-                                             value=""
-                                             placeholder="Expiration Month"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
-                                             &nbsp;&nbsp;
+                              <div class="form-group">
+                                    <label style="padding-top:1.9em;">
+                                      <input type="text" 
+                                             class="input-lg form-control" 
+                                             placeholder="Amount"
+                                             id="payment-amount"
+                                             v-on:change="clearwarnings_amount"
+                                             name="amount"
+                                             v-model="amount"
+                                             style="width:100%;" />
                                       </label>
                                  </div>
-                                 <div style="width:20.5%;float:left;">  
-                                   <label style="padding-top:1.9em;">
-                                      <input type="text"
-                                             id="expirationyear"
-                                             name="expirationyear"
-                                             v-model="expirationyear"
-                                             style="width:96%;"
-                                             value=""
-                                             placeholder="Expiration Year"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
-                                   </label>
-                                 </div>
-                                 <div class="clear"></div>
+                                 <div id="payment-amount-error"></div> 
 
                               <div style="float:left;padding-top:1.9em;">
                                   <button class="btn4" v-on:click="submittwo"  id="next_two">Next</button>
@@ -5337,72 +4949,82 @@
 
                                </div>
                          </div>
-
+                         <div class="clear"></div>
             </div>
 
             <!-- #stepthree -->
             <div id="stepthree">
-                  <div class="col-xs-12 col-sm-8">
+                  <div class="col-xs-12 col-sm-2" style="float:left;"></div>
+                  <div class="col-xs-12 col-sm-5" style="float:left;">
                         <form class='mailform contact-form' method="post">
                              {% csrf_token %}
 
                           <input type="hidden" name="phone" id="phone" v-model="phone"  value=""/>
                           <input type="hidden" name="email" id="email" v-model="email"  value=""/>
-                          <input type="hidden" name="fullname" id="fullname" v-model="fullname"  value=""/>
+                          <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  value=""/>
 
                           <input type="hidden" name="counter" id="counter" value=""/>
                           <fieldset>
+                              <div class="form-group">
                               <label style="padding-top:1.9em;">
                                   <input type="text"
+                                  id="pay-address1"
                                   name="address1"
                                   v-model="address1"
+                                  v-on:change="clearwarnings_address1"
                                   placeholder="Address 1*"
-                                  value="Address 1 ..."
-                                  data-constraints="@NotEmpty"/>
+                                  value="Address 1 ..." />
                               </label>
+                              </div>
+                              <div id="payment-stepthree-address1-error"></div>
 
+                              <div class="form-group">
                               <label style="padding-top:1.9em;">
                                   <input type="text"
+                                  id="pay-address2"
                                   name="address2"
                                   v-model="address2"
                                   placeholder="Address 2*"
                                   value="Address 2 ..."
                                   data-constraints=""/>
                               </label>
+                              </div>
 
-
+                              <div class="form-group">
                               <label style="padding-top:1.9em;">
                                   <input type="text"
+                                  id="pay-city"
                                   name="city"
                                   v-model="city"
+                                  v-on:change="clearwarnings_city"  
                                   placeholder="City*"
-                                  value="City..."
-                                  data-constraints="@LettersOnly @NotEmpty"/>
+                                  value="City..." />
                               </label>
+                              </div>
+                              <div id="payment-stepthree-city-error"></div>
 
-                                 <div style="width:20.5%;float:left;">
-                                    <label style="padding-top:1.9em;">
-                                      <input type="text"
-                                             name="state"
-                                             v-model="state"
-                                             style="width:96%;"
-                                             value="State..."
-                                             placeholder="State"
-                                             data-constraints="@LettersOnly @NotEmpty"/>
-                                             &nbsp;&nbsp;
-                                      </label>
-                                 </div>
-                                 <div style="width:20.5%;float:left;">
-                                   <label style="padding-top:1.9em;">
-                                      <input type="text"
-                                             name="zip"
-                                             v-model="zip"
-                                             style="width:96%;"
-                                             value="Zip Code..."
-                                             placeholder="Zip"
-                                             data-constraints="@NumbersOnly @NotEmpty"/>
-                                   </label>
-                                 </div>
+                              <div class="form-group">
+                              <label class="mfInput" style="padding-top:1.9em;">
+                                                       <div id="pay-state-choices">
+                                                       </div>
+                              </label>
+                              </div>
+                              <div id="payment-stepthree-step-error"></div>
+
+                              <div class="form-group">
+                              <label style="padding-top:1.9em;">
+                                                   <input type="text"
+                                                          name="zip"
+                                                          id="pay-zip"
+                                                          v-model="zip"
+                                                          v-on:change="clearwarnings_zip"
+                                                          placeholder="Zip *"
+                                                          value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
+                                                          />
+                              </label>
+                              </div>
+                              <div id="payment-stepthree-zip-error"></div>
+
                                  <div class="clear"></div>
 
                               <div style="float:left;padding-top:1.9em;">
@@ -5418,104 +5040,106 @@
                                <div>
 
                                    <div>
-                                   <div style="float:left;">Package:</div><div id="step_three_package" style="float:left;"></div>
+                                   <div style="float:left;">Package:</div><div id="step_three_payments_package" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">Price:</div><div id="step_three_price" style="float:left;"></div>
+                                   <div style="float:left;">Price:</div><div id="step_three_payments_price" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">State:</div><div id="step_three_state" style="float:left;"></div>
+                                   <div style="float:left;">State:</div><div id="step_three_payments_state" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">First:</div><div id="step_three_first" style="float:left;"></div>
+                                   <div style="float:left;">First:</div><div id="step_three_payments_first" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">Last:</div><div id="step_three_last" style="float:left;"></div>
+                                   <div style="float:left;">Last:</div><div id="step_three_payments_last" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">Email:</div><div id="step_three_email" style="float:left;"></div>
+                                   <div style="float:left;">Email:</div><div id="step_three_payments_email" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
 
                                    <div>
-                                   <div style="float:left;">Phone:</div><div id="step_three_phone" style="float:left;"></div>
+                                   <div style="float:left;">Phone:</div><div id="step_three_payments_phone" style="float:left;"></div>
+                                   <div class="clear"></div>
+                                   </div>
+
+                                   <div id="name_on_card">
+                                   </div>
+
+
+                                   <div>
+                                   <div style="float:left;">Card Token:</div><div id="step_three_payments_cardtype" style="float:left;">fetched</div>
+                                   <div class="clear"></div>
+                                   </div>
+
+
+
+<!--
+                                   <div>
+                                   <div style="float:left;">Card No.:</div><div id="step_three_payments_cardnumber" style="float:left;"></div>
+                                   <div class="clear"></div>
+                                   </div>
+
+                                   <div>
+                                   <div style="float:left;">Name on card:</div><div id="step_three_payments_nameoncard" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
 
 
                                    <div>
-                                   <div style="float:left;">Card Type:</div><div id="step_three_cardtype" style="float:left;"></div>
+                                   <div style="float:left;">Expiration:</div><div id="step_three_payments_expiration" style="float:left;"></div>
                                    <div class="clear"></div>
                                    </div>
-
-                                   <div>
-                                   <div style="float:left;">Card No.:</div><div id="step_three_cardnumber" style="float:left;"></div>
-                                   <div class="clear"></div>
-                                   </div>
-
-                                   <div>
-                                   <div style="float:left;">Name on card:</div><div id="step_three_nameoncard" style="float:left;"></div>
-                                   <div class="clear"></div>
-                                   </div>
-
-
-                                   <div>
-                                   <div style="float:left;">Expiration:</div><div id="step_three_expiration" style="float:left;"></div>
-                                   <div class="clear"></div>
-                                   </div>
-
+-->
                                </div>
                          </div>
-
+                         <div class="clear"></div>
             </div>
 
             <div id="stepfour">
-                  <div class="col-xs-12 col-sm-8">
+                  <div class="col-xs-12 col-sm-2" style="float:left;"></div>
+                  <div class="col-xs-12 col-sm-5" style="float:left;">
 
                   <form class='mailform contact-form' method="post">
                              {% csrf_token %}
                              <div><h4><strong>Individual Details</strong></h4></div>
-                             <div id="final_email"></div>
-                             <div id="final_phone"></div>   
-                             <div id="final_fullname"></div>  
+                             <div id="final_payment_email"></div>
+                             <div id="final_payment_phone"></div>   
                              <div>--------------------------------------------------------------------------------------------</div>
-                             <div><h4><strong>Payment Card Details</strong></h4></div>  
-                             <div id="final_cardtype"></div>  
-                             <div id="final_cardnumber"></div>
-                             <div id="final_expirationmonth"></div>
-                             <div id="final_expirationyear"></div>
+                             <div><h4><strong>Payment Details</strong></h4></div>
+                             <div id="final_payment_amount"></div>  
+                             <div id="final_payment_nameoncard"></div>  
+                             <div id="final_cardnumber">Card: **** **** **** ****</div>
+                             <div id="final_expiration">Expiration ** / ** / **</div>
                              <div>--------------------------------------------------------------------------------------------</div>
                              <div><h4><strong>Billing Address Details</strong></h4></div>
-                             <div id="final_address1"></div>
-                             <div id="final_address2"></div>   
-                             <div id="final_city"></div>
-                             <div id="final_state"></div>
-                             <div id="final_zip"></div>
+                             <div id="final_payment_address1"></div>
+                             <div id="final_payment_address2"></div>   
+                             <div id="final_payment_city"></div>
+                             <div id="final_payment_state"></div>
+                             <div id="final_payment_zip"></div>
 
                              <input type="hidden" name="user_id" id="user_id" v-model="user_id" value="{{ user.id }}" />
                              <input type="hidden" name="phone" id="phone" v-model="phone"  />
                              <input type="hidden" name="email" id="email" v-model="email"  />
-                             <input type="hidden" name="fullname" id="fullname" v-model="fullname"  />
-                             <input type="hidden" name="cardtype" id="cardtype" v-model="cardtype"  />
-                             <input type="hidden" name="cardtype" id="cardnumber" v-model="cardnumber"  />
+                             <input type="hidden" name="nameoncard" id="nameoncard" v-model="nameoncard"  />
                              <input type="hidden" name="address1" id="address1" v-model="address1"  />
                              <input type="hidden" name="address2" id="address2" v-model="address2"  />
                              <input type="hidden" name="phone" id="phone" v-model="phone"  />
                              <input type="hidden" name="city" id="city" v-model="city"  />  
                              <input type="hidden" name="state" id="state" v-model="state"  />
                              <input type="hidden" name="zip" id="zip" v-model="zip"  />
-                             <input type="hidden" name="month" id="month" v-model="month"  />
-                             <input type="hidden" name="year" id="year" v-model="year"  />  
                              <input type="hidden" name="counter" id="counter" value=""/>
 
 
@@ -5529,12 +5153,13 @@
 
               </form>
               </div>
+              <div class="clear"></div>
             </div>
             <div id="stepfive">
+                <div class="col-xs-12 col-sm-4"></div>
                 <div class="col-xs-12 col-sm-8">
                 <form class='mailform contact-form' method="post">
                              {% csrf_token %}
-
 
                         <input type="hidden" name="counter" id="counter" value=""/>
 
@@ -5546,7 +5171,7 @@
 
             </form>
             </div>
-
+            <div class="clear"></div>
 
 
 
@@ -5578,13 +5203,13 @@
                       <p>
                          <a onclick="on_mobile_home();return false;"  href="#">Home</a>&nbsp; >>&nbsp;
                          <a onclick="on_mobile_services();return false;"  href="#">Services</a>&nbsp; >>&nbsp;
-                         <span>{% service_meta 2 1 %}</span>
+                         <span>{% service_meta 2 1 1 %}</span>
                       </p>
 
                     <div class="container wow fadeInUp">
                        {% autoescape off %}
 
-                      {% service_meta 2 3 %}
+                      {% service_meta 2 3 1%}
                        {% endautoescape %}
                     </div>
 
@@ -5757,13 +5382,13 @@
                       <p>
                          <a onclick="on_mobile_home();return false;" href="#">Home</a>&nbsp; >>&nbsp;
                          <a onclick="on_mobile_services();return false;"  href="#">Services</a>&nbsp; >>&nbsp;
-                         <span> {% service_meta 10 1 %}</span>
+                         <span> {% service_meta 10 1 2 %}</span>
                       </p>
                       <div class="container wow fadeInUp">
                       <h4>{% service_meta 10 1 %}</h4>
                        {% autoescape off %}
 
-                      {% service_meta 10 3 %}
+                      {% service_meta 10 3 2 %}
                        {% endautoescape %}
                       </div>
                   </div>
@@ -7995,8 +7620,10 @@
                           <li><a href="#">Family Law</a></li>
                           <li><a href="#">Immigration Law</a></li>
                           <li><a href="#">Patent Law</a></li>
+<!--
                           <li><a href="#">Business Law</a></li>
                           <li><a href="#">Other Areas</a></li>
+-->
                       </ul>
                     </div>
 
@@ -8036,7 +7663,7 @@
                     <div class="col-md-2 col-sm-6 col-xs-6 pt">
                       <h4>Contact Us</h4>
                       <ul class="list">
-                          <li><a href="#">Phone (212) 202 0342</a></li>
+                          <li><a href="#">Phone {% contact_meta 1 8 %}</a></li>
                           <li><a href="#">Fax 212 202 0342</a></li>
                           <li><a href="#">info@myattorneyusa.com</a></li>
                           <li><a href="#">76 Beaver Street, 10th Floor</a></li>
@@ -8367,6 +7994,12 @@
 
 
             <form>
+                <input type="hidden" name="payment-counter" id="payment-counter" value="1" />
+                <input type="hidden" name="payment-first" id="payment-first" value="{% user_meta user_id 1 %}" />
+                <input type="hidden" name="payment-last" id="payment-last" value="{% user_meta user_id 2 %}" />
+                <input type="hidden" name="payment-email" id="payment-email" value="{% user_meta user_id 4 %}" />
+                <input type="hidden" name="price-to-pay" id="price-to-pay" value="0.0" />
+                <input type="hidden" name="payment-token" id="payment-token" value="" />
                 <input type="hidden" name="current-user-id" id="current-user-id" value="{{ user_id }}" />
             </form>
             </div> <!-- page ends -->
@@ -8398,48 +8031,6 @@ drift.load('4rmkw4ymhfay');
 
             </body>
             <script src="/static/js/vue_apps_v2.js"></script>
-            <script>
-                 Vue.use(SocialSharing);
-                 new Vue({
-                   el: '#shareapp',
-                   data: {
-                      overriddenNetworks: {
-                        "test": {
-                              "sharer": "https://google.com",
-                              "type": "popup"
-                         },
-                      }
-                    }
-              });
+            <script src="/static/js/stripe_apps.js"></script>
 
-              Vue.use(VueScrollTo)
- 
-             // You can also pass in the default options
-             Vue.use(VueScrollTo, {
-                 container: "body",
-                 duration: 500,
-                 easing: "ease",
-                 offset: 0,
-                 cancelable: true,
-                 onStart: false,
-                 onDone: false,
-                 onCancel: false,
-                 x: false,
-                y: true
-            });
-
-            VueScrollTo.setDefaults({
-                container: "body",
-                duration: 500,
-                easing: "ease",
-                offset: 0,
-                cancelable: true,
-                onStart: false,
-                onDone: false,
-                onCancel: false,
-                x: false,
-                y: true
-           });
-
-            </script>
             </html>

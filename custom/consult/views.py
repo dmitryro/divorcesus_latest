@@ -89,6 +89,7 @@ def process_consultation_view(request):
     billing_full_name = request.data.get('billing_full_name', '')
     billing_phone = request.data.get('billing_phone', '')
     billing_zip = request.data.get('billing_zip', '')
+    billing_email = request.data.get('billing_email', '')
     individual_address1 = request.data.get('individual_address1', '')
     individual_address2 = request.data.get('individual_address2', '')
     individual_city = request.data.get('individual_city', '')
@@ -107,13 +108,16 @@ def process_consultation_view(request):
     number_of_children = request.data.get('number_of_children', '')
     manner_of_entry = request.data.get('manner_of_entry', '')
 
+    log = Logger(log="TOKEN WAS {} and price {} and email {}".format(payment_token, price, individual_email))
+    log.save()
+
     try:
         user = get_or_create_user(individual_full_name, individual_email)
     except Exception as e:
         return Response({'message':'failure','cause':str(e)})
 
     try:
-        contact = Contact.objects.get(email=email)
+        contact = Contact.objects.get(email=individual_email)
     except Exception as e:
         contact = Contact.objects.create(name=individual_full_name,
                                          subject="Consultation Request", 
@@ -172,7 +176,7 @@ def process_consultation_view(request):
                                                    individual_address=individual_address,
                                                    purpose=purpose,
                                                    status=status,
-                                                   amount=price,
+                                                   amount=float(price),
                                                    user=user,
                                                    invoice="{}".format(payment.charge),
                                                    payment=payment,
@@ -187,6 +191,8 @@ def process_consultation_view(request):
                                                    number_of_children=children)
                 
     except Exception as e:
+        log = Logger(log="WE FAILED TO CONSULT {}".format(e))
+        log.save()
         return Response({'message':'failure', 'cause':str(e)})
 
     consult_send_confirmation_email.send(sender=User, consultation=consultation, contact=contact)

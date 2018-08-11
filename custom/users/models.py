@@ -136,6 +136,7 @@ class Profile(models.Model):
                                           default='/media/avatars/default.png')
     phone = models.CharField(max_length=250, blank=True, null=True,default='')
     address = models.ForeignKey(Address, blank=True, null=True)
+    twitter_uid = models.CharField(max_length=250, blank=True, null=True,default='')
     is_new = models.NullBooleanField(default=True, blank=True, null=True)
     activation_sent = models.NullBooleanField(default=False, blank=True, null=True)
     is_activated = models.NullBooleanField(default=False, blank=True, null=True)

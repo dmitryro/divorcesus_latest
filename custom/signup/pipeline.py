@@ -20,7 +20,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.storage import default_storage as storage
 from django.core.files.base import ContentFile
-from django.db.models import Min
+from django.db.models import Min, Max
 from social.apps.django_app.views import _do_login
 from social.backends.facebook import FacebookOAuth2
 from requests import request, HTTPError
@@ -56,7 +56,7 @@ from signals import linkedin_strategy_used
 from callbacks import twitter_profile_handler
 from callbacks import facebook_profile_handler
 from callbacks import googleplus_profile_handler
-
+from callbacks import linkedin_profile_handler
 
 @partial
 def check_username(backend, details, user, response, is_new=False,*args,**kwargs):
@@ -89,9 +89,100 @@ def check_username(backend, details, user, response, is_new=False,*args,**kwargs
 
 
 @partial
+def fix_twitter_linkedin(backend, details, uid, user=None, *args, **kwargs):
+    #return {'user': user}
+
+    if backend.name == 'twitter':
+        social = backend.strategy.storage.user.get_social_auth('twitter', uid)
+        try:
+            profile = Profile.objects.get(twitter_uid=uid)
+            profile.is_linkedin_signup_used = True
+            profile.save()
+            is_new = False
+        except ObjectDoesNotExist as e:
+            is_new = True
+            profile = Profile.objects.create(id=user.id,
+                                             username=user.username,
+                                             is_new=True,
+                                             email=user.email,
+                                             first_name=user.first_name,
+                                             last_name=user.last_name,
+                                             twitter_uid=uid,
+                                             is_twitter_signup_used=True,
+                                             user=user)
+            
+        twitter_strategy_used.send(sender=profile.user,
+                                   instance=profile.user,
+                                   email=profile.email,
+                                   profile_picture=None,
+                                   is_new=is_new,
+                                   kwargs=None)
+
+        return {'user': profile.user}
+#    elif backend.name == 'facebook':
+#        email = details['email']
+#        log = Logger(log="WE USE FACEBOOK {}".format(email))
+#        log.save()
+        
+#        return {'user': user}
+
+    elif backend.name == 'linkedin-oauth2' or  backend.name == 'facebook':
+        email = details['email']
+
+        try:
+            max_id = User.objects.filter(email=email).aggregate(id=Max('id'))
+
+            max_usr_id=int(max_id['id'])
+
+            min_id = User.objects.filter(email=email).aggregate(id=Min('id'))
+            min_usr_id=int(min_id['id'])
+
+            if min_usr_id < max_usr_id:
+                u = User.objects.get(id=max_usr_id)
+                u.delete()
+
+            usr =  User.objects.get(id=min_usr_id)
+            is_new = False
+            user = usr
+        except ObjectDoesNotExist as e:
+            is_new = True
+            profile = Profile.objects.create(id=user.id,
+                                             username=user.username,
+                                             is_new=True,
+                                             email=email,
+                                             first_name=user.first_name,
+                                             last_name=user.last_name,
+                                             twitter_uid=uid,
+                                             is_linkedin_signup_used=True,
+                                             user=user)
+
+            avatar_url = response.get('pictureUrls', {}).get('values', [None])[0]
+
+            if not avatar_url:
+                avatar_url = response.get('pictureUrl')
+
+            log = Logger("LINKED AVATAR {}".format(avatar_url))
+            log.save()
+
+            profile.profile_image_path=avatar_url
+            profile.save()
+
+        linkedin_strategy_used.send(sender=user, 
+                                    instance = user,
+                                    new_id=user.id,
+                                    is_new=is_new,
+                                    email=email,
+                                    request=request,
+                                    kwargs=None)
+
+        return {'user': user}
+
+    return {'user': user}
+
+@partial
 def check_duplicate(backend, details, user, response, is_new=False,*args,**kwargs):
-         if user:
-             return {'user':user}
+         #if user:
+          #   return {'user':user}
 
          if backend.name == 'facebook':
              email = details['email']
@@ -119,6 +210,18 @@ def check_duplicate(backend, details, user, response, is_new=False,*args,**kwarg
              except Exception, R:
                   return {"user":None}
 
+         if backend.name == 'linkedin-oauth2':
+             email = details['email']
+             try:
+                  min_id = User.objects.filter(email=email).aggregate(id=Min('id'))
+                  usr_id=int(min_id['id'])
+                  is_new=False
+                  usr = User.objects.get(id=usr_id)
+                  return {"user":usr}
+             except ObjectDoesNotExist:
+                  return {"user":None}
+             except Exception, R:
+                  return {"user":None}
 
 
 @partial
@@ -135,11 +238,6 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
 
         image_small = response.get('pictureUrl', None)
         image_large = response.get('pictureUrls', {})
-
-        log = Logger(log='WE ARE USING LINKED IN {} {}'.format(image_small, image_large))
-        log.save()
-        log = Logger(log='WE ARE USING LINKED IM {}'.format(str(response)))
-        log.save()
 
 
 
@@ -505,8 +603,7 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
         return {'user':usr}
 
 
-
-
+linkedin_strategy_used.connect(linkedin_profile_handler)
 twitter_strategy_used.connect(twitter_profile_handler)
 googleplus_strategy_used.connect(googleplus_profile_handler)
 facebook_strategy_used.connect(facebook_profile_handler)

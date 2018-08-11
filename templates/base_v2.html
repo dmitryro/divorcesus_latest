@@ -49,11 +49,12 @@
               <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
     -->
               <!-- Include jQuery Mobile stylesheets -->
+              <script src="https://js.stripe.com/v3/"></script>
+              <script src="/static/js/stripe_apps.js"></script>
+
               <!-- Include the jQuery library -->
               <script src="/static/js/jquery.js"></script>
               <script src="/static/js/jquery-migrate-1.2.1.js"></script>
-              <script src="https://js.stripe.com/v3/"></script>
-              <script src="/static/js/stripe_apps.js"></script>
 
 <!--
               <script src="/static/js/jquery.payment.min.js"></script>
@@ -69,12 +70,13 @@
                <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.0/vue.js"></script>   
                <script src="https://cdn.jsdelivr.net/vue.router/2.5.3/vue-router.min.js"></script>
                <script src="/static/js/vue-social-sharing.min.js"></script>
+<!--
                <script src="/static/js/vue-perfect-scrollbar.js"></script>
                <script src="/static/js/perfect-scrollbar.min.js"></script>
+-->
                <script src="https://unpkg.com/vue-scrollto"></script>
                <script src="https://unpkg.com/vue-scroll"></script>
                <!-- use the latest release -->
-               <script src="https://unpkg.com/vue-select@latest"></script>
     <!--
                <link type="text/css" href="https://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
     -->
@@ -320,7 +322,28 @@
                               <ul class="inline-list">
                                    <li><a onclick="on_mobile_faq();return false;">FAQ</a></li>
                                    <li><a onclick="on_mobile_ask(); return false;">Ask A Question </a></li>
-                                   <li><a onclick="on_mobile_consult(); return false;">Online Consultation </a></li>
+                                   <li>
+
+                                       <!-- consultapp -->
+                                       <div id="consultapp">
+
+                                                 {% if logout %}
+                                                      <a onclick="on_mobile_consult(); return false;">Online Consultation </a>
+                                                 {% elif not logout %}
+                                                      <a id="show-consult-modal" @click="showModal = true"> Online Consultation</a>
+                                                 {% endif %}
+
+                                                 {% if not user.is_authenticated %}
+
+                                                        <modal v-if="showModal" @close="showModal = false" :show.sync="show" :on-close="close"  @keyup.esc="$emit('close')">
+
+
+                                                        </modal>
+                                                 {% endif %}
+                                       </div> <!-- end consultapp -->
+
+
+                                   </li>
     <!--
                                    <li><a href="#" id="chat_with_us">Chat with US</a></li>
     -->    
@@ -3142,15 +3165,17 @@
 
 
                             <div class="bread-main" id="consult-wizard-steps">
-                                <ul class="cd-multi-steps text-bottom count" id="consult-wizard">
-                                  <li class="current" onclick="consult_step_zero();"><em></em></li>
-                                  <li><em onclick="consult_step_one();"></em></li>
-                                  <li><em onclick="consult_step_two();"></em></li>
-                                  <li><em onclick="consult_step_three();"></em></li>
-                                  <li><em onclick="consult_step_four();"></em></li>
-                                  <li><em onclick="consult_step_five();"></em></li>
-                                  <li><em onclick="consult_step_six();"></em></li>
-                                </ul>
+                               <div id="consultwizard">
+                                   <ul class="cd-multi-steps text-bottom count" id="consult-wizard">
+                                        <li class="current" v-on:click="stepone"><em></em></li>
+                                        <li><em v-on:click="steptwo"></em></li>
+                                        <li><em v-on:click="stepthree"></em></li>
+                                        <li><em v-on:click="stepfour"></em></li>
+                                        <li><em v-on:click="stepfive"></em></li>
+                                        <li><em v-on:click="stepsix"></em></li>
+                                        <li><em v-on:click="stepseven"></em></li>
+                                    </ul>
+                                </div>
                             </div>
                             <div id="consult-stepone">
 
@@ -3181,7 +3206,7 @@
                                    </div>
 
 
-                                   <div class="col-xs-12 col-sm-9" style="float:left;">
+                                   <div class="col-xs-12 col-sm-5" style="float:left;">
                                        <form class='mailform contact-form' method="post" id="payment-form-three">
                                           {% csrf_token %}
                                             <div id="service-choices">
@@ -3195,90 +3220,30 @@
                                                  </legend>
 
 
-                                                <div>
-                                                <label>
-                                                   <input type="text"
-                                                          name="full_name"
-                                                          id="consult_full_name"
-                                                          v-model="billing_full_name"
-                                                          placeholder="Full Name on Card *"
-                                                          value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %}{% endif %}"
-                                                          data-constraints="@LettersOnly @NotEmpty"/>
-                                                 </label>
-                                                 </div>
-             
-                                                 <div id="card-errors-three"></div> 
-                                                 <div class="form-group" id="card-element-three" style="width:55.5%;border:2px #D0CECE solid;height:3.9em;margin-top:1.75em;padding-top:1.0em;padding-left:0.4em;">
-                               <!-- A Stripe Element will be inserted here. -->
+                                                 <div class="form-group">
+                                                      <label style="padding-top:1.9em;">
+                                                           <input type="text"
+                                                                  name="nameoncard"
+                                                                  id="nameoncard-consult"
+                                                                  v-model="nameoncard"
+                                                                  placeholder="Name on Card*"
+                                                                  data-constraints="@NotEmpty"/>
+                                                     </label>
                                                  </div>
 
-                                                <!--
-                                                 <div>
-                                                 <label style="padding-top:1.9em;">
-                                                        <input type="text"
-                                                               type="tel"
-                                                               class="input-lg form-control cc-number"
-                                                               autocomplete="cc-number"
-                                                               placeholder="â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢" required
-                                                               name="consult_cardnumber"
-                                                               id="consult_cardnumber"
-                                                               v-model="cardnumber"
-                                                               data-constraints="@NotEmpty"/>
+                                                 <div class="form-group">
+                                                      <label style="padding-top:1.9em;">
 
-                                                      <div class="clear"></div>
 
-                                                 </label>
+                                                          <div class="form-group" id="card-element-three" style="border:2px #D0CECE solid;height:3.9em;margin-top:1.75em;padding-top:1.0em;padding-left:0.4em;">
+                                                              <!-- A Stripe Element will be inserted here. -->
+                                                          </div>
+                                                      </label>
                                                  </div>
+                                                 <div class="error" id="card-errors-three"></div>
 
- 
-                                                 <div>
-                                                 <label style="padding-top:1.9em;">
-                                                        <input type="text"
-                                                               type="tel" 
-                                                               class="input-lg form-control cc-exp" 
-                                                               autocomplete="cc-exp" 
-                                                               placeholder="â€¢â€¢ / â€¢â€¢" required
-                                                               name="consult_expiration"
-                                                               id="consult_expiration"
-                                                               v-model="expiration"
-                                                               data-constraints="@NotEmpty"/>
-                                                 
-                                                      <div class="clear"></div>
 
-                                                 </label>
-                                                 </div>
-
-                                                 <label style="padding-top:1.9em;">
-                                                        <input type="text"
-                                                               type="tel"
-                                                               class="input-lg form-control cc-cvc"
-                                                               autocomplete="off"
-                                                               placeholder="â€¢â€¢â€¢" required
-                                                               name="consult_security"
-                                                               id="consult_security"
-                                                               v-model="expiration"
-                                                               data-constraints="@NumbersOnly @NotEmpty"/>
-
-                                                      <div class="clear"></div>
-
-                                                 </label>
-                                                 </div>
--->
-<!--
-                                                 <div>
-                                                     <label style="padding-top:1.9em;">
-                                                         <input type="text"
-                                                                name="consult_amount"
-                                                                id="consult_amount"
-                                                                v-model="price"
-                                                                placeholder="Amount*"
-                                                                value="Amount"
-                                                                data-constraints="@NumbersOnly @NotEmpty"/>
-                                                 </label>
-                                                 </div>
--->
-
-                                                <div>
+                                                <div  class="form-group">
                                                 <label style="padding-top:1.9em;">
                                                    <input type="text"
                                                           name="address1"
@@ -3286,23 +3251,22 @@
                                                           v-model="billing_address1"
                                                           placeholder="Address 1*"
                                                           value="{% if logout %}{% billing_meta user_id 1 %}{% endif %}"
-                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                          data-constraints="@NotEmpty"/>
                                                  </label>
                                                  </div>
 
-                                                <div>
+                                                <div  class="form-group">
                                                 <label style="padding-top:1.9em;">
                                                    <input type="text"
                                                           name="address2"
                                                           id="consult_address2"
                                                           v-model="billing_address2"
                                                           placeholder="Address 2"
-                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"
-                                                          data-constraints="@LettersOnly"/>
+                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}" />
                                                  </label>
                                                  </div>
 
-                                                <div>
+                                                <div  class="form-group">
                                                 <label style="padding-top:1.9em;">
                                                    <input type="text"
                                                           name="city"
@@ -3310,11 +3274,11 @@
                                                           v-model="billing_city"
                                                           placeholder="City *"
                                                           value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
-                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                          data-constraints="@NotEmpty"/>
                                                  </label>
                                                  </div>
 
-                                                 <div>
+                                                 <div  class="form-group">
                                                   <label class="mfInput" style="padding-top:1.9em;">
                                                        <div id="consult-state-choices">
                                                        </div>
@@ -3322,7 +3286,7 @@
                                                  </div>
 
 
-                                                <div>
+                                                <div class="form-group">
                                                 <label style="padding-top:1.9em;">
                                                    <input type="text"
                                                           name="zip"
@@ -3335,7 +3299,7 @@
                                                  </div>
 
 
-                                                 <div>
+                                                 <div  class="form-group">
                                                   <label class="mfInput" style="padding-top:1.9em;">
                                                        <div id="consult-country-choices">
                                                        </div>
@@ -3343,7 +3307,7 @@
                                                  </div>
 
 
-                                                 <div>
+                                                 <div  class="form-group">
 
                                                       <label style="padding-top:1.9em;">
                                                            <input type="text"
@@ -3411,7 +3375,7 @@
                                                           v-model="individual_address1"
                                                           placeholder="Address 1*"
                                                           value="{% if logout %}{% billing_meta user_id 1 %}{% endif %}"
-                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                          data-constraints="@NotEmpty"/>
                                                  </label>
                                                  </div>
 
@@ -3422,8 +3386,7 @@
                                                           id="consult_individual_address2"
                                                           v-model="individual_address2"
                                                           placeholder="Address 2"
-                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"
-                                                          data-constraints="@LettersOnly"/>
+                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"/>
                                                  </label>
                                                  </div>
 
@@ -3435,7 +3398,7 @@
                                                           v-model="individual_city"
                                                           placeholder="City *"
                                                           value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
-                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                          data-constraints="@NotEmpty"/>
                                                  </label>
                                                  </div>
                                                 
@@ -3895,26 +3858,28 @@
                     <section class="terms">
 
                <div class="container">
-                      <p>
-                         <a onclick="on_mobile_home();return false;"  href="#">Home</a>&nbsp; >>&nbsp;
-                         <span>Qualify</span>
-                      </p>
+                            <p>
+                                <a onclick="on_mobile_home();return false;"  href="#">Home</a>&nbsp; >>&nbsp;
+                                <span>Qualify</span>
+                            </p>
 
 
 
-          <div class="bread-main" id="qualify-wizard-steps">
-                    <ul class="cd-multi-steps text-bottom count" id="qualify-wizard">
-                            <li class="current"><em><a id="qualify_progress_stepone" href="#">Verify</a></em></li>
-                            <li><em><a id="qualify_progress_steptwo" href="#">Confirm</a></em></li>
-                            {% if logout %}
-                                    <li><em><a href="#" id="qualify_progress_stepthree"> Start Process</a></em></li>
-                                    <li><em><a href="#" id="qualify_progress_stepfour">Payment Info</a></em></li>
-                                    <li><em><a href="#" id="qualify_progress_stepfive">Billing Address</a></em></li>
-                                    <li><em><a href="#" id="qualify_progress_stepsix">Review and Confirm</a></em></li>
-                                    <li><em><a href="#" id="qualify_progress_stepseven">Make a Payment</a></em></li>
-                            {% endif %}
-                    </ul>
-          </div>
+                            <div class="bread-main" id="qualify-wizard-steps">
+                                <div id="packagewizard">
+                                    <ul class="cd-multi-steps text-bottom count" id="qualify-wizard">
+                                            <li v-on:click="stepone"  class="current"><em><a  id="qualify_progress_stepone" href="#">Verify</a></em></li>
+                                            <li v-on:click="steptwo"><em><a id="qualify_progress_steptwo" href="#">Confirm</a></em></li>
+                                            {% if logout %}
+                                                <li v-on:click="stepthree"><em><a href="#" id="qualify_progress_stepthree"> Start Process</a></em></li>
+                                                <li v-on:click="stepfour"><em><a href="#" id="qualify_progress_stepfour">Payment Info</a></em></li>
+                                                <li v-on:click="stepfive"><em><a href="#" id="qualify_progress_stepfive">Billing Address</a></em></li>
+                                                <li v-on:click="stepsix"><em><a href="#" id="qualify_progress_stepsix">Review and Confirm</a></em></li>
+                                                <li v-on:click="stepseven"><em><a href="#" id="qualify_progress_stepseven">Make a Payment</a></em></li>
+                                            {% endif %}
+                                    </ul>
+                                </div>    
+                            </div>
 
    
 
@@ -4137,7 +4102,7 @@
                                                           v-model="address1"
                                                           placeholder="Address 1*"
                                                           value="{% if logout %}{% billing_meta user_id 1 %}{% endif %}"
-                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                          data-constraints="@NotEmpty"/>
                               </label>
 
                               <label style="padding-top:1.9em;">
@@ -4146,8 +4111,7 @@
                                                           id="qualify_address2"
                                                           v-model="address2"
                                                           placeholder="Address 2"
-                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"
-                                                          data-constraints="@LettersOnly"/>
+                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}"/>
                               </label>
 
 
@@ -4276,11 +4240,10 @@
                                   data-constraints="@NotEmpty"/>
                               </label>
                               </div>
-                              <div id="card-errors-two"></div> 
                               <div class="form-group" id="card-element-two" style="border:2px #D0CECE solid;height:3.9em;margin-top:1.75em;padding-top:1.0em;padding-left:0.4em;">
                                <!-- A Stripe Element will be inserted here. -->
                               </div>
-                  
+                              <div class="error" id="card-errors-two"></div> 
 <!--
                                <div class="form-group">
 
@@ -4697,7 +4660,7 @@
                                 <em><a href="#" v-on:click="stepone" id="progress_stepone" href="#">Step 1 - Name and Email</a></em></li>
                             <li><em><a href="#" v-on:click="steptwo" id="progress_steptwo" href="#">Step 2 - Payment Info</a></em></li>
                             <li><em><a href="#" v-on:click="stepthree" id="progress_stepthree">Step 3 - Billing Address</a></em></li>
-                            <li><em><a href="#" v-on:click="stefour" id="progress_stepfour">Step 4 - Review and Conirm</a></em></li>
+                            <li><em><a href="#" v-on:click="stepfour" id="progress_stepfour">Step 4 - Review and Conirm</a></em></li>
                             <li><em><a href="#" v-on:click="stepfive" id="progress_stepfive">Step 5 - Process Payment</a></em></li>
                     </ul>
 
@@ -4847,7 +4810,7 @@
                                   name="nameoncard"
                                   id="steptwo_nameoncard"
                                   v-model="nameoncard"
-                                  v-on:change="clearwarnings_nameoncard"
+                                  v-on:change="clearwarnings_nameoncard" 
                                   placeholder="Name on card*"
                                   value="{% if logout %}{% user_meta user_id 1 %}er_meta user_id 2 %} {% endif %} " />
                               </label>
@@ -4864,9 +4827,9 @@
                                              class="input-lg form-control" 
                                              placeholder="Amount"
                                              id="payment-amount"
-                                             v-on:change="clearwarnings_amount"
                                              name="amount"
                                              v-model="amount"
+                                             v-on:change="clearwarnings_amount" 
                                              style="width:100%;" />
                                       </label>
                                  </div>
@@ -8002,8 +7965,9 @@ drift.load('4rmkw4ymhfay');
 <!-- End of Async Drift Code -->
 
             </body>
-            <script src="/static/js/vue_apps_v2.js"></script>
+            <script src="https://js.stripe.com/v3/"></script>
             <script src="/static/js/stripe_apps.js"></script>
+            <script src="/static/js/vue_apps_v2.js"></script>
 
             </html>
 

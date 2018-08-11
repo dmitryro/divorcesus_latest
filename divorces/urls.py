@@ -184,6 +184,8 @@ router.register(r'asktemplates', AskTemplateViewSet)
 router.register(r'consulttypes', ConsultationTypeViewSet)
 
 urlpatterns = [
+#    url(r'', include('social_django.urls', namespace='social')),
+#    url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^grappelli/', include('grappelli.urls')),
 

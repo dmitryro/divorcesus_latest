@@ -7,7 +7,7 @@ var modal_submit_password = 'Reset Password';
 var modal_submit_login    = 'Login';
  // register modal component
 Vue.config.devtools = true;
-Vue.component('v-select', VueSelect.VueSelect);
+/*
 Vue.component('onload', {
     props: [],
     template: '<span>Start Now!</span>',
@@ -20,7 +20,10 @@ Vue.component('onload', {
         }
     }
 });
-
+*/
+var consult_visited = new Array(false, false, false, false, false, false, false);
+var package_visited = new Array(false, false, false, false, false, false, false, false);
+var payment_visited = new Array(false, false, false, false, false);
 var packages_featured = new Hash();
 var packages = new Hash();
 var states = {};
@@ -36,11 +39,110 @@ divorcetypes_index[1]= 'Contested';
 divorcetypes_index[2] = 'Uncontested';
 divorcetypes_index[3] = 'Other';
 
+function on_mobile_qualify(state) {
+      if  (state==1) {
+             jQuery("#state-displayed").attr("style", "display:block;");
+             jQuery("#qualify-no-state").attr("style", "display:none;");
+             jQuery('input[id="state"][value="New York"]').prop("checked",true);
+             jQuery("#state-selected").attr("value","New York");
+      }
+      else
+      if  (state==2) {
+             jQuery("#state-displayed").attr("style", "display:block;");
+             jQuery("#qualify-no-state").attr("style", "display:none;");
+             jQuery('input[id="state"][value="New Jersey"]').prop("checked",true);
+             jQuery("#state-selected").attr("value","New Jersey");
+      }
+      else
+      if  (state==0) {
+             jQuery("#state-displayed").attr("style", "display:none;");
+             jQuery("#qualify-no-state").attr("style", "display:block;");
+             jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
+             jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
+             jQuery("#qualify_progress_stepone").click();
+             jQuery('input[id="state"][value="New York"]').prop("checked",true);
+             jQuery("#state-selected").attr("value","New York");
+             jQuery("#package-state").attr("value","New York");
+
+      }
+
+      $("#qualify_progress_stepone").click();
+      document.getElementById('search_block').style.display='none';
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      document.getElementById('qualify_block').style.display='block';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
+      $("#qualify-stepone").attr('class','active');
+      $("#qualify-steptwo").attr("style","display:none;");
+      $("#qualify-stepthree").attr("style","display:none;");
+      $("#qualify-stepfour").attr("style","display:none;");
+      $("#qualify-stepfive").attr("style","display:none;");
+      $("#qualify-stepsix").attr("style","display:none;");
+      $("#qualify-stepseven").attr("style","display:none;");
+
+      if (isMobile()) {
+          jQuery('body').scrollTop(500);
+      } else {
+          jQuery('body').scrollTop(100);
+      }
+
+      return false;
+}
+
+function init_consult() {
+    for(var i=0; i<consult_visited.length; i++) {
+        consult_visited[i] = false;
+    }
+    return false();
+}
+
+function visit_consult(i) {
+    consult_visited[i] = true;
+    for(var j=i+1; j<consult_visited.length; j++) {
+        consult_visited[j] = false;
+    }
+    return false;
+}
+
+function init_payment() {
+    payment_visited[0] = false;
+    payment_visited[1] = false;
+    payment_visited[2] = false;
+    payment_visited[3] = false;
+    payment_visited[4] = false;
+    on_mobile_payment();
+    return false;
+}
+
 function packageChange(p) {
          let divorce_type = divorcetypes[p];
-         this.state =  $('#state-selected').val();
-         this.package_type = divorce_type;
-         let url = 'https://divorcesus.com/packages/?package_type='+this.package_type+'&state='+this.state;
+ 
+         var state =  $('#state-selected').val();
+         if (!state) {
+             state = 2;
+             $('#state-selected').attr("value", 2);
+         }
+         var package_type = divorce_type;
+         let url = 'https://divorcesus.com/packages/?package_type='+package_type+'&state='+state;
          var pkg = {};
            $.get(url, function(msg) {
                      let result = "<div style='width:100%;'>";
@@ -140,8 +242,19 @@ function Hash(){
 
 function qualify_step_zero(state) {
    qvm.state = state;
+   $("#qualify_progress_stepone").click();
    $('#state-selected').attr('value', state);
    $('#state-displayed').html(states[state]);
+   $('#select-package option:eq(1)').prop('selected', true);
+  
+   if (state==2) {
+         var result =  '<option selected value="2">New York</option>';
+         result = result+'<option value="1">New Jersey</option>';
+         $("#state-selected").html(result);
+
+   } 
+   packageChange('Uncontested');
+   return false;
 }
 
 function toggle_service(service_id) {
@@ -243,7 +356,7 @@ var featured = new Vue({
   },
   mounted:function() {
 
-         let url_ny = 'https://divorcesus.com/packages/?package_type!=3&state=2';
+         let url_ny = 'https://divorcesus.com/packages/?package_type=2&state=2';
          var pkg = {};
 
          $.get(url_ny, function(msg) {
@@ -266,7 +379,7 @@ var featured = new Vue({
              $("#new_york_packages").html(result);
          });
 
-         let url_nj = 'https://divorcesus.com/packages/?package_type!=3&state=1';
+         let url_nj = 'https://divorcesus.com/packages/?package_type=2&state=1';
          var pkg = {};
 
          $.get(url_nj, function(msg) {
@@ -379,7 +492,7 @@ var qvm = new Vue({
     default_id: 0,
     default_pack_id : '',
     default_price: '',  
-
+    errors: [],
   },
   created: function () {
                          let ch = document.getElementsByClassName("dropdown-toggle").firstChild;
@@ -468,7 +581,21 @@ var qvm = new Vue({
     
          
     },
+    stateupdate: function() {
+         let state = this.package_state;
+   //      let state;
+    //     if (s=='New Jersey') {
+    //         state = 1;
+    //     } else {
+     //        state = 2;
+     //    }
+         $('#state-selected').attr('value', state);
+         qvm.state = state;
+         qvm.packagechange(divorcetypes_index[qvm.package_type]);
 
+        packageChange('Uncontested');    
+        $('#state-selected').attr('value', this.package_state);
+    },
     statechange: function(s) {
          let state;
          if (s=='New Jersey') {
@@ -483,39 +610,51 @@ var qvm = new Vue({
 
 
     submitone: function (event) {
-               this.package_price = $('#selected-price').val();
-               this.package_selected = $('#selected-package-id').val();
+        this.errors = [];
+        this.package_price = $('#selected-price').val();
+        this.package_selected = $('#selected-package-id').val();
  
-               if (this.package_price==0) {
-                    this.package_price = this.default_price;
-                    this.package_selected = this.default_pack_id;
-               }                
+        if (this.package_price==0) {
+            this.package_price = this.default_price;
+            this.package_selected = this.default_pack_id;
+        }                
 
-               this.is_spouse_location_known = $('#is_spouse_location_known').is(":checked") ? 'yes' : 'no';
-               this.are_there_children = $('#are_there_children').is(":checked") ? 'yes' : 'no';
-               this.does_spouse_agree = $('#does_spouse_agree').is(":checked") ? 'yes' : 'no';
-               this.is_military = $('#is_military').is(":checked") ? 'yes' : 'no';
-               this.state = $('#state-selected').val();
-               this.first = $('#payment-first').val();
-               this.last = $('#payment-last').val();
-               this.email = $('#payment-email').val();
-               this.user_id = $("#current-user-id").val();    
-               qvm2.last = this.last;
-               qvm2.first = this.first;
-               qvm2.email = this.email;
-               qvm2.options = this.options;
-               qvm2.user_id = this.user_id;
-               qvm2.email = email;
-               qvm2.package_type = this.package_type;
-               qvm2.package_price = this.package_price;
-               $("#price-to-pay").attr("value",this.package_price);
-               qvm2.package_selected = this.package_selected;
-               qvm2.packages = packages;
-               $("#final-qualify-state").html("<h4><strong>State: "+states[this.state]+"</strong></h4>");
+        this.is_spouse_location_known = $('#is_spouse_location_known').is(":checked") ? 'yes' : 'no';
+        this.are_there_children = $('#are_there_children').is(":checked") ? 'yes' : 'no';
+        this.does_spouse_agree = $('#does_spouse_agree').is(":checked") ? 'yes' : 'no';
+        this.is_military = $('#is_military').is(":checked") ? 'yes' : 'no';
+        this.state = $('#state-selected').val();
+        this.first = $('#payment-first').val();
+        this.last = $('#payment-last').val();
+        this.email = $('#payment-email').val();
+        this.user_id = $("#current-user-id").val();    
 
-               $('#final-package-selected').html("<h4><strong>Package Selected: "+packages[this.package_selected]+"</strong></h4>");
+        qvm2.last = this.last;
+        qvm2.first = this.first;
+        qvm2.email = this.email;
+        qvm2.options = this.options;
+        qvm2.user_id = this.user_id;
+        qvm2.email = email;
+        qvm2.package_type = this.package_type;
+        qvm2.package_price = this.package_price;
+        
+        $("#price-to-pay").attr("value",this.package_price);
+        
+        qvm2.package_selected = this.package_selected;
+        qvm2.packages = packages;
+  
+        $("#final-qualify-state").html("<h4><strong>State: "+states[this.state]+"</strong></h4>");
+
+        $('#final-package-selected').html("<h4><strong>Package Selected: "+packages[this.package_selected]+"</strong></h4>");
  
-               $('#final-package-price').html("<h4><strong>Price: $"+this.package_price+"</strong></h4>");
+        $('#final-package-price').html("<h4><strong>Price: $"+this.package_price+"</strong></h4>");
+
+
+        if (this.errors.length > 0) {
+            return;
+        } else {
+            package_visited[1] = true;
+        }
 
     },
 
@@ -564,17 +703,16 @@ var qvm = new Vue({
       price_changed(this.default_id, this.default_pack_id, this.default_price);
       $('#selected-price').attr('value', this.default_price);
       $('#selected-package-id').attr('value', this.default_pack_id);
-          //     this.package_selected = $('#selected-package-id').val();
 
-      let ch = document.getElementsByClassName("dropdown-toggle").firstChild;
-      ch.remove();
+      //let ch = document.getElementsByClassName("dropdown-toggle").firstChild;
+      //ch.remove();
       packageChange('Uncontested');
       this.state = jQuery("#state-selected").val();
       this.is_spouse_location_known = 'yes';
       this.user_id = $("#current-user-id").val();
   }
 
-})
+});
 
 
 var qvm2 = new Vue({
@@ -607,7 +745,8 @@ var qvm2 = new Vue({
     nameoncard:'',
     showModal: false,
     showNewCommentModal: false,
-    active: null
+    active: null,
+    errors: [],
   },
 
   methods: {
@@ -619,6 +758,8 @@ var qvm2 = new Vue({
            this.state = $('#state-selected').val();
     },
     submittwo: function (event) {
+           setup_stripe_two();
+           this.errors = [];
            this.state = qvm.state;
            this.package_selected = qvm.package_selected;
            this.package_price = qvm.package_price;
@@ -649,6 +790,12 @@ var qvm2 = new Vue({
            $("#step_three_package").html(this.packages[this.package_selected]);
            $("#step_three_state").html(states[this.state]);
            $("#step_three_price").html(this.package_price);   
+
+           if (this.errors.length > 0) {
+               return;
+           } else {
+               package_visited[2] = true;               
+           }
     },
 
     submitthree: function (event) {
@@ -718,7 +865,14 @@ var qvm3 = new Vue({
     package_state: '',
     billing_state: '',
     address_state: '',
+    address_city: '',
+    address_address1: '',
+    address_address2: '',
+    address_zip: '',
     email:'',
+    city:'',
+    address1: '',
+    address2: '',
     phone:'',
     nameoncard: '',
     does_qualify:'',
@@ -731,9 +885,11 @@ var qvm3 = new Vue({
     package_price:'',
     package_selected: '',
     package_location:'',
-    first:'',
-    last:'',
-    packages: new Hash()
+    first: '',
+    last: '',
+    zip: '',
+    packages: new Hash(),
+    errors: [],
   },
 
   methods: {
@@ -750,15 +906,62 @@ var qvm3 = new Vue({
     },
 
     submitthree: function (event) {
-               $("#name_on_card").html("<p>Name on Card: "+this.nameoncard.toString()+"</p>");
+               this.errors = [];
                this.phone = $('#stepthree_phone').val();
                this.email = $('#stepthree_email').val();
                this.nameoncard = $('#qnameoncard').val();
-               this.state = qvm2.state;
+               this.package_state = qvm2.state;
                this.package_price = qvm2.package_price;
                this.package_type = this.package_selected;
                this.first = $('#stepthree_first').val();
                this.last = $('#stepthree_last').val();
+               this.address_address1 = $('#qualify_address1').val();
+               this.address_address2 = $('#qualify_address2').val();
+               this.address_city =  $('#qualify_city').val(); 
+               this.address_state = $('#select-state').val();
+               this.address_zip = $('#qualify_zip').val();   
+              // this.address_state = this.state;
+
+
+               if (!this.first) {
+                   this.errors.push("First name is required");
+               }
+
+               if (!this.last) {
+                   this.errors.push("First name is required");
+               }
+
+               if (!this.city) {
+                   this.errors.push("City is required");
+               }
+
+               if (!this.state) {
+                   this.errors.push("State is required");
+               }
+
+               if (!this.phone) {
+                   this.errors.push("Phone is required");
+               }
+
+               if (!this.email) {
+                   this.errors.push("Email is required");
+               }
+
+               if (!this.address1) {
+                   this.errors.push("Address1 is required");
+               }
+
+
+               if (this.errors.length > 0) {
+                   return;
+               } else {
+                   package_visited[3] = true;
+                   qualify_progress_step_three();
+                   qualify_next_three();
+               }
+
+
+               //$("#name_on_card").html("<p>Name on Card: "+this.nameoncard.toString()+"</p>");
                qvm4.address_state = this.address_state; 
                qvm4.user_id = this.user_id;               
                qvm4.nameoncard = this.nameoncard;
@@ -767,6 +970,12 @@ var qvm3 = new Vue({
                qvm4.package_type = this.package_selected;
                qvm4.package_price = this.package_price;              
                qvm4.packages = this.packages;
+               qvm4.address_address1 = this.address1;
+               qvm4.address_address2 = this.address2;
+               qvm4.address_city = this.city;
+               qvm4.phone = this.phone;
+               qvm4.email = this.email;
+               qvm4.address_zip = this.zip;
 
                $("#step_four_package").html(this.packages[this.package_selected]);
                $("#step_four_state").html(states[this.state]);
@@ -827,6 +1036,10 @@ var qvm4 = new Vue({
     package_state: '',
     billing_state: '',
     address_state: '',
+    address_city: '',
+    address_address1: '',
+    address_address2: '',
+    address_zip: '',
     state_code: '',
     state_name: '',
     city:'',
@@ -843,9 +1056,11 @@ var qvm4 = new Vue({
     package_type:'',
     package_price:'',
     package_selected: '',
+    payment_token: '',
     first:'',
     last:'',
-    packages: new Hash()
+    packages: new Hash(),
+    errors: [],
   },
   methods: {
     submitzero: function (event) {
@@ -861,6 +1076,26 @@ var qvm4 = new Vue({
     },
 
     submitfour: function (event) {
+               this.errors = [];
+               this.payment_token = $('#payment-token').val();
+               this.nameoncard = $('#nameoncard-q').val();
+               if (!this.nameoncard) {
+                  this.errors.push("Name on card required");
+               }
+
+               if (!this.payment_token) {
+                  this.errors.push("Payment token required");
+               }
+
+               if (this.errors.length > 0) {
+                   return;
+               } else {
+                   package_visited[4] = true;
+                   qualify_progress_step_four();
+                   qualify_next_four();
+               }
+
+
                $("#name_on_card_by_state").html("<p>Name on Card: "+this.nameoncard.toString()+"</p>");
                $('.validation').removeClass('text-danger text-success');
                $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
@@ -871,6 +1106,7 @@ var qvm4 = new Vue({
                this.package_type = qvm2.package_type;
                this.first = qvm3.first;
                this.last = qvm3.last;
+             
                qvm5.packages = this.packages;
                qvm5.package_price = this.package_price;
                qvm5.package_type = this.package_type;
@@ -886,6 +1122,7 @@ var qvm4 = new Vue({
                qvm5.zip = this.zip;
                qvm5.phone = this.phone;
                qvm5.user_id = this.user_id;
+               qvm5.payment_token = this.payment_token;
                qvm5.nameoncard = this.nameoncard;
                qvm5.packages = this.packages;
                qvm5.package_selected = this.package_selected;
@@ -932,6 +1169,10 @@ var qvm5 = new Vue({
     billing_state:'',
     package_state: '',
     address_state: '',
+    address_city: '',
+    address_address1: '',
+    address_address2: '',
+    address_zip: '',
     state_code: '',
     state_name: '',
     city:'',
@@ -950,7 +1191,9 @@ var qvm5 = new Vue({
     package_type:'',
     package_price:'',
     package_selected: '',
-    packages: new Hash()
+    payment_token: '',
+    packages: new Hash(),
+    errors: [],
   },
 
   methods: {
@@ -970,16 +1213,53 @@ var qvm5 = new Vue({
     },
 
     submitfive: function (event) {
+               this.errors = [];
                this.phone = qvm4.phone;
                this.billing_state = $('#select-state-stepfive').val();
+                
+               if (!this.address1) {
+                  this.errors.push("Billing address 1 required");
+               }
+
+               if (!this.city) {
+                  this.errors.push("Billing city required");
+               }
+
+               if (!this.zip) {
+                  this.errors.push("Billing zip required");
+               }
+
+               if (!this.state) {
+                  this.errors.push("Billing state required");
+               }
+
+
+               if (this.errors.length > 0) {
+                   return;
+               } else {
+                   package_visited[5] = true;
+                   qualify_progress_step_five();
+                   qualify_next_five();
+               }
+
                qvm6.email = this.email;
+               qvm6.billing_address1 = this.address1;
+               qvm6.billing_address2 = this.address2;
+               qvm6.billing_city = this.city;
+               qvm6.billing_zip = this.zip;
                qvm6.nameoncard = this.nameoncard;
+               qvm6.address_address1 = this.address_address1;
+               qvm6.address_address2 = this.address_address2;
+               qvm6.address_city = this.address_city;
+               qvm6.address_state = this.address_state;
+               qvm6.address_zip = this.address_zip;
                qvm6.first = this.first;
                qvm6.last = this.last;
-               qvm6.address1 = this.address1;
-               qvm6.address2 = this.address2;
-               qvm6.city = this.city;
-               qvm6.state = this.state;
+               qvm6.billing_address1 = this.address1;
+               qvm6.billing_address2 = this.address2;
+               qvm6.billing_city = this.city;
+               qvm6.billing_state = this.state;
+               qvm6.billing_zip = this.zip;
                qvm6.address_state = this.address_state;
                qvm6.package_state = this.package_state;
                qvm6.billing_state = $('#select-state-stepfive').val()
@@ -990,6 +1270,8 @@ var qvm5 = new Vue({
                qvm6.packages = this.packages;
                qvm6.package_type = this.package_type;
                qvm6.package_price = this.package_price;
+               qvm6.payment_token = this.payment_token;
+     
                $.get('https://divorcesus.com/states/?id='+this.billing_state, function(data) {
                   // $("#state").attr("value",data[0].name.toString());
                    qvm6.billing_state = data[0].name;
@@ -1049,8 +1331,16 @@ var qvm6 = new Vue({
     phone:'',
     state:'',
     billing_state:'',
+    billing_zip:'',
+    billing_address1: '',
+    billing_address2: '',
+    billing_city: '',
     package_state: '',
     address_state: '',
+    address_city: '',
+    address_address1: '',
+    address_address2: '',
+    address_zip: '',
     state_code: '',
     state_name: '',
     city:'',
@@ -1067,9 +1357,11 @@ var qvm6 = new Vue({
     are_there_children: '',
     does_spouse_agree:'',
     is_military:'',
+    payment_token: '',
     package_type:'',
     package_price:'',
     package_selected: '',
+    errors: [],
   },
 
   methods: {
@@ -1092,22 +1384,36 @@ var qvm6 = new Vue({
     },
 
     submitsix: function (event) {
+       //      alert(this.billing_address1);
+       //      alert(this.billing_address2);
+       //      alert(this.billing_city);
+       //      alert(this.billing_zip);
+       //      alert(this.billing_state);
+
+             this.errors = [];
+
+             if (this.errors.length > 0) {
+                 return;
+             } else {
+                 package_visited[6] = true;
+             }
+
 	     var arr = {
 		"email": this.email,
 		"first": this.first,
 		"last": this.last,
 		"fullname": this.nameoncard,
 		"phone": this.phone,
-		"address1": this.address1,
-		"address2": this.address2,
-		"state": this.state,
-		"zip": this.zip,
+		"address1": this.billing_address1,
+		"address2": this.billing_address2,
+		"state": this.billing_state,
+		"zip": this.billing_zip,
                 "package_type": this.packages[this.package_selected],
                 "package_price":  $('#price-to-pay').val(),
 		"user_id": $("#current-user-id").val(),
                 'token':$('#payment-token').val(),
                 'amount': eval($('#price-to-pay').val()),
-                "city": this.city};
+                "city": this.billing_city};
 
 	        $.ajax({
 		    type: "POST",
@@ -1194,7 +1500,434 @@ var qvm7 = new Vue({
 
 });
 
+var vm_package = new Vue({
+    el: '#packagewizard',
+    data: {},
+    methods: {
+        stepone: function(event) {
+            package_visited[0] = true;
+            if (package_visited[6]==true) {
+                package_visited[6] = false;
+                package_visited[5] = false;
+                package_visited[4] = false;
+                package_visited[3] = false;
+                package_visited[2] = false;
+                package_visited[1] = false;
+                package_step_one();
+            }
 
+            if (package_visited[5]==true) {
+                package_visited[5] = false;
+                package_visited[4] = false;
+                package_visited[3] = false;
+                package_visited[2] = false;
+                package_visited[1] = false;
+                package_step_one();
+            }
+
+            if (package_visited[4]==true) {
+                package_visited[4] = false;
+                package_visited[3] = false;
+                package_visited[2] = false;
+                package_visited[1] = false;
+                package_step_one();
+            }
+
+            if (package_visited[3]==true) {
+                package_visited[3] = false;
+                package_visited[2] = false;
+                package_visited[1] = false;
+                package_step_one();
+            }
+
+            if (package_visited[2]==true) {
+                package_visited[2] = false;
+                package_visited[1] = false;
+                package_step_one();
+            }
+
+
+            if (package_visited[1]==true) {
+                package_visited[1] = false;
+                package_step_one();
+            }
+
+        },
+
+        steptwo: function(event) {
+            if (package_visited[6]==true) {
+                package_visited[6] = false;
+                package_visited[5] = false;
+                package_visited[4] = false;
+                package_visited[3] = false;
+                package_visited[2] = false;
+                package_step_two();
+            }
+
+            if (package_visited[5]==true) {
+                package_visited[5] = false;
+                package_visited[4] = false;
+                package_visited[3] = false;
+                package_visited[2] = false;
+                package_step_two();
+            }
+
+            if (package_visited[4]==true) {
+                package_visited[4] = false;
+                package_visited[3] = false;
+                package_visited[2] = false;
+                package_step_two();
+            }
+
+            if (package_visited[3]==true) {
+                package_visited[3] = false;
+                package_visited[2] = false;
+                package_step_two();
+            }
+
+            if (package_visited[2]==true) {
+                package_visited[2] = false;
+                package_step_two();
+            }
+
+        },
+        stepthree: function(event) {
+            if (package_visited[6]==true) {
+                package_visited[6] = false;
+                package_visited[5] = false;
+                package_visited[4] = false;
+                package_visited[3] = false;
+                package_step_three();
+            }
+
+            if (package_visited[5]==true) {
+                package_visited[5] = false;
+                package_visited[4] = false;
+                package_visited[3] = false;
+                package_step_three();
+            }
+
+            if (package_visited[4]==true) {
+                package_visited[4] = false;
+                package_visited[3] = false;
+                package_step_three();
+            }
+
+            if (package_visited[3]==true) {
+                package_visited[3] = false;
+                package_step_three();
+            }
+        },
+        stepfour: function(event) {
+            if (package_visited[6]==true) {
+                package_visited[6] = false;
+                package_visited[5] = false;
+                package_visited[4] = false;
+                package_step_four();
+            }
+
+            if (package_visited[5]==true) {
+                package_visited[5] = false;
+                package_visited[4] = false;
+                package_step_four();
+            }
+
+            if (package_visited[4]==true) {
+                package_visited[4] = false;
+                package_step_four();
+            }
+        },
+
+        stepfive: function(event) {
+            if (package_visited[6]==true) {
+                package_visited[6] = false;
+                package_visited[5] = false;
+                package_step_five();
+            }
+
+            if (package_visited[5]==true) {
+                package_visited[5] = false;
+                package_step_five();
+            }
+
+        },
+
+        stepsix: function(event) {
+            if (package_visited[6]==true) {
+                package_visited[6] = false;
+                package_step_six();
+            }
+        },
+
+        stepseven: function(event) {
+        }
+
+    },
+    mounted:function() {
+
+    }
+
+});
+var vm_consult = new Vue({
+    el: '#consultwizard',
+    data: {},
+    methods: {
+        stepone: function(event) {
+            consult_visited[0] = true;
+            if (consult_visited[6]==true) {
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false; 
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+                consult_step_zero();
+            }
+
+            if (consult_visited[5]==true) {
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+                consult_step_zero();
+            }
+
+            if (consult_visited[4]==true) {
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+                consult_step_zero();
+            }
+
+            if (consult_visited[3]==true) {
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+                consult_step_zero();
+            }
+
+            if (consult_visited[2]==true) {
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+                consult_step_zero();
+            }
+
+            if (consult_visited[1]==true) {
+                consult_visited[1] = false;
+                consult_step_zero();
+            }
+            
+        },
+
+        steptwo: function(event) {
+            if (consult_visited[6]==true) {
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_step_one();
+            }
+
+            if (consult_visited[5]==true) {
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_step_one();
+            }
+
+            if (consult_visited[4]==true) {
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_step_one();
+            }
+
+            if (consult_visited[3]==true) {
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_step_one();
+            }
+
+            if (consult_visited[2]==true) {
+                consult_visited[2] = false;
+                consult_step_one();
+            }
+
+        },
+
+        stepthree: function(event) {
+            if (consult_visited[6]==true) {
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_step_two();
+            }
+
+            if (consult_visited[5]==true) {
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_step_two();
+            }
+
+            if (consult_visited[4]==true) {
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_step_two();
+            }
+
+            if (consult_visited[3]==true) {
+                consult_visited[3] = false;
+                consult_step_two();
+            }
+
+
+        },
+
+        stepfour: function(event) {
+            if (consult_visited[6]==true) {
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_step_three();
+            }
+
+            if (consult_visited[5]==true) {
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_step_three();
+            }
+
+            if (consult_visited[4]==true) {
+                consult_visited[4] = false;
+                consult_step_three();
+            }
+        },
+
+        stepfive: function(event) {
+            if (consult_visited[6]==true) {
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_step_four();
+            }
+
+            if (consult_visited[5]==true) {
+                consult_visited[5] = false;
+                consult_step_four();
+            }
+
+        },
+
+        stepsix: function(event) {
+            if (consult_visited[6]==true) {
+                consult_visited[6] = false;
+                consult_step_five();
+            }
+        },
+
+        stepseven: function(event) {
+           // consult_step_six();
+        }
+    },
+    mounted:function() {
+    }
+});
+
+var vm_container = new Vue({
+  el: '#paymentwizard',
+  data: {},
+  methods: {
+      stepone: function () {
+
+        if (payment_visited[4]==true) {
+               init_payment();
+//             payment_visited[4] = false;
+//             payment_visited[3] = false;
+//             payment_visited[2] = false;
+ //            payment_visited[1] = false;
+ //            makepayment_step_one();
+        }
+
+        if (payment_visited[3]==true) {
+             payment_visited[3] = false;
+             payment_visited[2] = false;
+             payment_visited[1] = false;
+             makepayment_step_one();
+        }
+
+        if (payment_visited[2]==true) {
+             payment_visited[2] = false;
+             payment_visited[1] = false;
+             makepayment_step_one();
+        }
+
+        if (payment_visited[1]==true) {
+             payment_visited[1] = false;
+             makepayment_step_one();
+        }
+
+
+      },
+      steptwo: function () {
+        
+        if (payment_visited[4]==true) {
+//             payment_visited[4] = false;
+//             payment_visited[3] = false;
+ //            payment_visited[2] = false;
+ //            makepayment_step_two();
+             init_payment();
+        }
+
+        if (payment_visited[3]==true) {
+             payment_visited[3] = false;
+             payment_visited[2] = false;
+             makepayment_step_two();
+        }
+
+        if (payment_visited[2]==true) {
+             payment_visited[2] = false;
+             makepayment_step_two();
+        }
+
+      },
+      stepthree: function () {
+        if (payment_visited[4]==true) {
+ //            payment_visited[4] = false;
+ //            payment_visited[3] = false;
+ //            makepayment_step_three();
+               init_payment();
+        }
+
+        if (payment_visited[3]==true) {
+             payment_visited[3] = false;
+             $('#pay-select-state').attr('value', vm3.state);
+             $('#pay-address1').attr('value', vm3.address1);
+             $('#pay-address2').attr('value', vm3.address2);
+             $('#pay-city').attr('value', vm3.city);
+             $('#pay-zip').attr('value', vm3.zip);
+             makepayment_step_three();
+        }
+
+      },
+      stepfour: function () {
+        if (payment_visited[4]==true) {
+            init_payment();
+            // payment_visited[4] = false;
+            // makepayment_step_four();
+        }
+      },
+      stepfive: function (event) {
+      },
+  },
+  mounted:function() {
+      payment_visited[0] = true;
+  }
+});
 var vm = new Vue({
   el: '#stepone',
   data: {
@@ -1209,10 +1942,48 @@ var vm = new Vue({
     nameoncard: '',
     amount: '',
     token: '',
+    errors: [],
   },
   methods: {
+ 
     submitone: function () {
+        this.errors = [];
+        this.first = $("#first_payments").val();
+        this.last = $("#last_payments").val();
+        this.email = $("#email_payments").val();
+        this.phone = $("#phone_payments").val();
+        
 
+        if (!this.email) {
+           this.errors.push("Email is required");
+        }
+
+        if (!this.phone) {
+           this.errors.push("Phone is required");
+        }
+
+        if (!this.first) {
+           this.errors.push("First name is required");
+        }
+
+        if (!this.last) {
+           this.errors.push("Last name is required");
+        }
+
+
+        if (this.errors.length > 0) {
+           return; 
+        } else {
+           setup_stripe_one();
+           payment_visited[1] = true;
+        } 
+           
+        $("#payment-counter").attr("value", 2);
+
+        this.nameoncard =  this.first+" "+this.last;
+        $("#steptwo_nameoncard").attr("value", this.nameoncard);
+
+        makepayment_next_one();        
 
         if (this.phone==undefined || this.phone.toString().length==0) {
            vm2.phone = $('#phone_payments').val();
@@ -1262,8 +2033,12 @@ var vm = new Vue({
     },
     validConfirm: function(event) {
     },
+    progress_stepone: function(event) {
+        
+    }
   },
   mounted:function() {
+      payment_visited[0] = true;
       this.first = $('#first_payments').val();
       this.last =  $('#last_payments').val();
       this.email =  $('#email_payments').val();
@@ -1286,20 +2061,54 @@ var vm2 = new Vue({
     amount: '', 
     token: '',
     nameoncard: '',
-    token: '',
+    errors: [],
   },
   methods: {
     submitone: function (event) {
 
     },
     submittwo: function (event) {
-           $("#step_three_payments_price").html(this.amount.toString());
+           this.errors = [];
+           $('#payment-form-one').submit(); 
+           setup_stripe_three();
+           $("#next_two").click();
+           $("#payment-amount-error").html("");
+           $("#payment-name-on-card-error").html("");
+           this.token = $('#payment-token').val();
            vm3.first = this.first;
            vm3.last = this.last;
            vm3.state = this.state;
            vm3.email = this.email;
+           vm3.phone = this.phone;
            vm3.amount = this.amount;
            vm3.nameoncard = this.nameoncard;
+
+           if(!this.token || this.token.length==0) {
+                $("#card-errors-one").html("<span class=\"error\" >"+"Invalid card"+"</span>");
+           }
+           if (!this.nameoncard) {
+               $("#payment-name-on-card-error").html("<span class=\"error\">"+"Name on card is required"+"</span>");
+               this.errors.push("Name on card is required");
+           }
+
+           if (!this.token) {
+               this.errors.push("Token is required");
+           }
+
+           if (!this.amount) {
+               $("#payment-amount-error").html("<span class=\"error\" style=\"margin-top:-1.2em;\">"+"Amount is required"+"</span>");
+               this.errors.push("Amount is required");
+           }
+           if (this.errors.length > 0) {
+                      
+               return;
+           } else {
+               payment_visited[2] = true;
+               //$("#step_three_payments_price").html(this.amount);  
+               $("#payment-counter").attr("value", 3);
+               makepayment_next_two();
+           }
+
            $.get('https://divorcesus.com/states', function(msg) {
                          let result = "<select id='pay-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
@@ -1308,6 +2117,7 @@ var vm2 = new Vue({
                          result = result + "</select>";
                          $("#pay-state-choices").html(result);
            });
+
            vm3.token = $("#payment-token").val();
            $("#step_three_payments_price").html(this.amount.toString());
            $("#step_three_payments_phone").html(this.phone.toString());
@@ -1329,7 +2139,28 @@ var vm2 = new Vue({
     errorCallback: function(event) {
     },
     validConfirm: function(event) {
+    },
+    clearwarnings_amount(event) {
+        var amount = $("#payment-amount").val();
+        if (amount) {
+            this.amount = amount;
+            $("#payment-amount-error").html("");
+        } else {
+            $("#payment-amount-error").html("<span class=\"error\">Amount is required</span>");
+        }
+        return false;
+    },
+    clearwarnings_nameoncard(event) {
+        var nameoncard = $("#steptwo_nameoncard").val();
+        if (nameoncard) {
+            this.nameoncard = nameoncard;
+            $("#payment-name-on-card-error").html("");
+        } else {
+            $("#payment-name-on-card-error").html("<span class=\"error\">Name on card is required</span>");
+        }
+        return false;
     }
+
   },
   mounted:function() {
   }
@@ -1356,6 +2187,7 @@ var vm3 = new Vue({
     state_name: '',
     zip:  '',
     phone: '2222',
+    errors: [],
   },
   methods: {
     submitone: function (event) {
@@ -1364,15 +2196,79 @@ var vm3 = new Vue({
     },
 
     submitthree: function (event) {
+               this.address1 = $("#pay-address1").val();
+               this.address2 = $("#pay-address2").val();
+               this.city = $("#pay-city").val();
+               this.zip = $("#pay-zip").val();
+               this.state = $("#pay-select-state").val();
 
 
+               this.errors = [];
+
+               $("#payment-stepthree-address1-error").html("");
+               $("#payment-stepthree-city-error").html(""); 
+               $("#payment-stepthree-state-error").html("");                
+               $("#payment-stepthree-zip-error").html(""); 
+
+               if (!this.address1) {
+                    this.errors.push("Address1 is required");
+                    $("#payment-stepthree-address1-error").html("<span class=\"error\">"+"Address 1 is required"+"</span>");
+               }
+
+               if (!this.city) {
+                    $("#payment-stepthree-city-error").html("<span class=\"error\">"+"City is required"+"</span>");
+                    this.errors.push("City is required");
+               }
+
+
+               if (!this.state) {
+                    $("#payment-stepthree-state-error").html("<span class=\"error\">"+"State is required"+"</span>");
+                    this.errors.push("State is required");
+               }
+
+
+               if (!this.zip) {
+                    this.errors.push("Zip is required");
+                    $("#payment-stepthree-zip-error").html("<span class=\"error\">"+"Zip/Postal is required"+"</span>");
+               }
+
+               if (this.errors.length > 0) {
+//                   $("span.mfValidation.show.error").css("color","red");
+//                   $("span.mfValidation.show.error").css("font-size","1.2em");
+//                   $("span.mfValidation.show.error").css("position","relative");
+//                   $("span.mfValidation.show.error").css("margin-left","30em");
+//                   $("span.mfValidation.show.error").css("margin-top","-15px");
+
+                   return;
+               } else {
+                   payment_visited[3] = true;
+                   $("#payment-counter").attr("value", 4);
+                   makepayment_next_three(); 
+               }
+
+//               alert("VALUES PHONE SUBMIT THREE "+this.phone+" EMAIL "+
+  //                   this.email+" FIRST "+this.first+
+   //                  " LAST "+this.last+" ADDRESS1 "+
+    //                 this.address1+" ADDRESS 2"+this.address2+
+     //                " CITY "+this.city+" ZIP "+this.zip+" AND NAME ON CARD "+this.nameoncard+" AMOUNT "+this.amount);
+
+               $("#final_payment_amount").html("<p><strong>Amount: "+this.amount+"</strong></p>");
+               $("#final_payment_email").html("<p><strong>Email: "+this.email+"</strong></p>");
+               $("#final_payment_phone").html("<p><strong>Phone: "+this.phone+"</strong></p>");
+               $("#final_payment_nameoncard").html("<p><strong>Name on Card "+this.nameoncard+"</strong></p>");
+               $("#final_payment_address1").html("<p><strong>Address 1: "+this.address1+"</strong></p>");
+               $("#final_payment_address2").html("<p><strong>Address 2: "+this.address2+"</strong></p>");
+               $("#final_payment_city").html("<p><strong>City: "+this.city+"</strong></p>");
+               //$("#final_state").html("<p><strong>State: "+current_state+"</strong></p>");
+               $("#final_payment_zip").html("<p><strong>Zip Code: "+this.zip+"</strong></p>");
+ 
+ 
                $("#step_three_payments_name_on_card").html(this.nameoncard);
-               this.phone = vm.phone;
-               this.email = vm.email;
                this.zip = $('#pay-zip').val();
                this.state = $('#pay-select-state').val(); 
                vm4.token = this.token;
-               vm4.email = vm.email;
+               vm4.email = this.email;
+               vm4.phone = this.phone;
                vm4.first = this.first;
                vm4.last = this.last;
                vm4.nameoncard = this.nameoncard;
@@ -1385,10 +2281,9 @@ var vm3 = new Vue({
                vm4.zip = this.zip;
                vm4.phone = vm.phone;  
                vm4.amount = this.amount;
-
                $.get('https://divorcesus.com/states/?id='+this.state, function(data) {
                    $("#state").attr("value",data[0].name.toString());
-                   $("#final_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
+                   $("#final_payment_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
                });
                $("#phone").attr("value",this.phone.toString());
                $("#city").attr("value",this.city.toString());  
@@ -1399,14 +2294,14 @@ var vm3 = new Vue({
                $("#address1").attr("value",this.address1.toString());  
                $("#address2").attr("value",this.address2.toString());
                 
-               $("#final_email").html("<p><strong>Email: "+this.email.toString()+"</strong></p>");
-               $("#final_phone").html("<p><strong>Phone: "+this.phone.toString()+"</strong></p>");
-               $("#final_nameoncard").html("<p><strong>Name on Card "+this.nameoncard.toString()+"</strong></p>");   
-               $("#final_address1").html("<p><strong>Address 1: "+this.address1.toString()+"</strong></p>");   
-               $("#final_address2").html("<p><strong>Address 2: "+this.address2.toString()+"</strong></p>"); 
-               $("#final_city").html("<p><strong>City: "+this.city.toString()+"</strong></p>");
+               $("#final_email").html("<p><strong>Email: "+this.email+"</strong></p>");
+               $("#final_phone").html("<p><strong>Phone: "+this.phone+"</strong></p>");
+               $("#final_nameoncard").html("<p><strong>Name on Card "+this.nameoncard+"</strong></p>");   
+               $("#final_address1").html("<p><strong>Address 1: "+this.address1+"</strong></p>");   
+               $("#final_address2").html("<p><strong>Address 2: "+this.address2+"</strong></p>"); 
+               $("#final_city").html("<p><strong>City: "+this.city+"</strong></p>");
                //$("#final_state").html("<p><strong>State: "+current_state+"</strong></p>");  
-               $("#final_zip").html("<p><strong>Zip Code: "+this.zip.toString()+"</strong></p>");
+               $("#final_zip").html("<p><strong>Zip Code: "+this.zip+"</strong></p>");
     },
 
     submitfour: function (event) {
@@ -1417,6 +2312,31 @@ var vm3 = new Vue({
     errorCallback: function(event) {
     },
     validConfirm: function(event) {
+    },
+    clearwarnings_address1(event) {
+        let address1 = $("#pay-address1").val();
+        if (!address1) {
+            $("#payment-stepthree-address1-error").html("<span class=\"error\">"+"Address 1 is required"+"</span>"); 
+        } else {
+            $("#payment-stepthree-address1-error").html("");
+        }
+    },
+    clearwarnings_city(event) {
+        let city = $("#pay-city").val();
+        if (!city) {
+            $("#payment-stepthree-city-error").html("<span class=\"error\">"+"City is required"+"</span>");
+        } else {
+            $("#payment-stepthree-city-error").html("");
+        }
+    },
+    clearwarnings_zip(event) {
+        let zip = $("#pay-zip").val();
+        if (!zip) {
+            $("#payment-stepthree-zip-error").html("<span class=\"error\">"+"Zip is required"+"</span>");
+        } else {
+            $("#payment-stepthree-zip-error").html("");
+        }
+
     }
 
   },
@@ -1442,6 +2362,7 @@ var vm4 = new Vue({
     phone: '393-342-4232',
     amount: vm3.amount,
     token: vm3.token,
+    errors: [],
   },
   // define methods under the `methods` object
   methods: {
@@ -1456,37 +2377,47 @@ var vm4 = new Vue({
     },
 
     submitfour: function (event) {
-     this.user_id = +$('#current-user-id').val();
-     var arr = {
-        "amount": eval(this.amount),
-        "package_type": "Generatl Payment",
-        "email": this.email,
-        "first": this.first,
-        "last": this.last,
-        "fullname": this.nameoncard,
-        "phone": this.phone,
-        "address1": this.address1,
-        "address2": this.address2,
-        "city": this.city,
-        "state": this.state,
-        "zip": this.zip,
-        "token": $('#payment-token').val(),
-        "user_id": this.user_id};
+        this.errors = [];
+        this.user_id = +$('#current-user-id').val();
+    
+        if (this.errors.length > 0) {
+            return;
+        } else {
+            payment_visited[4] = true;
+            $("#payment-counter").attr("value", 5);    
+            makepayment_next_four();
+        }
+ 
+        var arr = {
+            "amount": eval(this.amount),
+            "package_type": "General Payment",
+            "email": this.email,
+            "first": this.first,
+            "last": this.last,
+            "fullname": this.nameoncard,
+            "phone": this.phone,
+            "address1": this.address1,
+            "address2": this.address2,
+            "city": this.city,
+            "state": this.state,
+            "zip": this.zip,
+            "token": $('#payment-token').val(),
+            "user_id": this.user_id};
 
-     $.ajax({
-            type: "POST",
-            url: "https://divorcesus.com/paymentconfirm/",
-            crossDomain: true,
-            data: JSON.stringify(arr),
-            dataType: 'json',
-            contentType: "application/json; charset=utf-8",
-            success: function(data) {
-                  $( "div.success" ).fadeIn( 300 ).delay( 1200 ).fadeOut( 400 );
-            },
-            error: function(data){
-              alert("failure"+data.message);
-           }
-      });
+        $.ajax({
+                type: "POST",
+                url: "https://divorcesus.com/paymentconfirm/",
+                crossDomain: true,
+                data: JSON.stringify(arr),
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    $( "div.success" ).fadeIn( 300 ).delay( 1200 ).fadeOut( 400 );
+                },
+                error: function(data){
+                  alert("failure"+data.message);
+                }
+        });
 
     },
 
@@ -1502,7 +2433,7 @@ var vm4 = new Vue({
   },
   mounted:function() {
   }
-})
+});
 
 
 var vm5 = new Vue({
@@ -1811,7 +2742,38 @@ new Vue({
        if (e.keyCode === 27)  this.$emit('close');
      } 
    }
-})
+});
+
+
+// start app
+new Vue({
+    el: '#consultapp',
+    data: {
+      showModal: false,
+      show: false
+    },
+    close: function (e) {
+       this.$emit('close');
+    },
+    show: function() {
+        this.$emit('show');
+    },
+    submit: function(which, e) {
+            e.preventDefault();
+    },
+    methods: {
+     beforeOpen () {
+        document.addEventListener('keyup', this.close)
+     },
+
+     beforeClose () {
+        document.removeEventListener('keyup', this.close)
+     },
+     close (e) {
+       if (e.keyCode === 27)  this.$emit('close');
+     }
+   }
+});
 
 
 // start app
@@ -2186,6 +3148,11 @@ var consultone = new Vue({
            consulttwo.price = this.price;
            consulttwo.consultancy_type = this.consultancy_type;
 
+           if (this.errors.length > 0) {
+               return;
+           } else {
+               consult_visited[1] = true;
+           }
            $.get('https://divorcesus.com/consulttypes', function(msg) {
                      let result = "<div>";
                      for(var i=0;i<msg.length;i++) {
@@ -2229,7 +3196,7 @@ var consultone = new Vue({
                      result = result + "</select>";
                      $("#consult-country-choices").html(result);
             });
-        
+            consult_step_one();
  
        },
 
@@ -2262,6 +3229,7 @@ var consultone = new Vue({
 
    },
    mounted:function() {
+       setup_stripe_three();
    }
 });
 
@@ -2310,6 +3278,7 @@ var consulttwo = new Vue({
        },
 
        submittwo: function (event) {
+            //setup_stripe_three();
             this.errors = [];
             this.price = $('#consult_amount').val();
             let payment_token_error = $('#payment-token-error').val();
@@ -2332,11 +3301,12 @@ var consulttwo = new Vue({
                          result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
                      }
                      result = result + "</select>";
+                     result = result + "<input type='hidden' id='consult-stepthree-valid' value='0' /> ";
                      $("#consult-individual-country-choices").html(result);
             });
          
          this.payment_token =  $("#payment-token").val();
-         this.billing_full_name = $('#consult_full_name').val();
+         this.billing_full_name = $('#nameoncard-consult').val();
          this.billing_state = $('#consult-select-state').val();
          this.billing_country = $('#consult-select-country').val();
          this.billing_zip = $('#consult_zip').val();
@@ -2379,16 +3349,13 @@ var consulttwo = new Vue({
              this.errors.push('City required.');
          }
 
-       //  if (!this.billing_email) {
-       //      this.errors.push('Email required.');
-       //  }
-
+        
 
          if (this.errors.length > 0 ) {
-             $('#consult-steptwo-valid').attr('value', 0);
              return;
          } else {
-             $('#consult-steptwo-valid').attr('value', 1);
+             consult_visited[2] = true;
+             consult_step_two();
          }
 
 
@@ -2412,7 +3379,6 @@ var consulttwo = new Vue({
          consultthree.individual_phone = this.individual_phone;
          consultthree.individual_email = this.individual_email;
 
-         consult_step_two();
        },
 
        submitthree: function (event) {
@@ -2440,7 +3406,7 @@ var consulttwo = new Vue({
        }
 
    },
-   mounted:function() {
+   mounted: function() {
        setup_stripe_three();
    },
    data() {
@@ -2488,6 +3454,7 @@ var consultthree = new Vue({
      manner_of_entry: '',
      marital_status: '',
      purpose: '',
+     errors: [],
    },
    methods: {
 
@@ -2498,6 +3465,7 @@ var consultthree = new Vue({
        },
 
        submitthree: function (event) {
+           this.errors = [];
            this.individual_state = $('#consult-individual-select-state').val();
            this.individual_country = $('#consult-individual-select-country').val();
            this.payment_token = $("#payment-token").val();
@@ -2555,6 +3523,48 @@ var consultthree = new Vue({
                      $("#consult-additional-marital-choices").html(result);
             });
 
+            if (!this.individual_full_name) {
+                this.errors.push('Individual full name is required.');
+            }
+
+            if (!this.individual_address1) {
+                this.errors.push('Individual address 1 is required.');
+            }
+
+            if (!this.individual_city) {
+                this.errors.push('Individual city is required.');
+            }
+
+            if (!this.individual_state) {
+                this.errors.push('Individual state is required.');  
+            }
+
+            if (!this.individual_zip) {
+                this.errors.push('Individual zip is required.');
+            }
+
+            if (!this.individual_country) {
+                this.errors.push('Individual country is required.');
+            }
+
+            if (!this.individual_phone) {
+                this.errors.push('Individual phone is required.'); 
+            }
+ 
+            if (!this.individual_email) {
+                this.errors.push('Individual email is required.');
+            }
+
+
+
+            if (this.errors.length > 0 ) {
+                $('#consult-stepthree-valid').attr('value', 0);
+                return;
+            } else {
+                consult_visited[3] = true;
+                $('#consult-stepthree-valid').attr('value', 1);
+                consult_step_three();
+            }
        },
 
        submitfour: function (event) {
@@ -2621,6 +3631,7 @@ var consultfour = new Vue({
      manner_of_entry: '',
      marital_status: '',
      purpose: '',
+     errors: [],
    },
    methods: {
 
@@ -2634,6 +3645,7 @@ var consultfour = new Vue({
        },
 
        submitfour: function (event) {
+         this.errors = [];
          this.country_of_citizenship = $('#consult-select-country-of-citizenship').val();
          this.marital_status = $('#consult-select-marital').val();
          this.number_of_children = $('#consult-select-children').val();
@@ -2663,8 +3675,13 @@ var consultfour = new Vue({
          consultfive.individual_country = this.individual_country;
          consultfive.individual_phone = this.individual_phone;
          consultfive.individual_email = this.individual_email;
-        
 
+         if (this.errors.length > 0) {
+             return;
+         } else {
+             consult_visited[4] = true;
+             consult_step_four(); 
+         }
        },
 
        submitfive: function (event) {
@@ -2728,6 +3745,7 @@ var consultfive = new Vue({
      manner_of_entry: '',
      marital_status: '',
      purpose: '',
+     errors: [],
    },
    methods: {
 
@@ -2744,6 +3762,7 @@ var consultfive = new Vue({
        },
 
        submitfive: function (event) {
+         this.errors = [];
          consultsix.billing_full_name = this.billing_full_name;
          consultsix.billing_state = this.billing_state;
          consultsix.billing_country = this.billing_country;
@@ -2770,7 +3789,18 @@ var consultfive = new Vue({
          consultsix.individual_phone = this.individual_phone;
          consultsix.individual_email = this.individual_email;
         
- 
+         if (!this.purpose) {
+             this.errors.push("Consultancy purpose is needed");
+         }
+
+         if (this.errors.length > 0) {
+             return;
+         } else {
+
+             consult_visited[5] = true;
+             consult_step_five();
+         }
+
          $.get('https://divorcesus.com/countries/'+this.billing_country+"/", function(data) {
                $("#final_consultation_billing_country").html("<p><strong>Country: "+data.name.toString()+"</strong></p>");
          })
@@ -2796,6 +3826,8 @@ var consultfive = new Vue({
          $.get('https://divorcesus.com/consulttypes/'+this.consultancy_type, function(msg) {
                $("#final_consultation_consultancy_type").html("<p><strong>Consultancy Type: "+msg.description+"</strong></p>");
                $("#final_consultation_consultancy_price").html("<p><strong>Consultancy Price: "+msg.price+"</strong></p>");
+
+               consultsix.price = msg.price;
          });
         
  
@@ -2882,6 +3914,7 @@ var consultsix = new Vue({
      manner_of_entry: '',
      marital_status: '',
      purpose: '',
+     errors: [],
    },
    methods: {
 
@@ -2901,6 +3934,7 @@ var consultsix = new Vue({
        },
 
        submitsix: function (event) {
+             this.errors = [];
              consultseven.billing_full_name = this.billing_full_name;
              consultseven.billing_state = this.billing_state;
              consultseven.billing_country = this.billing_country;
@@ -2913,7 +3947,6 @@ var consultsix = new Vue({
              consultseven.consultancy_type = this.consultancy_type;
              consultseven.price = this.price;
              consultseven.payment_token = this.payment_token;
-
 
              var arr = {
                    "billing_address1": this.billing_address1,
@@ -2962,6 +3995,13 @@ var consultsix = new Vue({
                       alert("failure:"+data.message);
                    }
              });
+
+             if (this.errors.length > 0) {
+                 return;
+             } else {
+                 consult_visited[6] = true;
+                 consult_step_six();
+             }
 
        },
 
@@ -3020,6 +4060,7 @@ var consultseven = new Vue({
      manner_of_entry: '',
      marital_status: '',
      purpose: '',
+     errors: [],
    },
    methods: {
 
@@ -3042,6 +4083,14 @@ var consultseven = new Vue({
        },
 
        submitseven: function (event) {
+            this.errors = [];
+
+             if (this.errors.length > 0) {
+                 return;
+             } else {
+                 consult_visited[6] = true;
+                 consult_step_seven();
+             }
        },
 
        successCallback: function(event) {

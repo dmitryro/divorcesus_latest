@@ -488,6 +488,7 @@ def home(request):
     posts = post = Post.objects.all()
     qquestions = QualifyQuestion.objects.all()
 
+
     if request.user.is_authenticated():
         logout=True
         try:
@@ -512,6 +513,7 @@ def home(request):
         first_name = ''
         last_name = ''
         profile_image_path = ''
+
  
     return render(request, 'index-0.html',{'logout':logout,
                                            'user_id':user_id,

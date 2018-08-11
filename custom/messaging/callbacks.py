@@ -80,7 +80,9 @@ def message_duplicate_to_email_handler(sender, receiver, message, **kwargs):
 
     mess = 'Please activate your account.'    
     try:
-
+        log = Logger(log="WE WILL SEND IT - SEE")
+        log.save()
+     
         profile = ProfileMetaProp.objects.get(pk=1)
         FROM = '<strong>Grinberg & Segal'
         USER = profile.user_name
@@ -103,12 +105,23 @@ def message_duplicate_to_email_handler(sender, receiver, message, **kwargs):
         f = codecs.open(path, 'r')
 
         m = f.read()
-        mess = string.replace(m, '[Name]', receiver.first_name+' '+receiver.last_name)
-        mess = string.replace(mess, '[sender]', sender.first_name+' '+sender.last_name)
-        mess = string.replace(mess,'[title]', message.title)
-        mess = string.replace(mess,'[body]', message.body)
+        mess = string.replace(m, '[sender]', sender.first_name+' '+sender.last_name)
         mess = string.replace(mess, '[email_address]', receiver.email)
-       
+
+        mess = string.replace(mess, '[first]', receiver.first_name)
+        mess = string.replace(mess, '[last]', receiver.profile.last_name)
+        mess = string.replace(mess, '[sender]', sender.first_name+' '+sender.last_name)  
+        mess = string.replace(mess, '[greeting]', 'Dear')
+
+        mess = string.replace(mess, '[greeting_sent]', 'This email was sent to ')
+        mess = string.replace(mess, 'email_address@email.com', receiver.email)
+        mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+        mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
+        mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
+        mess = string.replace(mess, '[title]', message.title)
+        mess = string.replace(mess, '[body]', message.body)
+      
+ 
         
         message = mess
 

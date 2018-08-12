@@ -24,6 +24,8 @@ Vue.component('onload', {
 var consult_visited = new Array(false, false, false, false, false, false, false);
 var package_visited = new Array(false, false, false, false, false, false, false, false);
 var payment_visited = new Array(false, false, false, false, false);
+var ask_visited = new Array(false, false, false, false, false);
+
 var packages_featured = new Hash();
 var packages = new Hash();
 var states = {};
@@ -1573,6 +1575,85 @@ var qvm7 = new Vue({
 
 });
 
+var vm_ask = new Vue({
+    el: '#askwizard',
+    data: {},
+    methods: {
+        stepone: function(event) {
+
+            if (ask_visited[4]==true) {
+                ask_visited[4] = false;
+                ask_visited[3] = false;
+                ask_visited[2] = false;
+                ask_visited[1] = false;
+                ask_step_zero();
+            }
+
+
+            if (ask_visited[3]==true) {
+                ask_visited[3] = false;
+                ask_visited[2] = false;
+                ask_visited[1] = false;
+                ask_step_zero();
+            }
+
+            if (ask_visited[2]==true) {
+                ask_visited[2] = false;
+                ask_visited[1] = false;
+                ask_step_zero();
+            }
+
+            if (ask_visited[1]==true) {
+                ask_visited[1] = false;
+                ask_step_zero();
+            }
+
+      },
+      steptwo: function(event) {
+            if (ask_visited[4]==true) {
+                ask_visited[4] = false;
+                ask_visited[3] = false;
+                ask_visited[2] = false;
+                ask_step_one();
+            }
+
+            if (ask_visited[3]==true) {
+                ask_visited[3] = false;
+                ask_visited[2] = false;
+                ask_step_one();  
+            }
+
+            if (ask_visited[2]==true) {
+                ask_visited[2] = false;
+                ask_step_one();
+            }
+      },
+
+      stepthree: function(event) {
+            if (ask_visited[4]==true) {
+                ask_visited[4] = false;
+                ask_visited[3] = false;
+                ask_step_two();
+            }
+
+            if (ask_visited[3]==true) {
+                ask_visited[3] = false;
+                ask_step_two();
+            }
+      },
+
+      stepfour: function(event) {
+            if (ask_visited[4]==true) {
+                ask_visited[4] = false;
+                ask_step_three();
+            }
+      },
+      stepfive: function(event) {}
+  }
+
+
+});
+
 var vm_package = new Vue({
     el: '#packagewizard',
     data: {},
@@ -1919,11 +2000,6 @@ var vm_container = new Vue({
 
         if (payment_visited[4]==true) {
                init_payment();
-//             payment_visited[4] = false;
-//             payment_visited[3] = false;
-//             payment_visited[2] = false;
- //            payment_visited[1] = false;
- //            makepayment_step_one();
         }
 
         if (payment_visited[3]==true) {
@@ -2962,12 +3038,15 @@ var askone = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     errors: [],
    },
    methods: {
        submitone: function (event) {
            asktwo.is_verified = this.is_verified;
            asktwo.pre_verified = this.pre_verified;
+           ask_visited[1] = true;
+           ask_step_one();
        },
 
        submittwo: function (event) {
@@ -2992,6 +3071,7 @@ var askone = new Vue({
        }
    }  ,
    mounted:function() {
+       ask_step_zero();
    }
 
 });
@@ -3008,19 +3088,39 @@ var asktwo = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     errors: [],
    },
    methods: {
        submitone: function (event) {
        },
 
        submittwo: function (event) {
+           this.errors = [];
            this.email = $("#ask_email").val();
            this.full_name = $("#ask_full_name").val();
            askthree.is_verified = this.is_verified;
            askthree.pre_verified = this.pre_verified;
            askthree.full_name = this.full_name;
            askthree.email = this.email;
+           if (!this.full_name  || this.full_name.length==0) {
+               this.errors.push("Full name required!");
+           }
+
+           if (!this.email  || this.email.length==0) {
+               this.errors.push("Email required!");
+           }
+
+
+           if (this.errors.length > 0) {
+                ask_visited[2] = false;
+                ask_visited[1] = true;
+                ask_step_one();
+                return;  
+           } else {
+                ask_visited[2] = true;
+                ask_step_two();
+           }
        },
 
        submitthree: function (event) {
@@ -3057,7 +3157,8 @@ var askthree = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     errors: [],
    },
    methods: {
        submitone: function (event) {
@@ -3067,6 +3168,7 @@ var askthree = new Vue({
        },
 
        submitthree: function (event) {
+           this.errors = [];
            askfour.is_verified = this.is_verified;
            askfour.pre_verified = this.pre_verified;
            askfour.full_name = this.full_name;
@@ -3074,10 +3176,25 @@ var askthree = new Vue({
            askfour.message = this.message;
            askfour.subject = this.subject;
 
+           if (!this.message  || this.message.length==0) {
+               this.errors.push("Message required!");
+           }
+
+           if (!this.subject  || this.subject.length==0) {
+               this.errors.push("Subject required!");
+           }
+
+           if (this.errors.length > 0) {
+                return;
+           } else {
+                ask_visited[3] = true;
+                ask_step_three();
+           }
+
+
            $.get('https://divorcesus.com/asktemplates/1/', function(data){
                $("#ask-agreement-container").html(data.agreement);
            });
-
        },
 
        submitfour: function (event) {
@@ -3103,7 +3220,7 @@ var askthree = new Vue({
 var askfour = new Vue({
    el: '#ask-stepfour',
    data: {
-     is_verified: false,
+     is_accepted: false,
      pre_verified: '',
      full_name:'',
      email:'',
@@ -3112,7 +3229,8 @@ var askfour = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     errors: [],
    },
    methods: {
        submitone: function (event) {
@@ -3131,7 +3249,23 @@ var askfour = new Vue({
            $("#final_subject").html(this.subject);
            $("#final_message").html(this.message);
 
-           askfive.is_verified = this.is_verified;
+           if($('#is_accepated').prop('checked')) {        
+               this.is_accepted = true;
+           }  
+
+           if (!this.is_accepted) {
+               this.errors.push("Must verify!");
+           }
+
+           if (this.errors.length > 0) {
+                return;
+           } else {
+                ask_visited[4] = true;
+                ask_step_four();
+           }
+
+          
+           askfive.is_accepted = this.is_accepted;
            askfive.pre_verified = this.pre_verified;
            askfive.full_name = this.full_name;
            askfive.email = this.email;
@@ -3160,7 +3294,7 @@ var askfour = new Vue({
 var askfive = new Vue({
    el: '#ask-stepfive',
    data: {
-     is_verified: false,
+     is_accepted: false,
      pre_verified: '',
      full_name:'',
      email:'',
@@ -3169,7 +3303,8 @@ var askfive = new Vue({
      time_asked: '',
      agreement: '',
      agreed_note: '',
-     agreed: false
+     agreed: false,
+     errors: [],
    },
    methods: {
     
@@ -3186,7 +3321,6 @@ var askfive = new Vue({
        },
 
        submitfive: function (event) {
-
          $.get('https://divorcesus.com/sendmail?email='+this.email+'&subject='+this.subject+'&message='+this.message+'&name='+this.full_name, function(data)
                 {
                      if (data.message =='success')  {
@@ -3198,6 +3332,7 @@ var askfive = new Vue({
                     this.message='';
                     this.name='';
                 });
+         ask_step_five();
 
        },
 

@@ -1719,6 +1719,26 @@ function consult_step_zero() {
             return false;
 }
 
+function consult_step_zero() {
+            $("#consult-stepone").css("display","block");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display","none");
+            $("#consult-stepfour").css("display","none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").attr('class','current');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');   
+
+            return false;
+}
+
 function consult_step_one() {
             $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","block");

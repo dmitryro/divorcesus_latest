@@ -169,15 +169,15 @@
 
 
 
-        $("#ask_step_one").bind("click", ask_step_one);
+        //$("#ask_step_one").bind("click", ask_step_one);
 
-        $("#ask_step_two").bind("click", ask_step_two);
+//        $("#ask_step_two").bind("click", ask_step_two);
 
-        $("#ask_step_three").bind("click", ask_step_three);
+ //       $("#ask_step_three").bind("click", ask_step_three);
     
-        $("#ask_step_four").bind("click", ask_step_four);
+  //      $("#ask_step_four").bind("click", ask_step_four);
 
-        $("#ask_step_five").bind("click", ask_step_five);
+   //     $("#ask_step_five").bind("click", ask_step_five);
 
 
 

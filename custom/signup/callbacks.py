@@ -111,13 +111,23 @@ def process_user_question(contact):
             m = f.read()
             mess = string.replace(m, '[name]',contact.name)
             mess = string.replace(mess, '[message]', contact.message)
-
             mess = string.replace(mess, '[subject]',contact.subject)
             mess = string.replace(mess,'[email]',contact.email)
+            mess = string.replace(mess,'[greeting]', 'Dear')
+            mess = string.replace(mess,'[greeting_statement]','You just asked a question from attorneys at Grinberg and Segal Matrimonial.')
+            line1 = "<p>Please give us 1 to 3 busintess days to follow up.</p>"
+            line2 = "<p>Truly Yours,<br/>"
+            line3 = "Grinberg and Segal Matrimonial Division</p>"
+
+            mess = string.replace(mess,'[wait_statement]',"{}{}{}".format(line1, line2, line3))
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
+            mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
+
         #    mess = string.replace(mess,'[link]',link)
 
-        except Exception, R:
-            log = Logger(log=str(R))
+        except Exception as e:
+            log = Logger(log=str(e))
             log.save()
         message = mess
 

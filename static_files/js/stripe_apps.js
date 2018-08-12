@@ -47,12 +47,21 @@ function setup_stripe_three() {
 
       stripe.createToken(card).then(function(result) {
         if (result.error) {
-          // Inform the user if there was an error.
-          var errorElement = document.getElementById('card-errors');
-          errorElement.textContent = result.error.message;
+            // Inform the user if there was an error.
+            var errorElement = document.getElementById('card-errors-three');
+            errorElement.textContent = result.error.message;
+            consulttwo.stripe_errors.push(result.error.message);
+            consulttwo.token=null;
         } else {
-          $("#payment-token").attr("value", result.token.id);
+            if(consulttwo.errors.length==0) {
+               consulttwo.redirect();
+            }
+            $("#payment-token").attr("value", result.token.id);
         }
+
+
+
+
       });
     });
 
@@ -178,13 +187,6 @@ function setup_stripe_one() {
         } else {
             if(vm2.errors.length==0) {
                vm2.redirect();
-
-               //vm2.stripe_errors = [];
-              
-               //payment_visited[2] = true;
-               //$("#payment-counter").attr("value", 3);
-               //makepayment_next_two();
-
             }
             $("#payment-token").attr("value", result.token.id);
         }

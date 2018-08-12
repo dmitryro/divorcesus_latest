@@ -2103,7 +2103,6 @@ var vm2 = new Vue({
            makepayment_next_two();  
     }, 
     submittwo: function (event) {
-           setup_stripe_three();
            $('#payment-form-one').submit();
            $("#next_two").click();
            $("#payment-amount-error").html("");
@@ -2139,78 +2138,6 @@ var vm2 = new Vue({
            if (displayError.textContent.length>0) {
                this.errors.push("Invalid card");
            }
-
-
-/*
-           if(!this.token || this.token.length==0) {
-                
-                var displayError = document.getElementById('card-errors-one');
-
-                if (displayError.textContent.length==0) {
-                   $("#card-errors-one").html("<span class=\"error\" >"+"Invalid card"+"</span>");
-                   this.stripe_errors.push("Invalid card");
-                   displayError.textContent = "Invalid card";
-                } 
-               
-
-           }
-           var style = {
-               base: {
-                   color: '#32325d',
-                   lineHeight: '18px',
-                   fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                   fontSmoothing: 'antialiased',
-                   fontSize: '16px',
-                             '::placeholder': {
-                                color: '#aab7c4'
-                              }
-                   },
-                   invalid: {
-                   color: '#fa755a',
-                   iconColor: '#fa755a'
-               }
-           };
-
-           var stripe = Stripe('pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV');
-
-           var elements = stripe.elements();
-
-           var card = elements.create('card', {style: style});
-
-           card.mount('#card-element-one');
-
-
-           card.addEventListener('change', function(event) {
-
-               var displayError = document.getElementById('card-errors-one');
-           
-               if (event.error) {
-                   this.stripe_errors.push(event.error.message);
-                   displayError.textContent = event.error.message;
-               } else {
-                   this.stripe_errors = [];
-                   displayError.textContent = '';
-               }
-           });
-*/
-           // Handle form submission.
-
-/*
-           stripe.createToken(card).then(function(result) {
-                  if (result.error) {
-                    // Inform the user if there was an error.
-                      var errorElement = document.getElementById('card-errors-one');
-                      errorElement.textContent = result.error.message;
-                  } else {
-                      this.token = result.token.id;
-                  }
-           });
-*/   
-//           alert("TOKEN "+this.token);
-//           if(!this.token || this.token.length==0) {
-//                this.errors.push("Token is required");
-//                $("#card-errors-one").html("<span class=\"error\" >"+"Invalid card"+"</span>");
-//           }
 
 
            if (this.errors.length > 0) {                      
@@ -3254,8 +3181,12 @@ var consultone = new Vue({
      marital_status: '',
      purpose: '',
      errors: [],
+     stripe_errors: [],
    },
    methods: {
+       redirect: function(event) {
+
+       },
        reset_price: function (event) {
        },
        submitone: function (event) {
@@ -3387,14 +3318,65 @@ var consulttwo = new Vue({
      marital_status: '',
      purpose: '',
      errors: [],
+     stripe_errors: [],
   },
    methods: {
+       redirect: function(event) { 
+           consultthree.billing_full_name = this.billing_full_name;
+           consultthree.billing_state = this.billing_state;
+           consultthree.billing_country = this.billing_country;
+           consultthree.billing_zip = this.billing_zip;
+           consultthree.billing_phone = this.billing_phone;
+           consultthree.billing_email = this.billing_email;
+           consultthree.billing_address1 = this.billing_address1;
+           consultthree.billing_address2 = this.billing_address2;
+           consultthree.billing_city = this.billing_city;
+
+           consultthree.individual_full_name = this.individual_full_name;
+           consultthree.individual_address1 = this.individual_address1;
+           consultthree.individual_address2 = this.individual_address2;
+           consultthree.individual_city = this.individual_city;
+           consultthree.individual_state = this.individual_state;
+           consultthree.individual_zip = this.individual_zip;
+           consultthree.individual_country = this.individual_country;
+           consultthree.individual_phone = this.individual_phone;
+           consultthree.individual_email = this.individual_email;
+
+           consultthree.consultancy_type = this.consultancy_type;
+           consultthree.price = this.price;
+           consultthree.payment_token = this.payment_token;
+
+           $.get('https://divorcesus.com/states', function(msg) {
+                     let result = "<select id='consult-individual-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
+                     for(var i=0;i<msg.length;i++) {
+                         result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                     }
+                     result = result + "</select>";
+                     $("#consult-individual-state-choices").html(result);
+           });
+
+           $.get('https://divorcesus.com/countries', function(msg) {
+                     let result = "<select id='consult-individual-select-country' v-model='country' class='styled-select slate' style='width:100%;' >";
+                     for(var i=0;i<msg.length;i++) {
+                         result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                     }
+                     result = result + "</select>";
+                     result = result + "<input type='hidden' id='consult-stepthree-valid' value='0' /> ";
+                     $("#consult-individual-country-choices").html(result);
+            });
+
+            consult_visited[2] = true;
+            consult_step_two();
+
+
+       },
 
        submitone: function (event) {
        },
 
        submittwo: function (event) {
             //setup_stripe_three();
+            $('#payment-form-three').submit();
             this.errors = [];
             this.price = $('#consult_amount').val();
             let payment_token_error = $('#payment-token-error').val();
@@ -3433,9 +3415,9 @@ var consulttwo = new Vue({
          this.billing_email = $('#consult_email').val(); 
          
 
-         if (!this.payment_token) {
-             this.errors.push('Payment token is required.');
-         }
+//         if (!this.payment_token) {
+ //            this.errors.push('Payment token is required.');
+ //        }
 
          if (!this.billing_full_name) {
              this.errors.push('Full name is required.');
@@ -3465,11 +3447,22 @@ var consulttwo = new Vue({
              this.errors.push('City required.');
          }
 
+         var displayError = document.getElementById('card-errors-one');
+
+         if (displayError.textContent.length>0) {
+               this.errors.push("Invalid card");
+         }
+
         
+
 
          if (this.errors.length > 0 ) {
              return;
          } else {
+
+             if (this.stripe_errors.length > 0) {
+                 return;
+             }
              consult_visited[2] = true;
              consult_step_two();
          }

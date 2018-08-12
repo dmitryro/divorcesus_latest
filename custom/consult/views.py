@@ -126,17 +126,24 @@ def process_consultation_view(request):
 
 
     try:
-        charge  = stripe.Charge.create(
-                         amount      = 100*int(price),
-                         currency    = "usd",
-                         source      = payment_token,
-                         description = "Customer payment"
-                  )
-
-        payment = CustomerPayment.objects.create(user=user,
-                                                 charge=str(charge.id), 
-                                                 amount=float(price), 
-                                                 is_successful=True)
+        if price > 0:
+            charge  = stripe.Charge.create(
+                             amount      = 100*int(price),
+                             currency    = "usd",
+                             source      = payment_token,
+                             description = "Customer payment"
+                      )
+        
+            payment = CustomerPayment.objects.create(user=user,
+                                                     charge=str(charge.id), 
+                                                     amount=float(price), 
+                                                     is_successful=True)
+        else:
+            payment = CustomerPayment.objects.create(user=user,
+                                                     charge="free",
+                                                     amount=float(price),
+                                                     is_successful=True)
+            
 
 
         billing_country_model = Country.objects.get(id=int(billing_country))

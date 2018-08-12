@@ -113,7 +113,7 @@ function setup_stripe_two() {
           var errorElement = document.getElementById('card-errors-two');
           errorElement.textContent = result.error.message;
         } else {
-          $("#payment-token").attr("value", result.token.id);
+            $("#payment-token").attr("value", result.token.id);
           // Send the token to your server.
           //stripeTokenHandler(result.token);
         }
@@ -170,11 +170,23 @@ function setup_stripe_one() {
 
       stripe.createToken(card).then(function(result) {
         if (result.error) {
-          // Inform the user if there was an error.
-          var errorElement = document.getElementById('card-errors-one');
-          errorElement.textContent = result.error.message;
+            // Inform the user if there was an error.
+            var errorElement = document.getElementById('card-errors-one');
+            errorElement.textContent = result.error.message;
+            vm2.stripe_errors.push(result.error.message);
+            vm2.token=null;  
         } else {
-          $("#payment-token").attr("value", result.token.id);
+            if(vm2.errors.length==0) {
+               vm2.redirect();
+
+               //vm2.stripe_errors = [];
+              
+               //payment_visited[2] = true;
+               //$("#payment-counter").attr("value", 3);
+               //makepayment_next_two();
+
+            }
+            $("#payment-token").attr("value", result.token.id);
         }
       });
     });

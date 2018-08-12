@@ -2062,18 +2062,53 @@ var vm2 = new Vue({
     token: '',
     nameoncard: '',
     errors: [],
+    stripe_errors: [],
   },
   methods: {
     submitone: function (event) {
 
     },
+    redirect: function (event) {
+           vm3.first = this.first;
+           vm3.last = this.last;
+           vm3.state = this.state;
+           vm3.email = this.email;
+           vm3.phone = this.phone;
+           vm3.amount = this.amount;
+           vm3.nameoncard = this.nameoncard;    
+           $.get('https://divorcesus.com/states', function(msg) {
+                         let result = "<select id='pay-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
+                         for(var i=0;i<msg.length;i++) {
+                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                         }
+                         result = result + "</select>";
+                         $("#pay-state-choices").html(result);
+           });
+
+           vm3.token = $("#payment-token").val();
+           $("#step_three_payments_price").html(this.amount.toString());
+           $("#step_three_payments_phone").html(this.phone.toString());
+           $("#step_three_payments_state").html(this.state.toString());
+           $("#step_three_payments_email").html(this.email.toString());
+           $("#step_three_payments_first").html(this.first.toString());
+           $("#step_three_payments_last").html(this.last.toString());
+           $("#name_on_card").html("<p>Name on Card: "+this.nameoncard.toString()+"</p>");
+    
+           this.stripe_errors = [];
+
+           payment_visited[2] = true;
+           //$("#step_three_payments_price").html(this.amount);
+           
+           $("#payment-counter").attr("value", 3);
+           makepayment_next_two();  
+    }, 
     submittwo: function (event) {
-           this.errors = [];
-           $('#payment-form-one').submit(); 
            setup_stripe_three();
+           $('#payment-form-one').submit();
            $("#next_two").click();
            $("#payment-amount-error").html("");
            $("#payment-name-on-card-error").html("");
+           this.errors = []; 
            this.token = $('#payment-token').val();
            vm3.first = this.first;
            vm3.last = this.last;
@@ -2082,27 +2117,108 @@ var vm2 = new Vue({
            vm3.phone = this.phone;
            vm3.amount = this.amount;
            vm3.nameoncard = this.nameoncard;
-
-           if(!this.token || this.token.length==0) {
-                $("#card-errors-one").html("<span class=\"error\" >"+"Invalid card"+"</span>");
-           }
            if (!this.nameoncard) {
+       
                $("#payment-name-on-card-error").html("<span class=\"error\">"+"Name on card is required"+"</span>");
                this.errors.push("Name on card is required");
+           } else {
+               $("#payment-name-on-card-error").html("");
            }
 
-           if (!this.token) {
-               this.errors.push("Token is required");
-           }
 
            if (!this.amount) {
                $("#payment-amount-error").html("<span class=\"error\" style=\"margin-top:-1.2em;\">"+"Amount is required"+"</span>");
                this.errors.push("Amount is required");
+           } else {
+               $("#payment-amount-error").html("");
            }
-           if (this.errors.length > 0) {
-                      
+
+
+           var displayError = document.getElementById('card-errors-one');
+
+           if (displayError.textContent.length>0) {
+               this.errors.push("Invalid card");
+           }
+
+
+/*
+           if(!this.token || this.token.length==0) {
+                
+                var displayError = document.getElementById('card-errors-one');
+
+                if (displayError.textContent.length==0) {
+                   $("#card-errors-one").html("<span class=\"error\" >"+"Invalid card"+"</span>");
+                   this.stripe_errors.push("Invalid card");
+                   displayError.textContent = "Invalid card";
+                } 
+               
+
+           }
+           var style = {
+               base: {
+                   color: '#32325d',
+                   lineHeight: '18px',
+                   fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                   fontSmoothing: 'antialiased',
+                   fontSize: '16px',
+                             '::placeholder': {
+                                color: '#aab7c4'
+                              }
+                   },
+                   invalid: {
+                   color: '#fa755a',
+                   iconColor: '#fa755a'
+               }
+           };
+
+           var stripe = Stripe('pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV');
+
+           var elements = stripe.elements();
+
+           var card = elements.create('card', {style: style});
+
+           card.mount('#card-element-one');
+
+
+           card.addEventListener('change', function(event) {
+
+               var displayError = document.getElementById('card-errors-one');
+           
+               if (event.error) {
+                   this.stripe_errors.push(event.error.message);
+                   displayError.textContent = event.error.message;
+               } else {
+                   this.stripe_errors = [];
+                   displayError.textContent = '';
+               }
+           });
+*/
+           // Handle form submission.
+
+/*
+           stripe.createToken(card).then(function(result) {
+                  if (result.error) {
+                    // Inform the user if there was an error.
+                      var errorElement = document.getElementById('card-errors-one');
+                      errorElement.textContent = result.error.message;
+                  } else {
+                      this.token = result.token.id;
+                  }
+           });
+*/   
+//           alert("TOKEN "+this.token);
+//           if(!this.token || this.token.length==0) {
+//                this.errors.push("Token is required");
+//                $("#card-errors-one").html("<span class=\"error\" >"+"Invalid card"+"</span>");
+//           }
+
+
+           if (this.errors.length > 0) {                      
                return;
            } else {
+               if (this.stripe_errors.length > 0) {
+                   return;
+               }
                payment_visited[2] = true;
                //$("#step_three_payments_price").html(this.amount);  
                $("#payment-counter").attr("value", 3);

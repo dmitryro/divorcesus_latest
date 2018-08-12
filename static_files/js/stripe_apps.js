@@ -104,11 +104,16 @@ function setup_stripe_two() {
     // Handle real-time validation errors from the card Element.
     card.addEventListener('change', function(event) {
       var displayError = document.getElementById('card-errors-two');
+
+
       if (event.error) {
         displayError.textContent = event.error.message;
       } else {
         displayError.textContent = '';
       }
+
+
+
     });
 
     // Handle form submission.
@@ -118,13 +123,16 @@ function setup_stripe_two() {
 
       stripe.createToken(card).then(function(result) {
         if (result.error) {
-          // Inform the user if there was an error.
-          var errorElement = document.getElementById('card-errors-two');
-          errorElement.textContent = result.error.message;
+            // Inform the user if there was an error.
+            var errorElement = document.getElementById('card-errors-two');
+            errorElement.textContent = result.error.message;
+            qvm4.stripe_errors.push(result.error.message);
+            qvm4.token=null;
         } else {
+            if(qvm4.errors.length==0) {
+               qvm4.redirect();
+            }
             $("#payment-token").attr("value", result.token.id);
-          // Send the token to your server.
-          //stripeTokenHandler(result.token);
         }
       });
     });

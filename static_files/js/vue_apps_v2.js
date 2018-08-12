@@ -1056,14 +1056,72 @@ var qvm4 = new Vue({
     package_type:'',
     package_price:'',
     package_selected: '',
-    payment_token: '',
+    token: '',
     first:'',
     last:'',
     packages: new Hash(),
     errors: [],
+    stripe_errors: [],
   },
   methods: {
+    redirect: function (event) {
+
+               $("#name_on_card_by_state").html("<p>Name on Card: "+this.nameoncard.toString()+"</p>");
+               $('.validation').removeClass('text-danger text-success');
+               $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
+               this.phone = qvm3.phone;
+               this.email = qvm3.email;
+               this.state = qvm2.state;
+               this.package_price = qvm2.package_price;
+               this.package_type = qvm2.package_type;
+               this.first = qvm3.first;
+               this.last = qvm3.last;
+
+               qvm5.packages = this.packages;
+               qvm5.package_price = this.package_price;
+               qvm5.package_type = this.package_type;
+               qvm5.email = this.email;
+               qvm5.first = this.first;
+               qvm5.last = this.last;
+               qvm5.address1 = this.address1;
+               qvm5.address2 = this.address2;
+               qvm5.city = this.city;
+               qvm5.address_state = this.address_state;
+               qvm5.package_state = this.package_state;
+               qvm5.state = this.state;
+               qvm5.zip = this.zip;
+               qvm5.phone = this.phone;
+               qvm5.user_id = this.user_id;
+               qvm5.token = this.token;
+               qvm5.nameoncard = this.nameoncard;
+               qvm5.packages = this.packages;
+               qvm5.package_selected = this.package_selected;
+
+               $.get('https://divorcesus.com/states', function(msg) {
+                         let result = "<select id='select-state-stepfive' v-model='state' class='styled-select slate' style='width:100%;' >";
+                         for(var i=0;i<msg.length;i++) {
+                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                         }
+                         result = result + "</select>";
+                         $("#qualify-state-stepfive-choices").html(result);
+               });
+
+               $("#step_five_package").html(this.packages[this.package_selected]);
+               $("#step_five_state").html(states[this.package_state]);
+               $("#step_five_price").html(qvm3.package_price);//this.package_price);
+               $("#step_five_email").html(qvm3.email);
+               $("#step_five_first").html(qvm3.first);
+               $("#step_five_last").html(qvm3.last);
+               $("#step_five_phone").html(qvm3.phone);
+
+               package_visited[4] = true;
+               qualify_progress_step_four();
+               qualify_next_four();
+
+
+    },
     submitzero: function (event) {
+
     },
 
     submitone: function (event) {
@@ -1077,19 +1135,31 @@ var qvm4 = new Vue({
 
     submitfour: function (event) {
                this.errors = [];
-               this.payment_token = $('#payment-token').val();
+               $('#payment-form-two').submit();
+               this.token = $('#payment-token').val();
                this.nameoncard = $('#nameoncard-q').val();
+
                if (!this.nameoncard) {
                   this.errors.push("Name on card required");
                }
 
-               if (!this.payment_token) {
-                  this.errors.push("Payment token required");
+//               if (!this.payment_token) {
+//                  this.errors.push("Payment token required");
+//               }
+
+               var displayError = document.getElementById('card-errors-two');
+
+               if (displayError.textContent.length>0) {
+                   this.errors.push("Invalid card");
                }
 
                if (this.errors.length > 0) {
                    return;
                } else {
+                   if (this.stripe_errors.length > 0) {
+                       return;
+                   }
+                   setup_stripe_two();
                    package_visited[4] = true;
                    qualify_progress_step_four();
                    qualify_next_four();
@@ -1122,7 +1192,7 @@ var qvm4 = new Vue({
                qvm5.zip = this.zip;
                qvm5.phone = this.phone;
                qvm5.user_id = this.user_id;
-               qvm5.payment_token = this.payment_token;
+               qvm5.token = this.token;
                qvm5.nameoncard = this.nameoncard;
                qvm5.packages = this.packages;
                qvm5.package_selected = this.package_selected;
@@ -1154,6 +1224,9 @@ var qvm4 = new Vue({
     submitseven: function (event) {
     }
 
+  },
+  mounted: function() {
+       setup_stripe_two();
   }
 
 });
@@ -1191,7 +1264,7 @@ var qvm5 = new Vue({
     package_type:'',
     package_price:'',
     package_selected: '',
-    payment_token: '',
+    token: '',
     packages: new Hash(),
     errors: [],
   },
@@ -1270,7 +1343,7 @@ var qvm5 = new Vue({
                qvm6.packages = this.packages;
                qvm6.package_type = this.package_type;
                qvm6.package_price = this.package_price;
-               qvm6.payment_token = this.payment_token;
+               qvm6.token = this.token;
      
                $.get('https://divorcesus.com/states/?id='+this.billing_state, function(data) {
                   // $("#state").attr("value",data[0].name.toString());
@@ -1357,7 +1430,7 @@ var qvm6 = new Vue({
     are_there_children: '',
     does_spouse_agree:'',
     is_military:'',
-    payment_token: '',
+    token: '',
     package_type:'',
     package_price:'',
     package_selected: '',
@@ -3447,7 +3520,7 @@ var consulttwo = new Vue({
              this.errors.push('City required.');
          }
 
-         var displayError = document.getElementById('card-errors-one');
+         var displayError = document.getElementById('card-errors-three');
 
          if (displayError.textContent.length>0) {
                this.errors.push("Invalid card");

@@ -34,23 +34,15 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def get_or_create_user(fullname, email):
     try:
-        name = fullname.split(" ")
-        user = User.objects.get(first_name=name[0], last_name=name[1], email=email)
+        user = User.objects.get(email=email)
         return user
     except Exception as e:
-        
-   
         name = fullname.split(" ")
-
-        log = Logger(log="CREATING USER {}{}".format(name, email))
-        log.save()
         username = "{}{}".format(name[0], name[1]).decode('utf-8').lower()
         user = User.objects.create(username=username, first_name=name[0], last_name=name[1], email=email)
         user.save()
-        #profile = Profile.objects.create(user=user, username=username, first_name=name[0], last_name=name[1], email=email)
+        profile = Profile.objects.create(user=user, username=username, first_name=name[0], last_name=name[1], email=email)
         
-        log = Logger(log="WE CREATED USER {} {}".format(user.id, user.email))
-        log.save()
 
         return user
     
@@ -108,9 +100,6 @@ def process_consultation_view(request):
     number_of_children = request.data.get('number_of_children', '')
     manner_of_entry = request.data.get('manner_of_entry', '')
 
-    log = Logger(log="TOKEN WAS {} and price {} and email {}".format(payment_token, price, individual_email))
-    log.save()
-
     try:
         user = get_or_create_user(individual_full_name, individual_email)
     except Exception as e:
@@ -124,9 +113,8 @@ def process_consultation_view(request):
                                          message="Consultation Request",
                                          email=individual_email)
 
-
     try:
-        if price > 0:
+        if int(price) > 0:
             charge  = stripe.Charge.create(
                              amount      = 100*int(price),
                              currency    = "usd",
@@ -141,13 +129,12 @@ def process_consultation_view(request):
         else:
             payment = CustomerPayment.objects.create(user=user,
                                                      charge="free",
-                                                     amount=float(price),
+                                                     amount=0.0,
                                                      is_successful=True)
             
-
-
         billing_country_model = Country.objects.get(id=int(billing_country))
         individual_country_model = Country.objects.get(id=int(individual_country))
+
 
         billing_address = Address.objects.create(state_province_id=int(billing_state),
                                                  city=billing_city,
@@ -160,6 +147,7 @@ def process_consultation_view(request):
                                                  is_default=False,
                                                  is_active=True)
 
+
         individual_address = Address.objects.create(state_province_id=int(individual_state),
                                                     city=individual_city,
                                                     user=user,
@@ -170,6 +158,7 @@ def process_consultation_view(request):
                                                     country=individual_country_model.name,
                                                     is_default=False,
                                                     is_active=True)
+
         children = Children.objects.get(id=int(number_of_children))
 
         country = Country.objects.get(id=int(country_of_citizenship))
@@ -177,7 +166,6 @@ def process_consultation_view(request):
         status = StatusChoice.objects.get(id=1)
          
         marital = MaritalStatus.objects.get(id=int(marital_status))
-
 
         consultation = Consultation.objects.create(billing_address=billing_address,
                                                    individual_address=individual_address,
@@ -197,6 +185,7 @@ def process_consultation_view(request):
                                                    marital_status=marital,
                                                    number_of_children=children)
                 
+
     except Exception as e:
         log = Logger(log="WE FAILED TO CONSULT {}".format(e))
         log.save()

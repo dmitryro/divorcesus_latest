@@ -3248,22 +3248,15 @@ var askfour = new Vue({
            $("#final_full_name").html(this.full_name);
            $("#final_subject").html(this.subject);
            $("#final_message").html(this.message);
-
-           if($('#is_accepted').prop('checked')) {        
-               this.is_accepted = true;
-           }  
-
-           if (!this.is_accepted) {
-               this.errors.push("Must verify!");
-           }
-
-           if (this.errors.length > 0) {
-                return;
-           } else {
+           
+           if($('#is_accepted').prop('checked')) {     
+                this.is_accepted = true; 
                 ask_visited[4] = true;
                 ask_step_four();
+           } else {
+                return;
            }
-
+  
           
            askfive.is_accepted = this.is_accepted;
            askfive.pre_verified = this.pre_verified;

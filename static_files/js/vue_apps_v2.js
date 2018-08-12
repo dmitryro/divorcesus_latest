@@ -3249,7 +3249,7 @@ var askfour = new Vue({
            $("#final_subject").html(this.subject);
            $("#final_message").html(this.message);
 
-           if($('#is_accepated').prop('checked')) {        
+           if($('#is_accepted').prop('checked')) {        
                this.is_accepted = true;
            }  
 

@@ -45,7 +45,7 @@ class ConsultationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Consultation
         fields = ('id','payment','amount', 'user',
-                  'status', 'manner_of_entry',
+                  'status',
                   'marital_status', 'number_of_children',
                   'invoice', 'individual_full_name', 'billing_full_name',
                   'billing_phone', 'individual_email', 'individual_phone',

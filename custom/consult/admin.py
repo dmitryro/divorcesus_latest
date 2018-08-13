@@ -32,7 +32,6 @@ class ChildrenAdmin(admin.ModelAdmin):
 class ConsultationAdmin(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ['user',
                                     'status',
-                                    'manner_of_entry',
                                     'marital_status',
                                     'number_of_children',
                                     'invoice',

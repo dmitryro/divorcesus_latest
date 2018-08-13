@@ -38,7 +38,7 @@ def consult_send_confirmation_email_handler(sender,**kwargs):
      contact = kwargs['contact']
      try:
         task = TaskLog.objects.get(user_id=contact.id,job='sending_consult_email')
-     except Exception, R:
+     except Exception as e:
         task = TaskLog.objects.create(user_id=contact.id, job='sending_consult_email', is_complete=False)
         consultation = kwargs['consultation']
         contact = kwargs['contact']
@@ -48,6 +48,9 @@ def consult_send_confirmation_email_handler(sender,**kwargs):
 
 def process_consult_request_email(consultation, contact):
     try:
+        log = Logger(log="WE ARE SENDING TO USER")
+        log.save()
+
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
@@ -106,8 +109,8 @@ def process_consult_request_email(consultation, contact):
         pass
     except ObjectDoesNotExist:
         pass
-    except Exception, R:
-        log = Logger(log=str(R))
+    except Exception as e:
+        log = Logger(log="THIS DID NOT WORK {}".format(e))
         log.save()
 
 
@@ -115,6 +118,9 @@ def process_consult_request_email(consultation, contact):
 def process_consult_confirmation_email(consultation, contact):
 
     try:
+        log = Logger(log="WE ARE SENDING TO OFFICE")
+        log.save()
+
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
@@ -172,7 +178,7 @@ def process_consult_confirmation_email(consultation, contact):
         pass
     except ObjectDoesNotExist:
         pass
-    except Exception, R:
-        log = Logger(log=str(R))
+    except Exception as e:
+        log = Logger(log="Failed sending to office {}".format(e))
         log.save()
 

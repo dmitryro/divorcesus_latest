@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
@@ -37,11 +39,21 @@ def get_or_create_user(fullname, email):
         user = User.objects.get(email=email)
         return user
     except Exception as e:
+
         name = fullname.split(" ")
-        username = "{}{}".format(name[0], name[1]).decode('utf-8').lower()
-        user = User.objects.create(username=username, first_name=name[0], last_name=name[1], email=email)
+        username = "{}_{}".format(name[0], name[1]).decode('utf-8').lower()
+
+
+        if len(name)==2:
+            first_name = name[0]
+            last_name = name[1]
+        else:
+            first_name=fullname
+            last_name=""
+
+        user = User.objects.create(username=username, first_name=last_name, last_name=last_name, email=email)
         user.save()
-        profile = Profile.objects.create(user=user, username=username, first_name=name[0], last_name=name[1], email=email)
+        profile = Profile.objects.create(user=user, username=username, first_name=first_name, last_name=last_name, email=email)
         
 
         return user
@@ -98,12 +110,15 @@ def process_consultation_view(request):
     marital_status = request.data.get('marital_status', '')
     country_of_citizenship = request.data.get('country_of_citizenship', '')
     number_of_children = request.data.get('number_of_children', '')
-    manner_of_entry = request.data.get('manner_of_entry', '')
 
     try:
-        user = get_or_create_user(individual_full_name, individual_email)
+        user_id = request.data.get('user_id').encode('utf-8')
+        user = User.objects.get(id=int(user_id))
     except Exception as e:
-        return Response({'message':'failure','cause':str(e)})
+        log = Logger(log="WE FAILED TO CONSULT {}".format(e))
+        log.save()
+        return Response({'message':'failure', 'cause':str(e)})
+
 
     try:
         contact = Contact.objects.get(email=individual_email)
@@ -112,6 +127,9 @@ def process_consultation_view(request):
                                          subject="Consultation Request", 
                                          message="Consultation Request",
                                          email=individual_email)
+
+    log = Logger(log="WILL TRY TO SEND STEP TWO with user {} - {}".format(user_id, user))
+    log.save()
 
     try:
         if int(price) > 0:
@@ -181,7 +199,6 @@ def process_consultation_view(request):
                                                    individual_phone=individual_phone,
                                                    individual_email=individual_email,
                                                    country_of_citizenship=country,
-                                                   manner_of_entry=manner_of_entry,
                                                    marital_status=marital,
                                                    number_of_children=children)
                 

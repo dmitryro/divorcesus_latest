@@ -49,7 +49,6 @@ class Consultation(models.Model):
     status = models.ForeignKey(StatusChoice, blank=True, null=True)
     payment = models.ForeignKey(CustomerPayment, blank=True, null=True)
     amount = models.FloatField(default=0.0, blank=True, null=True)
-    manner_of_entry = models.CharField(max_length=200, blank=True, null=True)
     marital_status = models.ForeignKey(MaritalStatus, blank=True, null=True)
     number_of_children = models.ForeignKey(Children, blank=True, null=True)
     invoice = models.CharField(max_length=200, blank=True, null=True)

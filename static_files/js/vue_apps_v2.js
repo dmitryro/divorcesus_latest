@@ -2570,7 +2570,7 @@ var vm4 = new Vue({
 
     submitfour: function (event) {
         this.errors = [];
-        this.user_id = +$('#current-user-id').val();
+        this.user_id = $('#current-user-id').val();
     
         if (this.errors.length > 0) {
             return;
@@ -3403,10 +3403,11 @@ var consultone = new Vue({
            }
            $.get('https://divorcesus.com/consulttypes', function(msg) {
                      let result = "<div>";
-                     for(var i=0;i<msg.length;i++) {
+
+                     for(var i=eval(msg.length-1);i>=0; i--) {
                          str = "<div style='float:left;width:5%;margin-bottom:1.2em;'>";
                          str = str + "<input type='hidden' id='consult-steptwo-valid' value='0' /> ";
-                         if (eval(i)==0) {
+                         if (i==0) {
                              str = str + "<input type='hidden' id='consultancy-type-"+msg[i].id+"' value='"+msg[i].price+"' checked=\"checked\"  />";
                          } else {
                              str = str + "<input type='hidden' id='consultancy-type-"+msg[i].id+"' value='"+msg[i].price+"' />";
@@ -3424,6 +3425,7 @@ var consultone = new Vue({
                      }
                      result = result + "</div>";
                      $("#service-choices").html(result);
+                     $('input:radio[name=consultancy_type]')[0].checked = true;
             });
 
 
@@ -4278,7 +4280,7 @@ var consultsix = new Vue({
                    "individual_phone": this.individual_phone,
                    "individual_zip": this.individual_zip,
                    "individual_email": this.individual_email,
-
+                   "user_id": $('#current-user-id').val(),
                    "payment_token": this.payment_token,
                    "price": this.price,
                    "consultancy_type": this.consultancy_type,
@@ -4286,7 +4288,6 @@ var consultsix = new Vue({
                    "marital_status": this.marital_status,
                    "country_of_citizenship": this.country_of_citizenship,
                    "number_of_children": this.number_of_children,
-                   "manner_of_entry": this.manner_of_entry
              };
 
              $.ajax({

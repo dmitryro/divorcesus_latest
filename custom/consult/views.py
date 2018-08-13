@@ -115,8 +115,6 @@ def process_consultation_view(request):
         user_id = request.data.get('user_id').encode('utf-8')
         user = User.objects.get(id=int(user_id))
     except Exception as e:
-        log = Logger(log="WE FAILED TO CONSULT {}".format(e))
-        log.save()
         return Response({'message':'failure', 'cause':str(e)})
 
 
@@ -127,9 +125,6 @@ def process_consultation_view(request):
                                          subject="Consultation Request", 
                                          message="Consultation Request",
                                          email=individual_email)
-
-    log = Logger(log="WILL TRY TO SEND STEP TWO with user {} - {}".format(user_id, user))
-    log.save()
 
     try:
         if int(price) > 0:

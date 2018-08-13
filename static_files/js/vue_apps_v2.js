@@ -3383,6 +3383,7 @@ var consultone = new Vue({
      purpose: '',
      errors: [],
      stripe_errors: [],
+     is_accepted: false,
    },
    methods: {
        redirect: function(event) {
@@ -3395,6 +3396,14 @@ var consultone = new Vue({
    
            consulttwo.price = this.price;
            consulttwo.consultancy_type = this.consultancy_type;
+
+           if($('#is_consult_accepted').prop('checked')) {
+                $('#is_consult_accepted_errors').html("");
+           } else {
+                $('#is_consult_accepted_errors').html("<span class=\"error\">Please accept the terms.</span>");
+                this.errors.push("Must be accepted");
+           }
+
 
            if (this.errors.length > 0) {
                return;

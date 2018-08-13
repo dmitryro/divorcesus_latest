@@ -203,6 +203,30 @@
                  color:red;
                  margin-top:3.6em;
                }
+
+               .ask-step-two-one .error {
+                  font-size: 1.1em;
+                  line-height: 1.7em;
+                  color: red;
+                  top: 3.2em;
+                  left: -2.7em;
+                }
+               .ask-step-two-two .error {
+                  font-size: 1.1em;
+                  line-height: 1.7em;
+                  color: red;
+                  top: 5.0em;
+                  left: -2.7em;
+                }
+
+               .ask-step-three-two .error {
+                  font-size: 1.1em;
+                  line-height: 1.7em;
+                  color: red;
+                  top: 9.0em;
+                  left: -2.7em;
+                }
+
             </style>
             <script>
                   var ps = new PerfectScrollbar('.scroll-container');
@@ -2999,8 +3023,9 @@
                              {% csrf_token %}
 
 
-                          <input type="hidden" name="counter" id="counter" value=""/>
+
                           <fieldset>
+                              <div class="form-group ask-step-two-one">
                               <label>
                                   <input type="text"
                                   name="full_name"
@@ -3010,7 +3035,8 @@
                                   value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %}{% endif %}"
                                   data-constraints="@LettersOnly @NotEmpty"/>
                               </label>
-
+                              </div>
+                              <div class="form-group ask-step-two-two">
                               <label style="padding-top:1.9em;">
                                   <input type="text"
                                   id="ask_email"
@@ -3020,7 +3046,7 @@
                                   placeholder="Email"
                                   data-constraints="@Email @NotEmpty"/>
                               </label>
-
+                              </div>
 
                               <div style="float:left;padding-top:1.9em;">
                                   <button class="btn4" v-on:click="submittwo"  id="ask_step_two">Next</button>
@@ -3050,26 +3076,33 @@
 
                           <input type="hidden" name="form-type" value="contact"/>
                           <fieldset>
-                              <label>
-                                  <input type="text"
-                                  name="subject"
-                                  v-model="subject"
-                                  placeholder="Subject *"
-                                  data-constraints="@NotEmpty"/>
-                              </label>
 
 
-                              <label class="label_message">
-                                  <textarea name="message*"   placeholder="Message"
-                                  v-model="message"
-                                  data-constraints="@NotEmpty"></textarea>
-                              </label>
-                          
-                            
-                       
-                                     <div style="float:left;padding-top:1.9em;">
-                                           <button class="btn4" v-on:click="submitthree"  id="ask_step_three">Next</button>
-                                     </div>
+                                                 <div class="form-group">
+                                                      <label style="padding-top:1.9em;">
+                                                    <input type="text"
+                                                       name="subject"
+                                                       v-model="subject"
+                                                       placeholder="Subject *"
+                                                       data-constraints="@NotEmpty"/>
+
+                                                     </label>
+                                                 </div>
+
+                                                 <div class="form-group" class="col-xs-12 col-sm-3">
+                                                      <label style="padding-top:1.9em;">
+
+
+                                                      <label class="label_message ask-step-three-two" style="padding-top:1.9em;">
+                                                             <textarea name="message*"   placeholder="Message"
+                                                                       v-model="message"
+                                                                       data-constraints="@NotEmpty"></textarea>
+                                                      </label>
+
+                                                 </div>
+                                                 <div style="float:left;padding-top:1.9em;">
+                                                     <button class="btn4" v-on:click="submitthree"  id="ask_step_three">Next</button>
+                                                 </div>
                               </fieldset>
                                </form>
                               </div>
@@ -3196,7 +3229,12 @@
 
 
                                           {% consult_meta 1 1 %}                        
- 
+
+                                          <div>
+                                          <input type="checkbox" value="" id="is_consult_accepted" v-model="is_accepted"> {% ask_meta 1 3 %} 
+                                          </div>
+                                          <div id="is_consult_accepted_errors" class="error"></div>
+                                           
                                           <div style="float:left;padding-top:1.9em;margin-left:0em;">
                                                   <button class="btn4" v-on:click="submitone"  id="consult_step_one">Next</button>
                                           </div>
@@ -3361,8 +3399,8 @@
                                                  </legend>
 
 
-                                                <div class="form-group">
-                                                <label>
+                                                <div>
+                                                <label  style="padding-top:1.9em;">
                                                    <input type="text"
                                                           name="full_name"
                                                           id="consult_full_name"

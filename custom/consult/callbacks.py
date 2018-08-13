@@ -79,6 +79,12 @@ def process_consult_request_email(consultation, contact):
             mess = string.replace(mess, '[paid]', str_amount)
             mess = string.replace(mess,'[email]', contact.email)
             mess = string.replace(mess,'[invoice]', "to be set")
+            mess = string.replace(mess,'[greeting]', '')
+            mess = string.replace(mess,'[greeting_statement]','New consultation request from a customer.')
+            mess = string.replace(mess,'[wait_statement]',"To be processed by the office.")
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
+            mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
         #    mess = string.replace(mess,'[link]',link)
 
         except Exception as e:

@@ -1,0 +1,15 @@
+<span class="icons icons-vuestrap {{iconsSize}} {{iconsVariant}} {{iconsBackground}} {{iconsAlign}}" aria-hidden="true">
+	<span v-if="name">
+		<svg role="img" class="icon">
+			<use v-bind:xlink:href="path + '#' + name"></use>
+		</svg>
+	</span>
+	<span v-if="background">
+		<svg role="img" class="icon-background">
+			<use v-bind:xlink:href="path + '#' + background"></use>
+		</svg>
+	</span>
+	<span class="text" v-show="text.length">
+		<span><slot>{{text}}</slot></span>
+	</span>
+</span>

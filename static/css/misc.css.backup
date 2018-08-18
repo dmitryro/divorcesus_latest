@@ -1,0 +1,326 @@
+ .clear {
+    clear:both;
+  }
+  .notifications {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    width: 350px;
+    z-index: 1;
+  }
+  .notification p {
+    margin-right: 20px;
+  }
+.alert-box {
+	padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;  
+}
+
+.success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    display: none;
+}
+
+.failure {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    display: none;
+}
+
+.warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    display: none;
+}
+#about_block {
+   display:none;
+}
+#services_block {
+   display:none;
+}
+#pricing_block {
+   display:none;
+}
+#contact_block {
+   display:none;
+}
+#payment_block {
+   display:none;
+}
+
+img.avatar {
+   height: 60px;
+   width:: 60px;
+   float: left;
+   margin-right: 1em;
+   position: relative;
+   -webkit-border-radius: 50%;
+   -moz-border-radius: 50%;
+   border-radius: 50%;
+   -webkit-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+   -moz-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+   box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+}
+
+/*form styles*/
+ #helpdeskform {
+    text-align: center;
+    position: relative;
+}
+/*Hide all except first fieldset*/
+ #helpdeskform .field2, .field3 {
+    display: none;
+}
+/*inputs*/
+ #helpdeskform input, #helpdeskform textarea {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #2C3E50;
+    font-size: 13px;
+}
+/*buttons*/
+ #helpdeskform .action-button {
+    width: 100px;
+    font-weight: bold;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
+#helpdeskform .action-button:hover, #msform .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #900;
+}
+/*progressbar*/
+ #progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    counter-reset: step;
+    /*CSS counters to number the steps*/
+}
+#progressbar li {
+    list-style-type: none;
+    text-transform: uppercase;
+    font-size: 10px;
+    width: 30%;
+    float: left;
+    position: relative;
+}
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 20px;
+    line-height: 20px;
+    display: block;
+    font-size: 10px;
+    color: #333;
+    background: white;
+    border-radius: 3px;
+    margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+ #progressbar li:after {
+    content:'';
+    width: 100%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    left: -50%;
+    top: 9px;
+    z-index: -1;
+    /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+    content: none;
+    /*connector not needed before the first step*/
+}
+/*marking active/completed steps nhlbi red*/
+
+/*The number of the step and the connector before it = nhlbi red*/
+ #progressbar li.active:before, #progressbar li.active:after {
+    background: #900;
+    color: white;
+}
+
+.slide-item {
+  position: absolute; 
+  top: 20px; left: 20px; 
+  width: 300px; height: 100px;  
+  opacity:.50;-moz-opacity:.80;
+  filter:alpha(opacity=80); 
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  font-size:1.5em;
+  text-align:center;
+  padding-top:2%;
+  color:#fffff0;
+  background: #fff; /* fallback for browsers that don't understand rgba */
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: #151515; !important;/* slighly transparent white */
+  box-shadow: 10px 0 0 rgba(0,0,0,0.0), -10px 0 0 rgba(0,0,0,0.0);
+  border-color: rgba(0,0,0,0.2) /*Very transparent black*/"
+}
+.slide-caption {
+  position:absoute;
+  margin-top:0.0%;
+  bottom:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background:#151515;
+  padding-left:25%;
+  padding-top:3%;
+  padding-right:25%;
+  font-family:'latolight';
+  font-size:2.2em;
+  font-weight:bold;
+  opacity:.50;
+  -moz-opacity:.80;
+  filter:alpha(opacity=80);
+  color:#FFFFF0;
+  line-height:1.8em;
+}
+
+.sloganTop {
+
+}
+.social-popout {
+	height: 48px;
+	width: 48px;
+	margin: 10px;
+	float: left;
+	-webkit-transition: all ease 0.5s;
+	-moz-transition: all ease 0.5s;
+	-o-transition: all ease 0.5s;
+	-ms-transition: all ease 0.5s;
+	transition: all ease 0.5s;
+}
+.social-popout img {
+	border-radius: 50%;
+	margin: 8px;
+	width: 100%;
+	box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.8);
+	-webkit-transition: all ease 0.5s;
+	-moz-transition: all ease 0.5s;
+	-o-transition: all ease 0.5s;
+	-ms-transition: all ease 0.5s;
+	transition: all ease 0.5s;
+}
+.social-popout img:hover {
+	margin: 0px;
+	box-shadow: 6px 6px 4px 4px rgba(0,0,0,0.3);
+}
+.service-block {
+   display:none;
+}
+
+.published-paragraph {
+   font-size:1.4em;
+   font-weight:normal;
+   margin-top:1.5em;
+   margin-bottom:1.3em;
+}
+
+@import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+.fa-fw {width: 2em;}
+
+/* Some initial styling */
+
+.search-div {
+  float:right;
+  width:23%;
+  margin-top:-5%;
+  margin-right:-3%;
+}
+
+.search-div * {
+	box-sizing: border-box;
+}
+
+
+.search-div form {
+	width: 200px;
+	height: 40px;
+	margin: 100px auto 0;
+	position: relative;
+}
+
+/* Ok, HTML markup is complete */
+/* submit button will also be the same but with a different color. We'll style the label and the submit input */
+/* a faky 3D look */
+
+.search-div #submit {
+	display: none;	
+}
+
+.search-div form .icon,.search-div form .submit {
+	width: 35px;
+	height: 35px;
+	background: #d75813;
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	box-shadow:
+		0px 5px #bc490a,
+		0px 8px 10px rgba(0, 0, 0, 0.5);
+}
+
+.search-div form .submit {
+	background: #009bff;
+	cursor: pointer;
+	box-shadow:
+		0px 5px #0276c1,
+		0px 8px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Now, we'll create a search (magnifying glass) icon using pseudo elements */
+.search-div form .icon:after, .search-div form .submit:after  {
+	content: '';
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	border: 2px solid white;
+	border-radius: 50%;
+	left: 10px;
+	top: 9px;
+}
+
+.search-div form .icon:before, .search-div form .submit:before {
+	content: '';
+	position: absolute;
+	height: 8px;
+	width: 2px;
+	background: white;
+	transform: rotate(-35deg);
+	top: 19px;
+	left: 21px;
+}
+
+/* Styling the input */
+.search-div form #search {
+	-webkit-appearance: none;
+	height: 35px;
+	width: 0;
+	position: absolute;
+	padding: 0;
+	opacity: 0;
+	border: none;
+	outline: none;
+	position: absolute;
+	right: 35px;
+	box-shadow:
+		0px 5px #bbb,
+		0px 8px 10px rgba(0, 0, 0, 0.5);
+}

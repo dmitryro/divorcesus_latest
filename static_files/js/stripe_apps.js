@@ -1,3 +1,4 @@
+
 function setup_stripe_three() {
     // Create a Stripe client.
     var stripe = Stripe('pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV');
@@ -23,7 +24,6 @@ function setup_stripe_three() {
         iconColor: '#fa755a'
       }
     };
-
     // Create an instance of the card Element.
     var card = elements.create('card', {style: style});
     // Add an instance of the card Element into the `card-element` <div>.

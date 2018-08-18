@@ -7,20 +7,7 @@ var modal_submit_password = 'Reset Password';
 var modal_submit_login    = 'Login';
  // register modal component
 Vue.config.devtools = true;
-/*
-Vue.component('onload', {
-    props: [],
-    template: '<span>Start Now!</span>',
-    created: function () {
-        this.load();
-    },
-    methods: {
-        load() {
-            this.$emit('load');
-        }
-    }
-});
-*/
+
 var consult_visited = new Array(false, false, false, false, false, false, false);
 var package_visited = new Array(false, false, false, false, false, false, false, false);
 var payment_visited = new Array(false, false, false, false, false);

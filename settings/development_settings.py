@@ -106,6 +106,7 @@ INSTALLED_APPS = [
     'django_wysiwyg',
     'django_social_share',
     'ckeditor',
+    'tinymce',
     'social',
     'social.apps.django_app.default',
     'pyres',
@@ -127,14 +128,17 @@ INSTALLED_APPS = [
     'rest_framework_filters',
     'restless',
     'rules_light',
-    'tastypie',
+#    'tastypie',
     'tagging',
-    'tinymce',
     'froala_editor',
     'wymeditor',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+   # 'allauth',
+   # 'allauth.account',
+   # 'allauth.socialaccount',
+   # 'allauth.socialaccount.providers.twitter',
+   # 'allauth.socialaccount.providers.facebook',
+   # 'allauth.socialaccount.providers.linkedin',
+   # 'allauth.socialaccount.providers.google',
     'haystack',
     'channels',
     'social_core',
@@ -142,9 +146,13 @@ INSTALLED_APPS = [
     'meta',
     'meta_mixin',
     'social_django',
+    'suit_redactor',
+    'pinax.stripe',
     #'chatrooms',
     #'chat_engine',
     #'polymorphic',
+ #   'social.apps.django_app.default',
+    'zebra',
     'oauth2_provider',
     'custom.blog',
     'custom.messaging',
@@ -152,6 +160,7 @@ INSTALLED_APPS = [
     'custom.users',
     'custom.metaprop',
     'custom.cases',
+    'custom.consult',
     'custom.signup',
     'custom.utils',
     'custom.services',
@@ -176,7 +185,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
-    'rules_light.middleware.Middleware',
+#    'rules_light.middleware.Middleware',
 ]
 
 ROOT_URLCONF = 'divorces.urls'
@@ -257,18 +266,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#AUTHENTICATION_BACKENDS = (
+#    'social.backends.facebook.FacebookOAuth2',
+#    'social.backends.google.GoogleOAuth2',
+#    'social.backends.twitter.TwitterOAuth',
+#    'django.contrib.auth.backends.ModelBackend',
+#)
+
 AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.open_id.OpenIdAuth',
     'social_core.backends.google.GoogleOpenId',
-    'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.google.GoogleOAuth',
-    'social_core.backends.twitter.TwitterOAuth',
+#    'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
+  #  'custom.signup.backends.CustomFacebookOauth',
     'social_core.backends.facebook.FacebookAppOAuth2',
     'social_core.backends.linkedin.LinkedinOAuth',
     'social_core.backends.linkedin.LinkedinOAuth2',
-    "allauth.account.auth_backends.AuthenticationBackend",
-    'social.backends.instagram.InstagramOAuth2',
+   # 'social.backends.twitter.TwitterOAuth', 
+    'social_core.backends.twitter.TwitterOAuth',  
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -390,25 +407,57 @@ RQ_QUEUES = {
     }
 }
 
+#SOCIAL_AUTH_PIPELINE = (
+#    'social_core.pipeline.social_auth.social_details',  # 0
+#    'social_core.pipeline.social_auth.social_uid',  # 1
+#    'social_core.pipeline.social_auth.auth_allowed',  # 2
+#    'social_core.pipeline.social_auth.social_user',  # 3
+#    'social_core.pipeline.user.get_username',  # 4
+   # 'social_core.pipeline.social_auth.associate_by_email',  # 5
+#    'social_core.pipeline.social_auth.associate_user',  # 6
+#    'social_core.pipeline.social_auth.load_extra_data',  # 7
+#    'social_core.pipeline.user.user_details',  # 8
+#)
+
+#SOCIAL_AUTH_PIPELINE = (
+#    'social_core.pipeline.social_auth.social_details',   # gets info, Ex. 'name', 'email', etc
+#    'social_core.pipeline.social_auth.social_uid',       # gets the uid from the site
+#    'social_core.pipeline.social_auth.auth_allowed',     # checks to see if the social is allowed by us. if not will throw a AuthForbidden error
+#    'social_core.pipeline.social_auth.social_user',      # checks if the social account is associated in the site
+                                                    # and if it is, it returns the user
+#    'social_core.pipeline.user.get_username',            # creates a username for the person
+                                                    # this is needed to create a unique username if found in DB
+#    'custom.signup.pipeline.check_duplicate',       # custom method to check for user on other accounts
+#    'social_core.pipeline.user.create_user',             # creates a user account if 'user' does not exist yet otherwise returns 'is_new = False'
+#    'social.pipeline.social_auth.associate_user', 
+#    'social_core.pipeline.social_auth.associate_user',   # create the record that associated the social account with this user
+                                                    # if for some reason 'social' does not exist but 'user' does
+#    'social_core.pipeline.social_auth.load_extra_data',  # Populate the extra_data field in the social record
+#    'social_core.pipeline.user.user_details',            # Update the user record with any changed info from the auth service.
+                                                    # not sure if we need this but unsure of something that changes data without us knowing
+#)
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',   # gets info, Ex. 'name', 'email', etc
     'social_core.pipeline.social_auth.social_uid',       # gets the uid from the site
     'social_core.pipeline.social_auth.auth_allowed',     # checks to see if the social is allowed by us. if not will throw a AuthForbidden error
+                                                    # if for some reason 'social' does not exist but 'user' does
+ 
     'social_core.pipeline.social_auth.social_user',      # checks if the social account is associated in the site
                                                     # and if it is, it returns the user
     'social_core.pipeline.user.get_username',            # creates a username for the person
                                                     # this is needed to create a unique username if found in DB
-    'custom.signup.pipeline.check_duplicate',       # custom method to check for user on other accounts
+#    'custom.signup.pipeline.check_duplicate',       # custom method to check for user on other accounts
     'social_core.pipeline.user.create_user',             # creates a user account if 'user' does not exist yet otherwise returns 'is_new = False'
-    'social_core.pipeline.social_auth.associate_user',   # create the record that associated the social account with this user
-                                                    # if for some reason 'social' does not exist but 'user' does
-    'social_core.pipeline.social_auth.load_extra_data',  # Populate the extra_data field in the social record
     'social_core.pipeline.user.user_details',            # Update the user record with any changed info from the auth service.
+
+    'social_core.pipeline.social_auth.associate_user',  # 6
+    'social_core.pipeline.social_auth.load_extra_data',  # 7
+    'custom.signup.pipeline.fix_twitter_linkedin',
+
                                                     # not sure if we need this but unsure of something that changes data without us knowing
-    #'custom.signup.pipeline.save_profile_picture',  # custom method to save profile picture
+  #  'custom.signup.pipeline.save_profile_picture',  # custom method to save profile picture
     'custom.signup.pipeline.consolidate_profiles',   # custom method to delete profile which shouldnt ever occur again
 )
-
 
 
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
@@ -453,6 +502,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {
     'access_type': 'offline',
     'approval_prompt': 'auto'
 }
+LOGIN_URL = '/auth/login/google-oauth2/'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 # Add email to requested authorizations.
 SOCIAL_AUTH_LINKEDIN_SCOPE = ['r_basicprofile', 'r_emailaddress',]
 # Add the fields so they will be requested from linkedin.
@@ -483,6 +536,14 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA      = [
     ('picture-url', 'picture_url'),
     ('pictureUrl', 'pictureUrls'),
     ('industry', 'industry')
+]
+
+SOCIAL_AUTH_STRATEGY = 'social_django.strategy.DjangoStrategy'
+SOCIAL_AUTH_STORAGE = 'social_django.models.DjangoStorage'
+# SOCIAL_AUTH_STORAGE = 'app.models.CustomDjangoStorage'
+SOCIAL_AUTH_GOOGLE_OAUTH_SCOPE = [
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/userinfo.profile'
 ]
 FIELD_SELECTORS = ['email-address',]
 #SOCIAL_AUTH_SESSION_EXPIRATION = False
@@ -849,6 +910,22 @@ CHANNEL_LAYERS = {
 ADMINS = (
   ('Dmitry', 'dmitryro@gmail.com')
 )
+STRIPE_SECRET = "sk_test_nclpaBETRJ9al10depfVTirB"
+STRIPE_PUBLISHABLE = "pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV"
+STRIPE_LIVE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV")
+STRIPE_LIVE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_nclpaBETRJ9al10depfVTirB")
+STRIPE_TEST_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV")
+STRIPE_TEST_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_nclpaBETRJ9al10depfVTirB")
+STRIPE_LIVE_MODE = False  # Change to True in production
+ZEBRA_ENABLE_APP = True
 
+PINAX_STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV")
+PINAX_STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_nclpaBETRJ9al10depfVTirB")
+PINAX_STRIPE_DEFAULT_PLAN = 'plan1'
 #ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value
 TAGGIT_CASE_INSENSITIVE = True
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email', 
+}
+SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.11'

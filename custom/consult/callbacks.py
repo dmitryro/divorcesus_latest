@@ -48,9 +48,6 @@ def consult_send_confirmation_email_handler(sender,**kwargs):
 
 def process_consult_request_email(consultation, contact):
     try:
-        log = Logger(log="WE ARE SENDING TO USER")
-        log.save()
-
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
@@ -59,7 +56,7 @@ def process_consult_request_email(consultation, contact):
         PASSWORD = profile.password
         PORT = profile.smtp_port
         SERVER = profile.smtp_server
-        TO = contact.email
+        TO = profile.to_email
 
         SUBJECT = contact.subject
         path = "templates/new_consultation_request.html"

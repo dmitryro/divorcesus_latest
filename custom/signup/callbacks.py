@@ -173,7 +173,7 @@ def process_user_email(contact):
         PASSWORD = profile.password
         PORT = profile.smtp_port
         SERVER = profile.smtp_server
-        TO = profile.email
+        TO = profile.to_email
 
         if contact.subject:
             SUBJECT = contact.subject
@@ -196,6 +196,9 @@ def process_user_email(contact):
             else:
                 mess = string.replace(mess, '[phone]',contact.phone)
 
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
+            mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
             mess = string.replace(mess,'[email]',contact.email)
         #    mess = string.replace(mess,'[link]',link)
 
@@ -447,10 +450,6 @@ def create_user_profile(instance):
 
 @run_async
 def send_activation_link(instance):
-    log = Logger(log='WILL SEND ACTIVATION')
-    log.save()
-
-
     mess = 'Please activate your account.'    
     try:
         activation_key = utils.create_activation_key(instance)

@@ -1,0 +1,204 @@
+- Nikto v2.1.6/2.1.5
++ Target Host: strongwater.net
++ Target Port: 443
++ GET Retrieved x-powered-by header: Express
++ GET The anti-clickjacking X-Frame-Options header is not present.
++ GET The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ GET The site uses SSL and the Strict-Transport-Security HTTP header is not defined.
++ GET The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ HEAD /strongwater_net.cer: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.cer: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.tgz: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.tgz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.tar.bz2: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.tar.bz2: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.tar.gz: Potentially interesting archive/cert file found.
++ HEAD /backup.tar.gz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.war: Potentially interesting archive/cert file found.
++ HEAD /backup.war: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.egg: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.egg: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.war: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.war: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.tar.lzma: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.tar.lzma: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.tar: Potentially interesting archive/cert file found.
++ HEAD /strongwater.tar: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.tar.bz2: Potentially interesting archive/cert file found.
++ HEAD /site.tar.bz2: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.alz: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.alz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.war: Potentially interesting archive/cert file found.
++ HEAD /site.war: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.tar.bz2: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.tar.bz2: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.zip: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.zip: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.pem: Potentially interesting archive/cert file found.
++ HEAD /strongwater.pem: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.alz: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.alz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.alz: Potentially interesting archive/cert file found.
++ HEAD /strongwater.alz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.tar.lzma: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.tar.lzma: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.tar.bz2: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.tar.bz2: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.tar.lzma: Potentially interesting archive/cert file found.
++ HEAD /backup.tar.lzma: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.pem: Potentially interesting archive/cert file found.
++ HEAD /backup.pem: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.tgz: Potentially interesting archive/cert file found.
++ HEAD /site.tgz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.egg: Potentially interesting archive/cert file found.
++ HEAD /backup.egg: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.tgz: Potentially interesting archive/cert file found.
++ HEAD /net.tgz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.tgz: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.tgz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.tar.gz: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.tar.gz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.tar.lzma: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.tar.lzma: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.tar.lzma: Potentially interesting archive/cert file found.
++ HEAD /net.tar.lzma: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.pem: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.pem: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.cer: Potentially interesting archive/cert file found.
++ HEAD /strongwater.cer: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.war: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.war: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.cer: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.cer: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.tar: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.tar: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.tar.lzma: Potentially interesting archive/cert file found.
++ HEAD /site.tar.lzma: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.alz: Potentially interesting archive/cert file found.
++ HEAD /net.alz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.alz: Potentially interesting archive/cert file found.
++ HEAD /site.alz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.egg: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.egg: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.tgz: Potentially interesting archive/cert file found.
++ HEAD /backup.tgz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.tar.gz: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.tar.gz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.tar.bz2: Potentially interesting archive/cert file found.
++ HEAD /net.tar.bz2: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.tar.bz2: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.tar.bz2: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.tar: Potentially interesting archive/cert file found.
++ HEAD /site.tar: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.tgz: Potentially interesting archive/cert file found.
++ HEAD /strongwater.tgz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.war: Potentially interesting archive/cert file found.
++ HEAD /net.war: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.egg: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.egg: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.tar.gz: Potentially interesting archive/cert file found.
++ HEAD /net.tar.gz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.tar: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.tar: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.tgz: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.tgz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.cer: Potentially interesting archive/cert file found.
++ HEAD /backup.cer: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.egg: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.egg: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.zip: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.zip: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.tar: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.tar: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.alz: Potentially interesting archive/cert file found.
++ HEAD /backup.alz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.war: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.war: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.cer: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.cer: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.jks: Potentially interesting archive/cert file found.
++ HEAD /site.jks: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.zip: Potentially interesting archive/cert file found.
++ HEAD /net.zip: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.war: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.war: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.pem: Potentially interesting archive/cert file found.
++ HEAD /site.pem: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.cer: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.cer: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.zip: Potentially interesting archive/cert file found.
++ HEAD /site.zip: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.tar: Potentially interesting archive/cert file found.
++ HEAD /net.tar: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.tar.lzma: Potentially interesting archive/cert file found.
++ HEAD /strongwater.tar.lzma: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.zip: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.zip: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.egg: Potentially interesting archive/cert file found.
++ HEAD /net.egg: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.pem: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.pem: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.jks: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.jks: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.egg: Potentially interesting archive/cert file found.
++ HEAD /strongwater.egg: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.egg: Potentially interesting archive/cert file found.
++ HEAD /site.egg: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.war: Potentially interesting archive/cert file found.
++ HEAD /strongwater.war: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.zip: Potentially interesting archive/cert file found.
++ HEAD /strongwater.zip: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.tar.bz2: Potentially interesting archive/cert file found.
++ HEAD /backup.tar.bz2: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.tar.gz: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.tar.gz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.tar.lzma: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.tar.lzma: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.alz: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.alz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.jks: Potentially interesting archive/cert file found.
++ HEAD /strongwater.jks: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.jks: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.jks: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.pem: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.pem: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.tar.bz2: Potentially interesting archive/cert file found.
++ HEAD /strongwater.tar.bz2: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.tar.gz: Potentially interesting archive/cert file found.
++ HEAD /strongwater.tar.gz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.cer: Potentially interesting archive/cert file found.
++ HEAD /site.cer: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.zip: Potentially interesting archive/cert file found.
++ HEAD /backup.zip: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.tar.gz: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.tar.gz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.pem: Potentially interesting archive/cert file found.
++ HEAD /net.pem: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.jks: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.jks: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.jks: Potentially interesting archive/cert file found.
++ HEAD /backup.jks: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.pem: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.pem: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwaternet.zip: Potentially interesting archive/cert file found.
++ HEAD /strongwaternet.zip: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.jks: Potentially interesting archive/cert file found.
++ HEAD /net.jks: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /site.tar.gz: Potentially interesting archive/cert file found.
++ HEAD /site.tar.gz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.jks: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.jks: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /net.cer: Potentially interesting archive/cert file found.
++ HEAD /net.cer: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater.net.alz: Potentially interesting archive/cert file found.
++ HEAD /strongwater.net.alz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /backup.tar: Potentially interesting archive/cert file found.
++ HEAD /backup.tar: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /strongwater_net.tgz: Potentially interesting archive/cert file found.
++ HEAD /strongwater_net.tgz: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ HEAD /104.236.26.3.tar: Potentially interesting archive/cert file found.
++ HEAD /104.236.26.3.tar: Potentially interesting archive/cert file found. (NOTE: requested by IP address).
++ GET IP address found in the 'server' header. The IP is "1.11.2.2".
++ GET The Content-Encoding header is set to "deflate" this may mean that the server is vulnerable to the BREACH attack.
++ GET /WEB-INF/web.xml: JRUN default file found.
++ OSVDB-44056: GET /sips/sipssys/users/a/admin/user: SIPS v0.2.2 allows user account info (including password) to be retrieved remotely.

@@ -161,8 +161,90 @@ def process_user_question(contact):
         log.save()
 
 
+def process_client_message(contact):
+    try:
+        timeNow = datetime.now()
+        log = Logger(log="LET US SEE")
+        log.save()
+
+        profile = ProfileMetaProp.objects.get(pk=1)
+        FROM = '<strong>Grinberg & Segal'
+        USER = profile.user_name
+        PASSWORD = profile.password
+        PORT = profile.smtp_port
+        SERVER = profile.smtp_server
+        TO = contact.email
+
+        SUBJECT = contact.subject
+        path = "templates/new_message_client.html"
+        log = Logger(log="LET US TRY TO SEND")
+        log.save()
+
+        try:
+
+            f = codecs.open(path, 'r')
+
+            m = f.read()
+            mess = string.replace(m, '[name]',contact.name)
+            mess = string.replace(mess, '[message]', contact.message)
+            mess = string.replace(mess, '[subject]',contact.subject)
+            mess = string.replace(mess,'[email]',contact.email)
+            mess = string.replace(mess,'[greeting]', 'Dear')
+            mess = string.replace(mess,'[greeting_statement]','You just sent a message to attorneys at Grinberg and Segal Matrimonial.')
+            line1 = "<p>Please give us 1 to 3 busintess days to follow up.</p>"
+            line2 = "<p>Truly Yours,<br/>"
+            line3 = "Grinberg and Segal Matrimonial Division</p>"
+
+            mess = string.replace(mess,'[wait_statement]',"{}{}{}".format(line1, line2, line3))
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
+            mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
+
+        #    mess = string.replace(mess,'[link]',link)
+
+        except Exception as e:
+            log = Logger(log=str(e))
+
+        message = mess
+
+        MESSAGE = MIMEMultipart('alternative')
+        MESSAGE['subject'] = SUBJECT
+        MESSAGE['To'] = TO
+        MESSAGE['From'] = FROM
+        MESSAGE.preamble = """
+                Your mail reader does not support the report format.
+                Please visit us <a href="http://www.mysite.com">online</a>!"""
+
+    # Attach parts into message container.
+    # According to RFC 2046, the last part of a multipart message, in this case
+    # the HTML message, is best and preferred.
+        HTML_BODY  = MIMEText(message, 'html','utf-8')
+        MESSAGE.attach(HTML_BODY)
+        msg = MESSAGE.as_string()
+        server = smtplib.SMTP(SERVER+':'+PORT)
+        server.ehlo()
+        server.starttls()
+        server.login(USER,PASSWORD)
+        server.sendmail(FROM, TO, msg)
+        server.quit()
+        log = Logger(log="WE JUST SENT")
+        log.save()
+    except SMTPRecipientsRefused:
+        pass
+
+    except ObjectDoesNotExist:
+        pass
+
+    except Exception as e:
+        log = Logger(log="WE COULD NOT SEND {}".format(e))
+        log.save()
+
+
+
 @run_async
 def process_user_email(contact):
+    log = Logger(log="BEFORE WE SEND")
+    log.save()
 
     try:
         timeNow = datetime.now()
@@ -182,6 +264,9 @@ def process_user_email(contact):
         else:
             SUBJECT = 'New message from a customer'
             path = "templates/new_message.html"
+            log = Logger(log="THIS IS OUR CASE")
+            log.save()
+            process_client_message(contact)
 
         try:
 

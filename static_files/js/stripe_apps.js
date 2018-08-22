@@ -132,6 +132,8 @@ function setup_stripe_two() {
             if(qvm4.errors.length==0) {
                qvm4.redirect();
             }
+            qvm4.token = result.token.id;
+            qvm5.token = result.token.id;
             $("#payment-token").attr("value", result.token.id);
         }
       });

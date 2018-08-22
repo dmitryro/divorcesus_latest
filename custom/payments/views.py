@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from datetime import datetime
 from django.shortcuts import render
 
 from django.shortcuts import render
@@ -363,9 +364,11 @@ def send_confirmation_view(request):
         else:
             user = get_or_create_user(full_name, email)
 
+        payment_id = CustomerPayment.objects.latest('id').id + 1
         customer_payment = CustomerPayment.objects.create(user=user,
                                                           charge=str(charge.id),
                                                           amount=float(package_price),
+                                                          invoice="GS-{}-{}".format(datetime.now().strftime('%Y-%m-%d'), payment_id),
                                                           is_successful=True)
 
 
@@ -373,7 +376,7 @@ def send_confirmation_view(request):
                                          fullname=full_name, 
                                          email=email,
                                          first_name=full_name.split(" ")[0],
-                                         last_name=full_name.split(" ")[0],
+                                         last_name=full_name.split(" ")[1],
                                          address1=address1,
                                          address2=address2,
                                          city=city,

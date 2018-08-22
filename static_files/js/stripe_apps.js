@@ -1,7 +1,7 @@
 
 function setup_stripe_three() {
     // Create a Stripe client.
-    var stripe = Stripe('pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV');
+    var stripe = Stripe('');
 
     // Create an instance of Elements.
     var elements = stripe.elements();
@@ -71,7 +71,7 @@ function setup_stripe_three() {
 
 function setup_stripe_two() {
     // Create a Stripe client.
-    var stripe = Stripe('pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV');
+    var stripe = Stripe('');
 
     // Create an instance of Elements.
     var elements = stripe.elements();
@@ -132,6 +132,8 @@ function setup_stripe_two() {
             if(qvm4.errors.length==0) {
                qvm4.redirect();
             }
+            qvm4.token = result.token.id;
+            qvm5.token = result.token.id;
             $("#payment-token").attr("value", result.token.id);
         }
       });
@@ -141,7 +143,7 @@ function setup_stripe_two() {
 
 function setup_stripe_one() {
     // Create a Stripe client.
-    var stripe = Stripe('pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV');
+    var stripe = Stripe('');
 
     // Create an instance of Elements.
     var elements = stripe.elements();

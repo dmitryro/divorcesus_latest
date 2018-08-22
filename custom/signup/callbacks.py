@@ -164,8 +164,6 @@ def process_user_question(contact):
 def process_client_message(contact):
     try:
         timeNow = datetime.now()
-        log = Logger(log="LET US SEE")
-        log.save()
 
         profile = ProfileMetaProp.objects.get(pk=1)
         FROM = '<strong>Grinberg & Segal'
@@ -175,10 +173,8 @@ def process_client_message(contact):
         SERVER = profile.smtp_server
         TO = contact.email
 
-        SUBJECT = contact.subject
+        SUBJECT = 'New message to Grinberg and Segal'
         path = "templates/new_message_client.html"
-        log = Logger(log="LET US TRY TO SEND")
-        log.save()
 
         try:
 
@@ -189,6 +185,7 @@ def process_client_message(contact):
             mess = string.replace(mess, '[message]', contact.message)
             mess = string.replace(mess, '[subject]',contact.subject)
             mess = string.replace(mess,'[email]',contact.email)
+            mess = string.replace(mess,'[phone]',contact.phone)
             mess = string.replace(mess,'[greeting]', 'Dear')
             mess = string.replace(mess,'[greeting_statement]','You just sent a message to attorneys at Grinberg and Segal Matrimonial.')
             line1 = "<p>Please give us 1 to 3 busintess days to follow up.</p>"
@@ -287,8 +284,8 @@ def process_user_email(contact):
             mess = string.replace(mess,'[email]',contact.email)
         #    mess = string.replace(mess,'[link]',link)
 
-        except Exception, R:
-            log = Logger(log=str(R))
+        except Exception as e:
+            log = Logger(log=str(e))
             log.save()
         message = mess
 

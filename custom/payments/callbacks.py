@@ -72,7 +72,7 @@ def process_payment_office_email(payment, contact):
             
             mess = string.replace(m, '[fullname]', str(payment.fullname))
             mess = string.replace(mess, '[message]', "Client payment has been processed")
-            mess = string.replace(mess, '[invoice]', 'invoince_no')
+            mess = string.replace(mess, '[invoice]', payment.payment.invoice)
             mess = string.replace(mess, '[address1]', str(payment.address1))
             mess = string.replace(mess, '[address2]', str(payment.address2))
             mess = string.replace(mess, '[city]', str(payment.city))
@@ -160,7 +160,7 @@ def process_payment_confirmation_email(payment, contact):
             mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
             mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
             mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
-            mess = string.replace(mess, '[invoice]', 'invoince_no')
+            mess = string.replace(mess, '[invoice]', payment.payment.invoice)
             mess = string.replace(mess, '[address1]', str(payment.address1))
             mess = string.replace(mess, '[address2]', str(payment.address2))
             mess = string.replace(mess, '[city]', str(payment.city))

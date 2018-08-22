@@ -1,5 +1,7 @@
             {% load meta %}
+
             <!DOCTYPE html>
+
             <html class="no-js" {% meta_namespaces_gplus %}>
              <!--<![endif]-->
             <head {% meta_namespaces %}>
@@ -3800,7 +3802,7 @@
 
 
                       </div>
-                      <div class="col-xs-12 col-sm-6" id="contactus">
+                      <div class="col-xs-12 col-sm-4" id="contactus">
                              <br/>
 
                         <div>
@@ -3815,6 +3817,7 @@
                        
                           <input type="hidden" name="form-type" value="contact"/> 
                           <fieldset> 
+                              <div>
                               <label style="padding-top:1.9em;"> 
                                   <input type="text" 
                                   name="name"
@@ -3823,7 +3826,9 @@
                                   value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %} {% endif %}"
                                   data-constraints="@LettersOnly @NotEmpty"/> 
                               </label> 
+                              </div>
 
+                              <div>   
                               <label style="padding-top:1.9em;"> 
                                   <input type="text" 
                                   name="phone" 
@@ -3832,8 +3837,9 @@
                                   value="{% if logout %} {% user_meta user_id 5 %} {% endif %}"
                                   data-constraints="@Phone"/> 
                               </label> 
-                              <label>
+                              </div>
 
+                              <div>
                               <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="email" 
@@ -3842,13 +3848,15 @@
                                   value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
                                   data-constraints="@Email @NotEmpty"/>
                               </label>
-                              </label> 
+                              </div>
 
+                              <div> 
                               <label class="label_message"  style="padding-top:1.9em;"> 
                                   <textarea name="message*"   placeholder="Message" 
-                                  v-model="message"
+                                  v-model="message" style="max-width: 36em;"
                                   data-constraints="@NotEmpty"></textarea> 
                               </label> 
+                              </div> 
                           </fieldset> 
                           </div>
                           <div  style="float:left;padding-top:1.6em;">

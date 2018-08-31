@@ -79,7 +79,7 @@ def process_consult_request_email(consultation, contact):
             mess = string.replace(mess,'[greeting]', '')
             mess = string.replace(mess,'[greeting_statement]','New consultation request from a customer.')
             mess = string.replace(mess,'[wait_statement]',"To be processed by the office.")
-            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')
             mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
             mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
         #    mess = string.replace(mess,'[link]',link)
@@ -152,13 +152,13 @@ def process_consult_confirmation_email(consultation, contact):
         #    mess = string.replace(mess,'[link]',link)
 
             mess = string.replace(mess,'[greeting]', 'Dear')
-            mess = string.replace(mess,'[greeting_statement]','You just requested a consultation from attorneys at Grinberg and Segal Matrimonial.')
+            mess = string.replace(mess,'[greeting_statement]','You have just requested a consultation from attorneys at Grinberg and Segal Family Law Division.')
             line1 = "<p>Please give us 1 to 3 busintess days to follow up.</p>"
             line2 = "<p>Truly Yours,<br/>"
-            line3 = "Grinberg and Segal Matrimonial Division</p>"
+            line3 = "Grinberg and Segal Family Law Division</p>"
 
             mess = string.replace(mess,'[wait_statement]',"{}{}{}".format(line1, line2, line3))
-            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')
             mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
             mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
 

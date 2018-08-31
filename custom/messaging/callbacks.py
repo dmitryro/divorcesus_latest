@@ -115,7 +115,7 @@ def message_duplicate_to_email_handler(sender, receiver, message, **kwargs):
 
         mess = string.replace(mess, '[greeting_sent]', 'This email was sent to ')
         mess = string.replace(mess, 'email_address@email.com', receiver.email)
-        mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+        mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')
         mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
         mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
         mess = string.replace(mess, '[title]', message.title)

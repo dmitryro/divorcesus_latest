@@ -917,7 +917,7 @@
       } else {
           jQuery('body').scrollTop(100);
       }
-
+      consult_step_pre_zero();
       return false;
   }
 
@@ -1698,9 +1698,9 @@ function ask_step_five() {
 
             return false;
 }
-
-function consult_step_zero() {
-            $("#consult-stepone").css("display","block");
+function consult_step_pre_zero() {
+            $("#consult-stepzero").css("display","block");
+            $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display","none");
             $("#consult-stepfour").css("display","none");
@@ -1714,13 +1714,22 @@ function consult_step_zero() {
             $("#consult-wizard :nth-child(4)").removeAttr('class');
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
-            $("#consult-wizard :nth-child(7)").removeAttr('class');   
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class');
 
+            $("#consult-stepzero").css("display","block");
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display","none");
+            $("#consult-stepfour").css("display","none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
             return false;
 }
-
 function consult_step_zero() {
-            $("#consult-stepone").css("display","block");
+            $("#consult-stepzero").css("display","block");
+            $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display","none");
             $("#consult-stepfour").css("display","none");
@@ -1735,13 +1744,15 @@ function consult_step_zero() {
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
             $("#consult-wizard :nth-child(7)").removeAttr('class');   
+            $("#consult-wizard :nth-child(8)").removeAttr('class');
 
             return false;
 }
 
 function consult_step_one() {
-            $("#consult-stepone").css("display","none");
-            $("#consult-steptwo").css("display","block");
+            $("#consult-stepzero").css("display","none");
+            $("#consult-stepone").css("display","block");
+            $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display","none");
             $("#consult-stepfour").css("display","none");
             $("#consult-stepfive").css("display","none");
@@ -1755,15 +1766,17 @@ function consult_step_one() {
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
             $("#consult-wizard :nth-child(7)").removeAttr('class');
-
+            $("#consult-wizard :nth-child(8)").removeAttr('class'); 
+           
             $("#consult-wizard :nth-child(1)").attr('class','visited');
 
 }
 
 function consult_step_two() {
+            $("#consult-stepzero").css("display","none"); 
             $("#consult-stepone").css("display","none");
-            $("#consult-steptwo").css("display","none");
-            $("#consult-stepthree").css("display", "block");
+            $("#consult-steptwo").css("display","block");
+            $("#consult-stepthree").css("display", "none");
             $("#consult-stepfour").css("display","none");
             $("#consult-stepfive").css("display","none");
             $("#consult-stepsix").css("display","none");
@@ -1776,16 +1789,18 @@ function consult_step_two() {
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
             $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class');
 
             $("#consult-wizard :nth-child(1)").attr('class','visited');
             $("#consult-wizard :nth-child(2)").attr('class','visited');
 }
 
 function consult_step_three() {
+            $("#consult-stepzero").css("display","none"); 
             $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
-            $("#consult-stepthree").css("display", "none");
-            $("#consult-stepfour").css("display", "block");
+            $("#consult-stepthree").css("display", "block");
+            $("#consult-stepfour").css("display", "none");
             $("#consult-stepfive").css("display","none");
             $("#consult-stepsix").css("display","none");
             $("#consult-stepseven").css("display","none");
@@ -1797,6 +1812,7 @@ function consult_step_three() {
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
             $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class');
 
             $("#consult-wizard :nth-child(1)").attr('class','visited');
             $("#consult-wizard :nth-child(2)").attr('class','visited');
@@ -1804,6 +1820,32 @@ function consult_step_three() {
 }
 
 function consult_step_four() {
+            $("#consult-stepzero").css("display","none");
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display", "none");
+            $("#consult-stepfour").css("display", "block");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").removeAttr('class');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").attr('class','current');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class');   
+
+            $("#consult-wizard :nth-child(1)").attr('class','visited');
+            $("#consult-wizard :nth-child(2)").attr('class','visited');
+            $("#consult-wizard :nth-child(3)").attr('class','visited');
+            $("#consult-wizard :nth-child(4)").attr('class','visited');
+}
+
+function consult_step_five() {
+            $("#consult-stepzero").css("display","none");  
             $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display", "none");
@@ -1816,17 +1858,20 @@ function consult_step_four() {
             $("#consult-wizard :nth-child(2)").removeAttr('class');
             $("#consult-wizard :nth-child(3)").removeAttr('class');
             $("#consult-wizard :nth-child(4)").removeAttr('class');
-            $("#consult-wizard :nth-child(5)").attr('class','current');
-            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").attr('class','current');
             $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class'); 
 
             $("#consult-wizard :nth-child(1)").attr('class','visited');
             $("#consult-wizard :nth-child(2)").attr('class','visited');
             $("#consult-wizard :nth-child(3)").attr('class','visited');
             $("#consult-wizard :nth-child(4)").attr('class','visited');
+            $("#consult-wizard :nth-child(5)").attr('class','visited');
 }
 
-function consult_step_five() {
+function consult_step_six() {
+            $("#consult-stepzero").css("display","none");
             $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display", "none");
@@ -1840,33 +1885,10 @@ function consult_step_five() {
             $("#consult-wizard :nth-child(3)").removeAttr('class');
             $("#consult-wizard :nth-child(4)").removeAttr('class');
             $("#consult-wizard :nth-child(5)").removeAttr('class');
-            $("#consult-wizard :nth-child(6)").attr('class','current');
-            $("#consult-wizard :nth-child(7)").removeAttr('class');
-
-            $("#consult-wizard :nth-child(1)").attr('class','visited');
-            $("#consult-wizard :nth-child(2)").attr('class','visited');
-            $("#consult-wizard :nth-child(3)").attr('class','visited');
-            $("#consult-wizard :nth-child(4)").attr('class','visited');
-            $("#consult-wizard :nth-child(5)").attr('class','visited');
-}
-
-function consult_step_six() {
-            $("#consult-stepone").css("display","none");
-            $("#consult-steptwo").css("display","none");
-            $("#consult-stepthree").css("display", "none");
-            $("#consult-stepfour").css("display", "none");
-            $("#consult-stepfive").css("display","none");
-            $("#consult-stepsix").css("display","none");
-            $("#consult-stepseven").css("display","block");
-
-            $("#consult-wizard :nth-child(1)").removeAttr('class');
-            $("#consult-wizard :nth-child(2)").removeAttr('class');
-            $("#consult-wizard :nth-child(3)").removeAttr('class');
-            $("#consult-wizard :nth-child(4)").removeAttr('class');
-            $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
             $("#consult-wizard :nth-child(7)").attr('class','current');
-
+            $("#consult-wizard :nth-child(8)").removeAttr('class');            
+ 
             $("#consult-wizard :nth-child(1)").attr('class','visited');
             $("#consult-wizard :nth-child(2)").attr('class','visited');
             $("#consult-wizard :nth-child(3)").attr('class','visited');
@@ -1877,6 +1899,7 @@ function consult_step_six() {
 
 
 function consult_step_seven() {
+            $("#consult-stepzero").css("display","none");
             $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display", "none");
@@ -1891,7 +1914,8 @@ function consult_step_seven() {
             $("#consult-wizard :nth-child(4)").removeAttr('class');
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
-            $("#consult-wizard :nth-child(7)").attr('class','current');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").attr('class','current');
 
             $("#consult-wizard :nth-child(1)").attr('class','visited');
             $("#consult-wizard :nth-child(2)").attr('class','visited');
@@ -1899,6 +1923,7 @@ function consult_step_seven() {
             $("#consult-wizard :nth-child(4)").attr('class','visited');
             $("#consult-wizard :nth-child(5)").attr('class','visited');
             $("#consult-wizard :nth-child(6)").attr('class','visited');
+            $("#consult-wizard :nth-child(7)").attr('class','visited');
 }
 
 function qualify_progress_step_one() {

@@ -23,12 +23,14 @@ from custom.gui.models import Service
 from custom.gui.models import Article
 from custom.gui.models import AskTemplate
 from custom.gui.models import ConsultTemplate
+from custom.gui.models import FrontBlock
 from custom.services.models import Package
 from custom.messaging.models import Message
 from custom.payments.models import CreditCard
 from custom.payments.models import Address
 from custom.blog.models import Post
 from custom.blog.models import Comment
+from custom.utils.models import Logger
 
 
 h = html2text.HTML2Text()
@@ -134,6 +136,39 @@ def dashboard_meta(a, b,  *args, **kwargs):
 
     elif b==9:
         return 0
+
+
+"""
+ Get Front Page Block
+"""
+@register.simple_tag
+def front_meta(a, b,  *args, **kwargs):
+
+    try:
+        block = FrontBlock.objects.get(id=int(a))
+
+        if (b==1):
+            return '' if block.title is None else h.handle(block.title)
+
+        elif (b==2):
+            return '' if block.body is None else h.handle(block.body)
+
+        elif (b==3):
+
+            return '' if block.link is None else h.handle(block.link)
+
+    except TypeError:
+        log = Logger(log="Failure to parse type")
+        log.save()
+
+    except NameError:
+        log = Logger(log="Name error")
+        log.save()
+
+
+    except Exception as e:
+        log = Logger(log="Failure to read record {}".format(e))
+        log.save()
 
 
 """
@@ -465,14 +500,14 @@ def consult_meta(a, b,  *args, **kwargs):
     try:
         try:
             consult = ConsultTemplate.objects.get(id=int(a))
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):
-            return h.handle(consult.consult_intro)
+            return h.handle(cleanup_html(consult.consult_intro))
 
         elif (b==2):
-            return consult.agreement
+            return  "<section>ONE</section><section>TWO<section>"
 
         elif (b==3):
             return h.handle(consult.disclaimer)

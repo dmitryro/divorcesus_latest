@@ -19,6 +19,17 @@ from models import Slide
 from models import ContactInfo
 from models import FAQ
 from models import Article
+from models import FrontBlock
+
+
+class FrontBlockForm(ModelForm):
+    class Meta:
+        model = FrontBlock
+        widgets = {
+            'body': RedactorWidget(editor_options={'lang': 'en'}),
+        }
+        fields = '__all__' #
+
 
 class ConsultationTypeForm(ModelForm):
     class Meta:

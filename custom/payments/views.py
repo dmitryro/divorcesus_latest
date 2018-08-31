@@ -332,7 +332,7 @@ def send_confirmation_view(request):
         email = request.data['email']
         city = request.data['city']
         token = request.data.get("token", None)
-        amount = request.data.get("amount", None)
+        amount = request.data.get("amount", 0)
         package_price = request.data.get('amount', '')
         address1 = request.data.get("address1", "")
         address2 = request.data.get("address2", "")
@@ -351,6 +351,13 @@ def send_confirmation_view(request):
         except Exception as e:
             contact = Contact.objects.create(name=full_name, email=email)
 
+    except Exception as e:
+        log = Logger(log="Something went -  wrong {}".format(e))
+        log.save()
+        return Response({'message':'card processing error {}'.format(e)})
+
+
+    try:
         
         charge  = stripe.Charge.create(
                         amount      = 100*int(amount),
@@ -359,11 +366,18 @@ def send_confirmation_view(request):
                         description = "Customer payment"
         )
 
-        if request.user.is_authenticated():
-            user = request.user
-        else:
-            user = get_or_create_user(full_name, email)
+    except Exception as e:
+        log = Logger(log="Something went --  wrong {}".format(e))
+        log.save()
+        return Response({'message':'card processing error {}'.format(e)})
 
+
+    if request.user.is_authenticated():
+        user = request.user
+    else:
+        user = get_or_create_user(full_name, email)
+
+    try:
         payment_id = CustomerPayment.objects.latest('id').id + 1
         customer_payment = CustomerPayment.objects.create(user=user,
                                                           charge=str(charge.id),
@@ -371,7 +385,12 @@ def send_confirmation_view(request):
                                                           invoice="GS-{}-{}".format(datetime.now().strftime('%Y-%m-%d'), payment_id),
                                                           is_successful=True)
 
+    except Exception as e:
+        log = Logger(log="Something went ---  wrong {}".format(e))
+        log.save()
+        return Response({'message':'card processing error {}'.format(e)})
 
+    try:
         payment = Payment.objects.create(payment=customer_payment, 
                                          fullname=full_name, 
                                          email=email,
@@ -386,15 +405,11 @@ def send_confirmation_view(request):
                                          package_type=package_type,                             
                                          package_price=package_price,
                                          message="Customer Payment")
-
-
         payment_send_confirmation_email.send(sender=User, contact=contact, payment=payment)
-
         return Response({'message':'success'}) 
     except Exception as e:
-        log = Logger(log="Something went wrong {}".format(e))
+        log = Logger(log="Something went ----  wrong {}".format(e))
         log.save()
-
         return Response({'message':'card processing error {}'.format(e)})
 
 @api_view(['POST', 'GET'])

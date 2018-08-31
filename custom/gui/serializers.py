@@ -1,11 +1,18 @@
 from rest_framework import serializers
 from custom.blog.models import Post
+from models import FrontBlock
 from models import Country
 from models import Slide
 from models import Service
 from models import AskTemplate
 from models import ConsultationType
 from models import State
+
+class FrontBlockSerializer(serializers.ModelSerializer):
+   class Meta:
+      model = State
+      fields = ('id', 'title', 'link', 'body',)
+
 
 class StateSerializer(serializers.ModelSerializer):
    class Meta:

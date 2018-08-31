@@ -38,10 +38,13 @@ from signals import payment_send_confirmation_email
 def payment_send_confirmation_email_handler(sender,**kwargs):
      contact = kwargs['contact']
      try:
+        
         task = TaskLog.objects.get(user_id=contact.id,job='sending_payment_email')
      except Exception, R:
         task = TaskLog.objects.create(user_id=contact.id, job='sending_payment_email', is_complete=False)
         payment = kwargs['payment']
+
+
         process_payment_office_email(payment, contact)
         process_payment_confirmation_email(payment, contact)
 
@@ -49,7 +52,6 @@ def payment_send_confirmation_email_handler(sender,**kwargs):
 def process_payment_office_email(payment, contact):
     try:
         timeNow = datetime.now()
-
         profile = ProfileMetaProp.objects.get(pk=1)
         FROM = '<strong>Grinberg & Segal'
         USER = profile.user_name
@@ -82,7 +84,7 @@ def process_payment_office_email(payment, contact):
             mess = string.replace(mess, '[email]', str(payment.email))
             mess = string.replace(mess, '[package_type]', str(payment.package_type))
             mess = string.replace(mess, '[package_price]', str(payment.package_price))
-            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')
             mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
             mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
 
@@ -129,6 +131,7 @@ def process_payment_office_email(payment, contact):
 def process_payment_confirmation_email(payment, contact):
 
     try:
+
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
@@ -145,19 +148,21 @@ def process_payment_confirmation_email(payment, contact):
         SUBJECT = 'Your payment has been processed'
         try:
             path = "templates/payment_message.html"
+            log = Logger(log="WE ARE GOING TO SEND IT ")
+            log.save()
 
             f = codecs.open(path, 'r')
             m = f.read()
             mess = m
             mess = string.replace(m, '[fullname]', str(payment.fullname))
             mess = string.replace(mess,'[greeting]', 'Dear')
-            mess = string.replace(mess,'[greeting_statement]','You just made an online payment for Grinberg and Segal Matrimonial Division.')
+            mess = string.replace(mess,'[greeting_statement]','You just made an online payment for Grinberg and Segal Family Law Division.')
             line1 = "<p>Please give us 1 to 3 busintess days to follow up.</p>"
             line2 = "<p>Truly Yours,<br/>"
-            line3 = "Grinberg and Segal Matrimonial Division</p>"
+            line3 = "Grinberg and Segal Family Law Division</p>"
 
             mess = string.replace(mess,'[wait_statement]',"{}{}{}".format(line1, line2, line3))
-            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')
             mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
             mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
             mess = string.replace(mess, '[invoice]', payment.payment.invoice)

@@ -8,7 +8,7 @@ var modal_submit_login    = 'Login';
  // register modal component
 Vue.config.devtools = true;
 
-var consult_visited = new Array(false, false, false, false, false, false, false);
+var consult_visited = new Array(false, false, false, false, false, false, false, false);
 var package_visited = new Array(false, false, false, false, false, false, false, false);
 var payment_visited = new Array(false, false, false, false, false);
 var ask_visited = new Array(false, false, false, false, false);
@@ -1813,8 +1813,71 @@ var vm_consult = new Vue({
     el: '#consultwizard',
     data: {},
     methods: {
-        stepone: function(event) {
+        stepzero: function(event) {
             consult_visited[0] = true;
+            consult_step_zero(); 
+            if (consult_visited[7]==true) {
+                consult_visited[7] = false;
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+            }
+
+            else if (consult_visited[6]==true) {
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+            }
+
+            else if (consult_visited[5]==true) {
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+            }
+
+            else if(consult_visited[4]==true) {
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+            }
+
+            else if (consult_visited[3]==true) {
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+            }
+
+            else if (consult_visited[2]==true) {
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+            }
+
+            else if (consult_visited[1]==true) {
+                consult_visited[1] = false;
+            }
+
+        },
+        stepone: function(event) {
+            if (consult_visited[7]==true) {
+                consult_visited[7] = false; 
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_visited[1] = false;
+                consult_step_one();
+            }
+
             if (consult_visited[6]==true) {
                 consult_visited[6] = false;
                 consult_visited[5] = false;
@@ -1822,7 +1885,7 @@ var vm_consult = new Vue({
                 consult_visited[3] = false; 
                 consult_visited[2] = false;
                 consult_visited[1] = false;
-                consult_step_zero();
+                consult_step_one();
             }
 
             if (consult_visited[5]==true) {
@@ -1831,7 +1894,7 @@ var vm_consult = new Vue({
                 consult_visited[3] = false;
                 consult_visited[2] = false;
                 consult_visited[1] = false;
-                consult_step_zero();
+                consult_step_one();
             }
 
             if (consult_visited[4]==true) {
@@ -1839,37 +1902,47 @@ var vm_consult = new Vue({
                 consult_visited[3] = false;
                 consult_visited[2] = false;
                 consult_visited[1] = false;
-                consult_step_zero();
+                consult_step_one();
             }
 
             if (consult_visited[3]==true) {
                 consult_visited[3] = false;
                 consult_visited[2] = false;
                 consult_visited[1] = false;
-                consult_step_zero();
+                consult_step_one();
             }
 
             if (consult_visited[2]==true) {
                 consult_visited[2] = false;
                 consult_visited[1] = false;
-                consult_step_zero();
+                consult_step_one();
             }
 
             if (consult_visited[1]==true) {
                 consult_visited[1] = false;
-                consult_step_zero();
+                consult_step_one();
             }
-            
         },
 
         steptwo: function(event) {
+            if (consult_visited[7]==true) {
+                consult_visited[7] = false;
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_visited[2] = false;
+                consult_step_two();
+            }
+
+
             if (consult_visited[6]==true) {
                 consult_visited[6] = false;
                 consult_visited[5] = false;
                 consult_visited[4] = false;
                 consult_visited[3] = false;
                 consult_visited[2] = false;
-                consult_step_one();
+                consult_step_two();
             }
 
             if (consult_visited[5]==true) {
@@ -1877,101 +1950,136 @@ var vm_consult = new Vue({
                 consult_visited[4] = false;
                 consult_visited[3] = false;
                 consult_visited[2] = false;
-                consult_step_one();
+                consult_step_two();
             }
 
             if (consult_visited[4]==true) {
                 consult_visited[4] = false;
                 consult_visited[3] = false;
                 consult_visited[2] = false;
-                consult_step_one();
+                consult_step_two();
             }
 
             if (consult_visited[3]==true) {
                 consult_visited[3] = false;
                 consult_visited[2] = false;
-                consult_step_one();
+                consult_step_two();
             }
 
             if (consult_visited[2]==true) {
                 consult_visited[2] = false;
-                consult_step_one();
+                consult_step_two();
             }
-
         },
 
         stepthree: function(event) {
+            if (consult_visited[7]==true) {
+                consult_visited[7] = false;
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_visited[3] = false;
+                consult_step_three();
+            }
+
+
             if (consult_visited[6]==true) {
                 consult_visited[6] = false;
                 consult_visited[5] = false;
                 consult_visited[4] = false;
                 consult_visited[3] = false;
-                consult_step_two();
+                consult_step_three();
             }
 
             if (consult_visited[5]==true) {
                 consult_visited[5] = false;
                 consult_visited[4] = false;
                 consult_visited[3] = false;
-                consult_step_two();
+                consult_step_three();
             }
 
             if (consult_visited[4]==true) {
                 consult_visited[4] = false;
                 consult_visited[3] = false;
-                consult_step_two();
+                consult_step_three();
             }
 
             if (consult_visited[3]==true) {
                 consult_visited[3] = false;
-                consult_step_two();
+                consult_step_three();
             }
 
 
         },
 
         stepfour: function(event) {
+            if (consult_visited[7]==true) {
+                consult_visited[7] = false;
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_visited[4] = false;
+                consult_step_four();
+            }
+
+
             if (consult_visited[6]==true) {
                 consult_visited[6] = false;
                 consult_visited[5] = false;
                 consult_visited[4] = false;
-                consult_step_three();
+                consult_step_four();
             }
 
             if (consult_visited[5]==true) {
                 consult_visited[5] = false;
                 consult_visited[4] = false;
-                consult_step_three();
+                consult_step_four();
             }
 
             if (consult_visited[4]==true) {
                 consult_visited[4] = false;
-                consult_step_three();
+                consult_step_four();
             }
         },
 
         stepfive: function(event) {
+            if (consult_visited[7]==true) {
+                consult_visited[7] = false;
+                consult_visited[6] = false;
+                consult_visited[5] = false;
+                consult_step_five();
+            }
+
             if (consult_visited[6]==true) {
                 consult_visited[6] = false;
                 consult_visited[5] = false;
-                consult_step_four();
+                consult_step_five();
             }
 
             if (consult_visited[5]==true) {
                 consult_visited[5] = false;
-                consult_step_four();
+                consult_step_five();
             }
 
         },
 
         stepsix: function(event) {
+            if (consult_visited[7]==true) {
+                consult_visited[7] = false;
+                consult_visited[6] = false;
+                consult_step_six();
+            }
+
             if (consult_visited[6]==true) {
                 consult_visited[6] = false;
-                consult_step_five();
+                consult_step_six();
             }
         },
 
         stepseven: function(event) {
+            if (consult_visited[7]==true) {
+                consult_visited[7] = false;
+                consult_step_seven();
+            } 
            // consult_step_six();
         }
     },
@@ -3331,6 +3439,62 @@ var askfive = new Vue({
 });
 
 
+var cosnultzero = new Vue({
+   el: '#consult-stepzero',
+   data: {
+     billing_country: '',
+     billing_state: '',
+     is_verified: false,
+     pre_verified: '',
+     billing_full_name:'',
+     billing_email:'',
+     message: '',
+     subject: '',
+     time_asked: '',
+     price: '',
+     payment_token: '',
+     agreement: '',
+     agreed_note: '',
+     agreed: false,
+     consultancy_type: 3,
+     billing_address1: '',
+     billing_address2: '',
+     billing_city: '',
+     billing_phone: '',
+     billing_zip: '',
+     individual_full_name: '',
+     individual_address1: '',
+     individual_address2: '',
+     individual_city: '',
+     individual_state: '',
+     individual_zip: '',
+     individual_country: '',
+     individual_phone: '',
+     individual_email: '',
+     country_of_citizenship: '',
+     number_of_children: '',
+     manner_of_entry: '',
+     marital_status: '',
+     purpose: '',
+     errors: [],
+     stripe_errors: [],
+     is_accepted: false,
+
+   },
+   methods: {
+       submitzero: function (event) {
+          consult_visited[1] = true;
+          consult_step_one();
+       },
+       submitone: function (event) {
+       }
+  },
+  mounted: function() {
+       consult_step_pre_zero();
+       setup_stripe_three();
+  }
+});
+
 var consultone = new Vue({
    el: '#consult-stepone',
    data: {
@@ -3378,9 +3542,11 @@ var consultone = new Vue({
        },
        reset_price: function (event) {
        },
+       submitzero: function (event) {
+
+       },
        submitone: function (event) {
            this.errors = [];      
-   
            consulttwo.price = this.price;
            consulttwo.consultancy_type = this.consultancy_type;
 
@@ -3395,12 +3561,12 @@ var consultone = new Vue({
            if (this.errors.length > 0) {
                return;
            } else {
-               consult_visited[1] = true;
+               consult_visited[2] = true;
            }
            $.get('https://divorcesus.com/consulttypes', function(msg) {
                      let result = "<div>";
 
-                     for(var i=eval(msg.length-1);i>=0; i--) {
+                     for(var i=0; i<msg.length; i++) {
                          str = "<div style='float:left;width:5%;margin-bottom:1.2em;'>";
                          str = str + "<input type='hidden' id='consult-steptwo-valid' value='0' /> ";
                          if (i==0) {
@@ -3442,7 +3608,7 @@ var consultone = new Vue({
                      result = result + "</select>";
                      $("#consult-country-choices").html(result);
             });
-            consult_step_one();
+            consult_step_two();
  
        },
 
@@ -3564,8 +3730,8 @@ var consulttwo = new Vue({
                      $("#consult-individual-country-choices").html(result);
             });
 
-            consult_visited[2] = true;
-            consult_step_two();
+            consult_visited[3] = true;
+            consult_step_three();
 
 
        },
@@ -3582,7 +3748,9 @@ var consulttwo = new Vue({
             consultthree.consultancy_type = this.consultancy_type;
             consultthree.price = this.price;
             consultthree.payment_token = this.payment_token;
-   
+            this.stripe_errors = [];
+
+ 
             $.get('https://divorcesus.com/states', function(msg) {
                      let result = "<select id='consult-individual-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
@@ -3612,7 +3780,6 @@ var consulttwo = new Vue({
          this.billing_address2 =  $('#consult_address2').val();
          this.billing_city = $('#consult_city').val();
          this.billing_email = $('#consult_email').val(); 
-         
 
 //         if (!this.payment_token) {
  //            this.errors.push('Payment token is required.');
@@ -3662,7 +3829,7 @@ var consulttwo = new Vue({
              if (this.stripe_errors.length > 0) {
                  return;
              }
-             consult_visited[2] = true;
+             consult_visited[3] = true;
              consult_step_two();
          }
 
@@ -3869,9 +4036,9 @@ var consultthree = new Vue({
                 $('#consult-stepthree-valid').attr('value', 0);
                 return;
             } else {
-                consult_visited[3] = true;
+                consult_visited[4] = true;
                 $('#consult-stepthree-valid').attr('value', 1);
-                consult_step_three();
+                consult_step_four();
             }
        },
 
@@ -3898,6 +4065,7 @@ var consultthree = new Vue({
 
    },
    mounted:function() {
+       setup_stripe_three();
    }
 });
 
@@ -3987,8 +4155,8 @@ var consultfour = new Vue({
          if (this.errors.length > 0) {
              return;
          } else {
-             consult_visited[4] = true;
-             consult_step_four(); 
+             consult_visited[5] = true;
+             consult_step_five(); 
          }
        },
 
@@ -4105,8 +4273,8 @@ var consultfive = new Vue({
              return;
          } else {
 
-             consult_visited[5] = true;
-             consult_step_five();
+             consult_visited[6] = true;
+             consult_step_six();
          }
 
          $.get('https://divorcesus.com/countries/'+this.billing_country+"/", function(data) {
@@ -4306,8 +4474,8 @@ var consultsix = new Vue({
              if (this.errors.length > 0) {
                  return;
              } else {
-                 consult_visited[6] = true;
-                 consult_step_six();
+                 consult_visited[7] = true;
+                 consult_step_seven();
              }
 
        },
@@ -4395,7 +4563,7 @@ var consultseven = new Vue({
              if (this.errors.length > 0) {
                  return;
              } else {
-                 consult_visited[6] = true;
+                 consult_visited[7] = true;
                  consult_step_seven();
              }
        },
@@ -4413,6 +4581,36 @@ var consultseven = new Vue({
    mounted:function() {
    }
 });
+
+function consult_step_pre_zero() {
+            $("#consult-stepzero").css("display","block");
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display","none");
+            $("#consult-stepfour").css("display","none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").attr('class','current');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class');
+
+            $("#consult-stepzero").css("display","block");
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display","none");
+            $("#consult-stepfour").css("display","none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+            return false;
+}
 
 jQuery(document).ready(function() {
     

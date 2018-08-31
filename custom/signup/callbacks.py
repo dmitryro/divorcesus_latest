@@ -114,13 +114,13 @@ def process_user_question(contact):
             mess = string.replace(mess, '[subject]',contact.subject)
             mess = string.replace(mess,'[email]',contact.email)
             mess = string.replace(mess,'[greeting]', 'Dear')
-            mess = string.replace(mess,'[greeting_statement]','You just asked a question from attorneys at Grinberg and Segal Matrimonial.')
+            mess = string.replace(mess,'[greeting_statement]','You just asked a question from attorneys at Grinberg and Segal Family Law Division.')
             line1 = "<p>Please give us 1 to 3 busintess days to follow up.</p>"
             line2 = "<p>Truly Yours,<br/>"
-            line3 = "Grinberg and Segal Matrimonial Division</p>"
+            line3 = "Grinberg and Segal Family Law Division</p>"
 
             mess = string.replace(mess,'[wait_statement]',"{}{}{}".format(line1, line2, line3))
-            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')
             mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
             mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
 
@@ -187,13 +187,13 @@ def process_client_message(contact):
             mess = string.replace(mess,'[email]',contact.email)
             mess = string.replace(mess,'[phone]',contact.phone)
             mess = string.replace(mess,'[greeting]', 'Dear')
-            mess = string.replace(mess,'[greeting_statement]','You just sent a message to attorneys at Grinberg and Segal Matrimonial.')
+            mess = string.replace(mess,'[greeting_statement]','You just sent a message to attorneys at Grinberg and Segal Family Law Division.')
             line1 = "<p>Please give us 1 to 3 busintess days to follow up.</p>"
             line2 = "<p>Truly Yours,<br/>"
-            line3 = "Grinberg and Segal Matrimonial Division</p>"
+            line3 = "Grinberg and Segal Family Law Division</p>"
 
             mess = string.replace(mess,'[wait_statement]',"{}{}{}".format(line1, line2, line3))
-            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')
             mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
             mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
 
@@ -201,6 +201,7 @@ def process_client_message(contact):
 
         except Exception as e:
             log = Logger(log=str(e))
+            log.save()
 
         message = mess
 
@@ -278,7 +279,7 @@ def process_user_email(contact):
             else:
                 mess = string.replace(mess, '[phone]',contact.phone)
 
-            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+            mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')
             mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
             mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
             mess = string.replace(mess,'[email]',contact.email)
@@ -569,10 +570,10 @@ def send_activation_link(instance):
         mess = string.replace(mess, '[last]', instance.profile.last_name)
         mess = string.replace(mess, '[greeting]', 'Dear')
 
-        mess = string.replace(mess, '[greeting_statement]', 'Thank You for registering with <br/><strong>Grinberg and Segal Matrimonial Division</strong>')
+        mess = string.replace(mess, '[greeting_statement]', 'Thank You for registering with <br/><strong>Grinberg and Segal Family Law Division</strong>')
         mess = string.replace(mess, '[greeting_sent]', 'This email was sent to ')
         mess = string.replace(mess, 'email_address@email.com', instance.profile.email)
-        mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Matrimonial Division')
+        mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')
         mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
         mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')
 

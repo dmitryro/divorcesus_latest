@@ -15,6 +15,7 @@ from models import AskQuestion
 from models import AskTemplate
 from models import ConsultTemplate
 from models import ConsultationType
+from models import FrontBlock
 from forms import SlideForm
 from forms import ContactInfoForm
 from forms import ServiceForm
@@ -23,12 +24,25 @@ from forms import ArticleForm
 from forms import AskTemplateForm
 from forms import ConsultationTypeForm
 from forms import ConsultTemplateForm
+from forms import FrontBlockForm
 from imagekit.admin import AdminThumbnail
 from ckeditor.widgets import CKEditorWidget
 from django.db import models
 from wymeditor.models import WYMEditorField
 from wymeditor.widgets import AdminWYMEditorArea
 from suit_redactor.widgets import RedactorWidget
+
+
+class FrontBlockAdmin(admin.ModelAdmin):
+    form = FrontBlockForm
+    fieldsets = ((None, {'fields': ['title', 'body', 'link',]}),)
+    list_display = ('id', 'title', 'link', 'body',)
+    list_editable = ('title', 'link', 'body',)
+
+    class Meta:
+         verbose_name = 'Front Block'
+         verbose_name_plural = 'Front Blocks'
+
 
 class ConsultationTypeAdmin(admin.ModelAdmin):
     form =  ConsultationTypeForm
@@ -220,4 +234,4 @@ admin.site.register(Logo, LogoAdmin)
 admin.site.register(LogoColor, LogoColorAdmin)
 admin.site.register(Slide, SlideAdmin)
 admin.site.register(Article, ArticleAdmin)
-
+admin.site.register(FrontBlock, FrontBlockAdmin)

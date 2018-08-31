@@ -1,5 +1,8 @@
 from __future__ import unicode_literals
 
+import re
+import html2text
+from django.utils.encoding import python_2_unicode_compatible
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from django.db import models
@@ -8,7 +11,10 @@ from tinymce.models import HTMLField
 from froala_editor.fields import FroalaField
 from redactor.fields import RedactorField
 from taggit.managers import TaggableManager
+from custom.utils.models import Logger
 from datetime import datetime
+
+h = html2text.HTML2Text()
 
 class State(models.Model):
     state = models.CharField(max_length=150, blank=True)
@@ -222,6 +228,9 @@ class ConsultTemplate(models.Model):
         verbose_name = 'Online Consultation Template'
         verbose_name_plural = 'Online Consultation  Templates'
 
+   @property
+   def paragraphs(self):
+       return re.findall("<section>(.*?)</section>", self.agreement.replace('\n','').replace('\r',''))
 
 class QualifyQuestionnaire(models.Model):
    time_published = models.DateTimeField(default=datetime.now, blank=True)
@@ -314,4 +323,21 @@ class AdvantageLink(models.Model):
 
     def __str__(self):
         return self.title
+
+@python_2_unicode_compatible
+class FrontBlock(models.Model):
+    title = models.CharField(max_length=500, blank=True, null=True)
+    link = models.CharField(max_length=1500, blank=True, null=True)
+    body = RedactorField(verbose_name=u'bodies', null=True, blank=True, default='')
+
+
+    class Meta:
+        verbose_name = 'Front Block'
+        verbose_name_plural = 'Front Blocks'
+
+    def __str__(self):
+        return self.title
+
+    def __unicode__(self):
+        return unicode(self.title)
 

@@ -10,7 +10,7 @@ from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
 import django.contrib.auth as auth
 from django.shortcuts import redirect
-from social.pipeline.partial import partial
+from social_core.pipeline.partial import partial
 from django.contrib.auth import logout
 from django.conf import settings
 from django.core.files.base import ContentFile
@@ -26,11 +26,6 @@ from social.backends.facebook import FacebookOAuth2
 from requests import request, HTTPError
 from django.core.files.base import ContentFile
 from django.template.defaultfilters import slugify
-import facebook
-import open_facebook
-from open_facebook import OpenFacebook
-from open_facebook import utils
-from open_facebook import api
 from django_facebook.utils import get_user_model, mass_get_or_create, \
     cleanup_oauth_url, get_profile_model, parse_signed_request, hash_key, \
     try_get_profile, get_user_attribute

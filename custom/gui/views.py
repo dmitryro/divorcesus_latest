@@ -30,6 +30,7 @@ from custom.gui.models import AskTemplate
 from custom.gui.models import Country
 from custom.users.models import Profile
 from custom.gui.models import ConsultationType
+from custom.gui.models import ConsultTemplate
 from custom.gui.filters import ServiceFilter
 from custom.gui.models import Slide
 from custom.gui.models import Service
@@ -56,6 +57,7 @@ from rest_framework.decorators import api_view, renderer_classes, permission_cla
 from rest_framework import generics
 from restless.views import Endpoint
 
+from custom.gui.serializers import FrontBlockSerializer
 from custom.gui.serializers import CountrySerializer
 from custom.gui.serializers import AskTemplateSerializer
 from custom.gui.serializers import ConsultationTypeSerializer
@@ -146,8 +148,6 @@ def confirm_account_view(request):
     try:
  #      data = json.loads(request.body).encode('utf-8')
        data = JSONParser().parse(request)
-       log = Logger(log='DATA TO CONFIRM WAS {}'.format(data))
-       log.save()
        
        user_id = data['user_id'].encode('utf-8')
        username = data['username'].encode('utf-8')
@@ -480,7 +480,7 @@ def dashboard(request):
 
 @csrf_exempt
 def home(request):
-
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -520,6 +520,7 @@ def home(request):
                                            'first':first_name,
                                            'last':last_name,
                                            'slides':slides,
+                                           'consult':consult,
                                            'faqs':faqs,
                                            'qualifying':qquestions,
                                            'posts':posts,
@@ -530,6 +531,7 @@ def home(request):
 
 @csrf_exempt
 def blogs(request, blog_id):
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -571,6 +573,7 @@ def blogs(request, blog_id):
                                            'last':last_name,
                                            'service':'blog',
                                            'slides':slides,
+                                           'consult':consult,
                                            'faqs':faqs,
                                            'qualifying':qquestions,
                                            'posts': posts,
@@ -581,6 +584,7 @@ def blogs(request, blog_id):
 
 @csrf_exempt
 def blog(request):
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -620,6 +624,7 @@ def blog(request):
                                            'service':'blog',
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'consult': consult,
                                            'qualifying':qquestions,
                                            'posts':posts,
                                            'milestones':milestones,
@@ -631,6 +636,7 @@ def blog(request):
 
 @csrf_exempt
 def about(request):
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -667,6 +673,7 @@ def about(request):
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'consult': consult,
                                            'service':'about',
                                            'slides':slides,
                                            'faqs':faqs,
@@ -679,6 +686,7 @@ def about(request):
 
 @csrf_exempt
 def allservices(request):
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -715,6 +723,7 @@ def allservices(request):
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'consult': consult,
                                            'service':'services',
                                            'slides':slides,
                                            'faqs':faqs,
@@ -727,6 +736,7 @@ def allservices(request):
 
 @csrf_exempt
 def services(request, service):
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -766,6 +776,7 @@ def services(request, service):
                                            'service':service,
                                            'slides':slides,
                                            'faqs':faqs,
+                                           'consulut': consult,
                                            'qualifying':qquestions,
                                            'posts':posts,
                                            'milestones':milestones,
@@ -774,6 +785,7 @@ def services(request, service):
 
 @csrf_exempt
 def posts(request,page):
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -810,6 +822,7 @@ def posts(request,page):
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'consult': consult,
                                            'service':"blog",
                                            'slides':slides,
                                            'faqs':faqs,
@@ -822,6 +835,7 @@ def posts(request,page):
 
 @csrf_exempt
 def post(request):
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -858,6 +872,7 @@ def post(request):
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'consult': consult,
                                            'service':"blog",
                                            'slides':slides,
                                            'faqs':faqs,
@@ -870,6 +885,7 @@ def post(request):
 
 @csrf_exempt
 def pricing(request):
+    consult = ConsultTemplate.objects.get(id=1)
     if request.user.is_authenticated():
         logout=True
         try:
@@ -898,12 +914,14 @@ def pricing(request):
 
     return render(request, 'index-3.html',{'logout':logout,
                                            'user_id':user_id,
+                                           'consult': consult,
                                            'first':first_name,
                                            'last':last_name,
                                            'profile_image':profile_image_path})
 
 @csrf_exempt
 def ask(request):
+    consult = ConsultTemplate.objects.get(id=1)
     if request.user.is_authenticated():
         logout=True
         try:
@@ -932,10 +950,12 @@ def ask(request):
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'consult': consult,
                                            'profile_image':profile_image_path})
 
 @csrf_exempt
 def contacts(request):
+    consult = ConsultTemplate.objects.get(id=1)
     if request.user.is_authenticated():
         logout=True
         try:
@@ -963,12 +983,14 @@ def contacts(request):
 
     return render(request, 'index-4.html',{'logout':logout,
                                            'user_id':user_id,
+                                           'consult': consult,
                                            'first':first_name,
                                            'last':last_name,
                                            'profile_image':profile_image_path})
 
 @csrf_exempt
 def payment(request):
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -1007,6 +1029,7 @@ def payment(request):
                                            'last':last_name,
                                            'service':'payment',
                                            'slides':slides,
+                                           'consult': consult,
                                            'faqs':faqs,
                                            'posts':posts,
                                            'qualifying':qquestions, 
@@ -1017,6 +1040,7 @@ def payment(request):
 
 @csrf_exempt
 def toast(request):
+    consult = ConsultTemplate.objects.get(id=1)
     if request.user.is_authenticated():
         logout=True
         try:
@@ -1046,6 +1070,7 @@ def toast(request):
     return render(request, 'toast.html',{'logout':logout,
                                            'first':first_name,
                                            'user_id':user_id,
+                                           'consult': consult,
                                            'last':last_name,
                                            'profile_image':profile_image_path})
 
@@ -1127,7 +1152,7 @@ def logout(request):
 
 @csrf_exempt
 def check_qualify(request):
-
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -1167,6 +1192,7 @@ def check_qualify(request):
                                            'faqs':faqs,
                                            'qualifying':qquestions,
                                            'posts':posts,
+                                           'consult': consult,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
@@ -1174,7 +1200,7 @@ def check_qualify(request):
 
 @csrf_exempt
 def contact(request):
-
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -1216,13 +1242,14 @@ def contact(request):
                                            'slides':slides,
                                            'faqs':faqs,
                                            'posts':posts,
+                                           'consult': consult,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})
 
 @csrf_exempt
 def pricing(request):
-
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -1259,6 +1286,7 @@ def pricing(request):
                                            'user_id':user_id,
                                            'first':first_name,
                                            'last':last_name,
+                                           'consult': consult,
                                            'qualifying':qquestions,
                                            'service':'pricing',
                                            'slides':slides,
@@ -1271,7 +1299,7 @@ def pricing(request):
 
 @csrf_exempt
 def faq(request):
-
+    consult = ConsultTemplate.objects.get(id=1)
     milestones = MileStone.objects.all()
     advantage_links = AdvantageLink.objects.filter(advantage_id=1)
     slides = Slide.objects.all()
@@ -1311,6 +1339,7 @@ def faq(request):
                                            'qualifying':qquestions,
                                            'service':'faq',
                                            'posts':posts,
+                                           'consult': consult,
                                            'milestones':milestones,
                                            'advantage_links':advantage_links,
                                            'profile_image':profile_image_path})

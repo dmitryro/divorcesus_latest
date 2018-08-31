@@ -4,7 +4,6 @@
     }
 
     jQuery(document).ready(function(){
-           setup_stripe_three();
            $("span.mfValidation.show.error").css("color","red");
            $("span.mfValidation.show.error").css("font-size","1.2em");
            $("span.mfValidation.show.error").css("position","relative");
@@ -55,7 +54,8 @@
             $("#ask-stepfive").css("display","none");
 
             $("#consult-wizard :nth-child(1)").attr('class','current');
-            $("#consult-stepone").css("display","block");
+            $("#consult-stepzero").css("display","block");
+            $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display","none");
             $("#consult-stepfour").css("display","none");

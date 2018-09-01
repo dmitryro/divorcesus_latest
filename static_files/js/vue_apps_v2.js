@@ -28,19 +28,23 @@ divorcetypes_index[1]= 'Contested';
 divorcetypes_index[2] = 'Uncontested';
 divorcetypes_index[3] = 'Other';
 
+
 function on_mobile_qualify(state) {
+      $('#from-pricing').attr('value', null);
+      $('#package-id').attr('value', null);
+
       if  (state==1) {
              jQuery("#state-displayed").attr("style", "display:block;");
              jQuery("#qualify-no-state").attr("style", "display:none;");
              jQuery('input[id="state"][value="New York"]').prop("checked",true);
-             jQuery("#state-selected").attr("value","New York");
+             jQuery("#state-selected").attr("value","2");
       }
       else
       if  (state==2) {
              jQuery("#state-displayed").attr("style", "display:block;");
              jQuery("#qualify-no-state").attr("style", "display:none;");
              jQuery('input[id="state"][value="New Jersey"]').prop("checked",true);
-             jQuery("#state-selected").attr("value","New Jersey");
+             jQuery("#state-selected").attr("value","1");
       }
       else
       if  (state==0) {
@@ -50,7 +54,7 @@ function on_mobile_qualify(state) {
              jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
              jQuery("#qualify_progress_stepone").click();
              jQuery('input[id="state"][value="New York"]').prop("checked",true);
-             jQuery("#state-selected").attr("value","New York");
+             jQuery("#state-selected").attr("value","2");
              jQuery("#package-state").attr("value","New York");
 
       }
@@ -93,7 +97,7 @@ function on_mobile_qualify(state) {
       } else {
           jQuery('body').scrollTop(100);
       }
-
+      package_step_one();
       return false;
 }
 
@@ -123,20 +127,29 @@ function init_payment() {
 }
 
 function packageChange(p) {
+//         if (!$('#state-selected').val()) {
+//             return; 
+//         }
+         let package_id =  $('#package-id').val();
          let divorce_type = divorcetypes[p];
- 
          var state =  $('#state-selected').val();
+         if (!state) {
+             state = $('#state-pricelist-selected').val();
+             $('#state-selected').attr("value", state);
+         }
          if (!state) {
              state = 2;
              $('#state-selected').attr("value", 2);
          }
+         qvm.state = state;
+         qvm.packagechange(p);
+
          var package_type = divorce_type;
          let url = 'https://divorcesus.com/packages/?package_type='+package_type+'&state='+state;
          var pkg = {};
            $.get(url, function(msg) {
                      let result = "<div style='width:100%;'>";
-                     for(var i=0;i<msg.length;i++) {
-
+                     for(var i=0; i<msg.length; i++) {
                          packages.add(msg[i].id, msg[i].title);
                          var str = "<div style='float:left;width:4%;margin-bottom:1.2em;'>";
                          str = str + "<input type='hidden' id='selected-package-id' name='selected-package-id' value='0'/>";
@@ -145,7 +158,18 @@ function packageChange(p) {
                    
 //                         str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' value='"+
 //                                    msg[i].id+"'>";
-                         if (i===0) {
+                         
+                         if (i==0 && !$('#from-pricing').val()) {
+                           
+                            str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' checked=\"checked\"  value='"+
+                                    msg[i].id+"'>";
+                                    qvm.default_id = 0;
+                                    qvm.default_pack_id = msg[i].id;
+                                    qvm.default_price = msg[i].price;
+                                    price_changed(0, +msg[i].id, msg[i].price);
+  
+                         }
+                         else if (msg[i].id == package_id) {
                             str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' checked=\"checked\"  value='"+
                                     msg[i].id+"'>";
                                     qvm.default_id = 0;
@@ -212,6 +236,7 @@ function packageChange(p) {
 
             });
 
+            $('#select-package option:eq('+eval(divorcetypes[p]-1)+')').prop('selected', true);
 
     return false;
 }
@@ -230,9 +255,11 @@ function Hash(){
 }
 
 function qualify_step_zero(state) {
+   $('#from-pricing').attr("value", null);   
    qvm.state = state;
    $("#qualify_progress_stepone").click();
    $('#state-selected').attr('value', state);
+   $('#state-pricelist-selected').attr('value', state);
    $('#state-displayed').html(states[state]);
    $('#select-package option:eq(1)').prop('selected', true);
   
@@ -243,6 +270,7 @@ function qualify_step_zero(state) {
 
    } 
    packageChange('Uncontested');
+   package_step_one();
    return false;
 }
 
@@ -273,12 +301,23 @@ function price_changed(id, pack_id, price) {
    return false;
 }
 
-function package_selected(state, pack) {
+function package_selected(state, pack, pack_type, price) {
+    $('#package-id').attr('value', pack);
     $('#state-selected').attr('value', state);
+    $('#state-pricelist-selected').attr('value', state);
+    $('#selected-package-id').attr('value', pack);
     featured.state = state;
     qvm.state = state;
-    on_mobile_select_package(state, pack);
     qualify_step_zero(state);
+    $('#from-pricing').attr('value', "yes");
+    $('#select-package option:eq('+eval(pack_type-1)+')').prop('selected', true);
+    on_mobile_select_package(state, pack, pack_type, price);
+    qualify_step_zero(state);
+    jQuery("#state-selected").attr("value",state);
+    packageChange(divorcetypes_index[pack_type]);
+    on_mobile_qualify(state);
+    package_step_one();
+    $('input[name=package_selected][value="'+pack+'"').attr('checked', true);
     return false;
 }
 
@@ -359,7 +398,7 @@ var featured = new Vue({
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+ 
                              "<td class='lg'>"+msg[i].title+"</td>"+
-                             "<td class='text-center'><a href='#' onclick='package_selected(2, "+msg[i].id+")'>"+msg[i].price+"</a></td>"+
+                             "<td class='text-center'><a href='#' onclick='package_selected(2, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;'>"+msg[i].price+"</a></td>"+
                              "</tr>";
                    result = result + str;
                    packages_featured.add(msg[i].id, msg[i].title);
@@ -382,7 +421,7 @@ var featured = new Vue({
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+
                              "<td class='lg'>"+msg[i].title+"</td>"+
-                             "<td class='text-center'><a href='#' onclick='package_selected(1, "+msg[i].id+")' >"+msg[i].price+"</a></td>"+
+                             "<td class='text-center'><a href='#' onclick='package_selected(1, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;' >"+msg[i].price+"</a></td>"+
                              "</tr>";
                    result = result + str;
                    packages_featured.add(msg[i].id, msg[i].title);
@@ -405,7 +444,7 @@ var featured = new Vue({
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+
                              "<td class='lg'>"+msg[i].title+"</td>"+
-                             "<td class='text-center'><a href='#' onclick='package_selected(2, "+msg[i].id+")' >"+msg[i].price+"</a></td>"+
+                             "<td class='text-center'><a href='#' onclick='package_selected(2, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;' >"+msg[i].price+"</a></td>"+
                              "</tr>";
                    result = result + str;
                    packages_featured.add(msg[i].id, msg[i].title);
@@ -430,7 +469,8 @@ var featured = new Vue({
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+
                              "<td class='lg'>"+msg[i].title+"</td>"+
-                             "<td class='text-center'><a href='#' onclick='package_selected(1, "+msg[i].id+")' >"+msg[i].price+"</a></td>"+
+                             "<td class='text-center'><a href='#' onclick='package_selected(1, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;' >"+msg[i].price+"</a></td>"+
+
                              "</tr>";
                    result = result + str;
                    packages_featured.add(msg[i].id, msg[i].title);
@@ -442,11 +482,11 @@ var featured = new Vue({
 
          });
 
-    
+         packageChange('Uncontested'); 
  
   }
 });
-packageChange('Uncontested');
+//packageChange('Uncontested');
 
 var qvm = new Vue({
   el: '#qualify-stepone',
@@ -500,12 +540,12 @@ var qvm = new Vue({
     packagechange: function (p) {
          let divorce_type = divorcetypes[p];
          this.state =  $('#state-selected').val();
-         this.package_type = divorce_type; 
+         this.package_type = divorce_type;
          let url = 'https://divorcesus.com/packages/?package_type='+this.package_type+'&state='+this.state;
          var pkg = {};
            $.get(url, function(msg) {
                      let result = "<div style='width:100%;'>";
-                     for(var i=0;i<msg.length;i++) {
+                     for(var i=0; i<msg.length; i++) {
 
                          packages.add(msg[i].id, msg[i].title); 
                          var str = "<div style='float:left;width:4%;margin-bottom:1.2em;'>";
@@ -578,12 +618,15 @@ var qvm = new Vue({
     //     } else {
      //        state = 2;
      //    }
-         $('#state-selected').attr('value', state);
+         if (state) { 
+             $('#state-selected').attr('value', state);
+         }
+
          qvm.state = state;
          qvm.packagechange(divorcetypes_index[qvm.package_type]);
 
-        packageChange('Uncontested');    
-        $('#state-selected').attr('value', this.package_state);
+        //packageChange('Uncontested');    
+        //$('#state-selected').attr('value', this.package_state);
     },
     statechange: function(s) {
          let state;
@@ -612,7 +655,21 @@ var qvm = new Vue({
         this.are_there_children = $('#are_there_children').is(":checked") ? 'yes' : 'no';
         this.does_spouse_agree = $('#does_spouse_agree').is(":checked") ? 'yes' : 'no';
         this.is_military = $('#is_military').is(":checked") ? 'yes' : 'no';
-        this.state = $('#state-selected').val();
+        this.state = $('#state-pricelist-selected').val();
+       
+        if (!this.state) {
+            this.state = $('#state-selected').val();
+            $('#state-pricelist-selected').attr('value', this.state);
+        }
+
+//        alert($('#from-pricing').val()+" and "+$('#state-pricelist-selected').val());
+//        if ($('#from-pricing').val()) {
+ //           alert("OUR CASE");
+ //           this.state = $('#state-pricelist-selected').val();
+ //           $('#state-selected').attr("value", this.state);
+ //       }
+
+
         this.first = $('#payment-first').val();
         this.last = $('#payment-last').val();
         this.email = $('#payment-email').val();
@@ -697,8 +754,10 @@ var qvm = new Vue({
       //ch.remove();
       packageChange('Uncontested');
       this.state = jQuery("#state-selected").val();
+      this.package_state = jQuery("#state-selected").val();
       this.is_spouse_location_known = 'yes';
       this.user_id = $("#current-user-id").val();
+      package_step_one();      
   }
 
 });
@@ -1054,6 +1113,7 @@ var qvm4 = new Vue({
   },
   methods: {
     redirect: function (event) {
+           this.state = $('#state-selected').val();
 
                $("#name_on_card_by_state").html("<p>Name on Card: "+this.nameoncard.toString()+"</p>");
                $('.validation').removeClass('text-danger text-success');

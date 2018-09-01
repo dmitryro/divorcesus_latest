@@ -11,7 +11,7 @@ from forms import ServiceForm
 class ServiceAdmin(admin.ModelAdmin):
     form = ServiceForm
     fieldsets = ((None, {'fields': ['title','fees','price','is_available','avatar', 'description']}),)
-    list_display = ('title','fees','price','avatar')
+    list_display = ('id', 'title','fees','price','avatar')
     list_editable = ('title','fees','price')
     
     class Meta:
@@ -20,7 +20,7 @@ class ServiceAdmin(admin.ModelAdmin):
 
 class PackageTypeAdmin(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ['package_type', 'code',]}),)
-    list_display = ('package_type', 'code',)
+    list_display = ('id', 'package_type', 'code',)
     list_editable = ('package_type', 'code',)
 
     class Meta:
@@ -44,7 +44,7 @@ class PackageAdmin(admin.ModelAdmin):
                                     'services', 'description', 'state', 
                                     'package_type',]}),)
     list_display = ('title', 'fees', 'price','state', 'package_type',)
-    list_editable = ('title', 'fees', 'price', 'state', 'package_type',)
+    list_editable = ('id', 'title', 'fees', 'price', 'state', 'package_type',)
 
     notes = (PackageNoteAdmin,)
     class Meta:

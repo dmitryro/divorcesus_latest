@@ -24,7 +24,7 @@ class PackageViewSet(viewsets.ModelViewSet):
     A viewset for viewing and editing packages.
     """
     serializer_class = PackageSerializer
-    queryset = Package.objects.all()
+    queryset = Package.objects.all().order_by('price')
     filter_class = PackageFilter
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('id', 'title', 'fees', 'price', 'is_available', 'description', 'state', 'package_type', 'notes',)

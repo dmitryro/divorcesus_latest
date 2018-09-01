@@ -921,7 +921,7 @@
       return false;
   }
 
-  function on_mobile_select_package(state, pack) {
+  function on_mobile_select_package(state, pack, pack_type, price) {
       if  (state==2) {
 
       //       jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
@@ -930,16 +930,14 @@
              jQuery('input[id="state"][value="New York"]').prop("checked",true);
              jQuery("#state-selected").attr("value","New York");
       }
-      else
-      if  (state==1) {
+      else if  (state==1) {
    //          jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
    //          jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
     //         jQuery("#qualify-state").html("<h4><strong>New Jersey</strong></h4>");
              jQuery('input[id="state"][value="New Jersey"]').prop("checked",true);
              jQuery("#state-selected").attr("value","New Jersey");
       }
-      else
-      if  (state==0) {
+      else if  (state==0) {
              jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
              jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
              jQuery("#qualify_progress_stepone").click();
@@ -947,7 +945,11 @@
              jQuery("#state-selected").attr("value","New York");
       }
 
-
+      $('#selected-package-id').attr('value', pack);
+ 
+      price_changed(state, pack, price);
+      packageChange(divorcetypes_index[pack_type]);
+      $('input[name=package_selected][value="'+pack+'"').attr('checked', true); 
       document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
@@ -986,7 +988,6 @@
       } else {
           jQuery('body').scrollTop(100);
       }
-
       return false;
 
 
@@ -994,6 +995,10 @@
   }
 
   function on_mobile_qualify(state) {
+      $('#from-pricing').attr('value', null);
+      $('#package-id').attr('value', null);
+
+
       if  (state==1) {
              jQuery("#state-displayed").attr("style", "display:block;");
              jQuery("#qualify-no-state").attr("style", "display:none;");
@@ -1058,7 +1063,7 @@
       } else {
           jQuery('body').scrollTop(100);
       }
-
+      package_step_one();
       return false;
 
 

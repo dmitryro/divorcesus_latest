@@ -232,6 +232,11 @@ class ConsultTemplate(models.Model):
    def paragraphs(self):
        return re.findall("<section>(.*?)</section>", self.agreement.replace('\n','').replace('\r',''))
 
+   @property
+   def intro_paragraphs(self):
+       return re.findall("<section>(.*?)</section>", self.consult_intro.replace('\n','').replace('\r',''))
+
+
 class QualifyQuestionnaire(models.Model):
    time_published = models.DateTimeField(default=datetime.now, blank=True)
    state =  models.ForeignKey(State,blank=True,null=True)

@@ -3112,11 +3112,15 @@
 
                                             </div>
                                         </div>
-
-                                        <br/>
-
-                                        <input type="checkbox" value="" id="is_accepted" v-model="is_accepted">
-
+                                        <div>
+                                            <div style="float:left;width:10%;">
+                                                <input type="checkbox" value="" id="is_accepted" v-model="is_accepted">
+                                            </div>
+                                            <div style="float:left;width:89%;">
+                                                <div id="is_ask_accepted_errors" class="error"></div>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
                                         {% ask_meta 1 3 %}
                                         <div style="float:left;padding-top:1.9em;">
                                               <button class="btn4" v-scroll-to="{el: '#page', offset: -80,}" v-on:click="submitfour"  id="ask_step_four">Review</button>

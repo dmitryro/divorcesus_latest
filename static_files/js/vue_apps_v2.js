@@ -388,7 +388,7 @@ var featured = new Vue({
          var pkg = {};
 
          $.get(url_ny, function(msg) {
-             let result = "<h4> New York Packages </h4>"+
+             let result = "<h4> New York Uncontested Divorce Packages </h4>"+
                           "<table class='tables'>"+
                           "<tr>"+
                           "<th class='bg1 lg'>Package</th>"+
@@ -397,7 +397,10 @@ var featured = new Vue({
                
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+ 
-                             "<td class='lg'>"+msg[i].title+"</td>"+
+                     //        "<td class='lg'>"+msg[i].title+"</td>"+
+
+                             "<td class='lg'><a href='#' onclick='package_selected(2, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;'>"+msg[i].title+"</a></td>"+
+
                              "<td class='text-center'><a href='#' onclick='package_selected(2, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;'>"+msg[i].price+"</a></td>"+
                              "</tr>";
                    result = result + str;
@@ -411,7 +414,7 @@ var featured = new Vue({
          var pkg = {};
 
          $.get(url_nj, function(msg) {
-             let result = "<h4> New Jersey Packages </h4>"+
+             let result = "<h4> New Jersey Uncontested Divorce Packages </h4>"+
                           "<table class='tables'>"+
                           "<tr>"+
                           "<th class='bg2 lg'>Package</th>"+
@@ -420,7 +423,9 @@ var featured = new Vue({
 
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+
-                             "<td class='lg'>"+msg[i].title+"</td>"+
+                         //    "<td class='lg'>"+msg[i].title+"</td>"+
+                             "<td class='lg'><a href='#' onclick='package_selected(1, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;'>"+msg[i].title+"</a></td>"+
+
                              "<td class='text-center'><a href='#' onclick='package_selected(1, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;' >"+msg[i].price+"</a></td>"+
                              "</tr>";
                    result = result + str;
@@ -434,7 +439,7 @@ var featured = new Vue({
          var pkg = {};
 
          $.get(url_other_ny, function(msg) {
-             let result = "<h4> New York Other Packages </h4>"+
+             let result = "<h4> Other New York Family Law Packages </h4>"+
                           "<table class='tables'>"+
                           "<tr>"+
                           "<th class='bg3 lg'>Package</th>"+
@@ -443,7 +448,9 @@ var featured = new Vue({
 
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+
-                             "<td class='lg'>"+msg[i].title+"</td>"+
+//                             "<td class='lg'>"+msg[i].title+"</td>"+
+                             "<td class='lg'><a href='#' onclick='package_selected(2, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;'>"+msg[i].title+"</a></td>"+
+
                              "<td class='text-center'><a href='#' onclick='package_selected(2, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;' >"+msg[i].price+"</a></td>"+
                              "</tr>";
                    result = result + str;
@@ -459,7 +466,7 @@ var featured = new Vue({
          var pkg = {};
 
          $.get(url_other_nj, function(msg) {
-             let result = "<h4> Other New Jersey Packages </h4>"+
+             let result = "<h4> Other New Jersey Family Law Packages </h4>"+
                           "<table class='tables'>"+
                           "<tr>"+
                           "<th class='bg4 lg'>Package</th>"+
@@ -468,7 +475,9 @@ var featured = new Vue({
 
              for(var i=0;i<msg.length;i++) {
                    var str = "<tr>"+
-                             "<td class='lg'>"+msg[i].title+"</td>"+
+//                             "<td class='lg'>"+msg[i].title+"</td>"+
+                             "<td class='lg'><a href='#' onclick='package_selected(1, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;'>"+msg[i].title+"</a></td>"+
+
                              "<td class='text-center'><a href='#' onclick='package_selected(1, "+msg[i].id+","+msg[i].package_type.id+","+msg[i].price+");package_step_one();return false;' >"+msg[i].price+"</a></td>"+
 
                              "</tr>";
@@ -3405,12 +3414,16 @@ var askfour = new Vue({
            $("#final_message").html(this.message);
            
            if($('#is_accepted').prop('checked')) {     
+                $('#is_ask_accepted_errors').html("");
                 this.is_accepted = true; 
                 ask_visited[4] = true;
                 ask_step_four();
            } else {
-                return;
-           }
+                $('#is_ask_accepted_errors').html("<span class=\"error\">Please accept the terms.</span>");
+                //$( "div.error" ).delay( 500 ).fadeOut( 400 );
+                this.errors.push("Must be accepted");
+                return; 
+          }
   
           
            askfive.is_accepted = this.is_accepted;

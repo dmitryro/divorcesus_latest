@@ -7,7 +7,7 @@ var modal_submit_password = 'Reset Password';
 var modal_submit_login    = 'Login';
  // register modal component
 Vue.config.devtools = true;
-
+Vue.use(SocialSharing);
 var consult_visited = new Array(false, false, false, false, false, false, false, false);
 var package_visited = new Array(false, false, false, false, false, false, false, false);
 var payment_visited = new Array(false, false, false, false, false);
@@ -320,6 +320,7 @@ function package_selected(state, pack, pack_type, price) {
     $('input[name=package_selected][value="'+pack+'"').attr('checked', true);
     return false;
 }
+
 
 var paymentmethod = new Vue({
   el: '#paymentmethod',
@@ -1557,7 +1558,7 @@ var qvm6 = new Vue({
                          $( "div.success" ).fadeIn( 300 ).delay( 2500 ).fadeOut( 400 );
 		    },
 		    error: function(data){
-		      alert("failure"+data);
+		         $( "div.error" ).fadeIn( 300 ).delay( 2500 ).fadeOut( 400 );
 		   }
 	        });
 
@@ -2759,7 +2760,6 @@ var vm4 = new Vue({
             "zip": this.zip,
             "token": $('#payment-token').val(),
             "user_id": this.user_id};
-
         $.ajax({
                 type: "POST",
                 url: "https://divorcesus.com/paymentconfirm/",
@@ -2771,7 +2771,7 @@ var vm4 = new Vue({
                     $( "div.success" ).fadeIn( 300 ).delay( 1200 ).fadeOut( 400 );
                 },
                 error: function(data){
-                  alert("failure"+data.message);
+                     $( "div.error" ).fadeIn( 300 ).delay( 2500 ).fadeOut( 400 );
                 }
         });
 
@@ -4540,8 +4540,8 @@ var consultsix = new Vue({
                          }
                     },
                     error: function(data){
-                      alert("failure:"+data.message);
-                   }
+                         $( "div.error" ).fadeIn( 300 ).delay( 2500 ).fadeOut( 400 ); 
+                    }
              });
 
              if (this.errors.length > 0) {

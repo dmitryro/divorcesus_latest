@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 from redactor.fields import RedactorField
 from datetime import date
+from datetime import datetime
 # Datetime related imports
 
 # Calculate the current date
@@ -212,6 +213,33 @@ class TeamMember(models.Model):
     class Meta:
         verbose_name = 'Team Members'
         verbose_name_plural = 'Team Members'
+
+    def __str__(self):
+        return self.first_name+" "+self.last_name
+
+    def __unicode__(self):
+        return unicode(self.first_name+" "+self.last_name)
+
+
+class Testimonial(models.Model):
+    user = models.ForeignKey(User, blank=False, null=False)
+    username = models.CharField(max_length=140, blank=True)
+    email = models.EmailField(max_length=100, blank=True, null=True)
+    phone = models.CharField(max_length=30, blank=True)
+    first_name = models.CharField(max_length=140, blank=True)
+    last_name = models.CharField(max_length=140, blank=True)
+    body = models.CharField(max_length=1500, blank=True, null=True) 
+    date_published = models.DateTimeField(auto_now_add=True)
+    avatar = models.ImageField(upload_to='avatars')
+    avatar_thumbnail = ImageSpecField(source='avatar',
+                                      processors=[ResizeToFill(100, 50)],
+                                      format='JPEG',
+                                      options={'quality': 60})
+
+
+    class Meta:
+        verbose_name = 'Testimonial'
+        verbose_name_plural = 'Testimonials'
 
     def __str__(self):
         return self.first_name+" "+self.last_name

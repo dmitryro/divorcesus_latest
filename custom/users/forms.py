@@ -7,6 +7,7 @@ from models import TeamMember
 from models import MileStone
 from models import AboutUs
 from models import Advantage
+from models import Testimonial
 from redactor.widgets import RedactorEditor
 from django.forms import ModelForm, Textarea
 from redactor.widgets import RedactorEditor
@@ -19,6 +20,7 @@ class TeamMemberForm(ModelForm):
             'bio':  RedactorWidget(editor_options={'lang': 'en'}),
         }
         fields = '__all__' #
+
 
 class EmailInput(Input):
     input_type = 'email'
@@ -59,13 +61,21 @@ class AdvantageModelForm(ModelForm):
         }
         fields = '__all__' #
 
+
 class TeamMemberModelForm(ModelForm):
-    user = models.OneToOneField(User)
     class Meta:
         model = TeamMember
         widgets = {
             'bio': RedactorWidget(editor_options={'lang': 'en'}),
-            'user': models.OneToOneField(User),
+        }
+        fields = '__all__' #
+
+
+class TestimonialModelForm(ModelForm):
+    class Meta:
+        model = Testimonial
+        widgets = {
+            'body':  RedactorWidget(editor_options={'lang': 'en'}),
         }
         fields = '__all__' #
 

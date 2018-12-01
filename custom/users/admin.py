@@ -15,6 +15,7 @@ from wymeditor.models import WYMEditorField
 from wymeditor.widgets import AdminWYMEditorArea
 from custom.users.models import Profile
 from imagekit.admin import AdminThumbnail
+from models import Testimonial
 from models import TeamMember
 from models import AboutUs
 from models import Advantage
@@ -27,7 +28,24 @@ from forms import AboutUsModelForm
 from forms import TeamMemberModelForm
 from forms import TeamMemberForm
 from forms import AdvantageModelForm
+from forms import TestimonialModelForm
 
+class TestimonialAdmin(admin.ModelAdmin):
+    bio = forms.CharField( widget=forms.Textarea )
+    fieldsets = [
+      ('Body', {'classes': ('full-width',), 'fields': ('username','first_name','last_name','user','phone','email','body','avatar')})
+    ]
+    list_display = ('__str__', 'username', 'first_name', 'last_name', 'user', 'phone', 'email', 'body', 'admin_thumbnail')
+    admin_thumbnail = AdminThumbnail(image_field='avatar_thumbnail')
+    search_fields = ('username', 'first_name', 'last_name', 'user', 'phone', 'email', 'body')
+    formfield_overrides = {
+        WYMEditorField: {'widget': AdminWYMEditorArea},
+    }
+    form = TestimonialModelForm
+
+    class Meta:
+         verbose_name = 'Testimonial'
+         verbose_name_plural = 'Testimonials'
 
 
 
@@ -63,8 +81,6 @@ class ProfileAdmin(admin.ModelAdmin):
     class Meta:
          verbose_name = 'User Profile'
          verbose_name_plural = 'User Profiles'
-
-
 
 
 class CustomUserAdmin(UserAdmin):
@@ -148,7 +164,7 @@ admin.site.register(TeamMember, TeamMemberAdmin)
 admin.site.register(Profile,ProfileAdmin)
 admin.site.register(MileStone,MileStoneAdmin)
 admin.site.register(AboutUs, AboutUsAdmin)
-
+admin.site.register(Testimonial, TestimonialAdmin)
 # Now register the new UserAdmin...
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.

@@ -84,7 +84,7 @@ def process_consult_request_email(consultation, contact):
             mess = string.replace(mess, '[zip]', str(payment.billing_address.zip_or_postal))
             mess = string.replace(mess, '[phone]', str(payment.billing_phone))
             mess = string.replace(mess, '[email]', str(payment.individual_email))
-            mess = string.replace(mess,'[greeting]', '')
+            mess = string.replace(mess,'[greeting]', 'For your attention.')
             mess = string.replace(mess,'[greeting_statement]','New consultation request from a customer.')
             mess = string.replace(mess,'[wait_statement]',"To be processed by the office.")
             mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')

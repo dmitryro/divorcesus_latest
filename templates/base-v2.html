@@ -60,6 +60,7 @@
         <!-- for the future use -->
            <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>   
            <script src="https://cdn.jsdelivr.net/vue.router/2.5.3/vue-router.min.js"></script>
+           <script src="https://cdn.jsdelivr.net/npm/vue-social-sharing@2.3.3/dist/vue-social-sharing.common.min.js"></script>
            <script src="/static/js/vue.social-shares.js"></script>
 <!--
            <link type="text/css" href="https://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
@@ -6644,6 +6645,18 @@
                       <div id="blog_posts">
 
                              <div class="container wow fadeInUp posts-all-container"> <!-- posts-all-container starts -->
+                                  <div id="shareapp">
+
+                                    <social-sharing url="https://vuejs.org/"
+                                                    title="The Progressive JavaScript Framework"
+                                                    description="Intuitive, Fast and Composable MVVM for building interactive interfaces."
+                                                    quote="Vue is a progressive framework for building user interfaces."
+                                                    hashtags="vuejs,javascript,framework"
+                                                    twitter-user="vuejs"
+                                                    :networks="overriddenNetworks"
+                                                    v-cloak inline-template>
+
+
                                       {% for post in posts %}
                                              <div style="width:100%;" v-bind:id="'post-single-' + post.id" class="post-single-wrapper"> <!-- post single starts -->
                                                      <div style='width:100%;'> <!-- title starts -->
@@ -6694,10 +6707,7 @@
                                                             </div>
 
                                                             <div class="share-icon">
-
-                                                                  <social-shares inline-template>
-
-                                                                          <div class="facebook-share" style="height:24px;width:82px;">
+                                                                     <network network="facebook" id="facebook">
                                                                                  <i class="fa fa-facebook-square" style="height:24px;width:82px;">
 
                                                                                         <a title="Share "
@@ -6706,29 +6716,31 @@
 
                                                                                         </a>
                                                                                  </i>
-                                                                          </div>
-                                                                  </social-shares>
+
+                                                                     </network>
 
                                                             </div>
 
                                                             <div class="share-icon">
-                                                                  <social-shares inline-template>
-                                                                          <a title="Tweet" class="tweetbutton" @click="share('twitter')">Tweet</a>
-                                                                  </social-shares>
+
+                                                                  <network network="twitter" id="twitter">
+                                                                       <a title="Tweet" class="tweetbutton" @click="share('twitter')">Tweet</a>   
+                                                                  </network>
                                                             </div>
 
                                                             <div class="share-icon">
 
-                                                                  <social-shares inline-template>
-                                                                          <a class="btnz share gplus" @click="share('googleplus')"><i class="fa fa-google-plus"></i></a>
-                                                                  </social-shares>
+                                                                  <network network="googleplus" id="googleplus">
+                                                                        <a class="btnz share gplus" @click="share('googleplus')"><i class="fa fa-google-plus"></i></a>
+                                                                  </network>
 
                                                             </div>
                                                             <div class='clear'></div>  
                                                      </div> <!-- meta ends -->
                                              </div><!-- post single ends -->
                                       {% endfor %}
-
+                                     </social-sharing>
+                                    </div> <!-- sharedapp ends -->
                                              <div id="comments-section" class="comments-section"> <!--comments section starts -->
                                                       <div class="clear"></div>
                                                       <div id="comments-list"></div>

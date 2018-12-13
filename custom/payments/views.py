@@ -341,6 +341,9 @@ def send_confirmation_view(request):
         zipcode = request.data['zip']
         package_type = request.data.get('package_type', "General Payment")
 
+        log = Logger(log="AMOUNT {} TOKEN {} EMAIL {}".format(amount, token, email))
+        log.save()
+
         try:
             state = StateProvince.objects.get(id=int(state_id))
         except Exception as e:

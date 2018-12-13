@@ -3,6 +3,16 @@
             <html class="no-js" {% meta_namespaces_gplus %}>
              <!--<![endif]-->
             <head {% meta_namespaces %}>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130171617-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-130171617-1');
+</script>
+
             {% load static %}
             {% load gui_extras %}
             {% load blog_extras %}
@@ -55,7 +65,7 @@
               <!-- Include the jQuery library -->
               <script src="/static/js/jquery.js"></script>
               <script src="/static/js/jquery-migrate-1.2.1.js"></script>
-
+              <script src="/static/js/vue-js-modal/dist/index.js"></script>
 <!--
               <script src="/static/js/jquery.payment.min.js"></script>
 -->
@@ -75,8 +85,9 @@
                <script src="/static/js/perfect-scrollbar.min.js"></script>
 -->
 
+<!--
                <script src="/static/js/perfect-scrollbar.min.js"></script>
-
+-->
                <script src="https://unpkg.com/vue-scrollto"></script>
                <script src="https://unpkg.com/vue-scroll"></script>
                <!-- use the latest release -->
@@ -106,27 +117,9 @@
 
             <meta id="_token" value="{% csrf_token %}"> 
             <!-- Google Analytics -->
-    <!--
-            <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-            ga('create', 'UA-34075839-1', 'auto');
-            ga('send', 'pageview');
-            </script>
-    -->
-        <!-- Global Site Tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.
-        com/gtag/js?id=UA-34075839-1"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
 
-          gtag('config', 'UA-34075839-1');
-        </script>
+<!-- End Google Analytics -->
 
             <!-- End Google Analytics -->
             <script src="/static/js/jssor.slider.mini.js"></script>
@@ -227,8 +220,8 @@
                 }
 
             </style>
+            <script src="/static/js/perfect-scrollbar.min.js"></script>
             <script>
-                  var ps = new PerfectScrollbar('.scroll-container');
 
                   function readmore(id) {
                       var body = $('#full-'+id).val();
@@ -262,8 +255,11 @@
 
             </script>
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
 
             </head>
+
             <body>
             <form method="post">
             <input type="hidden" name="page-service" id="page-service" value="{{ service }}" />
@@ -1895,8 +1891,8 @@
                             <span class="icon3 fa fa-cloud-upload"></span>
                           </div>
                           <div class="box_cnt__no-flow">
-                            <h4><a href="#">Excepteur sint occaecat cupidatat non</a></h4>
-                            <p>Maur is vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nunc vehic ula pharetra. In dictum </p>
+                            <h4><a href="#">{% article_meta 5 1 %}</a></h4>
+                            <p> {% article_meta 5 2 %} </p>
                           </div>
                         </div>   
                         <div class="box">
@@ -1904,8 +1900,8 @@
                             <span class="icon3 fa fa-comments-o"></span>
                           </div>
                           <div class="box_cnt__no-flow">
-                            <h4><a href="#">Pestibulum molestieeneano nummy endreri tivam</a></h4>
-                            <p>Integer dapibus iaculis nunc vehic ula pharetra. In dictum magna nisl, ac volutpat sapien iaculis sed. Aliquam</p>
+                            <h4><a href="#">{% article_meta 6 1 %}</a></h4>
+                            <p>{% article_meta 6 2 %}</p>
                           </div>
                         </div>   
                         <div class="box">
@@ -1913,47 +1909,46 @@
                             <span class="icon3 fa fa-database"></span>
                           </div>
                           <div class="box_cnt__no-flow">
-                             <h4><a href="#">Hendreritivamus eget nibh vel metustiam cursus</a></h4>
-                            <p>Maur is vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nunc vehic ula pharetra. In dictum </p>
+                             <h4><a href="#">{% article_meta 7 1 %}</a></h4>
+                            <p>{% article_meta 7 2 %} </p>
                           </div>
                         </div> 
                       </div>
                       <div class="col-xs-12 col-sm-4">
                         <h3><span>Family Law</span> Practice Areas</h3>
-                        <h4 class="mt1">Excepteur sint occaecat cupidatat non</h4>
-                        <p>Praesent urna ipsum, tincidunt et lacus lacinia, venenatis ullamcorper purus. Maur is vel lobortis leo, sed ullamcorper neque. Integer dapibus iaculis nunc </p>
-                        <ul class="list2">
-                          <li><a href="#">Pestibulum molestieenean nonummys</a></li>
-                          <li><a href="#">Hendreritivamus eget nibh vel metus</a></li>
-                          <li><a href="#">Etiam cursus leo psum</a></li>
-                          <li><a href="#">Nulla facilisii primis neclaoreet</a></li>
-                          <li><a href="#">Aenean nec eros luctus suere itudin</a></li>
-                          <li><a href="#">Vestibulum ante faucibus orci augue nec</a></li>
-                          <li><a href="#">Ultrices posuere itudin pharetra</a></li>
-                          <li><a href="#">Suspendisse sollic velitauguedrerit sit amet</a></li>
-                          <li><a href="#">Nam elit agna enincidunt ac viverra</a></li>
-                        </ul>
+                        <h4 class="mt1">{% article_meta 8 1 %}</h4>
+                        <p>{% article_meta 8 2 %}</p>
                       </div>
                       <div class="col-xs-12 col-sm-4 wow fadeInRight">
                         <h3><span>Our</span> Testimonials</h3>
-                        <div class="box">
+                        <div class="box mt2">
                           <div class="box_aside3">
-                            <img src="/media/images/page-2_img06.jpg" alt="testimony"/>
+                            <img src="{% testimonial_meta 3 3 %}" alt="testimony"/>
                           </div>
                           <div class="box_cnt__no-flow">
-                            <p>Quisque finibus urna in venenatis semper. Do nec vitae mauris eget nibh effici tur porttitor.</p>
-                            <h4>Inga North</h4>                
+                            <p>{% testimonial_meta 3 2 %}</p>
+                            <h4>{% testimonial_meta 3 1 %}</h4>                
                           </div>
                         </div> 
                         <div class="box mt2">
                           <div class="box_aside3">
-                            <img src="/media/images/page-2_img07.jpg" alt="testimony"/>
+                            <img src="{% testimonial_meta 2 3 %}" alt="testimony"/>
                           </div>
                           <div class="box_cnt__no-flow">
-                            <p>Do nec vitae mauris eget nibh effici tur pottitor. Prae sent urna ipsum, tincidunt et lacus lacinia ven</p>
-                            <h4>Alan Smith</h4>                
+                            <p>{% testimonial_meta 2 2 %}</p>
+                            <h4>{% testimonial_meta 2 1 %}</h4>                
                           </div>
                         </div>            
+
+                        <div class="box mt2">
+                          <div class="box_aside3">
+                            <img src="{% testimonial_meta 4 3 %}" alt="testimony"/>
+                          </div>
+                          <div class="box_cnt__no-flow">
+                            <p>{% testimonial_meta 4 2 %}</p>
+                            <h4>{% testimonial_meta 4 1 %}</h4>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2865,10 +2860,34 @@
                       <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInLeft ">
                         <div id="new_york_packages">
                         </div>
+                        <div style="width:100%;">
+                           <div style="width:3%;font-size:0.9em;font-weight:bold;float:left;">* </div>
+                           <div style="width:96%;font-size:0.9em;font-weight:bold;float:left;">{% article_meta 3 2 %}</div>
+                           <div class="clear"></div>
+                        </div>
+
+                        <div style="width:100%;">
+                           <div style="width:3%;font-size:0.9em;font-weight:bold;float:left;">** </div>
+                           <div style="width:96%;font-size:0.9em;font-weight:bold;float:left;">{% article_meta 4 2 %}</div>
+                           <div class="clear"></div>
+                        </div>
+
                       </div>
                       <div class="col-md-6 col-sm-12 col-xs-12 wow fadeInRight">
                         <div id="new_jersey_packages">
                         </div>
+                        <div style="width:100%;">
+                           <div style="width:3%;font-size:0.9em;font-weight:bold;float:left;">* </div>
+                           <div style="width:96%;font-size:0.9em;font-weight:bold;float:left;">{% article_meta 3 2 %}</div>
+                           <div class="clear"></div>
+                        </div>
+
+                        <div style="width:100%;">
+                           <div style="width:3%;font-size:0.9em;font-weight:bold;float:left;">** </div>
+                           <div style="width:96%;font-size:0.9em;font-weight:bold;float:left;">{% article_meta 4 2 %}</div>
+                           <div class="clear"></div>
+                        </div>
+
                       </div>
                     </div>
                     <div class="row mt1">
@@ -3257,7 +3276,7 @@
                                                           id="consult_address1"
                                                           v-model="billing_address1"
                                                           placeholder="Address 1*"
-                                                          value="{% if logout %}{% billing_meta user_id 1 %}{% endif %}"
+                                                          value=""
                                                           data-constraints="@NotEmpty"/>
                                                  </label>
                                                  </div>
@@ -3269,7 +3288,7 @@
                                                           id="consult_address2"
                                                           v-model="billing_address2"
                                                           placeholder="Address 2"
-                                                          value="{% if logout %}{% billing_meta user_id 2 %}{% endif %}" />
+                                                          value="" />
                                                  </label>
                                                  </div>
 
@@ -3280,7 +3299,7 @@
                                                           id="consult_city"
                                                           v-model="billing_city"
                                                           placeholder="City *"
-                                                          value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
+                                                          value=""
                                                           data-constraints="@NotEmpty"/>
                                                  </label>
                                                  </div>
@@ -3300,7 +3319,7 @@
                                                           id="consult_zip"
                                                           v-model="billing_zip"
                                                           placeholder="Zip *"
-                                                          value="{% if logout %}{% billing_meta user_id 6 %}{% endif %}"
+                                                          value=""
                                                           data-constraints="@NotEmpty"/>
                                                  </label>
                                                  </div>
@@ -3322,7 +3341,7 @@
                                                                   id="consult_phone"
                                                                   v-model="billing_phone"
                                                                   placeholder="Phone"
-                                                                  value="{% if logout %} {% user_meta user_id 5 %} {% endif %}"
+                                                                  value=""
                                                                   data-constraints="@Phone"/>
                                                       </label>
 
@@ -3531,21 +3550,6 @@
                                                   </label>
                                                  </div>
 
-<!--
-                                                <div>
-                                                <label style="padding-top:1.9em;">
-                                                   <h6>Manner of Entry</h6>
-                                                   <input type="text"
-                                                          name="manner_of_entry"
-                                                          id="manner_of_entry"
-                                                          v-model="manner_of_entry"
-                                                          placeholder="Manner of entry *"
-                                                          value="{% if logout %}{% billing_meta user_id 3 %}{% endif %}"
-                                                          data-constraints="@LettersOnly @NotEmpty"/>
-                                                 </label>
-                                                 </div>
--->
-
                                                  <div style="float:left;padding-top:1.9em;margin-left:0em;">
                                                        <button class="btn4" v-on:click="submitfour"  id="consult_step_four">Next</button>
                                                  </div>
@@ -3641,7 +3645,6 @@
                                                  <div id="final_consultation_country_of_citizenship"></div>
                                                  <div id="final_consultation_number_of_children"></div>
                                                  <div id="final_consultation_marital_status"></div>
-                                                 <div id="final_consultation_manner_of_entry"></div>
 
                                                  <div>--------------------------------------------------------------------------------------------</div>
                                                  <div><h4><strong>Purpose of Consultation</strong></h4></div>
@@ -3802,7 +3805,7 @@
                                   /> 
                               </label> 
                               </div>
-
+                              <div id="contactus-phone-error"></div>
                               <div>
                               <label style="padding-top:1.9em;">
                                   <input type="text"
@@ -4545,15 +4548,12 @@
                              <input type="hidden" name="first" id="step_six_first" v-model="first"  />
                              <input type="hidden" name="last" id="step_six_last" v-model="last"  />
                              <input type="hidden" name="nameoncard" id="step_six_nameoncard" v-model="nameoncard"  />
-                             <input type="hidden" name="cardtype" id="step_six_cardtype" v-model="cardtype"  />
-                             <input type="hidden" name="cardtype" id="step_six_cardnumber" v-model="cardnumber"  />
                              <input type="hidden" name="address1" id="step_six_address1" v-model="address1"  />
                              <input type="hidden" name="address2" id="step_six_address2" v-model="address2"  />
                              <input type="hidden" name="phone" id="step_six_phone" v-model="phone"  />
                              <input type="hidden" name="city" id="step_six_city" v-model="city"  />  
-                             <input type="hidden" name="state" id="step_six_state" v-model="state"  />
+                             <input type="hidden" name="state" id="step_six_state" />
                              <input type="hidden" name="zip" id="step_six_zip" v-model="zip"  />
-                             <input type="hidden" name="expiration" id="step_six_expiration" v-model="expiration"  />
                              <input type="hidden" name="counter" id="counter" value=""/>
 
 
@@ -7594,6 +7594,16 @@
                 </div>
                 <hr/>
                 <div class="container">
+                     <div class="row">
+                        <div class="cols-sm-2"></div>
+                        <div class="cols-sm-8 list">{% article_meta 9 1 %}<br/>
+                                                    {% article_meta 9 3 %}<br/><br/>
+                                                    {% article_meta 2 3 %}</div>
+                        <div class="cols-sm-2"></div>
+                     </div>
+                </div>
+                <div class="container">
+
                   <center><p class="copy" style="padding-top:2%;">Grinberg & Segal Ã‚Â© <span id="copyright-year">2016</span> <a href="https://divorcesus.com">Privacy Policy</a></p></center>
                   <section style="width:290px;margin-top:-3.5%;padding-top:1%;padding-bottom:1%;margin-left:14%;margin-right:14%;">
                                    <div class="social-popout" style="float:left;width:10%;"><img src="/media/images/googleplus-32circle.png" /></div>
@@ -7956,7 +7966,9 @@
                  fjs.parentNode.insertBefore(js, fjs);
                }(document, 'script', 'facebook-jssdk'));
             </script>
-     <script>
+
+    
+        <script>
 
 
              // You can also pass in the default options
@@ -8013,26 +8025,27 @@ drift.load('4rmkw4ymhfay');
 <!-- End of Async Drift Code -->
 
             <script>
-            
+            var ps = new PerfectScrollbar('.scroll-container');            
              
-      Vue.use(SocialSharing);
-      new Vue({
-        el: '#shareapp',
-        data: {
-          overriddenNetworks: {
-            "test": {
-              "sharer": "https://google.com",
-              "type": "popup"
-            },
-          }
-        }
-      });
+            Vue.use(SocialSharing);
+
+            new Vue({
+                el: '#shareapp',
+                data: {
+                    overriddenNetworks: {
+                       "test": {
+                              "sharer": "https://google.com",
+                              "type": "popup"
+                       },
+                    }
+               }
+            });
+            Vue.use(VModal);
             </script>    
             </body>
             <script src="https://js.stripe.com/v3/"></script>
             <script src="/static/js/stripe_apps.js"></script>
             <script src="/static/js/vue_apps_v2.js"></script>
-
             </html>
 
 

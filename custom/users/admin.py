@@ -33,11 +33,11 @@ from forms import TestimonialModelForm
 class TestimonialAdmin(admin.ModelAdmin):
     bio = forms.CharField( widget=forms.Textarea )
     fieldsets = [
-      ('Body', {'classes': ('full-width',), 'fields': ('username','first_name','last_name','user','phone','email','body','avatar')})
+      ('Body', {'classes': ('full-width',), 'fields': ('username','first_name','last_name','user','phone','email', 'link_title', 'link', 'body','avatar')})
     ]
-    list_display = ('__str__', 'username', 'first_name', 'last_name', 'user', 'phone', 'email', 'body', 'admin_thumbnail')
+    list_display = ('__str__', 'username', 'first_name', 'last_name', 'user', 'phone', 'email', 'link_title', 'link', 'body', 'admin_thumbnail')
     admin_thumbnail = AdminThumbnail(image_field='avatar_thumbnail')
-    search_fields = ('username', 'first_name', 'last_name', 'user', 'phone', 'email', 'body')
+    search_fields = ('username', 'first_name', 'last_name', 'user', 'phone', 'email', 'link_title', 'link', 'body')
     formfield_overrides = {
         WYMEditorField: {'widget': AdminWYMEditorArea},
     }

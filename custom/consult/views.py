@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -134,15 +135,18 @@ def process_consultation_view(request):
                              source      = payment_token,
                              description = "Customer payment"
                       )
-        
+            payment_id = CustomerPayment.objects.latest('id').id + 1
             payment = CustomerPayment.objects.create(user=user,
                                                      charge=str(charge.id), 
-                                                     amount=float(price), 
+                                                     amount=float(price),
+                                                     invoice="GS-{}-{}".format(datetime.now().strftime('%Y-%m-%d'), payment_id), 
                                                      is_successful=True)
         else:
+            payment_id = CustomerPayment.objects.latest('id').id + 1
             payment = CustomerPayment.objects.create(user=user,
                                                      charge="free",
                                                      amount=0.0,
+                                                     invoice="GS-{}-{}".format(datetime.now().strftime('%Y-%m-%d'), payment_id), 
                                                      is_successful=True)
             
         billing_country_model = Country.objects.get(id=int(billing_country))
@@ -180,13 +184,14 @@ def process_consultation_view(request):
          
         marital = MaritalStatus.objects.get(id=int(marital_status))
 
+        payment_id = CustomerPayment.objects.latest('id').id + 1
         consultation = Consultation.objects.create(billing_address=billing_address,
                                                    individual_address=individual_address,
                                                    purpose=purpose,
                                                    status=status,
                                                    amount=float(price),
                                                    user=user,
-                                                   invoice="{}".format(payment.charge),
+                                                   invoice="{}".format(payment.invoice),
                                                    payment=payment,
                                                    billing_full_name=billing_full_name,
                                                    individual_full_name=individual_full_name,

@@ -27,18 +27,22 @@ function setup_stripe_three() {
     // Create an instance of the card Element.
     var card = elements.create('card', {style: style});
     // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element-three');
 
-    // Handle real-time validation errors from the card Element.
-    card.addEventListener('change', function(event) {
-      var displayError = document.getElementById('card-errors-three');
-      if (event.error) {
-        displayError.textContent = event.error.message;
-      } else {
-        displayError.textContent = '';
-      }
-    });
 
+    var ce = $('#card-element-three');
+
+    if (ce) {
+        card.mount('#card-element-three');
+        // Handle real-time validation errors from the card Element.
+        card.addEventListener('change', function(event) {
+            var displayError = document.getElementById('card-errors-three');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+    }
 
     // Handle form submission.
     var form = document.getElementById('payment-form-three');
@@ -99,22 +103,22 @@ function setup_stripe_two() {
     var card = elements.create('card', {style: style});
 
     // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element-two');
+    var ce = $('#card-element-two');
+  
+    if (ce) {
+        card.mount('#card-element-two');
 
-    // Handle real-time validation errors from the card Element.
-    card.addEventListener('change', function(event) {
-      var displayError = document.getElementById('card-errors-two');
+        // Handle real-time validation errors from the card Element.
+        card.addEventListener('change', function(event) {
+              var displayError = document.getElementById('card-errors-two');
 
-
-      if (event.error) {
-        displayError.textContent = event.error.message;
-      } else {
-        displayError.textContent = '';
-      }
-
-
-
-    });
+             if (event.error) {
+                 displayError.textContent = event.error.message;
+             } else {
+                 displayError.textContent = '';
+             }
+        });
+    }
 
     // Handle form submission.
     var form = document.getElementById('payment-form-two');
@@ -170,18 +174,23 @@ function setup_stripe_one() {
     // Create an instance of the card Element.
     var card = elements.create('card', {style: style});
     // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element-one');
 
-    // Handle real-time validation errors from the card Element.
-    card.addEventListener('change', function(event) {
-      var displayError = document.getElementById('card-errors-one');
-      if (event.error) {
-        displayError.textContent = event.error.message;
-      } else {
-        displayError.textContent = '';
-      }
-    });
+    var ce = $('#card-element-one');
 
+    if (ce) {
+
+        card.mount('#card-element-one');
+
+        // Handle real-time validation errors from the card Element.
+        card.addEventListener('change', function(event) {
+            var displayError = document.getElementById('card-errors-one');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+    }
     // Handle form submission.
     var form = document.getElementById('payment-form-one');
     form.addEventListener('submit', function(event) {

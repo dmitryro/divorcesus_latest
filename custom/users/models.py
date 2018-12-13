@@ -230,12 +230,18 @@ class Testimonial(models.Model):
     last_name = models.CharField(max_length=140, blank=True)
     body = models.CharField(max_length=1500, blank=True, null=True) 
     date_published = models.DateTimeField(auto_now_add=True)
+    link = models.CharField(max_length=1500, blank=True, null=True)
+    link_title = models.CharField(max_length=140, blank=True)
     avatar = models.ImageField(upload_to='avatars')
     avatar_thumbnail = ImageSpecField(source='avatar',
                                       processors=[ResizeToFill(100, 50)],
                                       format='JPEG',
                                       options={'quality': 60})
 
+
+    @property
+    def name(self):
+        return "{} {}".format(self.first_name, self.last_name)
 
     class Meta:
         verbose_name = 'Testimonial'

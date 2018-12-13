@@ -43,8 +43,8 @@ class PackageAdmin(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ['title', 'fees', 'price', 'is_available',
                                     'services', 'description', 'state', 
                                     'package_type',]}),)
-    list_display = ('title', 'fees', 'price','state', 'package_type',)
-    list_editable = ('id', 'title', 'fees', 'price', 'state', 'package_type',)
+    list_display = ('id', 'title', 'fees', 'price','state', 'package_type',)
+    list_editable = ('title', 'fees', 'price', 'state', 'package_type',)
 
     notes = (PackageNoteAdmin,)
     class Meta:

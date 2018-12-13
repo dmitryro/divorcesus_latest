@@ -27,301 +27,7 @@ divorcetypes['Contested'] = 1;
 divorcetypes_index[1]= 'Contested';
 divorcetypes_index[2] = 'Uncontested';
 divorcetypes_index[3] = 'Other';
-
-
-function on_mobile_qualify(state) {
-      $('#from-pricing').attr('value', null);
-      $('#package-id').attr('value', null);
-
-      if  (state==1) {
-             jQuery("#state-displayed").attr("style", "display:block;");
-             jQuery("#qualify-no-state").attr("style", "display:none;");
-             jQuery('input[id="state"][value="New York"]').prop("checked",true);
-             jQuery("#state-selected").attr("value","2");
-      }
-      else
-      if  (state==2) {
-             jQuery("#state-displayed").attr("style", "display:block;");
-             jQuery("#qualify-no-state").attr("style", "display:none;");
-             jQuery('input[id="state"][value="New Jersey"]').prop("checked",true);
-             jQuery("#state-selected").attr("value","1");
-      }
-      else
-      if  (state==0) {
-             jQuery("#state-displayed").attr("style", "display:none;");
-             jQuery("#qualify-no-state").attr("style", "display:block;");
-             jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
-             jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
-             jQuery("#qualify_progress_stepone").click();
-             jQuery('input[id="state"][value="New York"]').prop("checked",true);
-             jQuery("#state-selected").attr("value","2");
-             jQuery("#package-state").attr("value","New York");
-
-      }
-
-      $("#qualify_progress_stepone").click();
-      document.getElementById('search_block').style.display='none';
-      document.getElementById('home_block').style.display='none';
-      document.getElementById('about_block').style.display='none';
-      document.getElementById('services_block').style.display='none';
-      document.getElementById('pricing_block').style.display='none';
-      document.getElementById('contact_block').style.display='none';
-      document.getElementById('payment_block').style.display='none';
-      document.getElementById('property_block').style.display='none';
-      document.getElementById('protection_block').style.display='none';
-      document.getElementById('agreements_block').style.display='none';
-      document.getElementById('child_custody_block').style.display='none';
-      document.getElementById('child_support_block').style.display='none';
-      document.getElementById('spousal_support_block').style.display='none';
-      document.getElementById('contested_divorce_block').style.display='none';
-      document.getElementById('uncontested_divorce_block').style.display='none';
-      document.getElementById('domestic_violence_block').style.display='none';
-      document.getElementById('mediation_block').style.display='none';
-      document.getElementById('adoption_block').style.display='none';
-      document.getElementById('free_consultation_block').style.display='none';
-      document.getElementById('blog_block').style.display='none';
-      document.getElementById('faq_block').style.display='none';
-      document.getElementById('qualify_block').style.display='block';
-      document.getElementById('ask_block').style.display='none';
-      document.getElementById('consult_block').style.display='none';
-      $("#qualify-stepone").attr('class','active');
-      $("#qualify-steptwo").attr("style","display:none;");
-      $("#qualify-stepthree").attr("style","display:none;");
-      $("#qualify-stepfour").attr("style","display:none;");
-      $("#qualify-stepfive").attr("style","display:none;");
-      $("#qualify-stepsix").attr("style","display:none;");
-      $("#qualify-stepseven").attr("style","display:none;");
-
-      if (isMobile()) {
-          jQuery('body').scrollTop(500);
-      } else {
-          jQuery('body').scrollTop(100);
-      }
-      package_step_one();
-      return false;
-}
-
-function init_consult() {
-    for(var i=0; i<consult_visited.length; i++) {
-        consult_visited[i] = false;
-    }
-    return false();
-}
-
-function visit_consult(i) {
-    consult_visited[i] = true;
-    for(var j=i+1; j<consult_visited.length; j++) {
-        consult_visited[j] = false;
-    }
-    return false;
-}
-
-function init_payment() {
-    payment_visited[0] = false;
-    payment_visited[1] = false;
-    payment_visited[2] = false;
-    payment_visited[3] = false;
-    payment_visited[4] = false;
-    on_mobile_payment();
-    return false;
-}
-
-function packageChange(p) {
-//         if (!$('#state-selected').val()) {
-//             return; 
-//         }
-         let package_id =  $('#package-id').val();
-         let divorce_type = divorcetypes[p];
-         var state =  $('#state-selected').val();
-         if (!state) {
-             state = $('#state-pricelist-selected').val();
-             $('#state-selected').attr("value", state);
-         }
-         if (!state) {
-             state = 2;
-             $('#state-selected').attr("value", 2);
-         }
-         qvm.state = state;
-         qvm.packagechange(p);
-
-         var package_type = divorce_type;
-         let url = 'https://divorcesus.com/packages/?package_type='+package_type+'&state='+state;
-         var pkg = {};
-           $.get(url, function(msg) {
-                     let result = "<div style='width:100%;'>";
-                     for(var i=0; i<msg.length; i++) {
-                         packages.add(msg[i].id, msg[i].title);
-                         var str = "<div style='float:left;width:4%;margin-bottom:1.2em;'>";
-                         str = str + "<input type='hidden' id='selected-package-id' name='selected-package-id' value='0'/>";
-                         str = str + "<input type='hidden' id='selected-price' name='selected-price' value='0'/>";
-                         str = str + "<input type='hidden' id='package_open_"+i+"' name='package_open_"+i+"' value='0'/>";
-                   
-//                         str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' value='"+
-//                                    msg[i].id+"'>";
-                         
-                         if (i==0 && !$('#from-pricing').val()) {
-                           
-                            str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' checked=\"checked\"  value='"+
-                                    msg[i].id+"'>";
-                                    qvm.default_id = 0;
-                                    qvm.default_pack_id = msg[i].id;
-                                    qvm.default_price = msg[i].price;
-                                    price_changed(0, +msg[i].id, msg[i].price);
-  
-                         }
-                         else if (msg[i].id == package_id) {
-                            str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' checked=\"checked\"  value='"+
-                                    msg[i].id+"'>";
-                                    qvm.default_id = 0;
-                                    qvm.default_pack_id = msg[i].id;
-                                    qvm.default_price = msg[i].price;
-                                    price_changed(0, +msg[i].id, msg[i].price);
-                         } else {
-                            str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' value='"+
-                                    msg[i].id+"'>";
-                         }
-                         str = str + "</div>";
-
-                         str = str + "<div style='float:left;width:30%;margin-bottom:1.2em;'>"+msg[i].title+"</div>";
-                         str = str + "<div style='float:left;width:6%;margin-bottom:1.2em;'>"+msg[i].price+"</div>";
-                         str = str + "<div style='float:left;width:59%;margin-bottom:1.2em;'>"
-                         str = str + "<div style='width:100%;'>"+msg[i].description+"</div>";
-                         str = str + "<div class='clear'></div>";
-                         str = str + "<div style='width:80%; float:left;'>Services Included</div>";
-                         str = str + "<div style='width:15%; float:left;'>Price</div>";
-                         str = str + "<div id='toggle_"+i+"' style='width:4%; float:left;' onclick='toggle_service("+i+");'>v</div>";
-                         str = str + "<div class='clear'></div>";
-                         str = str + "<div id='services_"+i+"' style='width:100%; display: none;'>";
-
-                         for(var j=0; j<msg[i].services.length; j++) {
-                             str = str + "<div style='float:left;width:80%;'> - ";
-                             str = str + msg[i].services[j].title;
-                             str = str + "</div>";
-                             str = str + "<div style='float:left;width:19%;'>";
-                             str = str + msg[i].services[j].price;
-                             str = str + "</div>";
-                             str = str + "<div class='clear'></div>";
-                         }
-
-                         str = str + "</div>";
-                         str = str + "</div>";
-                         str = str + "</div>";
-
-                         str = str + "<div class='clear'></div>";
-                         result = result + str;
-
-                     }
-                     result = result + "</div>";
-                     $("#packages-choices").html(result);
-                     this.packages = packages;
-
-                     $.get('https://divorcesus.com/states', function(msg) {
-                         let result = "<select id='select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
-                         for(var i=0;i<msg.length;i++) {
-                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
-                         }
-                         result = result + "</select>";
-                         $("#qualify-state-choices").html(result);
-                    });
-
-                    $.get('https://divorcesus.com/countries', function(msg) {
-                         let result = "<select id='select-country' v-model='country' class='styled-select slate' style='width:100%;' >";
-                         for(var i=0;i<msg.length;i++) {
-                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
-                         }
-                         result = result + "</select>";
-                         $("#qualify-country-choices").html(result);
-                    });
-
-
-            });
-
-            $('#select-package option:eq('+eval(divorcetypes[p]-1)+')').prop('selected', true);
-
-    return false;
-}
-function Hash(){
-    var length=0;
-    this.add = function(key, val){
-         if(this[key] == undefined)
-         {
-           length++;
-         }
-         this[key]=val;
-    }; 
-    this.length = function(){
-        return length;
-    };
-}
-
-function qualify_step_zero(state) {
-   $('#from-pricing').attr("value", null);   
-   qvm.state = state;
-   $("#qualify_progress_stepone").click();
-   $('#state-selected').attr('value', state);
-   $('#state-pricelist-selected').attr('value', state);
-   $('#state-displayed').html(states[state]);
-   $('#select-package option:eq(1)').prop('selected', true);
-  
-   if (state==2) {
-         var result =  '<option selected value="2">New York</option>';
-         result = result+'<option value="1">New Jersey</option>';
-         $("#state-selected").html(result);
-
-   } 
-   packageChange('Uncontested');
-   package_step_one();
-   return false;
-}
-
-function toggle_service(service_id) {
-
-   if ($("#package_open_"+service_id).val() == 0) {
-       $("#package_open_"+service_id).attr('value', 1);
-       $("#services_"+service_id).css('display', 'block');
-       $("#toggle_"+service_id).html('x');
-   } else {
-       $("#package_open_"+service_id).attr('value', 0);
-       $("#services_"+service_id).css('display', 'none');
-       $("#toggle_"+service_id).html('v');
-   }
-
-   return false;
-}
-
-function mask_card(card) {
-    var suffix = card.substring(card.length-4);
-    var result = "**** **** **** "+suffix;
-    return result;
-}
-
-function price_changed(id, pack_id, price) {
-   $('#selected-package-id').attr('value', pack_id);
-   $('#selected-price').attr('value', price);
-   return false;
-}
-
-function package_selected(state, pack, pack_type, price) {
-    $('#package-id').attr('value', pack);
-    $('#state-selected').attr('value', state);
-    $('#state-pricelist-selected').attr('value', state);
-    $('#selected-package-id').attr('value', pack);
-    featured.state = state;
-    qvm.state = state;
-    qualify_step_zero(state);
-    $('#from-pricing').attr('value', "yes");
-    $('#select-package option:eq('+eval(pack_type-1)+')').prop('selected', true);
-    on_mobile_select_package(state, pack, pack_type, price);
-    qualify_step_zero(state);
-    jQuery("#state-selected").attr("value",state);
-    packageChange(divorcetypes_index[pack_type]);
-    on_mobile_qualify(state);
-    package_step_one();
-    $('input[name=package_selected][value="'+pack+'"').attr('checked', true);
-    return false;
-}
-
-
+/*
 var paymentmethod = new Vue({
   el: '#paymentmethod',
   data: {
@@ -348,7 +54,7 @@ var paymentmethod = new Vue({
     }
   }
 });
-
+*/
 var featured = new Vue({
   el: '#featured-packages',
   data: {
@@ -535,8 +241,10 @@ var qvm = new Vue({
   },
   created: function () {
                          let ch = document.getElementsByClassName("dropdown-toggle").firstChild;
-                         ch.remove();     
-                         ch.innerHTML = "<span class='selected-tag'>Uncontested</span>";
+                         if (ch) { 
+                             ch.remove();     
+                             ch.innerHTML = "<span class='selected-tag'>Uncontested</span>";
+                         }
                          let result = "<select id='select-package' class='styled-select slate' style='width:100%;' onchange='packageChange(this.value);'>";
                          for(var i=0;i<this.options.length;i++) {
                              result =  result+'<option value="'+this.options[i]+'">'+this.options[i]+'</option>';
@@ -568,10 +276,10 @@ var qvm = new Vue({
                          str = str + "<div style='float:left;width:30%;margin-bottom:1.2em;'>"+msg[i].title+"</div>";
                          str = str + "<div style='float:left;width:6%;margin-bottom:1.2em;'>"+msg[i].price+"</div>";
                          str = str + "<div style='float:left;width:59%;margin-bottom:1.2em;'>"
-                         str = str + "<div style='width:100%;'>"+msg[i].description+"</div>";
+                         str = str + "<div style='width:100%;'></div>";
                          str = str + "<div class='clear'></div>";
                          str = str + "<div style='width:80%; float:left;'>Services Included</div>";
-                         str = str + "<div style='width:15%; float:left;'>Price</div>";
+                         str = str + "<div style='width:15%; float:left;'></div>";
                          str = str + "<div id='toggle_"+i+"' style='width:4%; float:left;' onclick='toggle_service("+i+");'>v</div>";
                          str = str + "<div class='clear'></div>";
                          str = str + "<div id='services_"+i+"' style='width:100%; display: none;'>";
@@ -581,10 +289,18 @@ var qvm = new Vue({
                              str = str + msg[i].services[j].title;
                              str = str + "</div>";
                              str = str + "<div style='float:left;width:19%;'>";
-                             str = str + msg[i].services[j].price;
                              str = str + "</div>";
                              str = str + "<div class='clear'></div>";
                          }
+
+
+                             str = str + "<div style='float:left;width:80%;font-weight:bold;'>  ";
+                             str = str + "If you have questions about this package or additional services, please don't hesitate to contact us.";
+                             str = str + "</div>";
+                             str = str + "<div style='float:left;width:19%;'>";
+                             str = str + "</div>";
+                             str = str + "<div class='clear'></div>";
+
 
                          str = str + "</div>";
                          str = str + "</div>";
@@ -699,11 +415,11 @@ var qvm = new Vue({
         qvm2.package_selected = this.package_selected;
         qvm2.packages = packages;
   
-        $("#final-qualify-state").html("<h4><strong>State: "+states[this.state]+"</strong></h4>");
+        $("#final-qualify-state").html("<strong>State: "+states[this.state]+"</strong>");
 
-        $('#final-package-selected').html("<h4><strong>Package Selected: "+packages[this.package_selected]+"</strong></h4>");
+        $('#final-package-selected').html("<strong>Package Selected: "+packages[this.package_selected]+"</strong>");
  
-        $('#final-package-price').html("<h4><strong>Price: $"+this.package_price+"</strong></h4>");
+        $('#final-package-price').html("<strong>Price: $"+this.package_price+"</strong>");
 
 
         if (this.errors.length > 0) {
@@ -1159,7 +875,11 @@ var qvm4 = new Vue({
                $.get('https://divorcesus.com/states', function(msg) {
                          let result = "<select id='select-state-stepfive' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
-                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             if (msg[i].id===39) {
+                                 result =  result+'<option value="'+msg[i].id+'" selected="selected">'+msg[i].name+'</option>';
+                             } else {
+                                 result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             }
                          }
                          result = result + "</select>";
                          $("#qualify-state-stepfive-choices").html(result);
@@ -1258,7 +978,11 @@ var qvm4 = new Vue({
                $.get('https://divorcesus.com/states', function(msg) {
                          let result = "<select id='select-state-stepfive' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
-                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             if (msg[i].id===39) {
+                                 result =  result+'<option value="'+msg[i].id+'" selected="selected">'+msg[i].name+'</option>';
+                             } else {
+                                 result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             }
                          }
                          result = result + "</select>";
                          $("#qualify-state-stepfive-choices").html(result);
@@ -2393,7 +2117,11 @@ var vm2 = new Vue({
            $.get('https://divorcesus.com/states', function(msg) {
                          let result = "<select id='pay-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
-                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             if (msg[i].id===39) {
+                                 result =  result+'<option value="'+msg[i].id+'" selected="selected">'+msg[i].name+'</option>';
+                             } else {
+                                 result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             }
                          }
                          result = result + "</select>";
                          $("#pay-state-choices").html(result);
@@ -2469,7 +2197,11 @@ var vm2 = new Vue({
            $.get('https://divorcesus.com/states', function(msg) {
                          let result = "<select id='pay-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
-                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             if (msg[i].id===39) {
+                                 result =  result+'<option value="'+msg[i].id+'" selected="selected">'+msg[i].name+'</option>';
+                             } else {
+                                 result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             }
                          }
                          result = result + "</select>";
                          $("#pay-state-choices").html(result);
@@ -2861,6 +2593,7 @@ new Vue({
       phone:'',
       message:'',
       name:'',
+      errors: [],
   },
   options: {
   },
@@ -2876,6 +2609,41 @@ new Vue({
            $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
      },
      submit: function() {
+         this.errors = [];
+         $('#contactus-name-error').html("");
+         $('#contactus-email-error').html(""); 
+         $('#contactus-phone-error').html(""); 
+         $('#contactus-message-error').html("");  
+
+         if (!this.name) {
+             $('#contactus-name-error').html("<span class=\"name-error error\">Please provide your name!</span>");
+             $( "span.name-error" ).delay( 1000 ).fadeOut( 400 );
+             this.errors.push("Please provide your name!");
+         }
+
+         if (!this.email) {
+             $('#contactus-email-error').html("<span class=\"email-error error\">Please provide your email!</span>");
+             $( "span.email-error" ).delay( 1000 ).fadeOut( 400);
+             this.errors.push("Please provide your email!");
+         }
+
+         if (!this.phone) {
+             $('#contactus-phone-error').html("<span class=\"phone-error error\">Please provide your phone!</span>");
+             $( "span.phone-error" ).delay( 1000 ).fadeOut( 400 );
+             this.errors.push("Please provide your phone!"); 
+         }
+
+
+         if (!this.message) {
+             $('#contactus-message-error').html("<span class=\"message-error error\">Please provide your message!</span>");
+             $( "span.message-error" ).delay( 1000 ).fadeOut( 400 );
+             this.errors.push("Please provide your message!");
+         }
+
+         if (this.errors && this.errors.length > 0) {
+             return;
+         }
+
          $.get('https://divorcesus.com/sendmail?email='+this.email+'&phone='+this.phone+'&message='+this.message+'&name='+this.name, function(data)
                 {
                      if (data.message =='success')  {
@@ -3667,7 +3435,11 @@ var consultone = new Vue({
             $.get('https://divorcesus.com/states', function(msg) {
                      let result = "<select id='consult-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
-                         result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             if (msg[i].id===39) {
+                                 result =  result+'<option value="'+msg[i].id+'" selected="selected">'+msg[i].name+'</option>';
+                             } else {
+                                 result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             }
                      }
                      result = result + "</select>";
                      $("#consult-state-choices").html(result);
@@ -3751,6 +3523,7 @@ var consulttwo = new Vue({
      individual_phone: '',
      individual_email: '',
      country_of_citizenship: '',
+     nameoncard: '',
      number_of_children: '',
      manner_of_entry: '',
      marital_status: '',
@@ -3787,7 +3560,11 @@ var consulttwo = new Vue({
            $.get('https://divorcesus.com/states', function(msg) {
                      let result = "<select id='consult-individual-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
-                         result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             if (msg[i].id===39) {
+                                 result =  result+'<option value="'+msg[i].id+'" selected="selected">'+msg[i].name+'</option>';
+                             } else {
+                                 result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             }
                      }
                      result = result + "</select>";
                      $("#consult-individual-state-choices").html(result);
@@ -3827,7 +3604,11 @@ var consulttwo = new Vue({
             $.get('https://divorcesus.com/states', function(msg) {
                      let result = "<select id='consult-individual-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
-                         result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             if (msg[i].id===39) {
+                                 result =  result+'<option value="'+msg[i].id+'" selected="selected">'+msg[i].name+'</option>';
+                             } else {
+                                 result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             }
                      }
                      result = result + "</select>";
                      $("#consult-individual-state-choices").html(result);
@@ -4683,6 +4464,311 @@ function consult_step_pre_zero() {
             $("#consult-stepsix").css("display","none");
             $("#consult-stepseven").css("display","none");
             return false;
+}
+
+function on_mobile_qualify(state) {
+      $('#from-pricing').attr('value', null);
+      $('#package-id').attr('value', null);
+
+      if  (state==1) {
+             jQuery("#state-displayed").attr("style", "display:block;");
+             jQuery("#qualify-no-state").attr("style", "display:none;");
+             jQuery('input[id="state"][value="New York"]').prop("checked",true);
+             jQuery("#state-selected").attr("value","2");
+      }
+      else
+      if  (state==2) {
+             jQuery("#state-displayed").attr("style", "display:block;");
+             jQuery("#qualify-no-state").attr("style", "display:none;");
+             jQuery('input[id="state"][value="New Jersey"]').prop("checked",true);
+             jQuery("#state-selected").attr("value","1");
+      }
+      else
+      if  (state==0) {
+             jQuery("#state-displayed").attr("style", "display:none;");
+             jQuery("#qualify-no-state").attr("style", "display:block;");
+             jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
+             jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
+             jQuery("#qualify_progress_stepone").click();
+             jQuery('input[id="state"][value="New York"]').prop("checked",true);
+             jQuery("#state-selected").attr("value","2");
+             jQuery("#package-state").attr("value","New York");
+
+      }
+
+      $("#qualify_progress_stepone").click();
+      document.getElementById('search_block').style.display='none';
+      document.getElementById('home_block').style.display='none';
+      document.getElementById('about_block').style.display='none';
+      document.getElementById('services_block').style.display='none';
+      document.getElementById('pricing_block').style.display='none';
+      document.getElementById('contact_block').style.display='none';
+      document.getElementById('payment_block').style.display='none';
+      document.getElementById('property_block').style.display='none';
+      document.getElementById('protection_block').style.display='none';
+      document.getElementById('agreements_block').style.display='none';
+      document.getElementById('child_custody_block').style.display='none';
+      document.getElementById('child_support_block').style.display='none';
+      document.getElementById('spousal_support_block').style.display='none';
+      document.getElementById('contested_divorce_block').style.display='none';
+      document.getElementById('uncontested_divorce_block').style.display='none';
+      document.getElementById('domestic_violence_block').style.display='none';
+      document.getElementById('mediation_block').style.display='none';
+      document.getElementById('adoption_block').style.display='none';
+      document.getElementById('free_consultation_block').style.display='none';
+      document.getElementById('blog_block').style.display='none';
+      document.getElementById('faq_block').style.display='none';
+      document.getElementById('qualify_block').style.display='block';
+      document.getElementById('ask_block').style.display='none';
+      document.getElementById('consult_block').style.display='none';
+      $("#qualify-stepone").attr('class','active');
+      $("#qualify-steptwo").attr("style","display:none;");
+      $("#qualify-stepthree").attr("style","display:none;");
+      $("#qualify-stepfour").attr("style","display:none;");
+      $("#qualify-stepfive").attr("style","display:none;");
+      $("#qualify-stepsix").attr("style","display:none;");
+      $("#qualify-stepseven").attr("style","display:none;");
+
+      if (isMobile()) {
+          jQuery('body').scrollTop(500);
+      } else {
+          jQuery('body').scrollTop(100);
+      }
+      package_step_one();
+      return false;
+}
+
+function init_consult() {
+    for(var i=0; i<consult_visited.length; i++) {
+        consult_visited[i] = false;
+    }
+    return false();
+}
+
+function visit_consult(i) {
+    consult_visited[i] = true;
+    for(var j=i+1; j<consult_visited.length; j++) {
+        consult_visited[j] = false;
+    }
+    return false;
+}
+
+function init_payment() {
+    payment_visited[0] = false;
+    payment_visited[1] = false;
+    payment_visited[2] = false;
+    payment_visited[3] = false;
+    payment_visited[4] = false;
+    on_mobile_payment();
+    return false;
+}
+
+function packageChange(p) {
+//         if (!$('#state-selected').val()) {
+//             return; 
+//         }
+         let package_id =  $('#package-id').val();
+         let divorce_type = divorcetypes[p];
+         var state =  $('#state-selected').val();
+         if (!state) {
+             state = $('#state-pricelist-selected').val();
+             $('#state-selected').attr("value", state);
+         }
+         if (!state) {
+             state = 2;
+             $('#state-selected').attr("value", 2);
+         }
+
+         if (qvm) {
+             qvm.state = state;
+             qvm.packagechange(p);
+         }
+
+         var package_type = divorce_type;
+         let url = 'https://divorcesus.com/packages/?package_type='+package_type+'&state='+state;
+         var pkg = {};
+           $.get(url, function(msg) {
+                     let result = "<div style='width:100%;'>";
+                     for(var i=0; i<msg.length; i++) {
+                         packages.add(msg[i].id, msg[i].title);
+                         var str = "<div style='float:left;width:4%;margin-bottom:1.2em;'>";
+                         str = str + "<input type='hidden' id='selected-package-id' name='selected-package-id' value='0'/>";
+                         str = str + "<input type='hidden' id='selected-price' name='selected-price' value='0'/>";
+                         str = str + "<input type='hidden' id='package_open_"+i+"' name='package_open_"+i+"' value='0'/>";
+                   
+//                         str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' value='"+
+//                                    msg[i].id+"'>";
+                         
+                         if (i==0 && !$('#from-pricing').val()) {
+                           
+                            str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' checked=\"checked\"  value='"+
+                                    msg[i].id+"'>";
+                                    qvm.default_id = 0;
+                                    qvm.default_pack_id = msg[i].id;
+                                    qvm.default_price = msg[i].price;
+                                    price_changed(0, +msg[i].id, msg[i].price);
+  
+                         }
+                         else if (msg[i].id == package_id) {
+                            str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' checked=\"checked\"  value='"+
+                                    msg[i].id+"'>";
+                                    qvm.default_id = 0;
+                                    qvm.default_pack_id = msg[i].id;
+                                    qvm.default_price = msg[i].price;
+                                    price_changed(0, +msg[i].id, msg[i].price);
+                         } else {
+                            str = str + "<input type='radio' onclick='price_changed("+i+","+msg[i].id+","+msg[i].price+")'  name='package_selected' value='"+
+                                    msg[i].id+"'>";
+                         }
+                         str = str + "</div>";
+
+                         str = str + "<div style='float:left;width:30%;margin-bottom:1.2em;'>"+msg[i].title+"</div>";
+                         str = str + "<div style='float:left;width:6%;margin-bottom:1.2em;'>"+msg[i].price+"</div>";
+                         str = str + "<div style='float:left;width:59%;margin-bottom:1.2em;'>"
+                         str = str + "<div style='width:100%;'></div>";
+                         str = str + "<div class='clear'></div>";
+                         str = str + "<div style='width:80%; float:left;'>Services Included</div>";
+                         str = str + "<div style='width:15%; float:left;'></div>";
+                         str = str + "<div id='toggle_"+i+"' style='width:4%; float:left;' onclick='toggle_service("+i+");'>v</div>";
+                         str = str + "<div class='clear'></div>";
+                         str = str + "<div id='services_"+i+"' style='width:100%; display: none;'>";
+
+                         for(var j=0; j<msg[i].services.length; j++) {
+                             str = str + "<div style='float:left;width:80%;'> - ";
+                             str = str + msg[i].services[j].title;
+                             str = str + "</div>";
+                             str = str + "<div style='float:left;width:19%;'>";
+                             str = str + "</div>";
+                             str = str + "<div class='clear'></div>";
+                         }
+
+                             str = str + "<div style='float:left;width:80%;font-weight:bold;'>  ";
+                             str = str + "If you have questions about this package or additional services, please don't hesitate to contact us.";
+                             str = str + "</div>";
+                             str = str + "<div style='float:left;width:19%;'>";
+                             str = str + "</div>";
+                             str = str + "<div class='clear'></div>";
+
+                         str = str + "</div>";
+                         str = str + "</div>";
+                         str = str + "</div>";
+
+                         str = str + "<div class='clear'></div>";
+                         result = result + str;
+
+                     }
+                     result = result + "</div>";
+                     $("#packages-choices").html(result);
+                     this.packages = packages;
+
+                     $.get('https://divorcesus.com/states', function(msg) {
+                         let result = "<select id='select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
+                         for(var i=0;i<msg.length;i++) {
+                             if (msg[i].id===39) {
+                                 result =  result+'<option value="'+msg[i].id+'" selected="selected">'+msg[i].name+'</option>';
+                             } else {
+                                 result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                             }
+                         }
+                         result = result + "</select>";
+                         $("#qualify-state-choices").html(result);
+                    });
+
+                    $.get('https://divorcesus.com/countries', function(msg) {
+                         let result = "<select id='select-country' v-model='country' class='styled-select slate' style='width:100%;' >";
+                         for(var i=0;i<msg.length;i++) {
+                             result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
+                         }
+                         result = result + "</select>";
+                         $("#qualify-country-choices").html(result);
+                    });
+
+
+            });
+
+            $('#select-package option:eq('+eval(divorcetypes[p]-1)+')').prop('selected', true);
+
+    return false;
+}
+function Hash(){
+    var length=0;
+    this.add = function(key, val){
+         if(this[key] == undefined)
+         {
+           length++;
+         }
+         this[key]=val;
+    }; 
+    this.length = function(){
+        return length;
+    };
+}
+
+function qualify_step_zero(state) {
+   $('#from-pricing').attr("value", null);   
+   qvm.state = state;
+   $("#qualify_progress_stepone").click();
+   $('#state-selected').attr('value', state);
+   $('#state-pricelist-selected').attr('value', state);
+   $('#state-displayed').html(states[state]);
+   $('#select-package option:eq(1)').prop('selected', true);
+  
+   if (state==2) {
+         var result =  '<option selected value="2">New York</option>';
+         result = result+'<option value="1">New Jersey</option>';
+         $("#state-selected").html(result);
+
+   } 
+   packageChange('Uncontested');
+   package_step_one();
+   return false;
+}
+
+function toggle_service(service_id) {
+
+   if ($("#package_open_"+service_id).val() == 0) {
+       $("#package_open_"+service_id).attr('value', 1);
+       $("#services_"+service_id).css('display', 'block');
+       $("#toggle_"+service_id).html('x');
+   } else {
+       $("#package_open_"+service_id).attr('value', 0);
+       $("#services_"+service_id).css('display', 'none');
+       $("#toggle_"+service_id).html('v');
+   }
+
+   return false;
+}
+
+function mask_card(card) {
+    var suffix = card.substring(card.length-4);
+    var result = "**** **** **** "+suffix;
+    return result;
+}
+
+function price_changed(id, pack_id, price) {
+   $('#selected-package-id').attr('value', pack_id);
+   $('#selected-price').attr('value', price);
+   return false;
+}
+
+function package_selected(state, pack, pack_type, price) {
+    $('#package-id').attr('value', pack);
+    $('#state-selected').attr('value', state);
+    $('#state-pricelist-selected').attr('value', state);
+    $('#selected-package-id').attr('value', pack);
+    featured.state = state;
+    qvm.state = state;
+    qualify_step_zero(state);
+    $('#from-pricing').attr('value', "yes");
+    $('#select-package option:eq('+eval(pack_type-1)+')').prop('selected', true);
+    on_mobile_select_package(state, pack, pack_type, price);
+    qualify_step_zero(state);
+    jQuery("#state-selected").attr("value",state);
+    packageChange(divorcetypes_index[pack_type]);
+    on_mobile_qualify(state);
+    package_step_one();
+    $('input[name=package_selected][value="'+pack+'"').attr('checked', true);
+    return false;
 }
 
 jQuery(document).ready(function() {

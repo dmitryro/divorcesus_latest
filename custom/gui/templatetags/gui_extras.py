@@ -18,6 +18,7 @@ from custom.users.models import MileStone
 from custom.users.models import Advantage
 from custom.users.models import AdvantageLink
 from custom.gui.models import Logo
+from custom.users.models import Testimonial
 from custom.gui.models import ContactInfo
 from custom.gui.models import Service
 from custom.gui.models import Article
@@ -255,7 +256,7 @@ def article_meta(a, b,  *args, **kwargs):
     try:
         try:
             article = Article.objects.get(id=int(a))
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):
@@ -301,6 +302,32 @@ def member_meta(a, b,  *args, **kwargs):
 
     except NameError:
         print "No result for this id"
+
+"""
+ Testimonial meta
+"""
+@register.simple_tag
+def testimonial_meta(a, b,  *args, **kwargs):
+
+    try:
+        try:
+            testimonial = Testimonial.objects.get(id=int(a))
+        except Exception as ex:
+            return ""
+
+        if (b==1):
+            return h.handle(testimonial.name)
+        elif (b==2):
+            return h.handle(testimonial.body)
+        elif (b==3):
+            return "https://divorcesus.com/media/{}".format(testimonial.avatar)
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+
 
 """
  Get the logo meta

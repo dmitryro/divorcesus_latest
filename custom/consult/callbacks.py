@@ -62,6 +62,7 @@ def process_consult_request_email(consultation, contact):
         path = "templates/new_consultation_request.html"
 
         try:
+            payment = consultation
             f = codecs.open(path, 'r')
 
             m = f.read()
@@ -74,8 +75,15 @@ def process_consult_request_email(consultation, contact):
                 str_amount += "0"
 
             mess = string.replace(mess, '[paid]', str_amount)
-            mess = string.replace(mess,'[email]', contact.email)
-            mess = string.replace(mess,'[invoice]', "to be set")
+            mess = string.replace(mess, '[fullname]', str(payment.individual_full_name))
+            mess = string.replace(mess, '[invoice]', str(payment.payment.invoice))
+            mess = string.replace(mess, '[address1]', str(payment.billing_address.address1))
+            mess = string.replace(mess, '[address2]', str(payment.billing_address.address2))
+            mess = string.replace(mess, '[city]', str(payment.billing_address.city))
+            mess = string.replace(mess, '[state]', str(payment.billing_address.state_province.name))
+            mess = string.replace(mess, '[zip]', str(payment.billing_address.zip_or_postal))
+            mess = string.replace(mess, '[phone]', str(payment.billing_phone))
+            mess = string.replace(mess, '[email]', str(payment.individual_email))
             mess = string.replace(mess,'[greeting]', '')
             mess = string.replace(mess,'[greeting_statement]','New consultation request from a customer.')
             mess = string.replace(mess,'[wait_statement]',"To be processed by the office.")
@@ -136,6 +144,8 @@ def process_consult_confirmation_email(consultation, contact):
         path = "templates/new_consultation_confirmation.html"
 
         try:
+            payment = consultation
+
             f = codecs.open(path, 'r')
 
             m = f.read()
@@ -156,8 +166,17 @@ def process_consult_confirmation_email(consultation, contact):
             line1 = "<p>Please give us 1 to 3 busintess days to follow up.</p>"
             line2 = "<p>Truly Yours,<br/>"
             line3 = "Grinberg and Segal Family Law Division</p>"
+            mess = string.replace(mess, '[fullname]', str(payment.individual_full_name))
+            mess = string.replace(mess, '[invoice]', str(payment.payment.invoice))
+            mess = string.replace(mess, '[address1]', str(payment.billing_address.address1))
+            mess = string.replace(mess, '[address2]', str(payment.billing_address.address2))
+            mess = string.replace(mess, '[city]', str(payment.billing_address.city))
+            mess = string.replace(mess, '[state]', str(payment.billing_address.state_province.name))
+            mess = string.replace(mess, '[zip]', str(payment.billing_address.zip_or_postal))
+            mess = string.replace(mess, '[phone]', str(payment.billing_phone))
+            mess = string.replace(mess, '[email]', str(payment.individual_email))
 
-            mess = string.replace(mess,'[wait_statement]',"{}{}{}".format(line1, line2, line3))
+            mess = string.replace(mess, '[wait_statement]',"{}{}{}".format(line1, line2, line3))
             mess = string.replace(mess, '[greeting_global_link]', 'Gringerg and Segal Family Law Division')
             mess = string.replace(mess, '[global_link]', 'https://divorcesus.com')
             mess = string.replace(mess, '[greeting_locale]', 'New York, NY, USA')

@@ -169,7 +169,7 @@
         $("#qualify_progress_steptwo").bind("click",function() {
 
             counter = 1;
- 
+            alert('and this'); 
             $("#qualify-stepone").css("display","none");
             $("#qualify-steptwo").css("display","block");
             $("#qualify-stepthree").css("display","none");

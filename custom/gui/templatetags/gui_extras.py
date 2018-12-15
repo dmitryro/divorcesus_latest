@@ -26,6 +26,7 @@ from custom.gui.models import AskTemplate
 from custom.gui.models import ConsultTemplate
 from custom.gui.models import FrontBlock
 from custom.services.models import Package
+from custom.services.models import PackageTerm
 from custom.messaging.models import Message
 from custom.payments.models import CreditCard
 from custom.payments.models import Address
@@ -239,6 +240,26 @@ def aboutus_meta(a, b,  *args, **kwargs):
 
         elif (b==4):
             return aboutus.avatar
+
+    except TypeError:
+        print "Invalid argument type"
+
+    except NameError:
+        print "No result for this id"
+
+"""
+ Package term meta
+"""
+@register.simple_tag
+def package_meta(a, *args, **kwargs):
+
+    try:
+        try:
+            term = PackageTerm.objects.get(id=int(a))
+        except Exception as r:
+            return ""
+
+        return h.handle(term.term)
 
     except TypeError:
         print "Invalid argument type"
@@ -476,15 +497,6 @@ def contact_meta(a, b,  *args, **kwargs):
 @register.simple_tag
 def faq_meta(a,   *args, **kwargs):
     return  h.handle(unicode(a)) #html2text(q)
-
-
-@register.simple_tag
-def package_meta(a, b, *args, **kwargs):
-    try:
-        pass
-    except Exception as e:
-        pass
-
 
 
 

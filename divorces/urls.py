@@ -33,6 +33,7 @@ from rest_framework.authtoken import views as drf_views
 from custom.consult.views import ChildrenViewSet
 from custom.consult.views import MaritalStatusViewSet
 from custom.consult.views import process_consultation_view
+from custom.consult.views import verify_invoice_view
 from custom.gui.models import Service, FAQ
 from custom.gui.sitemaps import StaticViewSitemap
 from custom.gui.views import resend_activation_view
@@ -190,7 +191,7 @@ urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
 
 
-    url(r'^chatbot/', include('custom.chatbot.urls')),
+   # url(r'^chatbot/', include('custom.chatbot.urls')),
     url(r'^api-auth/', include('rest_framework.urls', 
                        namespace='rest_framework')), 
     url(r'^django-rq/', include('django_rq.urls')),
@@ -244,6 +245,7 @@ urlpatterns = [
     url(r'^deletebilling/$', delete_address_view),
     url(r'^readbilling/$', read_addresses_view),
     url(r'^duplication/$', msg_duplication_view),
+    url(r'^verifyinvoice/$', verify_invoice_view),
     url(r'^pastpayments/(?P<user_id>.+)/$', PaymentsList.as_view()),
     url(r'^msgsettings/(?P<user_id>.+)/$', MessagingSettingsList.as_view()),
     url(r'^tmlist/$', TeamMemberList.as_view()),
@@ -323,7 +325,8 @@ urlpatterns = [
     url(r'^readpaymentmethods/$', read_payment_methods_view),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'zebra/',   include('zebra.urls',  namespace="zebra",  app_name='zebra') ),
+    url(r'^djga/', include('google_analytics.urls')),
+    #url(r'zebra/',   include('zebra.urls',  namespace="zebra",  app_name='zebra') ),
    # url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps':

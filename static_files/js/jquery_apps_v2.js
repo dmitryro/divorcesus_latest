@@ -199,7 +199,7 @@
 
         $("#qualify_next_one").bind("click", qualify_next_one);
 
-        $("#qualify_next_two").bind("click", qualify_next_two);
+        //$("#qualify_next_two").bind("click", qualify_next_two);
 
 
         $("#qualify_next_six").bind("click", qualify_next_six);

@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.conf import settings
 
+from rest_framework import status
 from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
@@ -213,4 +214,18 @@ def process_consultation_view(request):
     return Response({'message':'success','s3_base_url':"blablabla"})
 
 
+@api_view(['POST', 'GET'])
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def verify_invoice_view(request):
+    try:
+        invoice = request.data.get("invoice", '')
+        consultation = Consultation.objects.get(invoice=invoice)
+        return Response({'status_code':200, 'message':'success'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        log = Logger(log="Confirming invoice - something went wrong for invoice {} - {}".format(invoice, e))
+        log.save()
+        return Response({'status_code':400, 'message':'invoice error {}'.format(e)}, status=status.HTTP_400_BAD_REQUEST)
+ 
+   
 consult_send_confirmation_email.connect(consult_send_confirmation_email_handler)

@@ -409,7 +409,8 @@ var qvm = new Vue({
         qvm2.email = email;
         qvm2.package_type = this.package_type;
         qvm2.package_price = this.package_price;
-        
+        qvm2.packages = packages;
+ 
         $("#price-to-pay").attr("value",this.package_price);
         
         qvm2.package_selected = this.package_selected;
@@ -425,6 +426,7 @@ var qvm = new Vue({
         if (this.errors.length > 0) {
             return;
         } else {
+            counter = 1;
             package_visited[1] = true;
         }
 
@@ -511,6 +513,8 @@ var qvm2 = new Vue({
     does_spouse_agree:'',
     is_military:'',
     package_type:'',
+    reference_number: '',
+    is_package_accepted: '',
     email:'',
     phone:'',
     first:'',
@@ -531,45 +535,97 @@ var qvm2 = new Vue({
            this.does_qualify = 'NO'
            this.state = $('#state-selected').val();
     },
-    submittwo: function (event) {
-           setup_stripe_two();
+    submittwo: function (event) { 
            this.errors = [];
-           this.state = qvm.state;
-           this.package_selected = qvm.package_selected;
-           this.package_price = qvm.package_price;
-           this.package_type = qvm.package_type;
-           this.is_spouse_location_known = qvm.is_spouse_location_known;
-           this.are_there_children = qvm.are_there_children;
-           this.does_spouse_agree = qvm.does_spouse_agree;
-           this.is_military = qvm.is_military;
-           this.state = qvm.state;
-           this.address_state = $('#select-state').val();
-           this.first = qvm.first;
-           this.last = qvm.last;
-           this.email = qvm.email;
-           this.user_id = qvm.user_id;   
-           this.package_state = this.state;
-           qvm3.packages = this.packages;
-           qvm3.first = this.first;
-           qvm3.last = this.last;
-           qvm3.email = this.email;
-           qvm3.address_state = this.address_state;
-           qvm3.package_state = this.package_state;
-           qvm3.state = this.state;
-           qvm3.user_id = this.user_id;
-           qvm3.package_type = this.package_type;
-           qvm3.package_price = this.package_price;
-           qvm3.package_selected = this.package_selected;
-           $("#price-to-pay").attr("value",this.package_price);
-           $("#step_three_package").html(this.packages[this.package_selected]);
-           $("#step_three_state").html(states[this.state]);
-           $("#step_three_price").html(this.package_price);   
+           var errors = [];
+           if(this.is_package_accepted) {
+                $('#is_package_accepted_errors').html("");
+           } else {
+                $( "div.package.error" ).fadeIn( 300 ).delay( 1000 ).fadeOut( 400 );
+                $('#is_package_accepted_errors').html("<span class=\"package error\">Please confirm..</span>");
+                errors.push("Must be accepted");
+           }
+ 
 
-           if (this.errors.length > 0) {
+           if (!this.reference_number) {
+               $( "div.invoice.error" ).fadeIn( 300 ).delay( 1000 ).fadeOut( 400 );
+               errors.push("Reference number is required");
+               $('#invoice_errors').html("<span class=\"invoice error\">Pease provide a valid reference number!</span>");
                return;
            } else {
-               package_visited[2] = true;               
+
+             var arr = {"invoice": this.reference_number};
+             $.ajax({
+                    type: "POST",
+                    url: "https://divorcesus.com/verifyinvoice/",
+                    crossDomain: true,
+                    data: JSON.stringify(arr),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function(data) {
+                         if (data.message =='success')  {
+                            setup_stripe_two();
+                            this.state = qvm.state;
+                            this.package_selected = qvm.package_selected;
+                            this.package_price = qvm.package_price;
+                            this.package_type = qvm.package_type;
+                            this.is_spouse_location_known = qvm.is_spouse_location_known;
+                            this.are_there_children = qvm.are_there_children;
+                            this.does_spouse_agree = qvm.does_spouse_agree;
+                            this.is_military = qvm.is_military;
+                            this.state = qvm.state;
+                            this.address_state = $('#select-state').val();
+                            this.first = qvm.first;
+                            this.last = qvm.last;
+                            this.email = qvm.email;
+                            this.user_id = qvm.user_id;
+                            this.package_state = this.state;
+                            qvm3.packages = this.packages;
+                            qvm3.first = this.first;
+                            qvm3.last = this.last;
+                            qvm3.email = this.email;
+                            qvm3.address_state = this.address_state;
+                            qvm3.package_state = this.package_state;
+                            qvm3.state = this.state;
+                            qvm3.user_id = this.user_id;
+                            qvm3.package_type = this.package_type;
+                            qvm3.package_price = this.package_price;
+                            qvm3.package_selected = this.package_selected;
+                            $("#price-to-pay").attr("value",this.package_price);
+                            $("#step_three_package").html(qvm.packages[this.package_selected]);
+                            $("#step_three_state").html(states[this.state]);
+                            $("#step_three_price").html(this.package_price);
+
+                            if (errors.length==0) {
+                                package_visited[2] = true;
+                                counter = 2;
+                                package_step_three();
+                            }
+
+                            return;
+
+                         } else {
+                             $( "div.invoice.error" ).fadeIn( 300 ).delay( 1000 ).fadeOut( 400 );
+                             this.errors.push("Reference number is required");
+                             $('#invoice_errors').html("<span class=\"invoice error\">Pease provide a valid reference number!</span>");
+                         }
+                    },
+                    error: function(data){
+                         errors.push("Invalid invoice");
+
+                         $( "div.invoice.error" ).fadeIn( 300 ).delay( 1000 ).fadeOut( 400 );
+                         $('#invoice_errors').html("<span class=\"invoice error\">Pease provide a valid reference number!</span>");
+
+                    }
+             });
+             this.errors = errors;
+
+           } 
+           
+           if (this.errors.length > 0) {
+               return;
            }
+
     },
 
     submitthree: function (event) {
@@ -729,6 +785,7 @@ var qvm3 = new Vue({
                if (this.errors.length > 0) {
                    return;
                } else {
+                   counter = 3;
                    package_visited[3] = true;
                    qualify_progress_step_three();
                    qualify_next_three();
@@ -839,7 +896,7 @@ var qvm4 = new Vue({
   },
   methods: {
     redirect: function (event) {
-           this.state = $('#state-selected').val();
+               this.state = $('#state-selected').val();
 
                $("#name_on_card_by_state").html("<p>Name on Card: "+this.nameoncard.toString()+"</p>");
                $('.validation').removeClass('text-danger text-success');
@@ -939,6 +996,7 @@ var qvm4 = new Vue({
                        return;
                    }
                    setup_stripe_two();
+                   counter = 4;
                    package_visited[4] = true;
                    qualify_progress_step_four();
                    qualify_next_four();
@@ -1093,6 +1151,7 @@ var qvm5 = new Vue({
                if (this.errors.length > 0) {
                    return;
                } else {
+                   counter = 5;
                    package_visited[5] = true;
                    qualify_progress_step_five();
                    qualify_next_five();
@@ -1251,6 +1310,7 @@ var qvm6 = new Vue({
              if (this.errors.length > 0) {
                  return;
              } else {
+                 counter = 6;
                  package_visited[6] = true;
              }
 
@@ -4750,6 +4810,28 @@ function price_changed(id, pack_id, price) {
    $('#selected-price').attr('value', price);
    return false;
 }
+async function validate_invoice(invoice) {
+    var arr = {"invoice_number": invoice};
+
+    await $.ajax({
+        type: "POST",
+        url: "https://divorcesus.com/verifyinvoice/",
+        crossDomain: true,
+        data: JSON.stringify(arr),
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+                       return true;
+        },
+        error: function (data) {
+                        return false;
+        },
+        cache: false,
+    }).fail(function (jqXHR, textStatus, error) {
+                   return false;
+    });
+    return false;
+}
 
 function package_selected(state, pack, pack_type, price) {
     $('#package-id').attr('value', pack);
@@ -4773,6 +4855,25 @@ function package_selected(state, pack, pack_type, price) {
 
 jQuery(document).ready(function() {
     
+    jQuery('#qualify_progress_steptwo').click(function(e) {
+            $("#qualify-stepone").css("display","none");
+            $("#qualify-steptwo").css("display","block");
+            $("#qualify-stepthree").css("display","none");
+            $("#qualify-stepfour").css("display","none");
+            $("#qualify-stepfive").css("display","none");
+            $("#qualify-stepsix").css("display","none");
+            $("#qualify-stepseven").css("display","none");
+            $("#qualify-stepeight").css("display","none");
+
+            $("#qualify-wizard :nth-child(1)").removeAttr('class');
+            $("#qualify-wizard :nth-child(2)").attr('class','active');
+            $("#qualify-wizard :nth-child(3)").removeAttr('class');
+            $("#qualify-wizard :nth-child(4)").removeAttr('class');
+            $("#qualify-wizard :nth-child(5)").removeAttr('class');
+            $("#qualify-wizard :nth-child(6)").removeAttr('class');
+            $("#qualify-wizard :nth-child(7)").removeAttr('class');
+            $("#qualify-wizard :nth-child(8)").removeAttr('class');
+    });
     jQuery('#add-billing-address').click(function(e) {
            jQuery('#add-billing-address-body').css('display','block');
     });

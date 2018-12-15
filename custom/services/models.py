@@ -71,8 +71,17 @@ class PackageNote(models.Model):
         verbose_name_plural = 'Package Notes'
 
 
+class PackageTerm(models.Model):
+    term = models.CharField(max_length=500, blank=True, null=True)
 
+    def __str__(self):
+        return self.term
 
+    class Meta:
+        verbose_name = 'Package Term'
+        verbose_name_plural = 'Package Terms'
+   
+ 
 
 
 

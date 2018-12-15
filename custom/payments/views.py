@@ -23,6 +23,7 @@ from custom.payments.models import State
 from custom.payments.models import CustomerPayment
 
 from django.contrib.auth import logout
+from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view, renderer_classes, permission_classes
 from rest_framework import generics
@@ -357,7 +358,7 @@ def send_confirmation_view(request):
     except Exception as e:
         log = Logger(log="Something went -  wrong {}".format(e))
         log.save()
-        return Response({'message':'card processing error {}'.format(e)})
+        return Response({'message':'card processing error {}'.format(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
     try:
@@ -372,7 +373,7 @@ def send_confirmation_view(request):
     except Exception as e:
         log = Logger(log="Something went --  wrong {}".format(e))
         log.save()
-        return Response({'message':'card processing error {}'.format(e)})
+        return Response({'message':'card processing error {}'.format(e)},  status=status.HTTP_400_BAD_REQUEST)
 
 
     if request.user.is_authenticated():
@@ -391,7 +392,7 @@ def send_confirmation_view(request):
     except Exception as e:
         log = Logger(log="Something went ---  wrong {}".format(e))
         log.save()
-        return Response({'message':'card processing error {}'.format(e)})
+        return Response({'message':'card processing error {}'.format(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         payment = Payment.objects.create(payment=customer_payment, 
@@ -409,11 +410,11 @@ def send_confirmation_view(request):
                                          package_price=package_price,
                                          message="Customer Payment")
         payment_send_confirmation_email.send(sender=User, contact=contact, payment=payment)
-        return Response({'message':'success'}) 
+        return Response({'message':'success'}, status=status.HTTP_200_OK) 
     except Exception as e:
         log = Logger(log="Something went ----  wrong {}".format(e))
         log.save()
-        return Response({'message':'card processing error {}'.format(e)})
+        return Response({'message':'card processing error {}'.format(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST', 'GET'])
 @renderer_classes((JSONRenderer,))

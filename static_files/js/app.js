@@ -668,6 +668,7 @@ new Vue({
 
       $("#qualify_progress_steptwo").bind("click",function() {
                      counter = 1;
+                     alert('da kase');
                      $("#qualify-stepone").css("display","none");
                      $("#qualify-steptwo").css("display","block");
                      $("#qualify-stepthree").css("display","none");

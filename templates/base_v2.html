@@ -3996,7 +3996,26 @@
                          <div id="final-qualify-state"></div>
                          <div id="final-package-selected"></div> 
                          <div id="final-package-price"></div>
+                         <div id="final-package-invoice">
+                          <fieldset>
+                              <label style="padding-top:1.9em;">
+                                  <input type="text"
+                                  name="reference_number"
+                                  id="reference_number"
+                                  v-model="reference_number"
+                                  placeholder="Reference Number (Your online consultation invoice number)*"
+                                  value=""
+                                  data-constraints="@NotEmpty"/>
+                              </label>
+                         </fieldset>   
 
+
+                         </div>
+                         <div>
+                             <input type="checkbox" value="" id="is_package_accepted" v-model="is_package_accepted"> {% ask_meta 1 3 %}
+                         </div>
+                         <div id="is_package_accepted_errors" class="error"></div> 
+            
                          <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/> 
                          <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
                          <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>

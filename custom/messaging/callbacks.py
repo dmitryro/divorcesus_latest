@@ -80,11 +80,9 @@ def message_duplicate_to_email_handler(sender, receiver, message, **kwargs):
 
     mess = 'Please activate your account.'    
     try:
-        log = Logger(log="WE WILL SEND IT - SEE")
-        log.save()
      
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = '<strong>Grinberg & Segal'
+        FROM = profile.from_email
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port

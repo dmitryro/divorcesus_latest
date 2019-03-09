@@ -94,7 +94,7 @@ def process_user_question(contact):
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = '<strong>Grinberg & Segal'
+        FROM = profile.from_email
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -166,7 +166,7 @@ def process_client_message(contact):
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = '<strong>Grinberg & Segal'
+        FROM = profile.from_email
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -248,7 +248,7 @@ def process_user_email(contact):
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = '<strong>Grinberg & Segal'
+        FROM = profile.from_email
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -544,7 +544,7 @@ def send_activation_link(instance):
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = '<strong>Grinberg & Segal'
+        FROM = profile.from_email
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -618,7 +618,7 @@ def send_welcome(instance):
     try:
     #    global_link = settings.BASE_URL+'/signin'
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = '<strong>Gringerg & Segal'
+        FROM = profile.from_email
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -697,7 +697,7 @@ def recover_profile(sender, instance, request, email,**kwargs):
 
     try:
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = 'Art Revolution <info@artrevolution.com>'
+        FROM = profile.from_email
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -792,8 +792,6 @@ def new_account_notify(instance, email):
     try:
 
 
-        log = Logger(log='WILL TRY TO NOTIFY ABOUT NEW ACCOUNT')
-        log.save()
         max_id= User.objects.all().aggregate(id=Max('id'))
         user = User.objects.get(id=max_id['id'])
 
@@ -810,7 +808,7 @@ def new_account_notify(instance, email):
         today = len(usrs)
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = 'Grinberg and Segal <info@divorcesus.com>'
+        FROM = profile.from_email  
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -910,7 +908,7 @@ def reset_password(sender, instance, request, email, password, **kwargs):
 
     try:
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = 'Divorces US <info@divorcesus.com>'
+        FROM = profile.from_email
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port

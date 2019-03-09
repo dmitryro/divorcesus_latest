@@ -51,7 +51,7 @@ def process_consult_request_email(consultation, contact):
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = '<strong>Grinberg & Segal'
+        FROM = profile.from_email
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -133,7 +133,7 @@ def process_consult_confirmation_email(consultation, contact):
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = '<strong>Grinberg & Segal'
+        FROM = profile.from_email
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port

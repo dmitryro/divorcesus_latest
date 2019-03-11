@@ -41,26 +41,7 @@ def get_or_create_user(fullname, email):
         user = User.objects.get(email=email)
         return user
     except Exception as e:
-
-        name = fullname.split(" ")
-        username = "{}_{}".format(name[0], name[1]).decode('utf-8').lower()
-
-
-        if len(name)==2:
-            first_name = name[0]
-            last_name = name[1]
-        else:
-            first_name=fullname
-            last_name=""
-
-        user = User.objects.create(username=username, first_name=last_name, last_name=last_name, email=email)
-        user.save()
-        profile = Profile.objects.create(user=user, username=username, first_name=first_name, last_name=last_name, email=email)
-        
-
-        return user
-    
-    return None
+        return None
 
 class ChildrenViewSet(viewsets.ModelViewSet):
     """

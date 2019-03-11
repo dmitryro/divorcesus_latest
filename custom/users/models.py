@@ -100,6 +100,9 @@ class Contact(models.Model):
         verbose_name = 'User Contact'
         verbose_name_plural = 'User Contacts'
 
+    def __str__(self):
+        return self.name
+
 
 class StateProvince(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)

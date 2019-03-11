@@ -183,7 +183,7 @@ def user_meta(a, b,  *args, **kwargs):
         try:
             user = User.objects.get(id=int(a))
             profile = user.profile
-        except Exception, R:
+        except Exception as R:
             print R
 
         if (b==1):
@@ -199,14 +199,15 @@ def user_meta(a, b,  *args, **kwargs):
 
             return profile.profile_image_path
 
-        elif (b==4):
-            return h.handle(user.email)
+        elif b==4:
+            return user.email if profile.email else ""
 
-        elif (b==5):
-            return h.handle(profile.phone)
+        elif b==5:
+           return profile.phone if profile.phone else ""
+               
 
-        elif (b==6):
-            return h.handle(profile.username)
+        elif b==6:
+            return profile.username if profile.username else ""
 
  
  

@@ -3252,6 +3252,8 @@
                                                                   name="nameoncard"
                                                                   id="nameoncard-consult"
                                                                   v-model="nameoncard"
+                                                                  value="[[ nameoncard ]]"
+                                                                  placeholder="[[ nameoncard ]]"
                                                                   placeholder="Name on Card*"
                                                                   data-constraints="@NotEmpty"/>
                                                      </label>
@@ -3334,7 +3336,7 @@
 
 
                                                  <div  class="form-group">
-
+                                                      <div>
                                                       <label style="padding-top:1.9em;">
                                                            <input type="text"
                                                                   name="phone"
@@ -3344,7 +3346,8 @@
                                                                   value=""
                                                                   data-constraints="@Phone"/>
                                                       </label>
-
+                                                      </div>
+                                                      <div id="consult_billing_phone_errors" class="error"></div>
                                                  </div>
                             
 
@@ -3383,16 +3386,16 @@
 
                                                 <div>
                                                 <label  style="padding-top:1.9em;">
-                                                   <input type="text"
-                                                          name="full_name"
-                                                          id="consult_full_name"
-                                                          v-model="individual_full_name"
-                                                          placeholder="Full Name *"
-                                                          value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %}{% endif %}"
-                                                          data-constraints="@LettersOnly @NotEmpty"/>
+                                                           <input type="text"
+                                                                  name="individual_full_name"
+                                                                  id="consult_full_name"
+                                                                  v-model="individual_full_name"
+                                                                  value="[[ individual_full_name ]]"
+                                                                  placeholder="[[ individual_full_name ]]"
+                                                                  data-constraints="@NotEmpty"/>
                                                  </label>
                                                  </div>
-
+                                                 <div id="consult_fullname_errors" class="error"></div>
                                                 <div>
                                                 <label style="padding-top:1.9em;">
                                                    <input type="text"
@@ -3460,30 +3463,33 @@
 
  
                                                   <div class="form-group">
-
+                                                      <div>
                                                       <label style="padding-top:1.9em;">
                                                            <input type="text"
                                                                   name="phone"
                                                                   v-model="individual_phone"
                                                                   placeholder="Phone"
-                                                                  value="{% if logout %} {% user_meta user_id 5 %} {% endif %}"
+                                                                  value="{% user_meta user_id 5 %}"
                                                                   data-constraints="@Phone"/>
                                                       </label>
-
+                                                      </div>
+                                                      <div id="consult_phone_errors" class="error"></div>
                                                     </div>
 
                                                   <div class="form-group">
+                                                    <div>
 
-                                                    <label style="padding-top:1.9em;">
-                                                       <input type="text"
-                                                              id="consult_email"
-                                                              name="email"
-                                                              v-model="individual_email"
-                                                              value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
-                                                              placeholder="Email"
-                                                              data-constraints="@Email @NotEmpty"/>
-                                                    </label>
 
+                                                <label  style="padding-top:1.9em;">
+                                                           <input type="text"
+                                                                  id="consult_email"
+                                                                  value="[[ individual_email ]]"
+                                                                  v-model="individual_email"
+                                                                  placeholder="Email*"/>
+                                                 </label>
+
+                                                    </div>
+                                                    <div id="consult_email_errors" class="error"></div>
                                                  </div>
 
 
@@ -3675,11 +3681,11 @@
 
                                             {% csrf_token %}
 
-                                                             <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
-                                                                 <div style="margin-top:-15px;margin-bottom:150px;">Your request for consultation has been placed! Please check your email.</div>
-                                                             </div>
+                                            <div class="alert-box success" style="margin-right:20px; margin-left:20px; margin-bottom: -32px; margin-top:-15px; height: 2em; overflow: hidden;">
+                                                <div style="margin-top:-15px;margin-bottom:150px;">Your request for consultation has been placed! Please check your email.</div>
+                                            </div>
 
-                                            <div style="float:left;padding-top:1.9em;margin-left:0px">
+                                            <div style="float:left;padding-top:1.9em;margin-left:0px; margin-top:20px;">
                                                 <button class="btn4" v-on:click="submitseven"  id="cosnult_step_seven">Home</button>
                                             </div>
                                          </form>
@@ -3787,9 +3793,10 @@
                                     <label style="padding-top:1.9em;"> 
                                   <input type="text" 
                                   name="name"
+                                  id="contact-name"
                                   v-model="name"
-                                  placeholder="Name*"
-                                  value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %} {% endif %}"
+                                  placeholder="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %}{% else %} Full Name*{% endif %}"
+                                  value="{% if logout %}{% user_meta user_id 1 %} {% user_meta user_id 2 %}{% else %}{% endif %}"
                                   /> 
                               </label> 
                               </div>
@@ -3799,9 +3806,10 @@
                               <label style="padding-top:1.9em;"> 
                                   <input type="text" 
                                   name="phone" 
+                                   id="contact-phone"
                                   v-model="phone"
-                                  placeholder="Phone"
-                                  value="{% if logout %} {% user_meta user_id 5 %} {% endif %}"
+                                  placeholder="{% if logout %}{% user_meta user_id 5 %}{% else %} Phone* {% endif %}"
+                                  value="{% if logout %}{% user_meta user_id 5 %}{% else %}{% endif %}"
                                   /> 
                               </label> 
                               </div>
@@ -3810,16 +3818,17 @@
                               <label style="padding-top:1.9em;">
                                   <input type="text"
                                   name="email" 
+                                   id="contact-email"
                                   v-model="email"
-                                  placeholder="email"
-                                  value="{% if logout %}{% user_meta user_id 4 %}{% endif %}"
+                                  placeholder="{% if logout %}{% user_meta user_id 4 %} {% else %} Email* {% endif %}"
+                                  value="{% if logout %}{% user_meta user_id 4 %} {% else %}{% endif %}"
                                   />
                               </label>
                               </div>
                               <div id="contactus-email-error"></div>   
                               <div>
                               <label class="label_message"  style="padding-top:1.9em;"> 
-                                  <textarea name="message*"   placeholder="Message" 
+                                  <textarea name="message*"  id="contact-message"  placeholder="Message" 
                                   v-model="message"
                                   ></textarea> 
                               </label> 
@@ -8051,6 +8060,12 @@ drift.load('4rmkw4ymhfay');
 </script>
 <!-- End of Async Drift Code -->
 
+            </body>
+            <script src="https://js.stripe.com/v3/"></script>
+            <script src="/static/js/stripe_apps.js"></script>
+            <script src="/static/js/vue_apps_v2.js"></script>
+
+
             <script>
             var ps = new PerfectScrollbar('.scroll-container');            
              
@@ -8067,12 +8082,9 @@ drift.load('4rmkw4ymhfay');
                     }
                }
             });
-            Vue.use(VModal);
-            </script>    
-            </body>
-            <script src="https://js.stripe.com/v3/"></script>
-            <script src="/static/js/stripe_apps.js"></script>
-            <script src="/static/js/vue_apps_v2.js"></script>
+            //Vue.use(VModal);
+            </script>
+
             </html>
 
 

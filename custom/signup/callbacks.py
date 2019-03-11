@@ -166,7 +166,7 @@ def process_client_message(contact):
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = profile.from_email
+        FROM = 'Grinberg & Segal <{}>'.format(profile.from_email)
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -248,7 +248,7 @@ def process_user_email(contact):
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = profile.from_email
+        FROM = 'Grinberg & Segal <{}>'.format(profile.from_email)
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -808,7 +808,7 @@ def new_account_notify(instance, email):
         today = len(usrs)
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = profile.from_email  
+        FROM = 'Grinberg & Segal <{}>'.format(profile.from_email)  
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
@@ -908,7 +908,7 @@ def reset_password(sender, instance, request, email, password, **kwargs):
 
     try:
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = profile.from_email
+        FROM = 'Grinberg & Segal <{}>'.format(profile.from_email)
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port

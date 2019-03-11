@@ -52,7 +52,7 @@ def process_payment_office_email(payment, contact):
     try:
         timeNow = datetime.now()
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = profile.from_email
+        FROM = 'Grinberg & Segal <{}>'.format(profile.from_email)
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port

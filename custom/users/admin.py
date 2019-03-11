@@ -16,6 +16,7 @@ from wymeditor.widgets import AdminWYMEditorArea
 from custom.users.models import Profile
 from imagekit.admin import AdminThumbnail
 from models import Testimonial
+from models import Contact
 from models import TeamMember
 from models import AboutUs
 from models import Advantage
@@ -47,6 +48,14 @@ class TestimonialAdmin(admin.ModelAdmin):
          verbose_name = 'Testimonial'
          verbose_name_plural = 'Testimonials'
 
+
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'id', 'name', 'phone', 'email', 'message')
+    search_fields = ('id', 'name', 'phone', 'email', 'message')
+
+    class Meta:
+         verbose_name = 'Contact'
+         verbose_name_plural = 'Contacts'
 
 
 ########################################
@@ -161,7 +170,8 @@ admin.site.register(AdvantageLink, AdvantageLinkAdmin)
 admin.site.register(TeamMember, TeamMemberAdmin)
 
 #admin.site.register(ProfileStats,ProfileStatsAdmin)
-admin.site.register(Profile,ProfileAdmin)
+admin.site.register(Contact, ContactAdmin)
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(MileStone,MileStoneAdmin)
 admin.site.register(AboutUs, AboutUsAdmin)
 admin.site.register(Testimonial, TestimonialAdmin)

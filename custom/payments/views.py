@@ -46,24 +46,20 @@ from utils import getPaymentProcessing
 import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-def get_or_create_user(fullname, email):
+def get_or_create_user(email):
     try:
-        name = fullname.split(" ")
-        user = User.objects.get(first_name=name[0], last_name=name[1], email=email)
+        log = Logger(log='WILL TRY TO GET USER FOR {}'.format(email))
+        log.save()
+
+        user = User.objects.get(email=email)
+        log = Logger(log='WE FOUND A USER FOR {}'.format(email))
+        log.save()
         return user
+
     except Exception as e:
-
-
-        name = fullname.split(" ")
-
-        username = "{}{}".format(name[0], name[1]).decode('utf-8').lower()
-        user = User.objects.create(username=username, first_name=name[0], last_name=name[1], email=email)
-        user.save()
-        #profile = Profile.objects.create(user=user, username=username, first_name=name[0], last_name=name[1], email=email)
-
-        return user
-
-    return None
+        log = Logger(log='WE FOUND NO USER FOR {} - {}'.format(email, e))
+        log.save()
+        return None
 
 
 class AddressList(generics.ListAPIView):
@@ -379,8 +375,10 @@ def send_confirmation_view(request):
     if request.user.is_authenticated():
         user = request.user
     else:
-        user = get_or_create_user(full_name, email)
+        user = get_or_create_user(email)
 
+    if not user:
+        return Response({'message':'card processing error - no user found'}, status=status.HTTP_400_BAD_REQUEST)
     try:
         payment_id = CustomerPayment.objects.latest('id').id + 1
         customer_payment = CustomerPayment.objects.create(user=user,

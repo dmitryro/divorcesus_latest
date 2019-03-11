@@ -1,5 +1,4 @@
 var counter = 0;
-        FROM = '<strong>Grinberg & Segal'
 var first_name = '';
 var nameoncard = '';
 var email = '';
@@ -2410,7 +2409,6 @@ var vm3 = new Vue({
   //                   this.email+" FIRST "+this.first+
    //                  " LAST "+this.last+" ADDRESS1 "+
     //                 this.address1+" ADDRESS 2"+this.address2+
-     //                " CITY "+this.city+" ZIP "+this.zip+" AND NAME ON CARD "+this.nameoncard+" AMOUNT "+this.amount);
 
                $("#final_payment_amount").html("<p><strong>Amount: "+this.amount+"</strong></p>");
                $("#final_payment_email").html("<p><strong>Email: "+this.email+"</strong></p>");
@@ -2665,8 +2663,13 @@ new Vue({
       message:'',
       name:'',
       errors: [],
+      user: '',
   },
   options: {
+  },
+  created: function () {
+    // `this` points to the vm instance
+      this.user = read_user($('#current-user-id').val());
   },
   methods: {
      successCallback: function() {
@@ -2686,26 +2689,31 @@ new Vue({
          $('#contactus-phone-error').html(""); 
          $('#contactus-message-error').html("");  
 
-         if (!this.name) {
+         this.name = $('#contact-name').val();
+         this.email = $('#contact-email').val();
+         this.phone = $('#contact-phone').val();
+         this.message = $('#contact-message').val(); 
+
+         if (!this.name || this.name.length===0) {
              $('#contactus-name-error').html("<span class=\"name-error error\">Please provide your name!</span>");
              $( "span.name-error" ).delay( 1000 ).fadeOut( 400 );
              this.errors.push("Please provide your name!");
          }
 
-         if (!this.email) {
+         if (!this.email || this.email.length===0) {
              $('#contactus-email-error').html("<span class=\"email-error error\">Please provide your email!</span>");
              $( "span.email-error" ).delay( 1000 ).fadeOut( 400);
              this.errors.push("Please provide your email!");
          }
 
-         if (!this.phone) {
+         if (!this.phone || this.phone.length===0) {
              $('#contactus-phone-error').html("<span class=\"phone-error error\">Please provide your phone!</span>");
              $( "span.phone-error" ).delay( 1000 ).fadeOut( 400 );
              this.errors.push("Please provide your phone!"); 
          }
 
 
-         if (!this.message) {
+         if (!this.message || this.message.length===0) {
              $('#contactus-message-error').html("<span class=\"message-error error\">Please provide your message!</span>");
              $( "span.message-error" ).delay( 1000 ).fadeOut( 400 );
              this.errors.push("Please provide your message!");
@@ -3409,6 +3417,7 @@ var cosnultzero = new Vue({
 
 var consultone = new Vue({
    el: '#consult-stepone',
+   delimiters: ['[[',']]'],
    data: {
      billing_country: '',
      billing_state: '',
@@ -3524,8 +3533,16 @@ var consultone = new Vue({
                      result = result + "</select>";
                      $("#consult-country-choices").html(result);
             });
-            consult_step_two();
- 
+            var user_id = $('#current-user-id').val();
+            $.get( "https://divorcesus.com/users?id="+user_id, function( data ) {
+
+               var user = data[0];
+               consulttwo.nameoncard = user.first_name+" "+user.last_name;
+               consulttwo.email = user.email;
+               $('#nameoncard-consult').attr('value', consulttwo.nameoncard);
+               $('#nameoncard-consult').attr('placeholder', consulttwo.nameoncard);
+               consult_step_two();
+            });
        },
 
        submittwo: function (event) {
@@ -3563,6 +3580,7 @@ var consultone = new Vue({
 
 var consulttwo = new Vue({
    el: '#consult-steptwo',
+   delimiters: ['[[',']]'],
    data: {
      billing_country: '',
      billing_state: '',
@@ -3601,6 +3619,7 @@ var consulttwo = new Vue({
      purpose: '',
      errors: [],
      stripe_errors: [],
+     user: '',
   },
    methods: {
        redirect: function(event) { 
@@ -3628,6 +3647,18 @@ var consulttwo = new Vue({
            consultthree.price = this.price;
            consultthree.payment_token = this.payment_token;
 
+           var user_id = $('#current-user-id').val();
+
+           $.get( "https://divorcesus.com/users?id="+user_id, function( data ) {
+
+               this.user = data[0];
+               this.individual_email = this.user.email;
+
+               $('#consult_email').attr("value", this.individual_email);
+
+               consultthree.individual_email = this.individual_email;
+           });  
+
            $.get('https://divorcesus.com/states', function(msg) {
                      let result = "<select id='consult-individual-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
@@ -3652,6 +3683,10 @@ var consulttwo = new Vue({
             });
 
             consult_visited[3] = true;
+            consultthree.individual_full_name = this.nameoncard;
+            $('#consult_full_name').attr("value", this.nameoncard);
+            consultthree.individual_email = this.individual_email;
+            $('#consult_email').attr("value", this.individual_email);
             consult_step_three();
 
 
@@ -3670,6 +3705,7 @@ var consulttwo = new Vue({
             consultthree.price = this.price;
             consultthree.payment_token = this.payment_token;
             this.stripe_errors = [];
+
 
  
             $.get('https://divorcesus.com/states', function(msg) {
@@ -3704,7 +3740,6 @@ var consulttwo = new Vue({
          this.billing_address1 = $('#consult_address1').val();
          this.billing_address2 =  $('#consult_address2').val();
          this.billing_city = $('#consult_city').val();
-         this.billing_email = $('#consult_email').val(); 
 
 //         if (!this.payment_token) {
  //            this.errors.push('Payment token is required.');
@@ -3734,6 +3769,15 @@ var consulttwo = new Vue({
              this.errors.push('Phone required.');
          }
 
+         if (!this.billing_phone || this.billing_phone.length === 0) {
+                $('#consult_billing_phone_errors').html("<span class=\"error\">Billing phone number must be provided!</span>");
+                //$( "div.error" ).delay( 500 ).fadeOut( 400 );
+         } else {
+                  $('#consult_billing_phone_errors').html("");
+         }
+
+
+
          if (!this.billing_city) {
              this.errors.push('City required.');
          }
@@ -3755,10 +3799,30 @@ var consulttwo = new Vue({
                  return;
              }
              consult_visited[3] = true;
+
              consult_step_two();
+             $('#consult_email').attr("value", "three");
          }
 
+         var user_id = $('#current-user-id').val();
+        
+         $.get( "https://divorcesus.com/users?id="+user_id, function( data ) {
+         
+               this.user = data[0];
+ 
 
+
+         this.individual_email = this.user.email;
+         this.billing_email = this.user.email;
+         $('#consult_full_name').attr('value', this.user.first_name+" "+this.user.last_name);
+         $('#consult_full_name').attr('placeholder', this.user.first_name+" "+this.user.last_name);
+         this.individual_full_name = this.user.first_name+" "+this.user.last_name;
+
+         consultthree.individual_email = this.user.email;
+         $('#consult_email').attr('value', this.user.email);
+         $('#consult_email').attr("value", this.user.email);
+
+         this.billing_full_name = this.user.first_name+" "+this.user.last_name;
          consultthree.billing_full_name = this.billing_full_name;
          consultthree.billing_state = this.billing_state;
          consultthree.billing_country = this.billing_country;
@@ -3768,7 +3832,6 @@ var consulttwo = new Vue({
          consultthree.billing_address1 = this.billing_address1;
          consultthree.billing_address2 = this.billing_address2;
          consultthree.billing_city = this.billing_city;
-
          consultthree.individual_full_name = this.individual_full_name;
          consultthree.individual_address1 = this.individual_address1;
          consultthree.individual_address2 = this.individual_address2;
@@ -3777,8 +3840,7 @@ var consulttwo = new Vue({
          consultthree.individual_zip = this.individual_zip;
          consultthree.individual_country = this.individual_country;
          consultthree.individual_phone = this.individual_phone;
-         consultthree.individual_email = this.individual_email;
-
+         });
        },
 
        submitthree: function (event) {
@@ -3819,6 +3881,7 @@ var consulttwo = new Vue({
 
 var consultthree = new Vue({
    el: '#consult-stepthree',
+   delimiters: ['[[',']]'],
    data: {
      billing_country: '',
      billing_state: '',
@@ -3826,6 +3889,7 @@ var consultthree = new Vue({
      pre_verified: '',
      billing_full_name: '',
      individual_full_name: '',
+     individual_emaile: '',
      individual_address1: '',
      individual_address2: '',
      individual_city: '',
@@ -3833,7 +3897,6 @@ var consultthree = new Vue({
      individual_zip: '',
      individual_country: '',
      individual_phone: '',
-     individual_email: '',
      billing_email:'',
      message: '',
      subject: '',
@@ -3855,9 +3918,9 @@ var consultthree = new Vue({
      marital_status: '',
      purpose: '',
      errors: [],
+     user:'',
    },
    methods: {
-
        submitone: function (event) {
        },
 
@@ -3869,7 +3932,7 @@ var consultthree = new Vue({
            this.individual_state = $('#consult-individual-select-state').val();
            this.individual_country = $('#consult-individual-select-country').val();
            this.payment_token = $("#payment-token").val();
-
+           this.individual_email = $('#consult_email').val();
            consultfour.billing_full_name = this.billing_full_name;
            consultfour.billing_state = this.billing_state;
            consultfour.billing_country = this.billing_country;
@@ -3894,6 +3957,26 @@ var consultthree = new Vue({
            consultfour.individual_phone = this.individual_phone;
            consultfour.individual_email = this.individual_email;
 
+           if (!this.individual_full_name || this.individual_full_name.length === 0) {
+                $('#consult_fullname_errors').html("<span class=\"error\">Full name must be provided!</span>");
+                //$( "div.error" ).delay( 500 ).fadeOut( 400 );
+           } else {
+                $('#consult_fullname_errors').html("");
+           }
+
+           if (!this.individual_email || this.individual_email.length === 0) {
+                $('#consult_email_errors').html("<span class=\"error\">Email must be provided!</span>");
+                //$( "div.error" ).delay( 500 ).fadeOut( 400 );
+           } else {
+                  $('#consult_email_errors').html("");
+           }
+
+           if (!this.individual_phone || this.individual_phone.length === 0) {
+                $('#consult_phone_errors').html("<span class=\"error\">Individual phone number must be provided!</span>");
+                //$( "div.error" ).delay( 500 ).fadeOut( 400 );
+           } else {
+                  $('#consult_phone_errors').html("");
+           }
 
            $.get('https://divorcesus.com/countries', function(msg) {
                let result = "<select id='consult-select-country-of-citizenship' v-model='country' class='styled-select slate' style='width:100%;' >";
@@ -4862,6 +4945,16 @@ function package_selected(state, pack, pack_type, price) {
     $('input[name=package_selected][value="'+pack+'"').attr('checked', true);
     return false;
 }
+
+
+function read_user(user_id) {
+
+        $.get( "https://divorcesus.com/users?id="+user_id, function( data ) {
+              return data[0];
+        });
+        return null;
+}
+
 
 jQuery(document).ready(function() {
     

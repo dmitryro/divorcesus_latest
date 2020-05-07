@@ -18,7 +18,9 @@
         $.get( "https://divorcesus.com/users/"+user_id, function(data) {
              var user_id = data.id;
              $('#target-customer').val(data.username).change();
+             return data;
         });
+ 
     }
 
     function read_user() {

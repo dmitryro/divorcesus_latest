@@ -81,8 +81,8 @@ INSTALLED_APPS = [
     'bootstrapform_jinja',
     'clear_cache',
     'encrypted_fields',
-    'django_actions',
-    'djangobower',
+   # 'django_actions',
+   # 'djangobower',
     'django_extensions',
     'django_filters',
     'django_push',
@@ -92,7 +92,8 @@ INSTALLED_APPS = [
     'django_crontab',
     'bootstrap_pagination',
     'drf_cached_instances',
-    'facebook',
+    'google_analytics',
+    #'facebook',
     'open_facebook',
     'django_user_agents',
     'admin_import',
@@ -140,7 +141,7 @@ INSTALLED_APPS = [
    # 'allauth.socialaccount.providers.linkedin',
    # 'allauth.socialaccount.providers.google',
     'haystack',
-    'channels',
+   # 'channels',
     'social_core',
     'taggit',
     'meta',
@@ -152,7 +153,7 @@ INSTALLED_APPS = [
     #'chat_engine',
     #'polymorphic',
  #   'social.apps.django_app.default',
-    'zebra',
+   # 'zebra',
     'oauth2_provider',
     'custom.blog',
     'custom.messaging',
@@ -169,6 +170,10 @@ INSTALLED_APPS = [
     'custom.payments',
 ]
 
+
+GOOGLE_ANALYTICS = {
+    'google_analytics_id': 'UA-34075839-1',
+}
 
 SITE_ID=1
 
@@ -282,7 +287,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
   #  'custom.signup.backends.CustomFacebookOauth',
     'social_core.backends.facebook.FacebookAppOAuth2',
-    'social_core.backends.linkedin.LinkedinOAuth',
+    ##'social_core.backends.linkedin.LinkedinOAuth',
     'social_core.backends.linkedin.LinkedinOAuth2',
    # 'social.backends.twitter.TwitterOAuth', 
     'social_core.backends.twitter.TwitterOAuth',  
@@ -928,4 +933,4 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name, email', 
 }
-SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.11'
+SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.8'

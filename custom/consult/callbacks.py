@@ -34,22 +34,17 @@ from custom.utils.models import Logger
 from custom.consult.signals import consult_send_confirmation_email
 
 @receiver(consult_send_confirmation_email,sender=User)
-def consult_send_confirmation_email_handler(sender,**kwargs):
-     contact = kwargs['contact']
-     try:
-        task = TaskLog.objects.get(user_id=contact.id,job='sending_consult_email')
-     except Exception as e:
-        task = TaskLog.objects.create(user_id=contact.id, job='sending_consult_email', is_complete=False)
-        consultation = kwargs['consultation']
-        contact = kwargs['contact']
-        process_consult_confirmation_email(consultation, contact)
-        process_consult_request_email(consultation, contact)
+def consult_send_confirmation_email_handler(sender, contact=None, consultation=None, **kwargs):
+
+     process_consult_confirmation_email(consultation, contact)
+     #process_consult_request_email(consultation, contact)
 
 
 def process_consult_request_email(consultation, contact):
     try:
+        log = Logger(log="AND REQUESTi ================================ {} {}".format(consultation,contact))
+        log.save()
         timeNow = datetime.now()
-
         profile = ProfileMetaProp.objects.get(pk=1)
         FROM = 'Grinberg & Segal <{}>'.format(profile.from_email)
         USER = profile.user_name
@@ -133,12 +128,14 @@ def process_consult_confirmation_email(consultation, contact):
         timeNow = datetime.now()
 
         profile = ProfileMetaProp.objects.get(pk=1)
-        FROM = 'Grinberg & Segal <{}>'.format(profile.from_email)
+        FROM = profile.to_email_secondary
         USER = profile.user_name
         PASSWORD = profile.password
         PORT = profile.smtp_port
         SERVER = profile.smtp_server
         TO = contact.email
+        BCC = profile.to_email
+        CC = profile.to_email_secondary
 
         SUBJECT = 'Online Consultation with Grinberg & Segal'
         path = "templates/new_consultation_confirmation.html"
@@ -157,9 +154,10 @@ def process_consult_confirmation_email(consultation, contact):
             if int(amount_after_period) == 0:
                 str_amount += "0"
 
+
             mess = string.replace(mess, '[paid]', str_amount)
             mess = string.replace(mess,'[email]', contact.email)
-        #    mess = string.replace(mess,'[link]',link)
+            #mess = string.replace(mess,'[link]',link)
 
             mess = string.replace(mess,'[greeting]', 'Dear')
             mess = string.replace(mess,'[greeting_statement]','You have just requested a consultation from attorneys at Grinberg and Segal Family Law Division.')
@@ -192,6 +190,8 @@ def process_consult_confirmation_email(consultation, contact):
         MESSAGE['subject'] = SUBJECT
         MESSAGE['To'] = TO
         MESSAGE['From'] = FROM
+        MESSAGE['Bcc'] = BCC
+        MESSAGE['CC'] = CC
         MESSAGE.preamble = """
                 Your mail reader does not support the report format.
                 Please visit us <a href="http://www.mysite.com">online</a>!"""

@@ -1976,7 +1976,7 @@ function qualify_progress_step_two() {
 
 function qualify_progress_step_three() {
     $('.ElementsApp').attr("id","payment-form-two");
-    setup_stripe_two();
+    setup_stripe_package();
 
     $("#qualify-stepone").css("display","none");
     $("#qualify-steptwo").css("display","none");
@@ -2156,7 +2156,7 @@ function qualify_next_two() {
 
 function qualify_next_three() {
     $('.ElementsApp').attr("id","payment-form-two");
-    setup_stripe_two();
+    setup_stripe_package();
     $("#qualify-stepone").css("display","none");
     $("#qualify-steptwo").css("display","none");
     $("#qualify-stepthree").css("display","none");

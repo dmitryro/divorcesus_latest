@@ -102,14 +102,11 @@ def process_consultation_view(request):
 
 
     try:
-        contact = Contact.objects.get(email=individual_email)
-    except Exception as e:
         contact = Contact.objects.create(name=individual_full_name,
-                                         subject="Consultation Request", 
+                                         subject="Consultation Request",
                                          message="Consultation Request",
                                          email=individual_email)
 
-    try:
         if int(price) > 0:
             charge  = stripe.Charge.create(
                              amount      = 100*int(price),

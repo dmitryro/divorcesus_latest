@@ -412,10 +412,13 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
 
 
         if profile.is_user_avatar==False:
+                 
+                 try:
+                     profile_picture_url=str(response['image'].get('url'))[:-2] # Read the original google avatar
 
-                 profile_picture_url=str(response['image'].get('url'))[:-2] # Read the original google avatar
-
-                 profile_picture_url=profile_picture_url+'200' # provide the size
+                     profile_picture_url=profile_picture_url+'200' # provide the size
+                 except Exception as e:
+                     profile_picture_url = 'https://divorcesus.com/media/avatars/default.png' 
 
                  input_file = StringIO(urllib2.urlopen(profile_picture_url).read()) # read the file into buffer
                  image = Image.open(input_file)   # Create an image

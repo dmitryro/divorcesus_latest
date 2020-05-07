@@ -88,8 +88,8 @@
 <!--
                <script src="/static/js/perfect-scrollbar.min.js"></script>
 -->
-               <script src="https://unpkg.com/vue-scrollto"></script>
-               <script src="https://unpkg.com/vue-scroll"></script>
+               <script src="/static/js/vue-scrollto.js"></script>
+               <script src="/static/js/vue-scroll.min.js"></script>
                <!-- use the latest release -->
     <!--
                <link type="text/css" href="https://magma.cs.uiuc.edu/wenpu1/css/jquery.ui.chatbox.css" rel="stylesheet" />
@@ -4242,8 +4242,9 @@
 
                     <div class="col-xs-12 col-sm-5" style="float:left;">
 
-                        <form novalidate autocomplete="on" class='mailform contact-form' method="post" id="payment-form-two">
+                        <form class='mailform contact-form'  method="post" id="payment-form-package">
                              {% csrf_token %}
+
                           <input type="hidden" name="user_id" v-model="user_id" value="{{ user_id}} "/>
                           <input type="hidden" name="is_military" id="is_military" v-model="is_military"  value="{{ is_military }}"/>
                           <input type="hidden" name="are_there_children" id="are_there_children" v-model="are_there_children"  value="{{ are_there_children }}"/>
@@ -4261,24 +4262,6 @@
 
 
                           <fieldset>
-<!--
-                              <div class="form-group">
-                              <label style="padding-top:1.9em;">
-                                  <input 
-                                  name="cardnumber"
-                                  type="tel" 
-                                  name="cardnumber"
-                                  id="cardnumber-q"
-                                  v-model="cardnumber"
-                                  class="input-lg form-control cc-number" 
-                                  autocomplete="cc-number" 
-                                  placeholder="â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢" 
-                                  required
-                                  placeholder="Card Number*"
-                                  data-constraints="@NotEmpty"/>
-                              </label>
-                              </div>
--->
 
 
                               <div class="form-group">
@@ -4292,42 +4275,15 @@
                                   data-constraints="@NotEmpty"/>
                               </label>
                               </div>
-                              <div class="form-group" id="card-element-two" style="border:2px #D0CECE solid;height:3.9em;margin-top:1.75em;padding-top:1.0em;padding-left:0.4em;">
+
+                              <div class="form-group" id="card-element-package" style="border:2px #D0CECE solid;height:3.9em;margin-top:1.75em;padding-top:1.0em;padding-left:0.4em;">
                                <!-- A Stripe Element will be inserted here. -->
                               </div>
-                              <div class="error" id="card-errors-two"></div> 
-<!--
-                               <div class="form-group">
+
+                               <div class="error" id="card-errors-package"></div>
 
 
-                                    <label style="padding-top:1.9em;">
-                                      <input type="tel"
-                                             class="input-lg form-control cc-exp"
-                                             autocomplete="cc-exp" 
-                                             id="expiration-q"
-                                             name="expiration"
-                                             v-model="expiration"
-                                              placeholder="Expiration Date â€¢â€¢ / â€¢â€¢"
-                                             data-constraints="@NotEmpty" required/>
-                                             &nbsp;&nbsp;
-                                      </label>
 
-                                 </div>
-
-                                 <div class="form-group">                     
-                                     <label style="padding-top:1.9em;">
-                                          <input type="text"
-                                                 name="cvc"
-                                                 id="cvc-q"
-                                                 v-model="cvc"
-                                                 class="input-lg form-control cc-cvc"
-                                                 autocomplete="off"
-                                                 placeholder="â€¢â€¢â€¢" required
-                                                 value="Card CVC formatting"
-                                                 data-constraints="@NumbersOnly @NotEmpty"/>
-                                     </label>
-                                 </div>
--->
                                  <div class="clear"></div>
 
                               <div style="float:left;padding-top:1.9em;">
@@ -6959,7 +6915,7 @@
                   </div>
                 </section>
                 <section class="terms">
-                  <div class="container" style="font-siize:1.4em;">
+                  <div class="container" style="font-size:1.4em;">
                       <p>
                          <a onclick="on_mobile_home();return false;" href="#">Home</a>&nbsp; >>&nbsp;
                          <a onclick="on_mobile_services();return false;" href="#">Services</a>&nbsp; >>&nbsp;
@@ -7984,7 +7940,7 @@
             
                 
                 
-                
+   <!--             
      <script>
               window.fbAsyncInit = function() {
                 FB.init({
@@ -8001,10 +7957,6 @@
                  js.src = "//connect.facebook.net/en_US/all.js";
                  fjs.parentNode.insertBefore(js, fjs);
                }(document, 'script', 'facebook-jssdk'));
-            </script>
-
-    
-        <script>
 
 
              // You can also pass in the default options
@@ -8034,8 +7986,9 @@
                 y: true
            });
             </script>
-
+-->
 <!-- Start of Async Drift Code -->
+<!--
      <script>
 !function() {
   var t;
@@ -8058,15 +8011,22 @@
 drift.SNIPPET_VERSION = '0.3.1';
 drift.load('4rmkw4ymhfay');
 </script>
+-->
 <!-- End of Async Drift Code -->
 
             </body>
+            <script src="/static/js/js_misc.js"></script>
             <script src="https://js.stripe.com/v3/"></script>
             <script src="/static/js/stripe_apps.js"></script>
             <script src="/static/js/vue_apps_v2.js"></script>
 
-
+<!--
             <script>
+             ShadyDOM = {
+                  force: true
+             };
+
+
             var ps = new PerfectScrollbar('.scroll-container');            
              
             Vue.use(SocialSharing);
@@ -8083,8 +8043,9 @@ drift.load('4rmkw4ymhfay');
                }
             });
             //Vue.use(VModal);
-            </script>
 
+            </script>
+-->
             </html>
 
 

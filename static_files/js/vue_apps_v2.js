@@ -55,6 +55,8 @@ var paymentmethod = new Vue({
   }
 });
 */
+
+
 var featured = new Vue({
   el: '#featured-packages',
   data: {
@@ -91,7 +93,7 @@ var featured = new Vue({
   },
   mounted:function() {
 
-         let url_ny = 'https://divorcesus.com/packages/?package_type=2&state=2';
+         let url_ny = '/packages/?package_type=2&state=2';
          var pkg = {};
 
          $.get(url_ny, function(msg) {
@@ -117,7 +119,7 @@ var featured = new Vue({
              $("#new_york_packages").html(result);
          });
 
-         let url_nj = 'https://divorcesus.com/packages/?package_type=2&state=1';
+         let url_nj = '/packages/?package_type=2&state=1';
          var pkg = {};
 
          $.get(url_nj, function(msg) {
@@ -142,7 +144,7 @@ var featured = new Vue({
              $("#new_jersey_packages").html(result);
          });
 
-         let url_other_ny = 'https://divorcesus.com/packages/?package_type=3&state=2';
+         let url_other_ny = '/packages/?package_type=3&state=2';
          var pkg = {};
 
          $.get(url_other_ny, function(msg) {
@@ -169,7 +171,7 @@ var featured = new Vue({
 
          });
 
-         let url_other_nj = 'https://divorcesus.com/packages/?package_type=3&state=1';
+         let url_other_nj = '/packages/?package_type=3&state=1';
          var pkg = {};
 
          $.get(url_other_nj, function(msg) {
@@ -203,6 +205,8 @@ var featured = new Vue({
   }
 });
 //packageChange('Uncontested');
+
+
 
 var qvm = new Vue({
   el: '#qualify-stepone',
@@ -259,7 +263,7 @@ var qvm = new Vue({
          let divorce_type = divorcetypes[p];
          this.state =  $('#state-selected').val();
          this.package_type = divorce_type;
-         let url = 'https://divorcesus.com/packages/?package_type='+this.package_type+'&state='+this.state;
+         let url = '/packages/?package_type='+this.package_type+'&state='+this.state;
          var pkg = {};
            $.get(url, function(msg) {
                      let result = "<div style='width:100%;'>";
@@ -312,7 +316,7 @@ var qvm = new Vue({
                      result = result + "</div>";
                      $("#packages-choices").html(result);
 
-                     $.get('https://divorcesus.com/states', function(msg) {
+                     $.get('/states', function(msg) {
                          let result = "<select id='select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
                              result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
@@ -321,7 +325,7 @@ var qvm = new Vue({
                          $("#qualify-state-choices").html(result);
                     });
 
-                    $.get('https://divorcesus.com/countries', function(msg) {
+                    $.get('/countries', function(msg) {
                          let result = "<select id='select-country' v-model='country' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
                              result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
@@ -393,7 +397,6 @@ var qvm = new Vue({
  //           this.state = $('#state-pricelist-selected').val();
  //           $('#state-selected').attr("value", this.state);
  //       }
-
 
         this.first = $('#payment-first').val();
         this.last = $('#payment-last').val();
@@ -485,7 +488,6 @@ var qvm = new Vue({
       this.user_id = $("#current-user-id").val();
       package_step_one();
       $('#payment-token').attr('value','');
-      setup_stripe_two();      
   }
 
 });
@@ -557,7 +559,7 @@ var qvm2 = new Vue({
              var arr = {"invoice": this.reference_number};
              $.ajax({
                     type: "POST",
-                    url: "https://divorcesus.com/verifyinvoice/",
+                    url: "/verifyinvoice/",
                     crossDomain: true,
                     data: JSON.stringify(arr),
                     dataType: 'json',
@@ -565,7 +567,6 @@ var qvm2 = new Vue({
                     success: function(data) {
                          if (data.message =='success')  {
                             $('#payment-token').attr('value','');
-                            setup_stripe_two();
                             this.state = qvm.state;
                             this.package_selected = qvm.package_selected;
                             this.package_price = qvm.package_price;
@@ -682,7 +683,6 @@ var qvm2 = new Vue({
   },
   mounted:function() {
       $('#payment-token').attr('value','');
-      setup_stripe_two();
       this.does_qualify = 'NO';
       this.state = $('#state-selected').val();
   }
@@ -740,6 +740,7 @@ var qvm3 = new Vue({
     },
 
     submitthree: function (event) {
+
                this.errors = [];
                this.phone = $('#stepthree_phone').val();
                this.email = $('#stepthree_email').val();
@@ -755,6 +756,7 @@ var qvm3 = new Vue({
                this.address_state = $('#select-state').val();
                this.address_zip = $('#qualify_zip').val();   
               // this.address_state = this.state;
+
 
 
                if (!this.first) {
@@ -786,20 +788,13 @@ var qvm3 = new Vue({
                }
 
 
-               if (this.errors.length > 0) {
-                   return;
-               } else {
-                   counter = 3;
-                   package_visited[3] = true;
-                   qualify_progress_step_three();
-                   qualify_next_three();
-               }
 
 
                //$("#name_on_card").html("<p>Name on Card: "+this.nameoncard.toString()+"</p>");
                qvm4.address_state = this.address_state; 
                qvm4.user_id = this.user_id;               
-               qvm4.nameoncard = this.nameoncard;
+               qvm4.nameoncard = this.first+" "+this.last;
+               $('#nameoncard-q').attr('value', this.first+" "+this.last);
                qvm4.package_state = this.package_state;
                qvm4.package_selected = this.package_selected
                qvm4.package_type = this.package_selected;
@@ -820,6 +815,40 @@ var qvm3 = new Vue({
                $("#step_four_first").html(this.first);
                $("#step_four_last").html(this.last);
                $("#step_four_phone").html(this.phone);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               if (this.errors.length > 0) {
+                   return;
+               } else {
+                   counter = 3;
+                   package_visited[3] = true;
+                   qualify_progress_step_three();
+                   qualify_next_three();
+               }
+
+
 
     },
 
@@ -857,7 +886,6 @@ var qvm3 = new Vue({
       this.last = $('#last').val();
       this.package_location = $('#package_location').val();
       $('#payment-token').attr('value','');
-      setup_stripe_two();
   }
 
 });
@@ -935,7 +963,7 @@ var qvm4 = new Vue({
                qvm5.packages = packages;
                qvm5.package_selected = this.package_selected;
 
-               $.get('https://divorcesus.com/states', function(msg) {
+               $.get('/states', function(msg) {
                          let result = "<select id='select-state-stepfive' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
                              if (msg[i].id===39) {
@@ -977,18 +1005,27 @@ var qvm4 = new Vue({
 
     submitfour: function (event) {
                this.errors = [];
-               $('#payment-form-two').submit();
+
+               $('#payment-form-package').submit();
+
+               var cn = $('[name="cardnumber"]');
+
                this.token = $('#payment-token').val();
                this.nameoncard = $('#nameoncard-q').val();
                if (!this.nameoncard) {
                   this.errors.push("Name on card required");
                }
 
+               if (cn.value.length === 0) {
+                  $("#card-errors-package").html("Card number can't be empty!");
+                  this.errors.push("Card number can't be empty");
+               }
+
 //               if (!this.payment_token) {
 //                  this.errors.push("Payment token required");
 //               }
 
-               var displayError = document.getElementById('card-errors-two');
+               var displayError = document.getElementById('card-errors-package');
 
                if (displayError.textContent.length>0) {
                    this.errors.push("Invalid card");
@@ -1001,7 +1038,6 @@ var qvm4 = new Vue({
                        return;
                    }
                    $('#payment-token').attr('value','');
-                   setup_stripe_two();
                    counter = 4;
                    package_visited[4] = true;
                    qualify_progress_step_four();
@@ -1039,7 +1075,7 @@ var qvm4 = new Vue({
                qvm5.nameoncard = this.nameoncard;
                qvm5.packages = packages;
                qvm5.package_selected = this.package_selected;
-               $.get('https://divorcesus.com/states', function(msg) {
+               $.get('/states', function(msg) {
                          let result = "<select id='select-state-stepfive' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
                              if (msg[i].id===39) {
@@ -1074,7 +1110,8 @@ var qvm4 = new Vue({
   },
   mounted: function() {
       $('#payment-token').attr('value',''); 
-      setup_stripe_two();
+      setup_stripe_package();
+     $("#card-element-package").click();
   }
 
 });
@@ -1193,13 +1230,13 @@ var qvm5 = new Vue({
                qvm6.package_type = this.package_type;
                qvm6.package_price = this.package_price;
                qvm6.token = this.token;
-               $.get('https://divorcesus.com/states/?id='+this.billing_state, function(data) {
+               $.get('/states/?id='+this.billing_state, function(data) {
                   // $("#state").attr("value",data[0].name.toString());
                    qvm6.billing_state = data[0].name;
                    $("#qualify_final_billing_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
                });
 
-               $.get('https://divorcesus.com/states/?id='+this.address_state, function(data) {
+               $.get('/states/?id='+this.address_state, function(data) {
                    qvm6.address_state = data[0].name;
                    $("#qualify_final_address_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
                });
@@ -1310,7 +1347,7 @@ var qvm6 = new Vue({
        //      alert(this.billing_city);
        //      alert(this.billing_zip);
        //      alert(this.billing_state);
-
+             setup_stripe_one();
              this.token = $('#payment-token').val();
 
              this.errors = [];
@@ -1344,7 +1381,7 @@ var qvm6 = new Vue({
                 "city": this.billing_city};
 	        $.ajax({
 		    type: "POST",
-		    url: "https://divorcesus.com/paymentconfirm/",
+		    url: "/paymentconfirm/",
 		    crossDomain: true,
 		    data: JSON.stringify(arr),
 		    dataType: 'json',
@@ -2184,7 +2221,7 @@ var vm2 = new Vue({
            vm3.phone = this.phone;
            vm3.amount = this.amount;
            vm3.nameoncard = this.nameoncard;    
-           $.get('https://divorcesus.com/states', function(msg) {
+           $.get('/states', function(msg) {
                          let result = "<select id='pay-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
                              if (msg[i].id===39) {
@@ -2264,7 +2301,7 @@ var vm2 = new Vue({
                makepayment_next_two();
            }
 
-           $.get('https://divorcesus.com/states', function(msg) {
+           $.get('/states', function(msg) {
                          let result = "<select id='pay-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
                              if (msg[i].id===39) {
@@ -2439,7 +2476,7 @@ var vm3 = new Vue({
                vm4.zip = this.zip;
                vm4.phone = vm.phone;  
                vm4.amount = this.amount;
-               $.get('https://divorcesus.com/states/?id='+this.state, function(data) {
+               $.get('/states/?id='+this.state, function(data) {
                    $("#state").attr("value",data[0].name.toString());
                    $("#final_payment_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
                });
@@ -2563,7 +2600,7 @@ var vm4 = new Vue({
             "user_id": this.user_id};
         $.ajax({
                 type: "POST",
-                url: "https://divorcesus.com/paymentconfirm/",
+                url: "/paymentconfirm/",
                 crossDomain: true,
                 data: JSON.stringify(arr),
                 dataType: 'json',
@@ -2723,7 +2760,7 @@ new Vue({
              return;
          }
 
-         $.get('https://divorcesus.com/sendmail?email='+this.email+'&phone='+this.phone+'&message='+this.message+'&name='+this.name, function(data)
+         $.get('/sendmail?email='+this.email+'&phone='+this.phone+'&message='+this.message+'&name='+this.name, function(data)
                 {
                      if (data.message =='success')  {
                           
@@ -3203,7 +3240,7 @@ var askthree = new Vue({
            }
 
 
-           $.get('https://divorcesus.com/asktemplates/1/', function(data){
+           $.get('/asktemplates/1/', function(data){
                $("#ask-agreement-container").html(data.agreement);
            });
        },
@@ -3329,7 +3366,7 @@ var askfive = new Vue({
        },
 
        submitfive: function (event) {
-         $.get('https://divorcesus.com/sendmail?email='+this.email+'&subject='+this.subject+'&message='+this.message+'&name='+this.full_name, function(data)
+         $.get('/sendmail?email='+this.email+'&subject='+this.subject+'&message='+this.message+'&name='+this.full_name, function(data)
                 {
                      if (data.message =='success')  {
                            $( "div.success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
@@ -3484,7 +3521,7 @@ var consultone = new Vue({
            } else {
                consult_visited[2] = true;
            }
-           $.get('https://divorcesus.com/consulttypes', function(msg) {
+           $.get('/consulttypes', function(msg) {
                      let result = "<div>";
 
                      for(var i=0; i<msg.length; i++) {
@@ -3512,7 +3549,7 @@ var consultone = new Vue({
             });
 
 
-            $.get('https://divorcesus.com/states', function(msg) {
+            $.get('/states', function(msg) {
                      let result = "<select id='consult-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                              if (msg[i].id===39) {
@@ -3525,7 +3562,7 @@ var consultone = new Vue({
                      $("#consult-state-choices").html(result);
             });
 
-            $.get('https://divorcesus.com/countries', function(msg) {
+            $.get('/countries', function(msg) {
                      let result = "<select id='consult-select-country' v-model='country' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                          result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
@@ -3534,7 +3571,7 @@ var consultone = new Vue({
                      $("#consult-country-choices").html(result);
             });
             var user_id = $('#current-user-id').val();
-            $.get( "https://divorcesus.com/users?id="+user_id, function( data ) {
+            $.get( "/users?id="+user_id, function( data ) {
 
                var user = data[0];
                consulttwo.nameoncard = user.first_name+" "+user.last_name;
@@ -3649,7 +3686,7 @@ var consulttwo = new Vue({
 
            var user_id = $('#current-user-id').val();
 
-           $.get( "https://divorcesus.com/users?id="+user_id, function( data ) {
+           $.get( "/users?id="+user_id, function( data ) {
 
                this.user = data[0];
                this.individual_email = this.user.email;
@@ -3659,7 +3696,7 @@ var consulttwo = new Vue({
                consultthree.individual_email = this.individual_email;
            });  
 
-           $.get('https://divorcesus.com/states', function(msg) {
+           $.get('/states', function(msg) {
                      let result = "<select id='consult-individual-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                              if (msg[i].id===39) {
@@ -3672,7 +3709,7 @@ var consulttwo = new Vue({
                      $("#consult-individual-state-choices").html(result);
            });
 
-           $.get('https://divorcesus.com/countries', function(msg) {
+           $.get('/countries', function(msg) {
                      let result = "<select id='consult-individual-select-country' v-model='country' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                          result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
@@ -3708,7 +3745,7 @@ var consulttwo = new Vue({
 
 
  
-            $.get('https://divorcesus.com/states', function(msg) {
+            $.get('/states', function(msg) {
                      let result = "<select id='consult-individual-select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                              if (msg[i].id===39) {
@@ -3721,7 +3758,7 @@ var consulttwo = new Vue({
                      $("#consult-individual-state-choices").html(result);
             });
 
-            $.get('https://divorcesus.com/countries', function(msg) {
+            $.get('/countries', function(msg) {
                      let result = "<select id='consult-individual-select-country' v-model='country' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                          result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
@@ -3806,7 +3843,7 @@ var consulttwo = new Vue({
 
          var user_id = $('#current-user-id').val();
         
-         $.get( "https://divorcesus.com/users?id="+user_id, function( data ) {
+         $.get( "/users?id="+user_id, function( data ) {
          
                this.user = data[0];
  
@@ -3932,7 +3969,8 @@ var consultthree = new Vue({
            this.individual_state = $('#consult-individual-select-state').val();
            this.individual_country = $('#consult-individual-select-country').val();
            this.payment_token = $("#payment-token").val();
-           this.individual_email = $('#consult_email').val();
+           this.individual_email = $("#consult_email").val();
+           this.billing_email = $("#consult_email").val();
            consultfour.billing_full_name = this.billing_full_name;
            consultfour.billing_state = this.billing_state;
            consultfour.billing_country = this.billing_country;
@@ -3978,7 +4016,7 @@ var consultthree = new Vue({
                   $('#consult_phone_errors').html("");
            }
 
-           $.get('https://divorcesus.com/countries', function(msg) {
+           $.get('/countries', function(msg) {
                let result = "<select id='consult-select-country-of-citizenship' v-model='country' class='styled-select slate' style='width:100%;' >";
                 
                for(var i=0;i<msg.length;i++) {
@@ -3988,7 +4026,7 @@ var consultthree = new Vue({
                $("#consult-additional-country-choices").html(result);
            });
 
-            $.get('https://divorcesus.com/children', function(msg) {
+            $.get('/children', function(msg) {
                      let result = "<select id='consult-select-children' v-model='children' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                          result =  result+'<option value="'+msg[i].id+'">'+msg[i].value+'</option>';
@@ -3997,7 +4035,7 @@ var consultthree = new Vue({
                      $("#consult-additional-children-choices").html(result);
             });
 
-            $.get('https://divorcesus.com/marital', function(msg) {
+            $.get('/marital', function(msg) {
                      let result = "<select id='consult-select-marital' v-model='marriage' class='styled-select slate' style='width:100%;' >";
                      for(var i=0;i<msg.length;i++) {
                          result =  result+'<option value="'+msg[i].id+'">'+msg[i].status+'</option>';
@@ -4159,7 +4197,6 @@ var consultfour = new Vue({
          consultfive.individual_country = this.individual_country;
          consultfive.individual_phone = this.individual_phone;
          consultfive.individual_email = this.individual_email;
-
          if (this.errors.length > 0) {
              return;
          } else {
@@ -4200,7 +4237,6 @@ var consultfive = new Vue({
      is_verified: false,
      pre_verified: '',
      billing_full_name:'',
-     billing_email:'',
      message: '',
      subject: '',
      time_asked: '',
@@ -4220,6 +4256,7 @@ var consultfive = new Vue({
      individual_phone: '',
      individual_email: '',
      billing_address1: '',
+     billing_email: '',
      billing_address2: '',
      billing_city: '',
      billing_phone: '',
@@ -4272,7 +4309,7 @@ var consultfive = new Vue({
          consultsix.individual_country = this.individual_country;
          consultsix.individual_phone = this.individual_phone;
          consultsix.individual_email = this.individual_email;
-        
+       
          if (!this.purpose) {
              this.errors.push("Consultancy purpose is needed");
          }
@@ -4285,12 +4322,16 @@ var consultfive = new Vue({
              consult_step_six();
          }
 
-         $.get('https://divorcesus.com/countries/'+this.billing_country+"/", function(data) {
+         $.get('/countries/'+this.billing_country+"/", function(data) {
                $("#final_consultation_billing_country").html("<p><strong>Country: "+data.name.toString()+"</strong></p>");
          })
-         $.get('https://divorcesus.com/states/?id='+this.billing_state, function(data) {
+         $.get('/states/?id='+this.billing_state, function(data) {
                $("#final_consultation_billing_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
          })
+
+         if (!this.individual_address2 || this.individual_address2.length===0) {
+               this.individual_address2 = "";
+         }
 
          $("#final_consultation_billing_name_on_card").html("<p><strong>Full Name: "+this.billing_full_name+"</strong></p>");
          $("#final_consultation_billing_address1").html("<p><strong>Address 1: "+this.billing_address1+"</strong></p>");
@@ -4302,12 +4343,12 @@ var consultfive = new Vue({
          $("#final_consultation_individual_fullname").html("<p><strong>Full Name: "+this.individual_full_name+"</strong></p>");
          $("#final_consultation_individual_address1").html("<p><strong>Address 1: "+this.individual_address1+"</strong></p>");
          $("#final_consultation_individual_address2").html("<p><strong>Address 2: "+this.individual_address2+"</strong></p>"); 
-         $("#final_consultation_individual_city").html("<p><strong>City: "+this.individual_address2+"</strong></p>");
+         $("#final_consultation_individual_city").html("<p><strong>City: "+this.individual_city+"</strong></p>");
          $("#final_consultation_individual_zip").html("<p><strong>Zip(Postal): "+this.individual_zip+"</strong></p>");
          $("#final_consultation_individual_phone").html("<p><strong>Phone: "+this.individual_phone+"</strong></p>");
          $("#final_consultation_individual_email").html("<p><strong>Email: "+this.individual_email+"</strong></p>");
           
-         $.get('https://divorcesus.com/consulttypes/'+this.consultancy_type, function(msg) {
+         $.get('/consulttypes/'+this.consultancy_type, function(msg) {
                $("#final_consultation_consultancy_type").html("<p><strong>Consultancy Type: "+msg.description+"</strong></p>");
                $("#final_consultation_consultancy_price").html("<p><strong>Consultancy Price: "+msg.price+"</strong></p>");
 
@@ -4315,24 +4356,24 @@ var consultfive = new Vue({
          });
         
  
-         $.get('https://divorcesus.com/countries/'+this.individual_country+"/", function(data) {
+         $.get('/countries/'+this.individual_country+"/", function(data) {
                $("#final_consultation_individual_country").html("<p><strong>Country: "+data.name.toString()+"</strong></p>");
          })
-         $.get('https://divorcesus.com/states/?id='+this.individual_state, function(data) {
+         $.get('/states/?id='+this.individual_state, function(data) {
                $("#final_consultation_individual_state").html("<p><strong>State: "+data[0].name.toString()+"</strong></p>");
          })
 
 
 
-         $.get('https://divorcesus.com/children/'+this.number_of_children+"/", function(data) {
+         $.get('/children/'+this.number_of_children+"/", function(data) {
                $("#final_consultation_number_of_children").html("<p><strong>Number of children: "+data.number.toString()+"</strong></p>");
          })
 
-         $.get('https://divorcesus.com/marital/'+this.marital_status+"/", function(data) {
+         $.get('/marital/'+this.marital_status+"/", function(data) {
                $("#final_consultation_marital_status").html("<p><strong>Marital status: "+data.status.toString()+"</strong></p>");
          });
 
-         $.get('https://divorcesus.com/countries/'+this.country_of_citizenship+"/", function(data) {
+         $.get('/countries/'+this.country_of_citizenship+"/", function(data) {
                $("#final_consultation_country_of_citizenship").html("<p><strong>Country of citizenship: "+data.name.toString()+"</strong></p>");
          });
 
@@ -4461,10 +4502,9 @@ var consultsix = new Vue({
                    "country_of_citizenship": this.country_of_citizenship,
                    "number_of_children": this.number_of_children,
              };
-
              $.ajax({
                     type: "POST",
-                    url: "https://divorcesus.com/consult/",
+                    url: "/consult/",
                     crossDomain: true,
                     data: JSON.stringify(arr),
                     dataType: 'json',
@@ -4527,6 +4567,8 @@ var consultseven = new Vue({
      individual_full_name: '',
      individual_address1: '',
      individual_address2: '',
+     billing_address1: '',
+     billing_address2: '',
      individual_city: '',
      individual_state: '',
      individual_zip: '',
@@ -4739,7 +4781,7 @@ function packageChange(p) {
          }
 
          var package_type = divorce_type;
-         let url = 'https://divorcesus.com/packages/?package_type='+package_type+'&state='+state;
+         let url = '/packages/?package_type='+package_type+'&state='+state;
          var pkg = {};
            $.get(url, function(msg) {
                      let result = "<div style='width:100%;'>";
@@ -4814,7 +4856,7 @@ function packageChange(p) {
                      result = result + "</div>";
                      $("#packages-choices").html(result);
 
-                     $.get('https://divorcesus.com/states', function(msg) {
+                     $.get('/states', function(msg) {
                          let result = "<select id='select-state' v-model='state' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
                              if (msg[i].id===39) {
@@ -4827,7 +4869,7 @@ function packageChange(p) {
                          $("#qualify-state-choices").html(result);
                     });
 
-                    $.get('https://divorcesus.com/countries', function(msg) {
+                    $.get('/countries', function(msg) {
                          let result = "<select id='select-country' v-model='country' class='styled-select slate' style='width:100%;' >";
                          for(var i=0;i<msg.length;i++) {
                              result =  result+'<option value="'+msg[i].id+'">'+msg[i].name+'</option>';
@@ -4908,7 +4950,7 @@ async function validate_invoice(invoice) {
 
     await $.ajax({
         type: "POST",
-        url: "https://divorcesus.com/verifyinvoice/",
+        url: "/verifyinvoice/",
         crossDomain: true,
         data: JSON.stringify(arr),
         dataType: 'json',
@@ -4949,7 +4991,7 @@ function package_selected(state, pack, pack_type, price) {
 
 function read_user(user_id) {
 
-        $.get( "https://divorcesus.com/users?id="+user_id, function( data ) {
+        $.get( "/users?id="+user_id, function( data ) {
               return data[0];
         });
         return null;
@@ -4957,7 +4999,6 @@ function read_user(user_id) {
 
 
 jQuery(document).ready(function() {
-    
     jQuery('#qualify_progress_steptwo').click(function(e) {
             $("#qualify-stepone").css("display","none");
             $("#qualify-steptwo").css("display","block");
@@ -4982,3 +5023,100 @@ jQuery(document).ready(function() {
     });
 
 });
+
+function setup_stripe_package() {
+    // Create a Stripe client.
+    var stripe = Stripe('pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV');
+
+    // Create an instance of Elements.
+    var elements = stripe.elements();
+
+// Add an instance of the card UI component into the `card-element` <div>
+
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+      base: {
+        color: '#32325d',
+        lineHeight: '18px',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
+      }
+    };
+
+    // Create an instance of the card Element.
+    var card = elements.create('card', {style: style});
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    var ce = $('#card-element-package');
+
+    if (ce) {
+        card.mount('#card-element-package');
+
+        // Handle real-time validation errors from the card Element.
+        card.addEventListener('change', function(event) {
+              var displayError = document.getElementById('card-errors-package');
+
+             if (event.error) {
+                 displayError.textContent = event.error.message;
+             } else {
+                 displayError.textContent = '';
+             }
+        });
+    }
+
+    // Handle form submission.
+    var form = document.getElementById('payment-form-package');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      stripe.createToken(card).then(function(result) {
+        if (result.error) {
+            // Inform the user if there was an error.
+            var errorElement = document.getElementById('card-errors-package');
+            errorElement.textContent = result.error.message;
+            qvm4.stripe_errors.push(result.error.message);
+            qvm4.token=null;
+        } else {
+            if(qvm4.errors.length==0) {
+               qvm4.redirect();
+            }
+            qvm4.token = result.token.id;
+            qvm5.token = result.token.id;
+            $("#payment-token").attr("value", result.token.id);
+        }
+      });
+    });
+
+}
+
+             
+ShadyDOM = {
+                  force: true
+};
+
+
+var ps = new PerfectScrollbar('.scroll-container');
+
+Vue.use(SocialSharing);
+
+new Vue({
+                el: '#shareapp',
+                data: {
+                    overriddenNetworks: {
+                       "test": {
+                              "sharer": "https://google.com",
+                              "type": "popup"
+                       },
+                    }
+               }
+});
+

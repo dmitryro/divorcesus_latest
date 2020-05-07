@@ -34,14 +34,16 @@ function setup_stripe_three() {
     if (ce) {
         card.mount('#card-element-three');
         // Handle real-time validation errors from the card Element.
-        card.addEventListener('change', function(event) {
-            var displayError = document.getElementById('card-errors-three');
-            if (event.error) {
-                displayError.textContent = event.error.message;
-            } else {
-                displayError.textContent = '';
-            }
-        });
+        if (card) {
+            card.addEventListener('change', function(event) {
+                var displayError = document.getElementById('card-errors-three');
+                if (event.error) {
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+        }
     }
 
     // Handle form submission.
@@ -73,77 +75,6 @@ function setup_stripe_three() {
     return false;
 }
 
-function setup_stripe_two() {
-    // Create a Stripe client.
-    var stripe = Stripe('pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV');
-
-    // Create an instance of Elements.
-    var elements = stripe.elements();
-
-    // Custom styling can be passed to options when creating an Element.
-    // (Note that this demo uses a wider set of styles than the guide below.)
-    var style = {
-      base: {
-        color: '#32325d',
-        lineHeight: '18px',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '16px',
-        '::placeholder': {
-          color: '#aab7c4'
-        }
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
-      }
-    };
-
-    // Create an instance of the card Element.
-    var card = elements.create('card', {style: style});
-
-    // Add an instance of the card Element into the `card-element` <div>.
-    var ce = $('#card-element-two');
-  
-    if (ce) {
-        card.mount('#card-element-two');
-
-        // Handle real-time validation errors from the card Element.
-        card.addEventListener('change', function(event) {
-              var displayError = document.getElementById('card-errors-two');
-
-             if (event.error) {
-                 displayError.textContent = event.error.message;
-             } else {
-                 displayError.textContent = '';
-             }
-        });
-    }
-
-    // Handle form submission.
-    var form = document.getElementById('payment-form-two');
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      stripe.createToken(card).then(function(result) {
-        if (result.error) {
-            // Inform the user if there was an error.
-            var errorElement = document.getElementById('card-errors-two');
-            errorElement.textContent = result.error.message;
-            qvm4.stripe_errors.push(result.error.message);
-            qvm4.token=null;
-        } else {
-            if(qvm4.errors.length==0) {
-               qvm4.redirect();
-            }
-            qvm4.token = result.token.id;
-            qvm5.token = result.token.id;
-            $("#payment-token").attr("value", result.token.id);
-        }
-      });
-    });
-
-}
 
 function setup_stripe_one() {
     // Create a Stripe client.
@@ -215,4 +146,5 @@ function setup_stripe_one() {
 
     return false;
 }
+
 

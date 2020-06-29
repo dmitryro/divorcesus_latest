@@ -1,0 +1,1 @@
+[{"model": "gui.logocolor", "pk": 1, "fields": {"color": "GREEN", "code": "GR"}}, {"model": "gui.logocolor", "pk": 2, "fields": {"color": "BLUE", "code": "BL"}}, {"model": "gui.logocolor", "pk": 3, "fields": {"color": "RED", "code": "RD"}}]

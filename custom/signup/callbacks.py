@@ -83,7 +83,7 @@ from signals import new_mailchimp_subscriber
 def user_send_email_handler(sender,contact,**kwargs):
     try:
        task = TaskLog.objects.get(user_id=contact.id,job='sending_user_email')
-    except Exception, R:
+    except Exception as R:
        task = TaskLog.objects.create(user_id=contact.id,job='sending_user_email',is_complete=False)  
        process_user_email(contact)
 
@@ -156,7 +156,7 @@ def process_user_question(contact):
         pass
     except ObjectDoesNotExist:
         pass
-    except Exception, R:
+    except Exception as R:
         log = Logger(log=str(R))
         log.save()
 
@@ -315,7 +315,7 @@ def process_user_email(contact):
         pass
     except ObjectDoesNotExist:
         pass
-    except Exception, R:
+    except Exception as R:
         log = Logger(log=str(R))
         log.save()
 
@@ -456,7 +456,7 @@ def google_profile(sender, instance, is_new, email, profile_picture):
 def greet_user(sender,instance,**kwargs):
     try:
         send_welcome(instance=instance)
-    except Exception, R:
+    except Exception as R:
         lg = Logger(log='some shit'+str(R))
 
 
@@ -670,7 +670,7 @@ def send_welcome(instance):
         pass
     except ObjectDoesNotExist:
         pass
-    except Exception, R:
+    except Exception as R:
         log = Logger(log='---ERROR---'+str(R))
         log.save()
 
@@ -896,7 +896,7 @@ def new_account_notify(instance, email):
         pass
     except ObjectDoesNotExist:
         pass
-    except Exception, R:
+    except Exception as R:
         log = Logger(log='Something prevented us from sending '+str(R))
         log.save()
 

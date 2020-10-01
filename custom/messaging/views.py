@@ -168,7 +168,7 @@ class IncomingMessagesList(generics.ListAPIView):
 
             return Message.objects.filter(receiver_id=receiver_id)
 
-        except Exception, R:
+        except Exception as R:
             receiver_id = self.request.user.id
             return Message.objects.filter(receiver_id=receiver_id)
 
@@ -189,7 +189,7 @@ class OutgoingMessagesList(generics.ListAPIView):
             return Message.objects.filter(sender_id=sender_id)
 
 #            return Message.objects.filter(sender_id=sender_id)
-        except Exception, R:
+        except Exception as R:
             sender_id = self.request.user.id
             return Message.objects.filter(sender_id=sender_id)
 
@@ -263,7 +263,7 @@ class SendMessageView(Endpoint):
                                                     message = message,
                                                     kwargs = None)
 
-        except Exception, R:
+        except Exception as R:
             log = Logger(log=str(R))
             log.save()
 

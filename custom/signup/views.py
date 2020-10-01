@@ -78,7 +78,7 @@ class SendEmailView(Endpoint):
            log = Logger(log='WE ARE SENDING EMAIL IN GET '+email)
            log.save()
            return {'message':'success','s3_base_url':"blablabla"}
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE HAD AN ERROR '+str(R))
            log.save()   
            return {'message':'error','data':'we failed reading s3 base url'}
@@ -91,7 +91,7 @@ class SendEmailView(Endpoint):
            log = Logger(log='WE ARE SENDING EMAIL'+str(email))
            log.save()
            return {'message':'success','s3_base_url':"blablabla"}
-        except Exception, R:
+        except Exception as R:
            return {'message':'error','data':'we failed reading s3 base url'}
 
 
@@ -134,7 +134,7 @@ class SubscribeView(Endpoint):
 
            return {'message':'success','email':email}
 
-        except Exception, R:
+        except Exception as R:
 
            return {'message':'error','data':'we failed reading s3 base url'}
 
@@ -155,7 +155,7 @@ def activate(request, activation_key):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1

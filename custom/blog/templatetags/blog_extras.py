@@ -35,7 +35,7 @@ def last_posted(a, b,  *args, **kwargs):
         try:
             posts = Post.obects.all().sort_by('-time-published')
             return posts
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):

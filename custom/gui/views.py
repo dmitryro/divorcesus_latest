@@ -217,6 +217,18 @@ def confirm_account_view(request):
 
        user = User.objects.get(id=int(user_id))
        user.is_active = True
+       if not user.profile:
+           profile = Profile.objects.create(id=user.id,
+                                            username=user.username,
+                                            is_new=True,
+                                            email=user.email,
+                                            first_name=user.first_name,
+                                            last_name=user.last_name,
+                                            twitter_uid=uid,
+                                            is_twitter_signup_used=False,
+                                            user=user)
+           profil.save()
+
        user.profile.is_confirmed = True
        user.profile.is_activated = False
        user.first_name = first
@@ -497,7 +509,7 @@ def home(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = '' 
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -552,7 +564,7 @@ def blogs(request, blog_id):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            user_id = -1
            username = ''
            first_name = ''
@@ -600,7 +612,7 @@ def blog(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -652,7 +664,7 @@ def about(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -702,7 +714,7 @@ def allservices(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -752,7 +764,7 @@ def services(request, service):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -801,7 +813,7 @@ def posts(request,page):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -851,7 +863,7 @@ def post(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -895,7 +907,7 @@ def pricing(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = profile.profile_image_path
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -931,7 +943,7 @@ def ask(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = profile.profile_image_path
-        except Exception, R:
+        except Exception as R:
            user_id = -1
            username = ''
            first_name = ''
@@ -966,7 +978,7 @@ def contacts(request):
            last_name = request.user.last_name
            profile_image_path = profile.profile_image_path
  
-        except Exception, R:
+        except Exception as R:
            user_id = -1
            username = ''
            first_name = ''
@@ -1006,7 +1018,7 @@ def payment(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -1050,7 +1062,7 @@ def toast(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = profile.profile_image_path
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -1094,7 +1106,7 @@ def divorce(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = profile.profile_image_path
-        except Exception, R:
+        except Exception as R:
 
            user_id = -1
            username = ''
@@ -1130,7 +1142,7 @@ def logout(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -1168,7 +1180,7 @@ def check_qualify(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            user_id = -1
            username = ''
            first_name = ''
@@ -1216,7 +1228,7 @@ def contact(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -1265,7 +1277,7 @@ def pricing(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1
@@ -1315,7 +1327,7 @@ def faq(request):
            first_name = request.user.first_name
            last_name = request.user.last_name
            profile_image_path = ''
-        except Exception, R:
+        except Exception as R:
            log = Logger(log='WE GOT SOME ERROR'+str(R))
            log.save()
            user_id = -1

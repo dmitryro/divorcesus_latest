@@ -201,7 +201,7 @@ class AddCommentView(Endpoint):
             serializer = CommentSerializer(comments,many=True)
             return {"comments":serializer.data}
 
-        except Exception, R:
+        except Exception as R:
             return {'message':'error','error':str(R)}
    
 
@@ -247,7 +247,7 @@ class AddCommentView(Endpoint):
             serializer = CommentSerializer(comments,many=True)
             return {"comments":serializer.data}
 
-        except Exception, R:
+        except Exception as R:
             return {'message':'error','error':str(R)}
                   
  
@@ -275,7 +275,7 @@ class DeleteCommentView(Endpoint):
             serializer = CommentSerializer(comments,many=True)
             return {"comments":serializer.data}
 
-        except Exception, R:
+        except Exception as R:
             return {'message':'error','error':str(R)}
  
 
@@ -292,7 +292,7 @@ class DeleteCommentView(Endpoint):
             serializer = CommentSerializer(comments,many=True)
             return {"comments":serializer.data}
 
-        except Exception, R:
+        except Exception as R:
             return {'message':'error','error':str(R)}
 
 ############################################

@@ -40,7 +40,7 @@ def payment_send_confirmation_email_handler(sender,**kwargs):
      try:
         
         task = TaskLog.objects.get(user_id=contact.id,job='sending_payment_email')
-     except Exception, R:
+     except Exception as R:
         task = TaskLog.objects.create(user_id=contact.id, job='sending_payment_email', is_complete=False)
         payment = kwargs['payment']
 
@@ -132,7 +132,7 @@ def process_payment_office_email(payment, contact):
         pass
     except ObjectDoesNotExist:
         pass
-    except Exception, R:
+    except Exception as R:
         log = Logger(log="ANOTHER FAILURE HERE: "+str(R))
         log.save()
 

@@ -80,7 +80,7 @@ class AddressList(generics.ListAPIView):
 
             return Address.objects.filter(user_id=user_id)
 
-        except Exception, R:
+        except Exception as R:
             user_id = self.request.user.id
 
             return Address.objects.filter(user_id=user_id)
@@ -295,7 +295,7 @@ class PaymentsList(generics.ListAPIView):
 
             return Payment.objects.filter(user_id=user_id)
 
-        except Exception, R:
+        except Exception as R:
             user_id = self.request.user.id
 
             return Payment.objects.filter(user_id=user_id)
@@ -315,7 +315,7 @@ class PastPaymentsList(Endpoint):
 
             serializer = PaymentSerializer(payments,many=True)      
             return {"payments":serializer.data}      
-        except Exception, R:
+        except Exception as R:
             return {"payments":str(R)}
 
 

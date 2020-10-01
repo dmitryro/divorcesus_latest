@@ -184,7 +184,7 @@ def user_meta(a, b,  *args, **kwargs):
             user = User.objects.get(id=int(a))
             profile = user.profile
         except Exception as R:
-            print R
+            print(R)
 
         if (b==1):
             return '' if user.first_name is None else user.first_name
@@ -200,14 +200,14 @@ def user_meta(a, b,  *args, **kwargs):
             return profile.profile_image_path
 
         elif b==4:
-            return user.email if profile.email else ""
+            return user.email if user.email else ""
 
         elif b==5:
            return profile.phone if profile.phone else ""
                
 
         elif b==6:
-            return profile.username if profile.username else ""
+            return user.username if user.username else ""
 
  
  
@@ -227,7 +227,7 @@ def aboutus_meta(a, b,  *args, **kwargs):
     try:
         try:
             aboutus = AboutUs.objects.get(id=int(a))
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):
@@ -309,7 +309,7 @@ def member_meta(a, b,  *args, **kwargs):
     try:
         try:
             member = TeamMember.objects.get(id=int(a))
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):
@@ -360,7 +360,7 @@ def milestone_meta(a, b,  *args, **kwargs):
     try:
         try:
             milestone = MileStone.objects.get(id=int(a))
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):
@@ -387,7 +387,7 @@ def advantage_meta(a, b,  *args, **kwargs):
     try:
         try:
             advantage = Advantage.objects.get(id=int(a))
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):
@@ -418,7 +418,7 @@ def logo_meta(a, b,  *args, **kwargs):
     try:
         try:
             logo = Logo.objects.get(id=int(a))
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):
@@ -567,7 +567,7 @@ def ask_meta(a, b,  *args, **kwargs):
     try:
         try:
             ask = AskTemplate.objects.get(id=int(a))
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):
@@ -599,7 +599,7 @@ def billing_meta(a, b,  *args, **kwargs):
     try:
         try:
             address = Address.objects.get(user_id=user.id, is_default=True)
-        except Exception, R:
+        except Exception as R:
             return ""
 
         if (b==1):

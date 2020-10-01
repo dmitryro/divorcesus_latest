@@ -189,7 +189,7 @@ def check_duplicate(backend, details, user, response, is_new=False,*args,**kwarg
                   return {"user":usr}
              except ObjectDoesNotExist:
                   return {"user":None}
-             except Exception, R:
+             except Exception as R:
                   return {"user":None}
 
          if backend.name == 'google-oauth2':
@@ -202,7 +202,7 @@ def check_duplicate(backend, details, user, response, is_new=False,*args,**kwarg
                   return {"user":usr}
              except ObjectDoesNotExist:
                   return {"user":None}
-             except Exception, R:
+             except Exception as R:
                   return {"user":None}
 
          if backend.name == 'linkedin-oauth2':
@@ -215,12 +215,15 @@ def check_duplicate(backend, details, user, response, is_new=False,*args,**kwarg
                   return {"user":usr}
              except ObjectDoesNotExist:
                   return {"user":None}
-             except Exception, R:
+             except Exception as R:
                   return {"user":None}
 
 
 @partial
 def consolidate_profiles(backend, details, user, response, is_new=False,*args,**kwargs):
+    log = Logger(log="LALA LOGGER {}".format(user))
+    log.save()
+
     if user.email:
         min_id = User.objects.filter(email=user.email).aggregate(id=Min('id'))
         usr_id=min_id['id']
@@ -229,6 +232,13 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
         usr = user
 
     if backend.name == 'linkedin-oauth2':
+        username = "{}{}".format(usr.first_name, usr.last_name)
+        log = Logger(log="USERNAME  ===> {}".format(username))
+        log.save()
+        usr = User.objects.filter(username=username).first()
+
+        log = Logger(log="HERE IS THE USER WE HAVE FOUND {} {} {}".format(usr.username, usr.first_name, usr.last_name))
+        log.save()
         skip_user = False
 
         image_small = response.get('pictureUrl', None)
@@ -237,74 +247,57 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
 
 
         try:
-            try:
-                 min_id = User.objects.filter(email=user.email).aggregate(id=Min('id'))
-                 usr_id=int(min_id['id'])
-                 is_new=False
-                 usr = User.objects.get(id=usr_id)
-
-            except ObjectDoesNotExist:
-                 email = response.get('emailAddress')
-                 min_id = User.objects.filter(email=email).aggregate(id=Min('id'))
-                 usr_id=int(min_id['id'])
-                 is_new=False
-                 usr = User.objects.get(id=usr_id)
-            except Exception,R:
-                 usr = user
-
-            if usr.id < user.id:
-                is_new = False
-                try:
-                    user.profilesummary.delete()
-                except Exception, R:
-                    pass
-                try:
-                    user.profile.delete()
-                except Exception, R:
-                    pass
-                try:
-                    user.delete()
-                except Exception, R:
-                     pass
-
-                return {'user':usr}
-            else:
-                is_new = True
-                usr = user
-
-
+            is_new=False
         except ObjectDoesNotExist:
-            usr = user
+            usr = User.objects.filter(first_name=user.first_name, last_name=user.last_name).first()
+            is_new=False
             skip_user = False
 
+
         try:
-             profile=Profile.objects.get(id=usr.id)
-        except ObjectDoesNotExist:
-             profile = Profile.objects.create(id=usr.id,
-                                              username=usr.username,
+             profile=Profile.objects.get(user=usr)
+             is_new = False
+             usr = profile.user
+             if user:
+                 u = User.objects.get(id=user.id)
+                 u.delete()
+        except Exception as r:
+             log = Logger(log="I COULD NOT FIND PROFILE {}".format(usr.id))
+             log.save()
+
+             profile = Profile.objects.create(username=usr.username,
                                               is_new=True,
                                               email=usr.email,
                                               first_name=usr.first_name,
                                               last_name=usr.last_name,
                                               is_linkedin_signup_used=True,
+                                              id=usr.id,
                                               user=usr)
+             profile.save()
+             log = Logger(log="I CREATED A NEW PROFILE {}".format(profile.id))
+             log.save()
+             is_new = True
 
-        if profile.is_user_avatar==False:
-            avatar_url = response.get('pictureUrls', {}).get('values', [None])[0]
-            if not avatar_url:
-               avatar_url = response.get('pictureUrl')
+        log = Logger(log="OUR DEAR PROFILE ==============> {}".format(profile.id))
+        log.save()
 
-            profile.profile_image_path=avatar_url
-            profile.save()
+        if profile:
+            if profile.is_user_avatar==False:
+                avatar_url = response.get('pictureUrls', {}).get('values', [None])[0]
+                if not avatar_url:
+                    avatar_url = response.get('pictureUrl')
 
-
+                profile.profile_image_path=avatar_url
+                profile.save()
+                
+            return {'user':usr}
 
 
     elif backend.name == 'twitter':
-        profile_image_path = response.get('profile_image_url', '').replace('_normal', '')
-        try:
-            profile = Profile.objects.get(profile_image_path=profile_image_path)
-            usr = profile.user
+        try: 
+            username = "{}{}".format(user.first_name, user.last_name)
+            usr = User.objects.filter(username=username).first()
+            profile = Profile.objects.get(user=usr)
         except ObjectDoesNotExist:
             profile = Profile.objects.create(id=user.id,
                                              username=user.username,
@@ -373,15 +366,15 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
                 is_new = False
                 try:
                     user.profilesummary.delete()
-                except Exception, R:
+                except Exception as R:
                     pass
                 try:
                     user.profile.delete()
-                except Exception, R:
+                except Exception as R:
                     pass
                 try:
                     user.delete()
-                except Exception, R:
+                except Exception as R:
                      pass
 
                 return {'user':usr}
@@ -393,7 +386,7 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
         except ObjectDoesNotExist:
             usr = user
             skip_user = False
-        except Exception, R:
+        except Exception as R:
             usr = user
             skip_user = False
 
@@ -518,15 +511,15 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
                 is_new = False
                 try:
                     user.profile.delete()
-                except Exception, R:
+                except Exception as R:
                     pass
                 try:
                     user.profile.delete()
-                except Exception, R:
+                except Exception as R:
                     pass
                 try:
                     user.delete()
-                except Exception, R:
+                except Exception as R:
                      pass
 
                 return {'user':usr}
@@ -536,7 +529,7 @@ def consolidate_profiles(backend, details, user, response, is_new=False,*args,**
         except ObjectDoesNotExist:
             usr = user
             skip_user = False
-        except Exception, R:
+        except Exception as R:
             usr = user
             skip_user = False
 

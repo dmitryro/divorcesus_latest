@@ -51,7 +51,7 @@ class ServiceList(generics.ListAPIView):
         try:
             return Service.objects.all()
 
-        except Exception, R:
+        except Exception as R:
 
             return Service.objects.all()
 
@@ -68,7 +68,7 @@ class PackageList(generics.ListAPIView):
         try:
             return Package.objects.all()
 
-        except Exception, R:
+        except Exception as R:
 
             return Package.objects.all()
 

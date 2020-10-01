@@ -49,7 +49,7 @@ def message_sent_handler(sender, receiver, message, **kwargs):
                                                    is_sent = True,
                                                    message = message,
                                                    user = receiver)
-    except Exception, R:
+    except Exception as R:
         log = Logger(log = 'WE ARE IN SIGNAL AND WE HAVE FAILED '+str(R))
         log.save()
 
@@ -64,7 +64,7 @@ def message_read_handler(sender, receiver, message, **kwargs):
        notification = Notification.objects.get(message=message)
        notification.is_received = True
        notification.save()
-    except Exception, R:
+    except Exception as R:
         log = Logger(log = 'WE ARE IN SIGNAL READ MESSAGE AND WE HAVE FAILED '+str(R))
         log.save()
 

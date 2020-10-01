@@ -1,4 +1,6 @@
-            {% load meta %}
+{% load socialaccount %}
+{% providers_media_js %}
+{% load meta %}
             <!DOCTYPE html>
             <html class="no-js" {% meta_namespaces_gplus %}>
              <!--<![endif]-->
@@ -421,7 +423,7 @@
                                                    <div class="modal-container" style="min-width: 25.5em;">
                                                          <div class="modal-header">
                                                              <div id="modal-header" class="header-left">
-                                                                 <h3><strong>Confirm your info</strong></h3>
+                                                                 <h3><strong>Please confirm your information</strong></h3>
                                                              </div>
                                                              <div class="header-right">
                                                                  <img src="/media/images/close_icon.png" height="20" width="20" style="margin-right:-10%;margin-top:-10%;"  @click="$emit('close')" />
@@ -7759,9 +7761,11 @@
                                                     </div>
 
                                                     <div style="margin-top:15%;margin-bottom:15%;width:100%;">
-                                                        <center>   
-                                                              <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                                        </center> 
+                                                        <center>
+                                                              <a class="btn-si btn-si-a btn-facebook"  href="{% url 'social:begin' 'facebook' %}">Sign in with Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                                        </center>
+
+
                                                     </div>
 
                                                     <div style="margin-top:15%;margin-bottom:15%;width:100%;">

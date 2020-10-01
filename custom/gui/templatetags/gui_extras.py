@@ -212,10 +212,10 @@ def user_meta(a, b,  *args, **kwargs):
  
  
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 
 """
@@ -243,10 +243,10 @@ def aboutus_meta(a, b,  *args, **kwargs):
             return aboutus.avatar
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 """
  Package term meta
@@ -263,10 +263,10 @@ def package_meta(a, *args, **kwargs):
         return h.handle(term.term)
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 
 """
@@ -293,10 +293,10 @@ def article_meta(a, b,  *args, **kwargs):
 
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 
 
@@ -320,10 +320,10 @@ def member_meta(a, b,  *args, **kwargs):
             return member.avatar
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 """
  Testimonial meta
@@ -345,10 +345,10 @@ def testimonial_meta(a, b,  *args, **kwargs):
             return "https://divorcesus.com/media/{}".format(testimonial.avatar)
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 
 """
@@ -371,10 +371,10 @@ def milestone_meta(a, b,  *args, **kwargs):
             return h.handle(milestone.body)
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 
 
@@ -401,10 +401,10 @@ def advantage_meta(a, b,  *args, **kwargs):
 
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 
 
@@ -432,10 +432,10 @@ def logo_meta(a, b,  *args, **kwargs):
 
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 
 
@@ -490,10 +490,10 @@ def contact_meta(a, b,  *args, **kwargs):
 
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 @register.simple_tag
 def faq_meta(a,   *args, **kwargs):
@@ -523,11 +523,11 @@ def service_meta(a, b,  *args, **kwargs):
             return service.service
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
         return ""
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
         return ""
 
     except Exception as e:
@@ -555,10 +555,10 @@ def consult_meta(a, b,  *args, **kwargs):
 
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 
 @register.simple_tag
@@ -582,10 +582,10 @@ def ask_meta(a, b,  *args, **kwargs):
 
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 
 
 @register.simple_tag
@@ -624,8 +624,8 @@ def billing_meta(a, b,  *args, **kwargs):
 
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 

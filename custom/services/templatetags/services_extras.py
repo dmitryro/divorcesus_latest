@@ -22,7 +22,7 @@ def services_meta(a, b, state, *args, **kwargs):
             else:
                 service = Service.objects.get(id=int(a))
         except Exception as R:
-            print R
+            print(R)
 
         if (b==1):
             return '' if service.title is None else service.title
@@ -37,7 +37,7 @@ def services_meta(a, b, state, *args, **kwargs):
             return '' if service.avatar is None else service.avatar
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
         print("No result for this id")
@@ -70,8 +70,8 @@ def packages_meta(a, b,  *args, **kwargs):
 
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 

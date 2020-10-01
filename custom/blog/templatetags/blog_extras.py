@@ -49,8 +49,8 @@ def last_posted(a, b,  *args, **kwargs):
 
 
     except TypeError:
-        print "Invalid argument type"
+        print("Invalid argument type")
 
     except NameError:
-        print "No result for this id"
+        print("No result for this id")
 

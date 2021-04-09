@@ -44,6 +44,7 @@ SECRET_KEY = 'mdbtl108v8i0)_q&f$@3j3gie^_^r!xj%-fp-lr@uq)zl0boe%'
 APPEND_SLASH = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+SECURE_SSL_REDIRECT = False
 BASE_URL = 'https://divorcesus.com'
 PROFILE_IMAGE_PATH='https://divorcesus.com/static/images/user_no_avatar.png'
 
@@ -56,6 +57,7 @@ VERIFY_SSL = False
 
 ADMIN_USERNAME='admin'
 SESSION_PROTECTION = 'weak'
+SESSION_COOKIE_SAMESITE = None
 # Application definition
 
 INSTALLED_APPS = [
@@ -108,6 +110,14 @@ INSTALLED_APPS = [
     'django_social_share',
     'ckeditor',
     'tinymce',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.linkedin',
+    'allauth.socialaccount.providers.linkedin_oauth2', 
     'social',
     'social.apps.django_app.default',
     'pyres',
@@ -176,21 +186,22 @@ GOOGLE_ANALYTICS = {
 }
 
 SITE_ID=1
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_USERNAME_REQURIED=True
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.common.BrokenLinkEmailsMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.common.BrokenLinkEmailsMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
-    'django_user_agents.middleware.UserAgentMiddleware',
-    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
-#    'rules_light.middleware.Middleware',
+    #'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    #'django.contrib.messages.middleware.MessageMiddleware',
+    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    #'django_user_agents.middleware.UserAgentMiddleware',
+    #'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'divorces.urls'
@@ -214,8 +225,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
-                'social.apps.django_app.context_processors.backends',
-                'social.apps.django_app.context_processors.login_redirect',
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect', # <--
+#                'social.apps.django_app.context_processors.backends',
+#                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -287,12 +300,35 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
   #  'custom.signup.backends.CustomFacebookOauth',
     'social_core.backends.facebook.FacebookAppOAuth2',
-    ##'social_core.backends.linkedin.LinkedinOAuth',
     'social_core.backends.linkedin.LinkedinOAuth2',
    # 'social.backends.twitter.TwitterOAuth', 
     'social_core.backends.twitter.TwitterOAuth',  
+    #'social.backends.linkedin.LinkedinOAuth2',
+    #'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+       {'METHOD': 'oauth2',
+        'SCOPE': ['email','public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'en_US',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.4'}}
 
 LANGUAGE_CODE = 'en-us'
 
@@ -411,7 +447,19 @@ RQ_QUEUES = {
         'DB': 0,
     }
 }
-
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_emailaddress']
+#SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_emailaddress', 'r_liteprofile', 'r_basicprofile', '&quot;r_basicprofile&quot;']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = ['email-address', 'headline', 'industry']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA      = [
+    ('id', 'id'),
+    ('email', 'email'),
+    ('first-name', 'first_name'),
+    ('last-name', 'last_name'),
+    ('email-address', 'email_address'),
+    ('headline', 'headline'),
+    ('industry', 'industry')
+]
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 #SOCIAL_AUTH_PIPELINE = (
 #    'social_core.pipeline.social_auth.social_details',  # 0
 #    'social_core.pipeline.social_auth.social_uid',  # 1
@@ -451,16 +499,18 @@ SOCIAL_AUTH_PIPELINE = (
                                                     # and if it is, it returns the user
     'social_core.pipeline.user.get_username',            # creates a username for the person
                                                     # this is needed to create a unique username if found in DB
+    'social_core.pipeline.mail.mail_validation',
+    'social_core.pipeline.social_auth.associate_by_email',
 #    'custom.signup.pipeline.check_duplicate',       # custom method to check for user on other accounts
     'social_core.pipeline.user.create_user',             # creates a user account if 'user' does not exist yet otherwise returns 'is_new = False'
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',            # Update the user record with any changed info from the auth service.
 
-    'social_core.pipeline.social_auth.associate_user',  # 6
-    'social_core.pipeline.social_auth.load_extra_data',  # 7
-    'custom.signup.pipeline.fix_twitter_linkedin',
+    #'custom.signup.pipeline.fix_twitter_linkedin',
 
                                                     # not sure if we need this but unsure of something that changes data without us knowing
-  #  'custom.signup.pipeline.save_profile_picture',  # custom method to save profile picture
+    #'custom.signup.pipeline.save_profile_picture',  # custom method to save profile picture
     'custom.signup.pipeline.consolidate_profiles',   # custom method to delete profile which shouldnt ever occur again
 )
 
@@ -469,50 +519,59 @@ SOCIAL_AUTH_DISCONNECT_PIPELINE = (
     # Verifies that the social association can be disconnected from the current
     # user (ensure that the user login mechanism is not compromised by this
     # disconnection).
-    'social_core.pipeline.disconnect.allowed_to_disconnect',
+    #'social_core.pipeline.disconnect.allowed_to_disconnect',
 
     # Collects the social associations to disconnect.
-    'social_core.pipeline.disconnect.get_entries',
+    #'social_core.pipeline.disconnect.get_entries',
 
     # Revoke any access_token when possible.
-    'social_core.pipeline.disconnect.revoke_tokens',
+    #'social_core.pipeline.disconnect.revoke_tokens',
 
     # Removes the social associations.
-    'social_core.pipeline.disconnect.disconnect'
+    #'social_core.pipeline.disconnect.disconnect'
 )
 
 FIELDS_STORED_IN_SESSION = ['key']
-FACEBOOK_APPLICATION_ID = '831699350268733'
-FACEBOOK_APPLICATION_SECRET_KEY = '0f57b646882a38e45d8a40eb391a1dd0'
+#FACEBOOK_APPLICATION_ID = '831699350268733'
+### FACEBOOK_APPLICATION_ID = '896865284090055'
+#FACEBOOK_APPLICATION_SECRET_KEY = '0f57b646882a38e45d8a40eb391a1dd0'
+### FACEBOOK_APPLICATION_SECRET_KEY = 'd724fd410733966c358c2079ded85129'
 FACEBOOK_APPLICATION_NAMESPACE = ''
-FACEBOOK_APP_ID = '831699350268733'
-FACEBOOK_APP_SECRET = '0f57b646882a38e45d8a40eb391a1dd0'
+#FACEBOOK_APP_ID = '831699350268733'
+####FACEBOOK_APP_ID = '896865284090055'
+####FACEBOOK_APP_SECRET = 'd724fd410733966c358c2079ded85129'
+# FACEBOOK_APP_SECRET = '0f57b646882a38e45d8a40eb391a1dd0'
 FANDJANGO_SITE_URL = 'https://divorcesus.com'
 SOCIAL_AUTH_TWITTER_KEY = 'scqmosTONSHCvlcxTtLNJR9tF'
 SOCIAL_AUTH_TWITTER_SECRET = 'jWWUmos4pRm36En9zmO1UcoUuGMr5GdnatobOdziGwLhwtoVnp'
 SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = '77fvb1xbqmead8'
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = 'Ged9hBuDxKakWUZd'
-SOCIAL_AUTH_FACEBOOK_KEY = '831699350268733'
-SOCIAL_AUTH_FACEBOOK_SECRET = '0f57b646882a38e45d8a40eb391a1dd0'
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'en_US'}
+#SOCIAL_AUTH_FACEBOOK_KEY = '831699350268733'
+# ALLAUTH
+SOCIAL_AUTH_FACEBOOK_KEY = '896865284090055'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'd724fd410733966c358c2079ded85129'
+#SOCIAL_AUTH_FACEBOOK_SECRET = '0f57b646882a38e45d8a40eb391a1dd0'
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'en_US', 'fields': 'id,name,email'}
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1021242963135.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'vwfWVtveKrprfuilH01Z_zZK'
 SOCIAL_AUTH_INSTAGRAM_KEY = 'e5fe4ae25dfd4d52a7582ed8d61c97c9'
 SOCIAL_AUTH_INSTAGRAM_SECRET = '572ccbcf03454dd7bc2c87fa70d77216'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/signin'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/' #complete/facebook/' #'/login/facebook/?next=/'
 SOCIAL_AUTH_LOGIN_URL = '/signin/'
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
+SOCIAL_AUTH_BACKEND_ERROR_URL = '/'
 SOCIAL_AUTH_STRATEGY = 'social.strategies.django_strategy.DjangoStrategy'
 SOCIAL_AUTH_STORAGE = 'social.apps.django_app.default.models.DjangoStorage'
 SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {
     'access_type': 'offline',
     'approval_prompt': 'auto'
 }
-LOGIN_URL = '/auth/login/google-oauth2/'
+#LOGIN_URL = '/auth/login/google-oauth2/'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/complete/facebook/'
 LOGOUT_REDIRECT_URL = '/'
 # Add email to requested authorizations.
-SOCIAL_AUTH_LINKEDIN_SCOPE = ['r_basicprofile', 'r_emailaddress',]
+SOCIAL_AUTH_LINKEDIN_SCOPE = ['r_emailaddress',]
 # Add the fields so they will be requested from linkedin.
 SOCIAL_AUTH_LINKEDIN_FIELD_SELECTORS = ['email-address', 'headline', 'industry']
 # Arrange to add the fields to UserSocialAuth.extra_data
@@ -524,7 +583,7 @@ SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
                                    ('industry', 'industry'),
                                    ('picture-url', 'picture_url'),
                                    ('pictureUrl', 'pictureUrls')]
-SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_basicprofile', 'r_emailaddress', 'rw_company_admin', 'w_share', 'r_emailaddress',]
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_emailaddress', 'r_emailaddress',]
 SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = ['public-profile-url', 
                                                'email-address', 
                                                'headline', 
@@ -551,8 +610,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.profile'
 ]
 FIELD_SELECTORS = ['email-address',]
-#SOCIAL_AUTH_SESSION_EXPIRATION = False
+SOCIAL_AUTH_SESSION_EXPIRATION = False
 #SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
 BROKER_BACKEND                  = "redis"
 BROKER_HOST                     = "localhost"
 BROKER_PORT                     = 6379
@@ -806,8 +867,8 @@ PIPELINE = {
 #PIPELINE['JS_COMPRESSOR'] = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 #PIPELINE['CSS_COMPRESSOR'] = 'pipeline.compressors.cssmin.CSSMinCompressor'
 #USER_LASTSEEN_TIMEOUT = 300
-SOCIAL_AUTH_LOGIN_URL = '/'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+#SOCIAL_AUTH_LOGIN_URL = '/'
+#SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/complete/facebook/'
 
 #Cookie name. this can be whatever you want
 SESSION_COOKIE_NAME='sessionid'  # use the sessionid in your views code
@@ -923,14 +984,15 @@ STRIPE_TEST_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_T8bXfqG9ZJ
 STRIPE_TEST_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_nclpaBETRJ9al10depfVTirB")
 STRIPE_LIVE_MODE = False  # Change to True in production
 ZEBRA_ENABLE_APP = True
+LOGIN_ERROR_URL = 'https://divorcesus.com'
 
 PINAX_STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_T8bXfqG9ZJjwUJKcCjv8RqtV")
 PINAX_STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_nclpaBETRJ9al10depfVTirB")
 PINAX_STRIPE_DEFAULT_PLAN = 'plan1'
 #ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value
 TAGGIT_CASE_INSENSITIVE = True
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'fields': 'id, name, email', 
-}
-SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.8'
+#SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+#SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+#    'fields': 'id, name, email', 
+
+SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.11'#}

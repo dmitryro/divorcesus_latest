@@ -917,11 +917,11 @@
       } else {
           jQuery('body').scrollTop(100);
       }
-
+      consult_step_pre_zero();
       return false;
   }
 
-  function on_mobile_select_package(state, pack) {
+  function on_mobile_select_package(state, pack, pack_type, price) {
       if  (state==2) {
 
       //       jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
@@ -930,16 +930,14 @@
              jQuery('input[id="state"][value="New York"]').prop("checked",true);
              jQuery("#state-selected").attr("value","New York");
       }
-      else
-      if  (state==1) {
+      else if  (state==1) {
    //          jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
    //          jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:block;");
     //         jQuery("#qualify-state").html("<h4><strong>New Jersey</strong></h4>");
              jQuery('input[id="state"][value="New Jersey"]').prop("checked",true);
              jQuery("#state-selected").attr("value","New Jersey");
       }
-      else
-      if  (state==0) {
+      else if  (state==0) {
              jQuery("#qualify-state-label").attr("style","float:left;width:60%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
              jQuery("#qualify-state").attr("style","float:left;width:12%;padding-top:1.2em;padding-bottom:1.2em;display:none;");
              jQuery("#qualify_progress_stepone").click();
@@ -947,7 +945,11 @@
              jQuery("#state-selected").attr("value","New York");
       }
 
-
+      $('#selected-package-id').attr('value', pack);
+ 
+      price_changed(state, pack, price);
+      packageChange(divorcetypes_index[pack_type]);
+      $('input[name=package_selected][value="'+pack+'"').attr('checked', true); 
       document.getElementById('search_block').style.display='none';
       document.getElementById('home_block').style.display='none';
       document.getElementById('about_block').style.display='none';
@@ -986,7 +988,6 @@
       } else {
           jQuery('body').scrollTop(100);
       }
-
       return false;
 
 
@@ -994,6 +995,10 @@
   }
 
   function on_mobile_qualify(state) {
+      $('#from-pricing').attr('value', null);
+      $('#package-id').attr('value', null);
+
+
       if  (state==1) {
              jQuery("#state-displayed").attr("style", "display:block;");
              jQuery("#qualify-no-state").attr("style", "display:none;");
@@ -1058,7 +1063,7 @@
       } else {
           jQuery('body').scrollTop(100);
       }
-
+      package_step_one();
       return false;
 
 
@@ -1698,9 +1703,9 @@ function ask_step_five() {
 
             return false;
 }
-
-function consult_step_zero() {
-            $("#consult-stepone").css("display","block");
+function consult_step_pre_zero() {
+            $("#consult-stepzero").css("display","block");
+            $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display","none");
             $("#consult-stepfour").css("display","none");
@@ -1714,13 +1719,22 @@ function consult_step_zero() {
             $("#consult-wizard :nth-child(4)").removeAttr('class');
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
-            $("#consult-wizard :nth-child(7)").removeAttr('class');   
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class');
 
+            $("#consult-stepzero").css("display","block");
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display","none");
+            $("#consult-stepfour").css("display","none");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
             return false;
 }
-
 function consult_step_zero() {
-            $("#consult-stepone").css("display","block");
+            $("#consult-stepzero").css("display","block");
+            $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display","none");
             $("#consult-stepfour").css("display","none");
@@ -1735,13 +1749,15 @@ function consult_step_zero() {
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
             $("#consult-wizard :nth-child(7)").removeAttr('class');   
+            $("#consult-wizard :nth-child(8)").removeAttr('class');
 
             return false;
 }
 
 function consult_step_one() {
-            $("#consult-stepone").css("display","none");
-            $("#consult-steptwo").css("display","block");
+            $("#consult-stepzero").css("display","none");
+            $("#consult-stepone").css("display","block");
+            $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display","none");
             $("#consult-stepfour").css("display","none");
             $("#consult-stepfive").css("display","none");
@@ -1755,15 +1771,17 @@ function consult_step_one() {
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
             $("#consult-wizard :nth-child(7)").removeAttr('class');
-
+            $("#consult-wizard :nth-child(8)").removeAttr('class'); 
+           
             $("#consult-wizard :nth-child(1)").attr('class','visited');
 
 }
 
 function consult_step_two() {
+            $("#consult-stepzero").css("display","none"); 
             $("#consult-stepone").css("display","none");
-            $("#consult-steptwo").css("display","none");
-            $("#consult-stepthree").css("display", "block");
+            $("#consult-steptwo").css("display","block");
+            $("#consult-stepthree").css("display", "none");
             $("#consult-stepfour").css("display","none");
             $("#consult-stepfive").css("display","none");
             $("#consult-stepsix").css("display","none");
@@ -1776,16 +1794,18 @@ function consult_step_two() {
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
             $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class');
 
             $("#consult-wizard :nth-child(1)").attr('class','visited');
             $("#consult-wizard :nth-child(2)").attr('class','visited');
 }
 
 function consult_step_three() {
+            $("#consult-stepzero").css("display","none"); 
             $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
-            $("#consult-stepthree").css("display", "none");
-            $("#consult-stepfour").css("display", "block");
+            $("#consult-stepthree").css("display", "block");
+            $("#consult-stepfour").css("display", "none");
             $("#consult-stepfive").css("display","none");
             $("#consult-stepsix").css("display","none");
             $("#consult-stepseven").css("display","none");
@@ -1797,6 +1817,7 @@ function consult_step_three() {
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
             $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class');
 
             $("#consult-wizard :nth-child(1)").attr('class','visited');
             $("#consult-wizard :nth-child(2)").attr('class','visited');
@@ -1804,6 +1825,32 @@ function consult_step_three() {
 }
 
 function consult_step_four() {
+            $("#consult-stepzero").css("display","none");
+            $("#consult-stepone").css("display","none");
+            $("#consult-steptwo").css("display","none");
+            $("#consult-stepthree").css("display", "none");
+            $("#consult-stepfour").css("display", "block");
+            $("#consult-stepfive").css("display","none");
+            $("#consult-stepsix").css("display","none");
+            $("#consult-stepseven").css("display","none");
+
+            $("#consult-wizard :nth-child(1)").removeAttr('class');
+            $("#consult-wizard :nth-child(2)").removeAttr('class');
+            $("#consult-wizard :nth-child(3)").removeAttr('class');
+            $("#consult-wizard :nth-child(4)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").attr('class','current');
+            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class');   
+
+            $("#consult-wizard :nth-child(1)").attr('class','visited');
+            $("#consult-wizard :nth-child(2)").attr('class','visited');
+            $("#consult-wizard :nth-child(3)").attr('class','visited');
+            $("#consult-wizard :nth-child(4)").attr('class','visited');
+}
+
+function consult_step_five() {
+            $("#consult-stepzero").css("display","none");  
             $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display", "none");
@@ -1816,17 +1863,20 @@ function consult_step_four() {
             $("#consult-wizard :nth-child(2)").removeAttr('class');
             $("#consult-wizard :nth-child(3)").removeAttr('class');
             $("#consult-wizard :nth-child(4)").removeAttr('class');
-            $("#consult-wizard :nth-child(5)").attr('class','current');
-            $("#consult-wizard :nth-child(6)").removeAttr('class');
+            $("#consult-wizard :nth-child(5)").removeAttr('class');
+            $("#consult-wizard :nth-child(6)").attr('class','current');
             $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").removeAttr('class'); 
 
             $("#consult-wizard :nth-child(1)").attr('class','visited');
             $("#consult-wizard :nth-child(2)").attr('class','visited');
             $("#consult-wizard :nth-child(3)").attr('class','visited');
             $("#consult-wizard :nth-child(4)").attr('class','visited');
+            $("#consult-wizard :nth-child(5)").attr('class','visited');
 }
 
-function consult_step_five() {
+function consult_step_six() {
+            $("#consult-stepzero").css("display","none");
             $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display", "none");
@@ -1840,33 +1890,10 @@ function consult_step_five() {
             $("#consult-wizard :nth-child(3)").removeAttr('class');
             $("#consult-wizard :nth-child(4)").removeAttr('class');
             $("#consult-wizard :nth-child(5)").removeAttr('class');
-            $("#consult-wizard :nth-child(6)").attr('class','current');
-            $("#consult-wizard :nth-child(7)").removeAttr('class');
-
-            $("#consult-wizard :nth-child(1)").attr('class','visited');
-            $("#consult-wizard :nth-child(2)").attr('class','visited');
-            $("#consult-wizard :nth-child(3)").attr('class','visited');
-            $("#consult-wizard :nth-child(4)").attr('class','visited');
-            $("#consult-wizard :nth-child(5)").attr('class','visited');
-}
-
-function consult_step_six() {
-            $("#consult-stepone").css("display","none");
-            $("#consult-steptwo").css("display","none");
-            $("#consult-stepthree").css("display", "none");
-            $("#consult-stepfour").css("display", "none");
-            $("#consult-stepfive").css("display","none");
-            $("#consult-stepsix").css("display","none");
-            $("#consult-stepseven").css("display","block");
-
-            $("#consult-wizard :nth-child(1)").removeAttr('class');
-            $("#consult-wizard :nth-child(2)").removeAttr('class');
-            $("#consult-wizard :nth-child(3)").removeAttr('class');
-            $("#consult-wizard :nth-child(4)").removeAttr('class');
-            $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
             $("#consult-wizard :nth-child(7)").attr('class','current');
-
+            $("#consult-wizard :nth-child(8)").removeAttr('class');            
+ 
             $("#consult-wizard :nth-child(1)").attr('class','visited');
             $("#consult-wizard :nth-child(2)").attr('class','visited');
             $("#consult-wizard :nth-child(3)").attr('class','visited');
@@ -1877,6 +1904,7 @@ function consult_step_six() {
 
 
 function consult_step_seven() {
+            $("#consult-stepzero").css("display","none");
             $("#consult-stepone").css("display","none");
             $("#consult-steptwo").css("display","none");
             $("#consult-stepthree").css("display", "none");
@@ -1891,7 +1919,8 @@ function consult_step_seven() {
             $("#consult-wizard :nth-child(4)").removeAttr('class');
             $("#consult-wizard :nth-child(5)").removeAttr('class');
             $("#consult-wizard :nth-child(6)").removeAttr('class');
-            $("#consult-wizard :nth-child(7)").attr('class','current');
+            $("#consult-wizard :nth-child(7)").removeAttr('class');
+            $("#consult-wizard :nth-child(8)").attr('class','current');
 
             $("#consult-wizard :nth-child(1)").attr('class','visited');
             $("#consult-wizard :nth-child(2)").attr('class','visited');
@@ -1899,6 +1928,7 @@ function consult_step_seven() {
             $("#consult-wizard :nth-child(4)").attr('class','visited');
             $("#consult-wizard :nth-child(5)").attr('class','visited');
             $("#consult-wizard :nth-child(6)").attr('class','visited');
+            $("#consult-wizard :nth-child(7)").attr('class','visited');
 }
 
 function qualify_progress_step_one() {
@@ -1946,7 +1976,7 @@ function qualify_progress_step_two() {
 
 function qualify_progress_step_three() {
     $('.ElementsApp').attr("id","payment-form-two");
-    setup_stripe_two();
+    setup_stripe_package();
 
     $("#qualify-stepone").css("display","none");
     $("#qualify-steptwo").css("display","none");
@@ -2126,7 +2156,7 @@ function qualify_next_two() {
 
 function qualify_next_three() {
     $('.ElementsApp').attr("id","payment-form-two");
-    setup_stripe_two();
+    setup_stripe_package();
     $("#qualify-stepone").css("display","none");
     $("#qualify-steptwo").css("display","none");
     $("#qualify-stepthree").css("display","none");

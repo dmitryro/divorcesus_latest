@@ -187,6 +187,7 @@ router.register(r'consulttypes', ConsultationTypeViewSet)
 urlpatterns = [
 #    url(r'', include('social_django.urls', namespace='social')),
 #    url(r'^oauth/', include('social_django.urls', namespace='social')),
+    url('', include('social_django.urls', namespace='social')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^grappelli/', include('grappelli.urls')),
 
@@ -208,7 +209,7 @@ urlpatterns = [
     url(r'^aboutuslist/(?P<body>.+)/$', AboutUsList.as_view()),
     url(r'^addresseslist/(?P<username>.+)/$', AddressList.as_view()),
     url(r'^addresseslist/(?P<nickname>.+)/$', AddressList.as_view()),
-    url(r'^dashboard/$', custom.gui.views.dashboard),
+    #url(r'^dashboard/$', custom.gui.views.dashboard),
     url(r'^accounts/login/?next=/signout/$',custom.gui.views.home),
     url(r'^accounts/login/$',custom.gui.views.home),
     url(r'^login/linkedin/$',custom.gui.views.home),
@@ -253,6 +254,7 @@ urlpatterns = [
     url(r'^packagelist/$', PackageList.as_view()),
     url(r'^servicelist/$', ServiceList.as_view()),
     url(r'^incoming/$',IncomingMessagesList.as_view()),
+    url(r'^accounts/',include('allauth.urls')),
     url(r'^accounts/login/?next=/signout/$',custom.gui.views.home),
     url(r'^accounts/login/$',custom.gui.views.home),
     url(r'^login/linkedin/$',custom.gui.views.home),
@@ -315,6 +317,7 @@ urlpatterns = [
     url(r'^confirmaccount/',confirm_account_view),
     url(r'^$',custom.gui.views.home),
     url(r'^dashboard/$', custom.gui.views.dashboard),
+    url('', include('django.contrib.auth.urls', namespace='auth')),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^deletecomment/',DeleteCommentView.as_view()),
     url(r'^savecomment/$',SaveCommentView.as_view()),
